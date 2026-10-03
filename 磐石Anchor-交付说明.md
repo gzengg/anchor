@@ -108,7 +108,7 @@ E:\Anchor\app\build\outputs\apk\debug\app-debug.apk      （debug，18,988,885 �
 | 工具 | TopAppBar + 底栏 | Scaffold padding | 同首页 |
 | 知识库（列表/分类/检索） | TopAppBar + 底栏 | Scaffold padding | 列表最后一项是否被底栏遮住 |
 | 阅读器 | TopAppBar + 返回 | Scaffold padding | 长文滚动到最后一行是否可见；「查看原始来源」按钮位置 |
-| 日志（时间线 + 统计卡） | TopAppBar + 底栏 | Scaffold padding | 过滤条与底栏间距 |
+| 日志（时间线 + 统计卡） | TopAppBar + 底栏 | Scaffold padding | 过滤条与底栏间距；统计卡默认收起，点「展开」后四列时段条、Top 榜、免责口径都完整可见 |
 | 渴求冲浪 / 十分钟延时 | TopAppBar + 返回 | Scaffold padding + imePadding | 计时器数字在横屏/大字体下是否溢出 |
 | 破戒记录表单 | TopAppBar + 返回 | Scaffold padding + imePadding | 多行输入 + 键盘同时出现时的滚动 |
 | 问卷（hub/intro/答题/结果） | TopAppBar + 返回 | Scaffold padding | 长题项滚动、底部「上一题/下一题」是否可点 |
