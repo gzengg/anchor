@@ -28,3 +28,6 @@ Thumbs.db
 
 # 本机 agent 工作目录
 .workbuddy/
+
+# 开发过程文档（本机保留，不入仓库）
+/磐石Anchor-*.md
