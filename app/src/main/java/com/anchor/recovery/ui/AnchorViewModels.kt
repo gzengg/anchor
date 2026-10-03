@@ -4,6 +4,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
+import com.anchor.recovery.core.model.CheckInRecord
+import com.anchor.recovery.core.model.RelapseRecord
+import com.anchor.recovery.core.model.UrgeEpisodeRecord
 import com.anchor.recovery.core.streak.CheckInDecision
 import com.anchor.recovery.core.streak.RebootFramework
 import com.anchor.recovery.core.streak.RebootMilestone
@@ -15,6 +18,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalDate
 
 /**
@@ -53,6 +57,77 @@ class HomeViewModel(private val repository: AnchorRepository) : ViewModel() {
 
     fun dismissMessage() {
         message.value = null
+    }
+}
+
+enum class TimelineFilter(val label: String) {
+    ALL("全部"),
+    CHECK_IN("打卡"),
+    URGE("渴求"),
+    RELAPSE("复吸"),
+}
+
+/** 日志页的一条时间线条目（打卡 / 渴求事件 / 复吸）。 */
+sealed interface TimelineEntry {
+    val at: Instant
+
+    data class CheckIn(val record: CheckInRecord) : TimelineEntry {
+        override val at: Instant get() = record.createdAt
+    }
+
+    data class Urge(val record: UrgeEpisodeRecord) : TimelineEntry {
+        override val at: Instant get() = record.startedAt
+    }
+
+    data class Relapse(val record: RelapseRecord) : TimelineEntry {
+        override val at: Instant get() = record.occurredAt
+    }
+}
+
+private fun TimelineFilter.matches(entry: TimelineEntry): Boolean = when (this) {
+    TimelineFilter.ALL -> true
+    TimelineFilter.CHECK_IN -> entry is TimelineEntry.CheckIn
+    TimelineFilter.URGE -> entry is TimelineEntry.Urge
+    TimelineFilter.RELAPSE -> entry is TimelineEntry.Relapse
+}
+
+data class TimelineUiState(
+    val entries: List<TimelineEntry> = emptyList(),
+    val filter: TimelineFilter = TimelineFilter.ALL,
+    val totalCount: Int = 0,
+    val checkInCount: Int = 0,
+    val urgeCount: Int = 0,
+    val relapseCount: Int = 0,
+)
+
+/** 把三张表合并成一条按时间倒序的日志。 */
+class TimelineViewModel(private val repository: AnchorRepository) : ViewModel() {
+
+    private val filter = MutableStateFlow(TimelineFilter.ALL)
+
+    val state: StateFlow<TimelineUiState> = combine(
+        repository.checkIns,
+        repository.relapses,
+        repository.urgeEpisodes,
+        filter,
+    ) { checkIns, relapses, urges, filter ->
+        val all = buildList {
+            checkIns.forEach { add(TimelineEntry.CheckIn(it)) }
+            relapses.forEach { add(TimelineEntry.Relapse(it)) }
+            urges.forEach { add(TimelineEntry.Urge(it)) }
+        }.sortedByDescending { it.at }
+        TimelineUiState(
+            entries = all.filter { filter.matches(it) },
+            filter = filter,
+            totalCount = all.size,
+            checkInCount = checkIns.size,
+            urgeCount = urges.size,
+            relapseCount = relapses.size,
+        )
+    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), TimelineUiState())
+
+    fun selectFilter(value: TimelineFilter) {
+        filter.value = value
     }
 }
 
@@ -121,4 +196,5 @@ class CheckInViewModel(private val repository: AnchorRepository) : ViewModel() {
 fun anchorViewModelFactory(repository: AnchorRepository) = viewModelFactory {
     initializer { HomeViewModel(repository) }
     initializer { CheckInViewModel(repository) }
+    initializer { TimelineViewModel(repository) }
 }

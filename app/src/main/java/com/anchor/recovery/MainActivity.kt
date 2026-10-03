@@ -13,10 +13,13 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         super.onCreate(savedInstanceState)
 
-        val repository = (application as AnchorApplication).repository
+        val anchorApplication = application as AnchorApplication
         setContent {
             AnchorTheme {
-                AnchorApp(repository = repository)
+                AnchorApp(
+                    repository = anchorApplication.repository,
+                    contentRepository = anchorApplication.contentRepository,
+                )
             }
         }
     }

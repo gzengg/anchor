@@ -24,14 +24,20 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.NavGraph.Companion.findStartDestination
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
+import com.anchor.recovery.data.content.ContentRepository
 import com.anchor.recovery.data.repo.AnchorRepository
 import com.anchor.recovery.ui.common.ComingSoonScreen
 import com.anchor.recovery.ui.home.CheckInScreen
 import com.anchor.recovery.ui.home.HomeScreen
+import com.anchor.recovery.ui.journal.TimelineScreen
+import com.anchor.recovery.ui.library.ArticleScreen
+import com.anchor.recovery.ui.library.LibraryScreen
 import com.anchor.recovery.ui.navigation.AnchorRoutes
 import com.anchor.recovery.ui.tools.ToolsScreen
 
@@ -43,7 +49,7 @@ import com.anchor.recovery.ui.tools.ToolsScreen
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AnchorApp(repository: AnchorRepository) {
+fun AnchorApp(repository: AnchorRepository, contentRepository: ContentRepository) {
     val factory = remember(repository) { anchorViewModelFactory(repository) }
     val navController = rememberNavController()
     val backStackEntry by navController.currentBackStackEntryAsState()
@@ -103,6 +109,8 @@ fun AnchorApp(repository: AnchorRepository) {
                     onOpenCheckIn = { navController.navigate(AnchorRoutes.CHECK_IN) },
                     onOpenUrgeSurfing = { navController.navigate(AnchorRoutes.URGE_SURFING) },
                     onOpenDelayTool = { navController.navigate(AnchorRoutes.DELAY_TOOL) },
+                    onOpenArticle = { navController.navigate(AnchorRoutes.article(it)) },
+                    onOpenLibrary = { navController.navigate(AnchorRoutes.LIBRARY) },
                 )
             }
             composable(AnchorRoutes.CHECK_IN) {
@@ -116,10 +124,22 @@ fun AnchorApp(repository: AnchorRepository) {
                 )
             }
             composable(AnchorRoutes.LIBRARY) {
-                ComingSoonScreen(title = "知识库")
+                LibraryScreen(
+                    content = contentRepository,
+                    onOpenArticle = { navController.navigate(AnchorRoutes.article(it)) },
+                )
             }
             composable(AnchorRoutes.JOURNAL) {
-                ComingSoonScreen(title = "日志")
+                TimelineScreen(viewModel = viewModel(factory = factory))
+            }
+            composable(
+                route = AnchorRoutes.ARTICLE,
+                arguments = listOf(navArgument(ARTICLE_ID_ARG) { type = NavType.StringType }),
+            ) { entry ->
+                ArticleScreen(
+                    articleId = entry.arguments?.getString(ARTICLE_ID_ARG).orEmpty(),
+                    content = contentRepository,
+                )
             }
             composable(AnchorRoutes.URGE_SURFING) {
                 ComingSoonScreen(title = "渴求冲浪")
@@ -136,6 +156,8 @@ fun AnchorApp(repository: AnchorRepository) {
         }
     }
 }
+
+private const val ARTICLE_ID_ARG = "articleId"
 
 /** 切换底部 Tab：保留各 Tab 的返回栈与滚动位置。 */
 private fun NavHostController.switchTab(route: String) {

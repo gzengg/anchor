@@ -1,6 +1,7 @@
 package com.anchor.recovery
 
 import android.app.Application
+import com.anchor.recovery.data.content.ContentRepository
 import com.anchor.recovery.data.db.AppDatabase
 import com.anchor.recovery.data.repo.AnchorRepository
 
@@ -12,4 +13,7 @@ class AnchorApplication : Application() {
     val database: AppDatabase by lazy { AppDatabase.build(this) }
 
     val repository: AnchorRepository by lazy { AnchorRepository(database) }
+
+    /** 离线知识库（assets 里的构建期自检 JSON），进程内只解析一次。 */
+    val contentRepository: ContentRepository by lazy { ContentRepository(assets) }
 }

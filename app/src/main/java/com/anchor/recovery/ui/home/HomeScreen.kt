@@ -23,7 +23,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.anchor.recovery.core.streak.RebootFramework
 import com.anchor.recovery.ui.HomeUiState
 import com.anchor.recovery.ui.HomeViewModel
 
@@ -33,6 +32,8 @@ fun HomeScreen(
     onOpenCheckIn: () -> Unit,
     onOpenUrgeSurfing: () -> Unit,
     onOpenDelayTool: () -> Unit,
+    onOpenArticle: (String) -> Unit,
+    onOpenLibrary: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val state by viewModel.state.collectAsState()
@@ -50,10 +51,15 @@ fun HomeScreen(
             onCheckIn = viewModel::checkInToday,
             onOpenCheckIn = onOpenCheckIn,
         )
+        PhaseCard(
+            dayNumber = state.streak.currentDays,
+            onOpenArticle = onOpenArticle,
+        )
         QuickToolCard(
             onOpenUrgeSurfing = onOpenUrgeSurfing,
             onOpenDelayTool = onOpenDelayTool,
         )
+        LibraryCard(onOpenLibrary = onOpenLibrary)
     }
 }
 
@@ -188,5 +194,26 @@ private fun QuickToolCard(
     }
 }
 
-/** 首页顶部未使用，保留给后续阶段（S4 戒断阶段卡）引用的常量。 */
-internal const val HOME_GOAL_DAYS: Int = RebootFramework.GOAL_DAYS
+@Composable
+private fun LibraryCard(
+    onOpenLibrary: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    Card(modifier = modifier.fillMaxWidth()) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(20.dp),
+            verticalArrangement = Arrangement.spacedBy(10.dp),
+        ) {
+            Text(text = "知识库", style = MaterialTheme.typography.titleMedium)
+            Text(
+                text = "离线整理的文章，按六个分类整理，每篇都标注可信度与原文出处。",
+                style = MaterialTheme.typography.bodyMedium,
+            )
+            OutlinedButton(onClick = onOpenLibrary, modifier = Modifier.fillMaxWidth()) {
+                Text(text = "按分类浏览")
+            }
+        }
+    }
+}
