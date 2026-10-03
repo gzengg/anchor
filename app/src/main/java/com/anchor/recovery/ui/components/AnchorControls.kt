@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -144,7 +143,9 @@ fun <T> AnchorSegmentedControl(
             modifier = Modifier
                 .offset(x = segmentWidth * indicatorOffset)
                 .width(segmentWidth)
-                .fillMaxHeight()
+                // 必须给确定高度（= 下面 Row 的段高）：这里原用 fillMaxHeight()，而本控件被放在
+                // Column 里时约束的是「剩余高度」，选中块会撑满整页、把列表挤成 0 高。
+                .height(32.dp)
                 .shadow(elevation = 2.dp, shape = RoundedCornerShape(7.dp))
                 .background(colors.cardBackground, RoundedCornerShape(7.dp)),
         )
