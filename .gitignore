@@ -1,0 +1,30 @@
+# Gradle
+.gradle/
+build/
+!gradle/wrapper/gradle-wrapper.jar
+
+# Android
+local.properties
+*.apk
+*.aab
+*.ap_
+*.dex
+captures/
+.cxx/
+
+# IDE
+.idea/
+*.iml
+*.hprof
+.kotlin/
+
+# OS
+Thumbs.db
+.DS_Store
+
+# Scratch
+/tmp/
+*.log
+
+# 本机 agent 工作目录
+.workbuddy/
