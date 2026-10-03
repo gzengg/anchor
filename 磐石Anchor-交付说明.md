@@ -1,7 +1,8 @@
 # 磐石（Anchor）交付说明
 
-版本：0.1.0（versionCode 1） · 包名：`com.anchor.recovery` · 交付日期：本次会话当日
-验收依据：`磐石Anchor-开发执行提示词.md`（第八节交付物要求逐条对应在下方五节）
+版本：0.2.0（versionCode 2） · 包名：`com.anchor.recovery` · 交付日期：本次会话当日
+验收依据：`磐石Anchor-开发执行提示词.md`（v0.1.0，第八节交付物要求逐条对应在下方五节）
+与 `磐石Anchor-第二版开发计划.md`（v0.2.0 的 P0–P4 验收总表）
 
 ---
 
@@ -36,11 +37,15 @@
 | kotlinx | datetime | 0.6.1 |
 | 测试 | kotlin-test-junit5 / junit-jupiter | 2.2.20 / 5.11.4（`:core`） |
 | 测试 | junit4 / robolectric / androidx-test | 4.13.2 / 4.14.1 / core 1.6.1 · ext-junit 1.2.1（`:app`） |
+| 测试 | compose ui-test-junit4 / ui-test-manifest（`:app` 的 Compose UI 测试跑在 JVM/Robolectric 上） | 由 Compose BOM 2025.01.01 约束 |
+| 测试 | work-testing（提醒排程单测） | 2.10.0 |
 | 测试 | androidx-test:runner（androidTest 运行时） | 1.6.2 |
 
 未引入的第三方库（刻意的取舍）：无 DI 框架（手写 `AnchorApplication` 装配）、无图片加载库、
-无 `core-splashscreen`（Android 12+ 用系统默认启动画面）、无 `SCHEDULE_EXACT_ALARM`
-（提醒用 WorkManager 的 inexact 周期任务）。
+无 `core-splashscreen`（Android 12+ 用系统默认启动画面）、无 Cupertino/第三方 iOS 风格组件库
+（P1 的 iOS 视觉全部自研在 `ui/theme` + `ui/components`）。
+权限：`SCHEDULE_EXACT_ALARM` 自 v0.2.0（P3-1）入 Manifest，但只在用户于设置页显式开启「准点提醒」
+且拿到系统授权后才用（默认关，未授权/被收回自动回落 inexact，见 §5 限制 3）。
 
 ---
 
@@ -50,52 +55,96 @@
 
 | 模块 | 测试类数 | 用例数 | 失败 | 错误 | 跳过 |
 |---|---|---|---|---|---|
-| `:core`（jvm library，单变体） | 20 | **151** | 0 | 0 | 0 |
-| `:app`（Android library 单元测试，debug 变体） | 10 | **33** | 0 | 0 | 0 |
-| 合计（去重后） | 30 | **184** | 0 | 0 | 0 |
+| `:core`（jvm library，单变体） | 22 | **162** | 0 | 0 | 0 |
+| `:app`（Android 单元测试，debug 变体） | 19 | **79** | 0 | 0 | 0 |
+| 合计（去重后） | 41 | **241** | 0 | 0 | 0 |
 
-去重说明：`:app:test` 会分别跑 `testDebugUnitTest` 与 `testReleaseUnitTest`，两个变体是同一份源码，
-按 XML 直接相加会得到 66 个用例；上表只取 debug 变体的 33 个。另用源码 `@Test` 计数交叉核对
-（`:core` 151、`:app` 33），与 XML 一致。迁移测试放在 `src/testDebug`（release 变体不打包
-schema 资产），所以它只出现在 debug 变体的 33 个里。
+（v0.1.0 的对应数字是 30 类 / 184 用例：`:core` 151 + `:app` 33；v0.2.0 新增了加密/导入/迁移、
+主题、里程碑、提醒策略、以及 P4 的 6 个文案映射测试类。）
+
+去重说明：`:app:test` 会分别跑 `testDebugUnitTest` 与 `testReleaseUnitTest`，两个变体是同一份源码
+（release 变体 72 个用例）；上表只取 debug 变体的 79 个。另用源码 `@Test` 计数交叉核对
+（`core` 162 + `app` 79 = 241），与 XML 一致。迁移测试（`AppDatabaseMigrationTest`）放在 `src/testDebug`
+（release 变体不打包 schema 资产），所以它只出现在 debug 变体的 79 个里。
 
 测试分布（可测逻辑全部落在 `:core`，UI 层保持哑渲染）：
 
-- `:core`：`StreakCalculator` / `CheckInPolicy` / `RebootFramework`、`WithdrawalPhaseResolver` +
-  阶段文案、`CsbdScorer` / `MoralIncongruenceScorer`、`UrgeSurfingSession` / `DelayTool` /
-  `BreathingPattern`、`TriggerAnalyzer`、`ContentIndex` / `MarkdownLite`、`DataExporter` /
-  `DataImporter`（导出导入往返、版本拒绝、坏字段拒绝）、`Disclaimer`、`ReminderMessages` /
-  `ReminderTimeCalculator`。
-- `:app`：Room DAO / 实体映射 / 仓库（Robolectric）+ 导出 JSON 装配 + 导入整体替换端到端
-  （导出→清空→导入→再导出逐字节一致）+ Room schema 迁移骨架（`src/testDebug`）。
+- `:core`（22 类）：`StreakCalculator` / `CheckInPolicy` / `RebootFramework`、`WithdrawalPhaseResolver` /
+  `WithdrawalPhaseContent`、`CsbdScorer` / `MoralIncongruenceScorer`、`UrgeSurfingSession` / `DelayTool` /
+  `BreathingPattern`、`TriggerAnalyzer`、`ContentIndex` / `MarkdownLite`、`DataExporter` / `DataImporter`
+  （导出导入往返、版本拒绝、坏字段拒绝、重复日期拒绝）、`Disclaimer`、`ReminderMessages` /
+  `ReminderScheduling` / `ReminderTimeCalculator`、`MilestoneAchievements`、`DatabaseSecurity`。
+- `:app`（19 类）：4 张表的 Room DAO / 实体映射 / 仓库（Robolectric）+ 导出 JSON 装配 + 导入整体替换
+  端到端（导出→清空→导入→再导出逐字节一致）+ Room schema 迁移骨架（`src/testDebug`）、
+  `AnchorThemeColorsTest`（明暗配色）、`AppInfoTest`，以及 v0.2.0 新增的 6 个文案映射测试
+  （`CoreTextTest` / `PhaseTextTest` / `QuestionnaireTextTest` / `ToolsJournalTextTest` /
+  `LegalContentTextTest` / `MilestoneCopyComplianceTest`）、`ReminderCopyComplianceTest`、
+  `AnchorCoreFlowUiTest`（Compose UI 测试跑在 JVM/Robolectric 上，无真机也能进门禁）。
 
-v2 的 P0 阶段（加密库 + 导出导入）另有一套真机用例（`app/src/androidTest`，未在无设备环境下执行）：
+v0.2.0 的设备端用例（`app/src/androidTest`，**本次未执行——本机无真机，按用户要求也不启模拟器**）：
 `SqlCipherAvailabilityTest` 验 libsqlcipher 能加载、库文件不是明文、错口令打不开、Keystore 口令稳定。
 
-阶段门禁命令（每个阶段收尾都跑过，最后一次为 S7 完成后的全量门禁）：
+### 2.1 P4 文案抽取后的残留清单（逐条核对过，全部有意保留）
+
+扫描工具：`py content-tools/scan_hardcoded_text.py [--list] <path>`（注释不计，只统计 Kotlin 字符串字面量）。
+P4 收尾后：`app/src/main/java` 的界面与通知文案 **0 处**（一个有 21 处，见下），
+`core/src/main/kotlin` 从 83 处降到 **58 处**，全仓合计 79 处 / 13 个文件。
+
+界面里已经一中文不剩；剩下的 79 处按「为什么不能进 `strings.xml`」分四类：
+
+1. **持久化数据值（18 + 3 + 3 + 3 = 27 处）**：会写进库/文件并跨设备流转，
+   资源化会让「同一份导出里的值」随界面语言漂移，且要把 `Context` 拖进只做数据的层。
+   - `core/.../relapse/TriggerAnalyzer.kt` 18 处（`RelapseTags.emotions/triggers` = 情绪/触发因素选项，
+     既是写出也是匹配键）
+   - `app/.../data/settings/AnchorSettings.kt` 3 处（`DEFAULT_PROMPTS` 默认提示语，有 KDoc 说明）
+   - `core/.../content/Credibility.kt` 3 处（`高/中/低`，是 `articles.json` 里的数据键，
+     显示走 `:app` 的 `credibilityLabelRes` 映射）
+   - `core/.../export/DataExporter.kt` 1 处（`countsLine` 条数文案，导出文件与设置页共用同一份措辞）
+2. **合规词表（11 处）**：`core/.../notify/ReminderMessages.kt` 的敏感词/夸大疗效词黑名单，
+   用于校验通知文案，本身不展示。
+3. **诊断与日志（28 处）**：`app/.../data/db/AnchorDatabaseFactory.kt` 10 + 
+   `.../data/db/crypto/DatabasePassphraseStore.kt` 8（加密库迁移/Keystore 日志与异常）+ 
+   `core/.../content/ContentIndex.kt` 10（内容资产解析失败详情，会作为「内容加载失败：%1$s」的
+   参数透出，属技术细节）。
+4. **开发者断言（12 处）**：`require`/`check` 消息，仅开发期会看到——
+   `core/.../phase/WithdrawalPhase.kt` 6、`.../assessment/CsbdScorer.kt` 3、
+   `.../assessment/MoralIncongruenceScorer.kt` 3、`.../notify/ReminderTimeCalculator.kt` 2。
+   另有 `core/.../AnchorCore.kt` 1 处（`APP_DISPLAY_NAME = "磐石"` 品牌常量，有单测断言；
+   界面侧已改为 `stringResource(R.string.app_name)`，不再依赖它渲染）。
+
+导入失败文案已经不再把中文塞在 `:core`：时间字段解析失败时 core 只回
+`ImportResult.Rejected(ImportRejection.INVALID_FIELD, args = (ImportField, 原始文本))`，
+`ImportField` 是枚举（`CHECK_IN_DATE/CHECK_IN_TIME/RELAPSE_TIME/URGE_STARTED_AT/ASSESSMENT_TAKEN_AT`），
+中文整句在 `values/strings_core.xml`，由 `:app` 的 `importRejectionText(rejected): Pair<Int, List<Any>>`
+按字段选句（选句只用到资源 id，不需要 `Context`，所以 `SettingsViewModel` 仍是纯 `ViewModel`）。
+
+阶段门禁命令（P0–P4 每阶段收尾与本次交付收尾都跑过，按改动范围增量执行，不做全量 `clean`）：
 
 ```bash
-./gradlew clean :core:test :app:test :app:assembleDebug --offline
+./gradlew :core:test :app:test :app:assembleDebug --offline
 ```
 
-最后一次结果：`BUILD SUCCESSFUL in 54s`（83 tasks，65 executed / 18 from cache），
-`:core` 135 用例、`:app` 29 用例（×2 变体）全绿，APK 正常产出。
-
-提交前又改了 `ReminderTimeCalculator.nextReminder`（去掉 `var`，改早返回）与 `NavHost` 的
-`imePadding`/`consumeWindowInsets`，因此补跑了增量门禁 `:core:test :app:test :app:assembleDebug`
-（22s，全绿）并据其重建 APK。
+最后一次结果：`BUILD SUCCESSFUL in 53s`（`:core:test :app:test`，含新增的 2 个导入字段结构化断言），
+随后 `:app:assembleDebug` 重新出包（`:core` 162 用例 + `:app` 79 用例全绿）。
 
 ---
 
 ## 3. APK
 
 ```
-E:\Anchor\app\build\outputs\apk\debug\app-debug.apk      （debug，18,988,885 字节）
+E:\Anchor\app\build\outputs\apk\debug\app-debug.apk      （debug，43,663,896 字节 / 约 41.6 MB）
 ```
 
-该 APK 由本次交付提交的源码树在 `--offline` 下构建，产物与提交内容一致。
+该 APK 由本次交付提交的源码树在 `--offline` 下构建，`aapt2 dump badging` 核对为
+`versionCode=2`、`versionName=0.2.0`、`compileSdk=35`、应用名「磐石」，产物与提交内容一致。
+
+体积从 v0.1.0 的 18.9 MB 涨到 41 MB，原因是 SQLCipher 的 4 个 ABI 原生库
+（`libsqlcipher.so` 合计 22.5 MB：arm64-v8a 6.3 / armeabi-v7a 3.9 / x86 5.3 / x86_64 7.0 MB）。
+若要瘦身，可用 `abiFilters` 只留 arm64-v8a，或改为 App Bundle（未做，属发布决策，见 §5 建议）。
 
 安装：`adb install -r app\build\outputs\apk\debug\app-debug.apk`（需 JDK20 + platform-tools）。
+从 v0.1.0 覆盖安装：`versionCode` 已 +1，可直接覆盖；**首次启动会把明文库一次性迁移为加密库**
+（迁移前建议先在设置页导出一次 JSON 备用，见 §4.2）。
 未产出 release 包（未配置签名，提示词也未要求）。
 
 ---
@@ -154,10 +203,10 @@ E:\Anchor\app\build\outputs\apk\debug\app-debug.apk      （debug，18,988,885 �
 - 启动图标：圆形/方形/圆角遮罩下锚形是否完整（自适应图标前景按 22% inset 收进安全区）；
   Android 13+ 主题图标（monochrome）跟随壁纸配色。
 - 启动画面：冷启动首帧是 `@color/anchor_background`（中性色，不是品牌石青），无白屏闪烁；
-  启动画面退出后应立刻变成动态取色算出的页面底色；深色模式下不刺眼。
-- 动态取色（Android 12+）：换一张明显带色的壁纸，页面/卡片/底栏配色应随之变化；
-  Android 8.0～11 应稳定为品牌石青 + 暖沙；深色模式下日志里「破戒」标注应为深底浅字
-  （不再是写死的浅粉底，`TimelineScreen.kt` 的 accent 已改用 `errorContainer`/`surfaceVariant`）。
+  启动画面退出后应立刻变成主题底色；深色模式下不刺眼。
+- 固定配色（v2 起已移除动态取色，见 §5 限制 8）：Android 12+ 与 11 及以下都应为品牌石青 + 暖沙，
+  换壁纸不应改变页面/卡片/底栏配色；深色模式下日志里「破戒」标注应为深底浅字
+  （`TimelineScreen.kt` 的 accent 用 `errorContainer`/`surfaceVariant`）。
 - 数据导出：导出 JSON 落到用户选择的位置（如 Downloads），内容与页面上显示的条数一致；
   取消选择器时不应留下空文件。
 - 一键清空：清空后首页/日志归零，提醒时间与提示语等设置保留。
@@ -204,41 +253,51 @@ E:\Anchor\app\build\outputs\apk\debug\app-debug.apk      （debug，18,988,885 �
 
 **限制（当前版本的真实边界）**
 
-1. **数据明文存储**：Room 数据库与 DataStore 都在应用私有目录，未加密；设备被解锁/root 后可读。
+1. **数据库已加密，设置项仍是明文偏好文件**：Room 库由 SQLCipher 加密（口令经 Android Keystore
+   包裹后存应用私有目录，见 `DatabasePassphraseStore`），被解锁/root 后拿到库文件也打不开；
+   但 DataStore（`anchor_settings.preferences_pb`：提醒时间、提示语等）未加密，仍可读。
    设置页「隐私说明」已如实告知（`Disclaimer.PRIVACY_PARAGRAPH`）。
-2. **无备份与同步**：`allowBackup="false"`，无账号体系、无云同步；数据只靠用户手动导出 JSON。
-3. **提醒不精确**：使用 inexact `PeriodicWorkRequest`（24h），不申请 `SCHEDULE_EXACT_ALARM`，
-   系统省电策略下可能延后，也不保证「每天准点」。
+2. **密钥丢失即数据不可读**：清除应用数据、卸载重装或换机后 Keystore 口令消失，加密库无法恢复；
+   唯一恢复路径是用户自留的导出 JSON（导出文件本身保持明文，由用户显式持有）。
+3. **提醒仍不保证准点**：默认仍是 inexact `PeriodicWorkRequest`（24h）；精确提醒需用户在设置页
+   显式开启并授予「闹钟与提醒」权限（`SCHEDULE_EXACT_ALARM`），权限被系统收回后自动回落 inexact。
+   省电策略与国产 ROM 后台管控仍可能压制精确闹钟，界面文案不做「准点」承诺。
 4. **两份问卷为自撰题项**：F7 的 19 题（五维自评）与 F8 的 12 题（道德冲突）是按公开维度描述
    自行撰写的题项，**不是任何官方量表的原文**，结果仅作自我参考，页面与结果页均标注了免责说明。
-5. **UI/通知/CustomTabs 未在真机验证**：无模拟器与真机，第 4 节的清单全部待实测。
-6. **仅中文**：无 i18n 资源；知识库 71 篇也全部为中文。
+5. **UI/通知/CustomTabs 未在真机验证**：本机无真机、按用户要求不启模拟器，第 4 节清单全部待实测；
+   其中 v2 新增待实测项：明文库→加密库迁移、导入恢复、精确提醒、iOS 风格改版后的逐页 insets 与焦点顺序。
+6. **仅中文**：文案已全量抽入 `res/values/strings_*.xml`（P4），但本版只抽不译，没有第二语言资源；
+   知识库 71 篇也全部为中文。
 7. **构建环境绑本机**：`gradle.properties` 里写死 `org.gradle.java.home=E:/JAVA/20`，
    换机器需要改这一行；离线构建依赖本机 Gradle 缓存。
-8. **动态取色使配色随壁纸变化**（Android 12+）：页面与卡片底色取自壁纸，所以
-   ① 系统启动画面是进程启动前解析的静态值，冷启动首帧与 Compose 首帧可能有极轻微的色调差
-   （静态值只能选中性色贴近，进程起来后 MainActivity 会立刻把窗口底色改成方案色）；
-   ② 启动图标底色固定为品牌石青，需跟随壁纸时由用户开启系统「主题图标」；
-   ③ 视觉验收/截图不再与设备无关（Android 11 及以下为固定品牌色板）。
+8. **iOS 风格只覆盖应用内视觉语言，不含系统组件**：v2 起用固定品牌色板（动态取色已移除，
+   配色不再随壁纸变化，但启动图标仍可跟随系统「主题图标」）；返回手势、权限弹窗、
+   日期/文件选择器保持 Android 原生；大标题收缩、分段控件滑动手感等细节为「风格神似」，
+   不追求像素级复刻。
 
-**迭代建议（按收益排序）**
+**迭代建议（v0.2.0 之后，按收益排序）**
 
-1. **SQLCipher 或 EncryptedFile** 包裹 Room + DataStore，把「明文」这条限制消掉（最高收益）。
-2. **导出后再导入**：目前只能导出 JSON，没有导入/恢复路径；加一个带 schema 版本的导入校验。
-3. **Room schema 导出**（`room.schemaLocation`）+ 迁移测试，为后续加表/改列兜底。
-4. **里程碑可视化**：`:core` 已有 1/7/30/60/90 里程碑与进度计算，UI 只有进度环；
-   可做徽章墙与达成记录（需要新增一张表）。
-5. **可选的本地提醒精确化**：让用户显式选择「精确提醒」（申请 `SCHEDULE_EXACT_ALARM`）。
-6. **无障碍与字号**：把 `:app` 的 Compose UI 测试跑起来（`ui-test-junit4` 已配依赖但未使用），
-   补上大字号与 TalkBack 的回归。
-7. **多语言**：抽出 `strings.xml` 里散落的文案（当前部分文案直接在 Compose 里硬编码），再做翻译。
+> v0.1.0 的 7 条建议在 v0.2.0 已全部落地：加密（1）、导入恢复（2）、schema 导出 + 迁移测试（3）、
+> 里程碑徽章墙（4）、可选精确提醒（5）、Compose UI 测试与 TalkBack 清单（6）、文案抽取（7）。
+
+1. **加密导出**：导出 JSON 目前明文（由用户自持）；可加带口令的加密导出，本版刻意留待议。
+2. **DataStore 加密**：把设置项也包进加密存储，消掉限制 1 的后半段。
+3. **i18n 实际翻译**：P4 已铺好 `strings.xml` 基建，补 `values-en` 等语言包即可，不需要再动界面代码。
+4. **release 签名与上架**：配置签名、Play 数据安全表单（需声明「数据仅存本地、无网络权限」）、
+   隐私声明与 `Disclaimer.VERSION` 的升级流程。
+5. **备份策略**：`allowBackup="false"` 是有意为之（避免明文上云）；若要提升换机便利性，
+   应做加密备份或强化导出/导入引导，而不是直接打开系统自动备份。
+6. **统计趋势**：日志页统计卡目前是累计口径，可加周/月趋势（数据已在库里，纯新增视图）。
+7. **DI**：仍无 DI 框架（手写 `AnchorApplication` 装配）；页面与 ViewModel 数量继续增长后可考虑引入。
 
 ---
 
 ## 附：仓库状态
 
-- 分支 `main`，按阶段提交：S0 `cfce6de`、S1 `5d57a64`、S2 `25d542e`、S3 `5f44d90`、
-  S4 `49d45ab`、S5 `21d05a9`、S6 `6837c0a`，S7 为本次最后一个提交。
+- 分支 `main`；v0.1.0 交付提交为 `500eb48`（其后两次真机反馈修复 `40fe996` 动态取色、`469a0a8` 统计卡瘦身），
+  v0.2.0 按阶段提交：`bf8695b`（第二版计划）→ `425ef34`（P0 加密与 schema 基建）→ `cc2d46b`（P0-3 导入）→
+  `315a251`（P1-1 主题与组件）→ `ede4ef0`（P2 达成判定下沉）→ `4d69134`（P2 徽章墙）→ `2104e88`（P1-2 逐页改造）→
+  `7dbcb7f`（P3-1 精确提醒）→ `9f7b245`（P3-2 UI 测试）→ `a954639`（P4 文案批次 1-5）→ 本次 P4 收尾提交。
 - **未配置任何 remote**，因此没有执行 `git push`；需要远端时自行 `git remote add` 后再推。
 - `.gitignore` 覆盖 `build/`、`local.properties`、`*.apk`、`.gradle/`、`.kotlin/` 等；
   `gradle/wrapper/gradle-wrapper.jar` 已入库（提示词要求）。
