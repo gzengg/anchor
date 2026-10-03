@@ -58,17 +58,19 @@
 | 模块 | 测试类数 | 用例数 | 失败 | 错误 | 跳过 |
 |---|---|---|---|---|---|
 | `:core`（jvm library，单变体） | 22 | **162** | 0 | 0 | 0 |
-| `:app`（Android 单元测试，debug 变体） | 20 | **82** | 0 | 0 | 0 |
-| 合计（去重后） | 42 | **244** | 0 | 0 | 0 |
+| `:app`（Android 单元测试，debug 变体） | 21 | **83** | 0 | 0 | 0 |
+| 合计（去重后） | 43 | **245** | 0 | 0 | 0 |
 
 （v0.1.0 的对应数字是 30 类 / 184 用例：`:core` 151 + `:app` 33；v0.2.0 新增了加密/导入/迁移、
-主题、里程碑、提醒策略、以及 P4 的 6 个文案映射测试类；v0.2.1 新增 `AnchorFontTest`（3 例）。）
+主题、里程碑、提醒策略、以及 P4 的 6 个文案映射测试类；v0.2.1 新增 `AnchorFontTest`（3 例）与
+`AnchorSegmentedControlTest`（1 例，仅 debug 变体）。）
 
 去重说明：`:app:test` 会分别跑 `testDebugUnitTest` 与 `testReleaseUnitTest`，两个变体是同一份源码
-（release 变体 75 个用例）；上表只取 debug 变体的 82 个。另用源码 `@Test` 计数交叉核对
-（`core/src/test` 162 + `app/src/test` 75 + `app/src/testDebug` 的迁移测试 7 = 244），与 XML 一致。
-迁移测试（`AppDatabaseMigrationTest`）放在 `src/testDebug`
-（release 变体不打包 schema 资产），所以它只出现在 debug 变体的 82 个里。
+（release 变体 75 个用例）；上表只取 debug 变体的 83 个。另用源码 `@Test` 计数交叉核对
+（`core/src/test` 162 + `app/src/test` 75 + `app/src/testDebug` 8 = 245），与 XML 一致。
+`src/testDebug` 里的 8 例只跑在 debug 变体：迁移测试 `AppDatabaseMigrationTest` 7 例
+（release 变体不打包 schema 资产）+ 段控件布局回归 `AnchorSegmentedControlTest` 1 例
+（依赖只给 debug 变体的 `ui-test-manifest`，release 下会因找不到宿主 Activity 而报错）。
 
 测试分布（可测逻辑全部落在 `:core`，UI 层保持哑渲染）：
 
@@ -77,9 +79,11 @@
   `BreathingPattern`、`TriggerAnalyzer`、`ContentIndex` / `MarkdownLite`、`DataExporter` / `DataImporter`
   （导出导入往返、版本拒绝、坏字段拒绝、重复日期拒绝）、`Disclaimer`、`ReminderMessages` /
   `ReminderScheduling` / `ReminderTimeCalculator`、`MilestoneAchievements`、`DatabaseSecurity`。
-- `:app`（20 类）：4 张表的 Room DAO / 实体映射 / 仓库（Robolectric）+ 导出 JSON 装配 + 导入整体替换
+- `:app`（21 类）：4 张表的 Room DAO / 实体映射 / 仓库（Robolectric）+ 导出 JSON 装配 + 导入整体替换
   端到端（导出→清空→导入→再导出逐字节一致）+ Room schema 迁移骨架（`src/testDebug`）、
-  `AnchorThemeColorsTest`（明暗配色）、`AnchorFontTest`（v0.2.1 打包字体接线）、`AppInfoTest`，以及 v0.2.0 新增的 6 个文案映射测试
+  `AnchorThemeColorsTest`（明暗配色）、`AnchorFontTest`（v0.2.1 打包字体接线）、
+  `AnchorSegmentedControlTest`（v0.2.1 段控件高度回归，仅 debug 变体）、`AppInfoTest`，
+  以及 v0.2.0 新增的 6 个文案映射测试
   （`CoreTextTest` / `PhaseTextTest` / `QuestionnaireTextTest` / `ToolsJournalTextTest` /
   `LegalContentTextTest` / `MilestoneCopyComplianceTest`）、`ReminderCopyComplianceTest`、
   `AnchorCoreFlowUiTest`（Compose UI 测试跑在 JVM/Robolectric 上，无真机也能进门禁）。
@@ -127,8 +131,10 @@ P4 收尾后：`app/src/main/java` 的界面与通知文案 **0 处**（一个�
 ./gradlew :core:test :app:test :app:assembleDebug --offline
 ```
 
-最后一次结果：`BUILD SUCCESSFUL in 53s`（`:core:test :app:test`，含新增的 2 个导入字段结构化断言），
-随后 `:app:assembleDebug` 重新出包（`:core` 162 用例 + `:app` 79 用例全绿）。
+P4 收尾那次：`BUILD SUCCESSFUL in 53s`（`:core:test :app:test`，含新增的 2 个导入字段结构化断言），
+随后 `:app:assembleDebug` 重新出包。v0.2.1（字体 + 段控件修复）收尾那次：同一条命令 `BUILD SUCCESSFUL`
+（`:core` 162 + `:app` debug 83 / release 75 用例全绿，`:app:assembleDebug` 出包 46,629,277 字节）；
+本次只改了 `:app` 的源码与测试，所以 `:core:test` 与多数任务为 `UP-TO-DATE`。
 
 ---
 
@@ -177,6 +183,15 @@ GB2312 全部 6763 个常用汉字 + 仓库实际出现的全部字符 + ASCII/�
 W600，这样一个文件同时接住 `AnchorType` 的 SemiBold 槽位与 M3 里大量 W500 槽位（Compose 的选型规则
 是「取不低于请求值的最近字重」）；`regular.ttf` 为 W400、`bold.ttf` 为 W700。
 
+### 3.2 v0.2.1 修的两个问题（对应真机反馈）
+
+| 反馈 | 根因 | 处理 |
+|---|---|---|
+| 字体不好看 | v0.2.0 用系统默认字体，字形随 ROM 变 | 打包 HarmonyOS Sans SC 子集并全站归一（§3.1） |
+| 知识库/日志页整块空白、看不到列表 | `AnchorSegmentedControl` 的选中块用 `fillMaxHeight()` 铺底；控件被放进 `Column` 时这条约束解析成「剩余高度」，于是段控件长到整页，它下面的 `LazyColumn(weight(1f))` 被挤成 0 高 | 选中块改为固定 32dp（轨道总高 36dp）；加回归测试 `AnchorSegmentedControlTest`（用旧写法重跑该测试会在 `AnchorSegmentedControlTest.kt:50` 断言失败，已实测） |
+
+提交：`c00074a`。
+
 ---
 
 ## 4. 真机手动验证清单（JVM 测试覆盖不到的部分，尚未在真机执行）
@@ -205,6 +220,9 @@ W600，这样一个文件同时接住 `AnchorType` 的 SemiBold 槽位与 M3 里
 
 补充实测项：三键导航 vs 手势导航、横屏、系统字体放大到最大、分屏、
 深色模式下同样过一遍（`values-night` 主题与 Compose 深色配色）。
+
+列表页整页空白的回归项（v0.2.1 修复）：知识库与日志页的段控件只占一行（36dp 高），
+它下面应立刻出现计数文案与文章/记录列表；若又看到「段控件撑满整页」，根因与修法见 §3.2。
 
 ### 4.2 通知与提醒
 
@@ -375,7 +393,8 @@ W600，这样一个文件同时接住 `AnchorType` 的 SemiBold 槽位与 M3 里
   v0.2.0 按阶段提交：`bf8695b`（第二版计划）→ `425ef34`（P0 加密与 schema 基建）→ `cc2d46b`（P0-3 导入）→
   `315a251`（P1-1 主题与组件）→ `ede4ef0`（P2 达成判定下沉）→ `4d69134`（P2 徽章墙）→ `2104e88`（P1-2 逐页改造）→
   `7dbcb7f`（P3-1 精确提醒）→ `9f7b245`（P3-2 UI 测试）→ `a954639`（P4 文案批次 1-5）→ P4 收尾 `5cec05d`…`acff0a9`。
-- v0.2.1（真机反馈修复）：`ab1de2e`（打包 HarmonyOS Sans SC，全站字体归一，versionCode 3 / versionName 0.2.1）。
+- v0.2.1（真机反馈修复）：`ab1de2e`（打包 HarmonyOS Sans SC，全站字体归一，versionCode 3 / versionName 0.2.1）、
+  `2bc513b`（交付说明同步）、`c00074a`（段控件撑满整页导致列表区空白的修复 + 回归测试）。
 - **未配置任何 remote**，因此没有执行 `git push`；需要远端时自行 `git remote add` 后再推。
 - `.gitignore` 覆盖 `build/`、`local.properties`、`*.apk`、`.gradle/`、`.kotlin/` 等；
   `gradle/wrapper/gradle-wrapper.jar` 已入库（提示词要求）。
