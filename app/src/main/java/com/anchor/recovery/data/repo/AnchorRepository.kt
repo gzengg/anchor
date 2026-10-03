@@ -26,7 +26,7 @@ import kotlinx.datetime.LocalDate
  */
 class AnchorRepository(
     database: AppDatabase,
-    private val clock: Clock = SystemClock(),
+    val clock: Clock = SystemClock(),
 ) {
     private val checkInDao = database.checkInDao()
     private val relapseDao = database.relapseDao()

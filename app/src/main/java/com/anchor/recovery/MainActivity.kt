@@ -19,6 +19,7 @@ class MainActivity : ComponentActivity() {
                 AnchorApp(
                     repository = anchorApplication.repository,
                     contentRepository = anchorApplication.contentRepository,
+                    settings = anchorApplication.settings,
                 )
             }
         }

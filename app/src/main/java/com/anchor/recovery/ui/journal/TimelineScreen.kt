@@ -14,6 +14,7 @@ import androidx.compose.material3.FilterChip
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -35,6 +36,7 @@ import kotlinx.datetime.toLocalDateTime
 @Composable
 fun TimelineScreen(
     viewModel: TimelineViewModel,
+    onOpenRelapseEdit: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val state by viewModel.state.collectAsState()
@@ -60,15 +62,25 @@ fun TimelineScreen(
             }
         }
 
-        Text(
-            text = if (state.totalCount == 0) {
-                "还没有记录。打卡、渴求练习或复吸记录都会出现在这里。"
-            } else {
-                "共 ${state.totalCount} 条记录 · 打卡 ${state.checkInCount} · 渴求 ${state.urgeCount} · 复吸 ${state.relapseCount}"
-            },
-            style = MaterialTheme.typography.bodySmall,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
-        )
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Text(
+                text = if (state.totalCount == 0) {
+                    "还没有记录。打卡、渴求练习或复吸记录都会出现在这里。"
+                } else {
+                    "共 ${state.totalCount} 条记录 · 打卡 ${state.checkInCount} · 渴求 ${state.urgeCount} · 复吸 ${state.relapseCount}"
+                },
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                modifier = Modifier.weight(1f),
+            )
+            TextButton(onClick = onOpenRelapseEdit) { Text(text = "记录复吸") }
+        }
+
+        RelapseInsightCard(insight = state.insight)
 
         LazyColumn(
             modifier = Modifier.weight(1f),

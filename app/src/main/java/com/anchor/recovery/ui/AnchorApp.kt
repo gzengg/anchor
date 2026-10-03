@@ -32,6 +32,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.anchor.recovery.data.content.ContentRepository
 import com.anchor.recovery.data.repo.AnchorRepository
+import com.anchor.recovery.data.settings.AnchorSettings
 import com.anchor.recovery.ui.common.ComingSoonScreen
 import com.anchor.recovery.ui.home.CheckInScreen
 import com.anchor.recovery.ui.home.HomeScreen
@@ -39,7 +40,10 @@ import com.anchor.recovery.ui.journal.TimelineScreen
 import com.anchor.recovery.ui.library.ArticleScreen
 import com.anchor.recovery.ui.library.LibraryScreen
 import com.anchor.recovery.ui.navigation.AnchorRoutes
+import com.anchor.recovery.ui.tools.DelayToolScreen
+import com.anchor.recovery.ui.tools.RelapseEditScreen
 import com.anchor.recovery.ui.tools.ToolsScreen
+import com.anchor.recovery.ui.tools.UrgeSurfingScreen
 
 /**
  * 单 Activity + Navigation-Compose 的根布局。
@@ -49,8 +53,12 @@ import com.anchor.recovery.ui.tools.ToolsScreen
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AnchorApp(repository: AnchorRepository, contentRepository: ContentRepository) {
-    val factory = remember(repository) { anchorViewModelFactory(repository) }
+fun AnchorApp(
+    repository: AnchorRepository,
+    contentRepository: ContentRepository,
+    settings: AnchorSettings,
+) {
+    val factory = remember(repository, settings) { anchorViewModelFactory(repository, settings) }
     val navController = rememberNavController()
     val backStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = backStackEntry?.destination?.route
@@ -130,7 +138,10 @@ fun AnchorApp(repository: AnchorRepository, contentRepository: ContentRepository
                 )
             }
             composable(AnchorRoutes.JOURNAL) {
-                TimelineScreen(viewModel = viewModel(factory = factory))
+                TimelineScreen(
+                    viewModel = viewModel(factory = factory),
+                    onOpenRelapseEdit = { navController.navigate(AnchorRoutes.RELAPSE_EDIT) },
+                )
             }
             composable(
                 route = AnchorRoutes.ARTICLE,
@@ -142,13 +153,27 @@ fun AnchorApp(repository: AnchorRepository, contentRepository: ContentRepository
                 )
             }
             composable(AnchorRoutes.URGE_SURFING) {
-                ComingSoonScreen(title = "渴求冲浪")
+                UrgeSurfingScreen(
+                    viewModel = viewModel(factory = factory),
+                    onDone = { navController.popBackStack() },
+                )
             }
             composable(AnchorRoutes.DELAY_TOOL) {
-                ComingSoonScreen(title = "十分钟延时")
+                DelayToolScreen(
+                    viewModel = viewModel(factory = factory),
+                    onDone = { navController.popBackStack() },
+                )
             }
             composable(AnchorRoutes.RELAPSE_EDIT) {
-                ComingSoonScreen(title = "记录一次复吸")
+                RelapseEditScreen(
+                    viewModel = viewModel(factory = factory),
+                    onSaved = {
+                        navController.popBackStack()
+                        navController.navigate(AnchorRoutes.JOURNAL) {
+                            launchSingleTop = true
+                        }
+                    },
+                )
             }
             composable(AnchorRoutes.SETTINGS) {
                 ComingSoonScreen(title = "设置")
