@@ -1,11 +1,15 @@
 package com.anchor.recovery.core.legal
 
 import kotlin.test.Test
+import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
 /**
  * 免责声明门禁（提示词 §5.1：首启必须同意；声明更新后强制重读）。
+ *
+ * 正文文案外移到 `:app` 之后，本测试只守卫门禁逻辑与段落结构；正文内容的合规断言
+ * （必备告知、不得出现绝对化功效宣称）跟着文案搬到 `LegalContentTextTest`。
  */
 class DisclaimerTest {
 
@@ -41,20 +45,9 @@ class DisclaimerTest {
     }
 
     @Test
-    fun `声明正文覆盖必备告知`() {
-        val text = Disclaimer.paragraphs.joinToString("\n")
-
-        assertTrue(text.contains("不是医疗器械"), "必须说明不是医疗器械")
-        assertTrue(text.contains("不提供诊断"), "必须说明不提供诊断")
-        assertTrue(text.contains("只保存在你自己的手机上"), "必须说明数据仅存本机")
+    fun `声明段落顺序固定 且隐私段可单独取用`() {
+        assertEquals(DisclaimerParagraph.entries.toList(), Disclaimer.paragraphs)
+        assertTrue(Disclaimer.PRIVACY_PARAGRAPH in Disclaimer.paragraphs)
         assertTrue(Disclaimer.paragraphs.size >= 4)
-    }
-
-    @Test
-    fun `声明正文不含绝对化功效宣称`() {
-        val text = Disclaimer.paragraphs.joinToString("\n")
-        listOf("治愈", "治疗成瘾", "一定", "保证").forEach { banned ->
-            assertFalse(text.contains(banned), "声明不得出现「$banned」")
-        }
     }
 }

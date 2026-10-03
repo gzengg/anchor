@@ -51,6 +51,7 @@ import com.anchor.recovery.ui.components.AnchorSwitchRow
 import com.anchor.recovery.ui.components.PublishAnchorNavBar
 import com.anchor.recovery.ui.theme.AnchorTheme
 import com.anchor.recovery.ui.theme.AnchorType
+import com.anchor.recovery.ui.text.disclaimerParagraphRes
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -333,7 +334,10 @@ fun SettingsScreen(
                     .padding(16.dp),
                 verticalArrangement = Arrangement.spacedBy(8.dp),
             ) {
-                Text(text = Disclaimer.PRIVACY_PARAGRAPH, style = AnchorType.body)
+                Text(
+                    text = stringResource(disclaimerParagraphRes(Disclaimer.PRIVACY_PARAGRAPH)),
+                    style = AnchorType.body,
+                )
                 Text(
                     text = stringResource(R.string.settings_privacy_note),
                     style = AnchorType.body,
@@ -341,7 +345,7 @@ fun SettingsScreen(
                 if (showFullDisclaimer) {
                     Disclaimer.paragraphs.forEach { paragraph ->
                         Text(
-                            text = "· $paragraph",
+                            text = "· ${stringResource(disclaimerParagraphRes(paragraph))}",
                             style = AnchorType.footnote,
                             color = AnchorTheme.colors.labelSecondary,
                         )

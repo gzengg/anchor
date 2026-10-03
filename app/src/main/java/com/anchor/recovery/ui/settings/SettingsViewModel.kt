@@ -12,7 +12,7 @@ import com.anchor.recovery.core.legal.Disclaimer
 import com.anchor.recovery.core.notify.ReminderTime
 import com.anchor.recovery.data.repo.AnchorRepository
 import com.anchor.recovery.data.settings.AnchorSettings
-import com.anchor.recovery.ui.text.importRejectionRes
+import com.anchor.recovery.ui.text.importRejectionText
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -216,10 +216,10 @@ class SettingsViewModel(
                 message.value = null
             }
 
-            is ImportResult.Rejected -> message.value = SettingsMessage(
-                importRejectionRes(result.reason),
-                result.args,
-            )
+            is ImportResult.Rejected -> {
+                val (res, args) = importRejectionText(result)
+                message.value = SettingsMessage(res, args)
+            }
         }
     }
 

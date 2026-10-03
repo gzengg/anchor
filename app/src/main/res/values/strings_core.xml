@@ -22,4 +22,9 @@
     <string name="import_reject_parse_error">文件里的记录读不出来（%1$s）。</string>
     <string name="import_reject_unknown_parse_error">文件里的记录读不出来（格式异常）。</string>
     <string name="import_reject_duplicate_dates">文件里有重复的打卡日期（%1$s），为免丢数据已拒绝导入。</string>
+    <string name="import_reject_invalid_check_in_date">文件里的打卡日期读不出来（%1$s）。</string>
+    <string name="import_reject_invalid_check_in_time">文件里的打卡时间读不出来（%1$s）。</string>
+    <string name="import_reject_invalid_relapse_time">文件里的破戒时间读不出来（%1$s）。</string>
+    <string name="import_reject_invalid_urge_started_at">文件里的渴求开始时间读不出来（%1$s）。</string>
+    <string name="import_reject_invalid_assessment_taken_at">文件里的问卷时间读不出来（%1$s）。</string>
 </resources>

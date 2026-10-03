@@ -131,11 +131,21 @@ class DataImporterTest {
         val broken = json().replace("\"2024-05-03T13:00:00Z\"", "\"昨天下午\"")
 
         val rejected = assertIs<ImportResult.Rejected>(DataImporter.parse(broken))
-        assertEquals(ImportRejection.PARSE_ERROR, rejected.reason)
-        assertTrue(
-            rejected.args.firstOrNull().toString().contains("打卡时间"),
-            "解析报错要作为参数带给界面，不能丢：${rejected.args}",
+        assertEquals(ImportRejection.INVALID_FIELD, rejected.reason)
+        assertEquals(
+            listOf(ImportField.CHECK_IN_TIME, "昨天下午"),
+            rejected.args,
+            "字段与原始文本要结构化带回界面，中文文案由 :app 按字段取",
         )
+    }
+
+    @Test
+    fun `打卡日期坏了也结构化带回字段`() {
+        val broken = json().replace("\"2024-05-03\"", "\"2024-13-01\"")
+
+        val rejected = assertIs<ImportResult.Rejected>(DataImporter.parse(broken))
+        assertEquals(ImportRejection.INVALID_FIELD, rejected.reason)
+        assertEquals(listOf(ImportField.CHECK_IN_DATE, "2024-13-01"), rejected.args)
     }
 
     @Test

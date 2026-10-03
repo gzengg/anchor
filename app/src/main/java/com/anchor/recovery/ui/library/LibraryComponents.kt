@@ -43,6 +43,7 @@ import com.anchor.recovery.core.content.MdSpan
 import com.anchor.recovery.ui.components.AnchorClickableSurface
 import com.anchor.recovery.ui.theme.AnchorTheme
 import com.anchor.recovery.ui.theme.AnchorType
+import com.anchor.recovery.ui.text.credibilityRes
 
 /**
  * 可信度徽章配色：高=绿、中=黄、低=灰（与理念一致性要求一致）。
@@ -65,6 +66,8 @@ fun CredibilityBadge(credibility: Credibility, modifier: Modifier = Modifier) {
         Credibility.MEDIUM -> Color(0xFF3E2C00)
         else -> Color.White
     }
+    // 徽章上的展示名走资源；credibility.label 是数据 key，不能直接上台面。
+    val label = stringResource(credibilityRes(credibility))
 
     Surface(
         modifier = modifier,
@@ -73,7 +76,7 @@ fun CredibilityBadge(credibility: Credibility, modifier: Modifier = Modifier) {
         shape = RoundedCornerShape(4.dp),
     ) {
         Text(
-            text = stringResource(R.string.library_credibility, credibility.label),
+            text = stringResource(R.string.library_credibility, label),
             style = AnchorType.caption1,
             modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp),
         )

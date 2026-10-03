@@ -75,11 +75,18 @@ fun ArticleScreen(
                 color = AnchorTheme.colors.labelSecondary,
             )
 
-            article == null -> Text(
-                text = stringResource(R.string.article_not_found, articleId, snapshot?.error.orEmpty()),
-                style = AnchorType.body,
-                color = AnchorTheme.colors.danger,
-            )
+            article == null -> {
+                // 错误原因由 data 层以 `@StringRes + args` 回传，这里才渲染成文案。
+                val snap = snapshot
+                val errorText = snap?.errorRes
+                    ?.let { stringResource(it, *snap.errorArgs.toTypedArray()) }
+                    .orEmpty()
+                Text(
+                    text = stringResource(R.string.article_not_found, articleId, errorText),
+                    style = AnchorType.body,
+                    color = AnchorTheme.colors.danger,
+                )
+            }
 
             else -> ArticleBody(article = article, blocks = blocks, onOpenSource = openUrl)
         }

@@ -34,11 +34,11 @@ object RelapseTags {
 }
 
 /** 一天被切成四个时段，用于“复吸时段分布”。 */
-enum class DayPart(val label: String) {
-    MORNING("上午 05–11"),
-    AFTERNOON("下午 12–17"),
-    EVENING("晚上 18–22"),
-    LATE_NIGHT("深夜 23–04"),
+enum class DayPart {
+    MORNING,
+    AFTERNOON,
+    EVENING,
+    LATE_NIGHT,
 }
 
 data class FrequencyItem(val label: String, val count: Int)

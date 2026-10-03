@@ -21,6 +21,13 @@ import com.anchor.recovery.core.phase.WithdrawalPhaseCatalog
 import com.anchor.recovery.core.phase.WithdrawalPhaseResolver
 import com.anchor.recovery.ui.components.AnchorListGroup
 import com.anchor.recovery.ui.library.SourceChips
+import com.anchor.recovery.ui.text.phaseCautionRes
+import com.anchor.recovery.ui.text.phaseDayRangeArgs
+import com.anchor.recovery.ui.text.phaseDayRangeRes
+import com.anchor.recovery.ui.text.phaseHeadlineRes
+import com.anchor.recovery.ui.text.phaseHelpSeekingNoticeRes
+import com.anchor.recovery.ui.text.phaseNameRes
+import com.anchor.recovery.ui.text.phaseNoteRes
 import com.anchor.recovery.ui.theme.AnchorTheme
 import com.anchor.recovery.ui.theme.AnchorType
 
@@ -57,7 +64,7 @@ fun PhaseCard(
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 Text(
-                    text = stringResource(R.string.phase_current, phase.name),
+                    text = stringResource(R.string.phase_current, stringResource(phaseNameRes(phase))),
                     style = AnchorType.headline,
                     color = colors.label,
                 )
@@ -68,7 +75,11 @@ fun PhaseCard(
                 )
             }
             Text(
-                text = phase.dayLabel + pluralStringResource(
+                // 天数区间与「连续 N 天」分属两个资源文件（单复数在 strings_home.xml），拼成同一行显示。
+                text = stringResource(
+                    phaseDayRangeRes(phase),
+                    *phaseDayRangeArgs(phase).toTypedArray(),
+                ) + pluralStringResource(
                     R.plurals.phase_consecutive_days,
                     dayNumber.coerceAtLeast(0),
                     dayNumber.coerceAtLeast(0),
@@ -76,7 +87,7 @@ fun PhaseCard(
                 style = AnchorType.footnote,
                 color = colors.tint,
             )
-            Text(text = phase.headline, style = AnchorType.body, color = colors.label)
+            Text(text = stringResource(phaseHeadlineRes(phase)), style = AnchorType.body, color = colors.label)
 
             NoteSection(
                 title = stringResource(R.string.phase_expectations_title),
@@ -89,7 +100,7 @@ fun PhaseCard(
                 onOpenArticle = onOpenArticle,
             )
 
-            phase.caution?.let { caution ->
+            phaseCautionRes(phase)?.let { cautionRes ->
                 // 组件库没有「警示条」，保留 M3 Surface 只换语义色。
                 Surface(
                     modifier = Modifier.fillMaxWidth(),
@@ -98,7 +109,7 @@ fun PhaseCard(
                     shape = RoundedCornerShape(12.dp),
                 ) {
                     Text(
-                        text = caution,
+                        text = stringResource(cautionRes),
                         style = AnchorType.footnote,
                         modifier = Modifier.padding(12.dp),
                     )
@@ -106,7 +117,7 @@ fun PhaseCard(
             }
 
             Text(
-                text = WithdrawalPhaseCatalog.HELP_SEEKING_NOTICE,
+                text = stringResource(phaseHelpSeekingNoticeRes()),
                 style = AnchorType.footnote,
                 color = colors.labelSecondary,
             )
@@ -132,7 +143,7 @@ private fun NoteSection(
         )
         notes.forEach { note ->
             Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
-                Text(text = note.text, style = AnchorType.body, color = colors.label)
+                Text(text = stringResource(phaseNoteRes(note)), style = AnchorType.body, color = colors.label)
                 SourceChips(articleIds = note.sourceArticleIds, onOpenArticle = onOpenArticle)
             }
         }

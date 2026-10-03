@@ -83,9 +83,14 @@ fun LibraryScreen(
     ) {
         when {
             snapshot == null -> LoadingState()
-            library == null -> ErrorState(
-                snapshot?.error ?: stringResource(R.string.library_content_unavailable),
-            )
+            library == null -> {
+                // data 层不持 Context，只回传 `@StringRes + args`；这里才是能渲染文案的地方。
+                val snap = snapshot
+                ErrorState(
+                    snap?.errorRes?.let { stringResource(it, *snap.errorArgs.toTypedArray()) }
+                        ?: stringResource(R.string.library_content_unavailable),
+                )
+            }
             else -> {
                 OutlinedTextField(
                     value = query,

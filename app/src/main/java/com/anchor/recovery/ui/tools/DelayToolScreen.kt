@@ -33,6 +33,7 @@ import com.anchor.recovery.ui.components.AnchorButtonStyle
 import com.anchor.recovery.ui.components.AnchorLargeTitle
 import com.anchor.recovery.ui.components.AnchorListGroup
 import com.anchor.recovery.ui.components.PublishAnchorNavBar
+import com.anchor.recovery.ui.text.breathingPhaseLabelRes
 import com.anchor.recovery.ui.theme.AnchorTheme
 import com.anchor.recovery.ui.theme.AnchorType
 import kotlinx.coroutines.delay
@@ -190,7 +191,7 @@ private fun RunningCard(uiState: DelayUiState, onCancel: () -> Unit) {
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 Text(
-                    text = cue.label,
+                    text = stringResource(breathingPhaseLabelRes(cue.phase)),
                     style = AnchorType.title3,
                     color = AnchorTheme.colors.label,
                 )

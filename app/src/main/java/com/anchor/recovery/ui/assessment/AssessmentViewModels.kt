@@ -13,6 +13,10 @@ import com.anchor.recovery.core.assessment.MoralResult
 import com.anchor.recovery.core.model.AssessmentRecord
 import com.anchor.recovery.core.model.AssessmentType
 import com.anchor.recovery.data.repo.AnchorRepository
+import com.anchor.recovery.ui.text.csbdDimensionRes
+import com.anchor.recovery.ui.text.csbdQuestionRes
+import com.anchor.recovery.ui.text.moralItemKindRes
+import com.anchor.recovery.ui.text.moralQuestionRes
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -21,11 +25,11 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
-/** 单道题的渲染数据；计分维度只作为辅助说明展示。 */
+/** 单道题的渲染数据；题干与维度名只带资源 id，文案在 Compose 层解析（ViewModel 不持有 Context）。 */
 data class QuizQuestionUi(
     val id: Int,
-    val text: String,
-    val dimensionLabel: String,
+    @StringRes val textRes: Int,
+    @StringRes val dimensionLabelRes: Int,
 )
 
 /** 每题的五个选项（0–4 分）；只暴露资源 id，文案在 Compose 层解析。 */
@@ -52,7 +56,8 @@ data class QuizMessage(
 
 data class QuizUiState(
     @StringRes val titleRes: Int? = null,
-    val timeWindow: String = "",
+    /** 作答时间窗；初始态为 null（尚未绑定具体问卷），Compose 侧取空串。 */
+    @StringRes val timeWindowRes: Int? = null,
     val questions: List<QuizQuestionUi> = emptyList(),
     val answers: Map<Int, Int> = emptyMap(),
     val index: Int = 0,
@@ -95,7 +100,8 @@ abstract class QuizViewModel(protected val repository: AnchorRepository) : ViewM
     @get:StringRes
     protected abstract val titleRes: Int
 
-    protected abstract val timeWindow: String
+    @get:StringRes
+    protected abstract val timeWindowRes: Int
 
     protected abstract val questions: List<QuizQuestionUi>
 
@@ -106,7 +112,7 @@ abstract class QuizViewModel(protected val repository: AnchorRepository) : ViewM
         combine(answers, index, saving, finished, message) { answers, index, saving, finished, message ->
             QuizUiState(
                 titleRes = titleRes,
-                timeWindow = timeWindow,
+                timeWindowRes = timeWindowRes,
                 questions = questions,
                 answers = answers,
                 index = index.coerceIn(0, (questions.size - 1).coerceAtLeast(0)),
@@ -174,9 +180,13 @@ class CsbdQuizViewModel(repository: AnchorRepository) : QuizViewModel(repository
 
     override val type = AssessmentType.CSBD
     override val titleRes = R.string.quiz_title_csbd
-    override val timeWindow = CsbdQuestionnaire.TIME_WINDOW
+    override val timeWindowRes = R.string.csbd_time_window
     override val questions = CsbdQuestionnaire.questions.map {
-        QuizQuestionUi(id = it.id, text = it.text, dimensionLabel = it.dimension.label)
+        QuizQuestionUi(
+            id = it.id,
+            textRes = csbdQuestionRes(it.id),
+            dimensionLabelRes = csbdDimensionRes(it.dimension),
+        )
     }
 
     override fun buildRecord(answers: List<Int>): AssessmentRecord {
@@ -195,9 +205,13 @@ class MoralQuizViewModel(repository: AnchorRepository) : QuizViewModel(repositor
 
     override val type = AssessmentType.MORAL
     override val titleRes = R.string.quiz_title_moral
-    override val timeWindow = MoralIncongruenceScale.TIME_WINDOW
+    override val timeWindowRes = R.string.moral_time_window
     override val questions = MoralIncongruenceScale.questions.map {
-        QuizQuestionUi(id = it.id, text = it.text, dimensionLabel = it.kind.label)
+        QuizQuestionUi(
+            id = it.id,
+            textRes = moralQuestionRes(it.id),
+            dimensionLabelRes = moralItemKindRes(it.kind),
+        )
     }
 
     override fun buildRecord(answers: List<Int>): AssessmentRecord {

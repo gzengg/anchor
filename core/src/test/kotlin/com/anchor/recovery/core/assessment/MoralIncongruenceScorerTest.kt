@@ -19,7 +19,6 @@ class MoralIncongruenceScorerTest {
         assertEquals(6, MoralIncongruenceScale.ofKind(MoralItemKind.MORAL).size)
         assertEquals(24, MoralIncongruenceScale.maxScorePerKind)
         assertEquals(12, MoralIncongruenceScale.HIGH_THRESHOLD)
-        assertTrue(MoralIncongruenceScale.questions.all { it.text.isNotBlank() })
     }
 
     @Test
@@ -47,10 +46,6 @@ class MoralIncongruenceScorerTest {
         assertEquals(MoralQuadrant.HIGH_MORAL_ONLY, result.quadrant)
         assertFalse(result.behaviorHigh)
         assertTrue(result.moralHigh)
-        assertTrue(
-            result.quadrant.interpretation.contains("价值观冲突不等于成瘾"),
-            "该象限必须明确价值观冲突不等于成瘾",
-        )
     }
 
     @Test

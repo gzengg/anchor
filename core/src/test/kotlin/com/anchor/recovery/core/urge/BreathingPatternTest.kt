@@ -11,20 +11,20 @@ class BreathingPatternTest {
         assertEquals(BreathingCue.PHASE_IN, BreathingPattern.cue(0).phase)
         assertEquals(4, BreathingPattern.cue(0).remainingSec)
         assertEquals(1, BreathingPattern.cue(3).remainingSec)
-        assertEquals("停", BreathingPattern.cue(4).label)
+        assertEquals(BreathingCue.PHASE_HOLD, BreathingPattern.cue(4).phase)
         assertEquals(2, BreathingPattern.cue(4).remainingSec)
         assertEquals(1, BreathingPattern.cue(5).remainingSec)
-        assertEquals("呼气", BreathingPattern.cue(6).label)
+        assertEquals(BreathingCue.PHASE_OUT, BreathingPattern.cue(6).phase)
         assertEquals(6, BreathingPattern.cue(6).remainingSec)
         assertEquals(1, BreathingPattern.cue(11).remainingSec)
     }
 
     @Test
     fun `十二秒后回到吸气且负数与超大值都有兜底`() {
-        assertEquals("吸气", BreathingPattern.cue(12).label)
+        assertEquals(BreathingCue.PHASE_IN, BreathingPattern.cue(12).phase)
         assertEquals(4, BreathingPattern.cue(12).remainingSec)
-        assertEquals("吸气", BreathingPattern.cue(0).label)
-        assertEquals("吸气", BreathingPattern.cue(-5).label)
+        assertEquals(BreathingCue.PHASE_IN, BreathingPattern.cue(0).phase)
+        assertEquals(BreathingCue.PHASE_IN, BreathingPattern.cue(-5).phase)
         assertEquals(BreathingPattern.cue(2), BreathingPattern.cue(1202))
     }
 }

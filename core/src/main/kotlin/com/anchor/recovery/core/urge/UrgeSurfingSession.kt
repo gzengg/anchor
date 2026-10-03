@@ -9,13 +9,13 @@ import kotlinx.datetime.Instant
  * 计时与流程推进全部发生在这里，UI 只负责把 [UrgeSurfingState] 画出来，
  * 并用 `LaunchedEffect` 每秒调一次 [UrgeSurfingSession.tick]。
  */
-enum class UrgeSurfingStage(val label: String, val hint: String) {
-    INTRO("开始", "渴求像一道波浪：会自己升高，也会自己退下。接下来几分钟先不动手，只观察它。"),
-    BREATHE("呼吸引导", "把注意力放在呼吸上：吸气 4 秒，停 2 秒，呼气 6 秒。走神了就回到呼吸。"),
-    OBSERVE("观察渴求", "像旁观者一样描述它：在身体哪个位置？紧、热还是空？不下判断。"),
-    RIDE("等待它过去", "不对抗，也不顺从。让它在这里，你只是陪着它变弱。"),
-    RATE_AGAIN("再次评分", "再给渴求打一次分，看是否变化。"),
-    DONE("结束", "无论分数有没有下降，你都完成了一次“不立刻行动”。"),
+enum class UrgeSurfingStage {
+    INTRO,
+    BREATHE,
+    OBSERVE,
+    RIDE,
+    RATE_AGAIN,
+    DONE,
     ;
 
     /** 该阶段的下一个阶段；已是最后阶段时返回自身。 */

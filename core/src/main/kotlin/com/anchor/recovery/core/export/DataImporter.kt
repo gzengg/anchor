@@ -57,6 +57,18 @@ enum class ImportRejection {
     PARSE_ERROR,
     UNKNOWN_PARSE_ERROR,
     DUPLICATE_DATES,
+
+    /** 某条记录的时间字段解析失败；[ImportResult.Rejected.args] = `(ImportField, 原始文本)`。 */
+    INVALID_FIELD,
+}
+
+/** 导入文件里可能解析失败的时间字段；展示用的中文名在 `:app`，这里只给可判定的枚举。 */
+enum class ImportField {
+    CHECK_IN_DATE,
+    CHECK_IN_TIME,
+    RELAPSE_TIME,
+    URGE_STARTED_AT,
+    ASSESSMENT_TAKEN_AT,
 }
 
 /**
@@ -88,12 +100,7 @@ object DataImporter {
         }
 
         val data = runCatching { payload.toImportedData() }.getOrElse { error ->
-            val detail = error.message
-            return if (detail == null) {
-                ImportResult.Rejected(ImportRejection.UNKNOWN_PARSE_ERROR)
-            } else {
-                ImportResult.Rejected(ImportRejection.PARSE_ERROR, args = listOf(detail))
-            }
+            return rejectionFor(error)
         }
 
         // 打卡以日期为主键、写入时用 IGNORE：同一天两条会被默默丢弃，所以先在这里卡住。
@@ -128,14 +135,14 @@ private fun ExportPayload.toImportedData(): ImportedData = ImportedData(
 )
 
 private fun ExportCheckIn.toRecord(): CheckInRecord = CheckInRecord(
-    date = parseDate(date, "打卡日期"),
+    date = parseDate(date, ImportField.CHECK_IN_DATE),
     note = note,
-    createdAt = parseInstant(createdAt, "打卡时间"),
+    createdAt = parseInstant(createdAt, ImportField.CHECK_IN_TIME),
 )
 
 private fun ExportRelapse.toRecord(): RelapseRecord = RelapseRecord(
     id = id,
-    occurredAt = parseInstant(occurredAt, "破戒时间"),
+    occurredAt = parseInstant(occurredAt, ImportField.RELAPSE_TIME),
     situation = situation,
     emotions = emotions,
     triggers = triggers,
@@ -144,7 +151,7 @@ private fun ExportRelapse.toRecord(): RelapseRecord = RelapseRecord(
 
 private fun ExportUrgeEpisode.toRecord(): UrgeEpisodeRecord = UrgeEpisodeRecord(
     id = id,
-    startedAt = parseInstant(startedAt, "渴求开始时间"),
+    startedAt = parseInstant(startedAt, ImportField.URGE_STARTED_AT),
     durationSec = durationSec,
     peakIntensity = peakIntensity,
     endIntensity = endIntensity,
@@ -154,18 +161,34 @@ private fun ExportUrgeEpisode.toRecord(): UrgeEpisodeRecord = UrgeEpisodeRecord(
 private fun ExportAssessment.toRecord(): AssessmentRecord = AssessmentRecord(
     id = id,
     type = AssessmentType.of(type),
-    takenAt = parseInstant(takenAt, "问卷时间"),
+    takenAt = parseInstant(takenAt, ImportField.ASSESSMENT_TAKEN_AT),
     totalScore = totalScore,
     level = level,
     answers = answers,
 )
 
-private fun parseDate(raw: String, field: String): LocalDate =
-    runCatching { LocalDate.parse(raw) }.getOrElse {
-        throw IllegalArgumentException("$field「$raw」不是有效日期")
+/** 解析异常 → 拒绝码：时间字段坏了带结构化字段名，其余带原始报错文本。 */
+private fun rejectionFor(error: Throwable): ImportResult.Rejected =
+    if (error is InvalidFieldValue) {
+        ImportResult.Rejected(
+            ImportRejection.INVALID_FIELD,
+            args = listOf(error.field, error.raw),
+        )
+    } else {
+        val detail = error.message
+        if (detail == null) {
+            ImportResult.Rejected(ImportRejection.UNKNOWN_PARSE_ERROR)
+        } else {
+            ImportResult.Rejected(ImportRejection.PARSE_ERROR, args = listOf(detail))
+        }
     }
 
-private fun parseInstant(raw: String, field: String): Instant =
-    runCatching { Instant.parse(raw) }.getOrElse {
-        throw IllegalArgumentException("$field「$raw」不是有效时间")
-    }
+/** 时间字段解析失败：带上「哪个字段 + 原始文本」，让界面自己拼中文文案。 */
+private class InvalidFieldValue(val field: ImportField, val raw: String) :
+    IllegalArgumentException("invalid field: $field")
+
+private fun parseDate(raw: String, field: ImportField): LocalDate =
+    runCatching { LocalDate.parse(raw) }.getOrElse { throw InvalidFieldValue(field, raw) }
+
+private fun parseInstant(raw: String, field: ImportField): Instant =
+    runCatching { Instant.parse(raw) }.getOrElse { throw InvalidFieldValue(field, raw) }

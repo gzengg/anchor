@@ -4,31 +4,13 @@ package com.anchor.recovery.core.assessment
  * F7 计分：总分分级 + 五个维度小计。
  *
  * 分级阈值是**自研参考阈值**（不是经过临床验证的 cut-off），UI 必须如实标注。
+ * 等级名 / 分区间 / 建议都是用户可见文案，已外移到 `:app`（`QuestionnaireText` + `strings_questionnaire.xml`）。
  */
-enum class CsbdLevel(val label: String, val rangeText: String, val advice: String) {
-    LOW(
-        label = "低风险",
-        rangeText = "< 20",
-        advice = "当前自评分数较低。继续如实记录、保持已有的作息与支持关系即可。",
-    ),
-    WATCH(
-        label = "需关注",
-        rangeText = "20 – 39",
-        advice = "有些方面已经在消耗你的时间和情绪。可以先用 App 里的渴求工具与打卡记录观察规律，" +
-            "如果持续困扰，建议咨询专业人士。",
-    ),
-    HIGH(
-        label = "高风险",
-        rangeText = "40 – 55",
-        advice = "自评分数偏高，说明这件事可能已经带来明显影响。建议咨询心理咨询师或精神科医生，" +
-            "把你的记录一并带去讨论。",
-    ),
-    URGENT(
-        label = "强烈建议就医",
-        rangeText = "≥ 56",
-        advice = "自评分数很高。请考虑尽快就诊（精神科 / 心理科 / 成瘾医学门诊），" +
-            "这不是靠意志力硬扛的问题，专业评估会更有帮助。",
-    ),
+enum class CsbdLevel {
+    LOW,
+    WATCH,
+    HIGH,
+    URGENT,
     ;
 
     companion object {
@@ -53,11 +35,6 @@ data class CsbdResult(
         get() = CsbdDimension.entries.maxBy { dimensionScores[it] ?: 0 }
 
     val topDimensionScore: Int get() = dimensionScores[topDimension] ?: 0
-
-    /** 阈值口径说明，随结果一起展示。 */
-    val thresholdNote: String
-        get() = "分级阈值（${CsbdLevel.LOW.rangeText} / ${CsbdLevel.WATCH.rangeText} / " +
-            "${CsbdLevel.HIGH.rangeText} / ${CsbdLevel.URGENT.rangeText}）为自研参考阈值，未经临床验证。"
 }
 
 object CsbdScorer {

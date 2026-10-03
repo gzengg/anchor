@@ -85,11 +85,11 @@ class HomeViewModel(private val repository: AnchorRepository) : ViewModel() {
     }
 }
 
-enum class TimelineFilter(val label: String) {
-    ALL("全部"),
-    CHECK_IN("打卡"),
-    URGE("渴求"),
-    RELAPSE("破戒"),
+enum class TimelineFilter(@StringRes val label: Int) {
+    ALL(R.string.journal_filter_all),
+    CHECK_IN(R.string.journal_filter_check_in),
+    URGE(R.string.journal_filter_urge),
+    RELAPSE(R.string.journal_filter_relapse),
 }
 
 /** 日志页的一条时间线条目（打卡 / 渴求事件 / 破戒）。 */

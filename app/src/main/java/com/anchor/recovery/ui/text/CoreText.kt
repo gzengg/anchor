@@ -2,7 +2,9 @@ package com.anchor.recovery.ui.text
 
 import androidx.annotation.StringRes
 import com.anchor.recovery.R
+import com.anchor.recovery.core.export.ImportField
 import com.anchor.recovery.core.export.ImportRejection
+import com.anchor.recovery.core.export.ImportResult
 import com.anchor.recovery.core.streak.CheckInRejection
 
 /**
@@ -29,13 +31,35 @@ fun checkInRejectionRes(reason: CheckInRejection): Int = when (reason) {
     CheckInRejection.NOT_TODAY -> R.string.checkin_reject_not_today
 }
 
+/**
+ * 导入被拒的展示文案与格式化参数（资源 id + 参数，界面直接 `stringResource`）。
+ *
+ * 时间字段解析失败的参数里带的是 [ImportField] 枚举，这里就换成字段专属的整句，
+ * 界面不参与拼文案（`:core` 连 `android.*` 都不能依赖，所以拼在 core 里就等于硬编码中文）。
+ */
+fun importRejectionText(rejected: ImportResult.Rejected): Pair<Int, List<Any>> =
+    when (rejected.reason) {
+        ImportRejection.EMPTY_FILE -> R.string.import_reject_empty_file to emptyList()
+        ImportRejection.NOT_ANCHOR_FILE -> R.string.import_reject_not_anchor_file to emptyList()
+        ImportRejection.MISSING_VERSION -> R.string.import_reject_missing_version to emptyList()
+        ImportRejection.UNSUPPORTED_VERSION ->
+            R.string.import_reject_unsupported_version to rejected.args
+        ImportRejection.PARSE_ERROR -> R.string.import_reject_parse_error to rejected.args
+        ImportRejection.UNKNOWN_PARSE_ERROR ->
+            R.string.import_reject_unknown_parse_error to emptyList()
+        ImportRejection.DUPLICATE_DATES -> R.string.import_reject_duplicate_dates to rejected.args
+        ImportRejection.INVALID_FIELD -> {
+            val (field, raw) = rejected.args
+            importFieldMessageRes(field as ImportField) to listOf(raw)
+        }
+    }
+
+/** 时间字段解析失败的整句文案；占位符是文件里的原始文本（例如 `2024-13-01`）。 */
 @StringRes
-fun importRejectionRes(reason: ImportRejection): Int = when (reason) {
-    ImportRejection.EMPTY_FILE -> R.string.import_reject_empty_file
-    ImportRejection.NOT_ANCHOR_FILE -> R.string.import_reject_not_anchor_file
-    ImportRejection.MISSING_VERSION -> R.string.import_reject_missing_version
-    ImportRejection.UNSUPPORTED_VERSION -> R.string.import_reject_unsupported_version
-    ImportRejection.PARSE_ERROR -> R.string.import_reject_parse_error
-    ImportRejection.UNKNOWN_PARSE_ERROR -> R.string.import_reject_unknown_parse_error
-    ImportRejection.DUPLICATE_DATES -> R.string.import_reject_duplicate_dates
+fun importFieldMessageRes(field: ImportField): Int = when (field) {
+    ImportField.CHECK_IN_DATE -> R.string.import_reject_invalid_check_in_date
+    ImportField.CHECK_IN_TIME -> R.string.import_reject_invalid_check_in_time
+    ImportField.RELAPSE_TIME -> R.string.import_reject_invalid_relapse_time
+    ImportField.URGE_STARTED_AT -> R.string.import_reject_invalid_urge_started_at
+    ImportField.ASSESSMENT_TAKEN_AT -> R.string.import_reject_invalid_assessment_taken_at
 }

@@ -35,6 +35,9 @@ import com.anchor.recovery.ui.components.AnchorButtonStyle
 import com.anchor.recovery.ui.components.AnchorLargeTitle
 import com.anchor.recovery.ui.components.AnchorListGroup
 import com.anchor.recovery.ui.components.PublishAnchorNavBar
+import com.anchor.recovery.ui.text.breathingPhaseLabelRes
+import com.anchor.recovery.ui.text.urgeSurfingStageHintRes
+import com.anchor.recovery.ui.text.urgeSurfingStageLabelRes
 import com.anchor.recovery.ui.theme.AnchorTheme
 import com.anchor.recovery.ui.theme.AnchorType
 import kotlinx.coroutines.delay
@@ -179,6 +182,8 @@ fun UrgeSurfingScreen(
 
 @Composable
 private fun StageHeader(state: UrgeSurfingState) {
+    val stageLabel = stringResource(urgeSurfingStageLabelRes(state.stage))
+    val stageHint = stringResource(urgeSurfingStageHintRes(state.stage))
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -186,12 +191,12 @@ private fun StageHeader(state: UrgeSurfingState) {
         verticalArrangement = Arrangement.spacedBy(6.dp),
     ) {
         Text(
-            text = "${state.stage.ordinal + 1}/6 · ${state.stage.label}",
+            text = "${state.stage.ordinal + 1}/6 · $stageLabel",
             style = AnchorType.footnoteSemibold,
             color = AnchorTheme.colors.tint,
         )
         Text(
-            text = state.stage.hint,
+            text = stageHint,
             style = AnchorType.body,
             color = AnchorTheme.colors.label,
         )
@@ -275,7 +280,7 @@ private fun BreathingHint(elapsedSecInStage: Int) {
             verticalArrangement = Arrangement.spacedBy(4.dp),
         ) {
             Text(
-                text = cue.label,
+                text = stringResource(breathingPhaseLabelRes(cue.phase)),
                 style = AnchorType.title3,
                 color = AnchorTheme.colors.label,
             )

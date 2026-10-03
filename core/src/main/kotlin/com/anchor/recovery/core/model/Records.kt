@@ -26,9 +26,9 @@ data class RelapseRecord(
 )
 
 /** 渴求应对工具：[URGE_SURFING] 对应 F3 冲浪流程，[DELAY_TOOL] 对应 F4 十分钟延时。 */
-enum class UrgeTool(val label: String) {
-    URGE_SURFING("渴求冲浪"),
-    DELAY_TOOL("十分钟延时"),
+enum class UrgeTool {
+    URGE_SURFING,
+    DELAY_TOOL,
     ;
 
     companion object {
@@ -48,9 +48,9 @@ data class UrgeEpisodeRecord(
 )
 
 /** 问卷类型。 */
-enum class AssessmentType(val label: String) {
-    CSBD("成瘾倾向自评"),
-    MORAL("道德冲突评估"),
+enum class AssessmentType {
+    CSBD,
+    MORAL,
     ;
 
     companion object {

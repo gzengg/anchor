@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--
+      免责声明与内容层的用户可见文案。:core 只保留稳定 id（DisclaimerParagraph / Credibility
+      等级 / 内容错误码）与判定逻辑（:core 禁止依赖 android.*），中文集中在这里，由
+      LegalContentText.kt 映射、LegalContentTextTest 覆盖。
+
+      免责正文是合规文案：一字不许改写，改动实质含义时必须同步把 Disclaimer.VERSION +1，
+      否则已同意的用户不会被要求重读。
+    -->
+    <string name="legal_disclaimer_title">使用前请阅读</string>
+    <string name="legal_disclaimer_ack_label">我已阅读并理解以上说明，知道它只是自助工具。</string>
+
+    <!-- 段落顺序 = DisclaimerParagraph 枚举声明顺序。界面自行加「· 」前缀，这里只有正文。 -->
+    <string name="legal_disclaimer_paragraph_tool_scope">磐石是自助记录与科普工具：打卡、渴求、情绪都能记，另有离线科普文章。</string>
+    <string name="legal_disclaimer_paragraph_not_medical_device">它不是医疗器械，不提供诊断、治疗或医疗建议；自评问卷结果只是参考，不能用来判断疾病。</string>
+    <string name="legal_disclaimer_paragraph_local_data_privacy">所有记录只保存在你自己的手机上，不会上传或同步。数据库加密后存在本机，密钥由系统密钥库保管；设备被解锁且被 root 后仍可能被读到。</string>
+    <string name="legal_disclaimer_paragraph_emergency_help">有紧急情况，或情绪持续困扰影响生活时，请联系专业医生或当地心理援助热线。</string>
+    <string name="legal_disclaimer_paragraph_data_control">可以随时在设置页导出数据、用导出文件恢复记录，或一键清空；清空后无法恢复。</string>
+
+    <!--
+      可信度徽章的显示名。文章的原始取值仍是 :core Credibility.label（数据 key，中文留在 core），
+      这里只是展示副本，配色见 ui/library/LibraryComponents.kt。
+    -->
+    <string name="legal_credibility_high">高</string>
+    <string name="legal_credibility_medium">中</string>
+    <string name="legal_credibility_low">低</string>
+
+    <!-- 知识库加载/解析失败时的可展示原因；%1$s 是异常说明（来自 :core 的解析断言）。 -->
+    <string name="legal_content_load_failed">内容加载失败：%1$s</string>
+    <string name="legal_content_format_error">内容格式错误：%1$s</string>
+</resources>

@@ -2,12 +2,6 @@ package com.anchor.recovery.core.urge
 
 /** 4-2-6 呼吸节拍的一次呼吸提示。 */
 data class BreathingCue(val phase: Int, val remainingSec: Int) {
-    val label: String
-        get() = when (phase) {
-            PHASE_IN -> "吸气"
-            PHASE_HOLD -> "停"
-            else -> "呼气"
-        }
 
     companion object {
         const val PHASE_IN = 0

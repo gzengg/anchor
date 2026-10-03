@@ -3,7 +3,9 @@ package com.anchor.recovery.ui.text
 import android.content.Context
 import androidx.test.core.app.ApplicationProvider
 import com.anchor.recovery.R
+import com.anchor.recovery.core.export.ImportField
 import com.anchor.recovery.core.export.ImportRejection
+import com.anchor.recovery.core.export.ImportResult
 import com.anchor.recovery.core.streak.CheckInRejection
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -31,6 +33,7 @@ class CoreTextTest {
         ImportRejection.PARSE_ERROR to listOf("格式异常"),
         ImportRejection.UNKNOWN_PARSE_ERROR to emptyList(),
         ImportRejection.DUPLICATE_DATES to listOf("2024-05-03"),
+        ImportRejection.INVALID_FIELD to listOf(ImportField.CHECK_IN_TIME, "昨天下午"),
     )
 
     private val checkInArgs: Map<CheckInRejection, List<Any>> = mapOf(
@@ -46,10 +49,22 @@ class CoreTextTest {
     @Test
     fun `每个导入拒绝原因都能渲染出完整文案`() {
         importArgs.forEach { (reason, args) ->
-            val text = context.getString(importRejectionRes(reason), *args.toTypedArray())
+            val (res, textArgs) = importRejectionText(ImportResult.Rejected(reason, args))
+            val text = context.getString(res, *textArgs.toTypedArray())
 
             assertTrue(text.isNotBlank(), "$reason 文案为空")
             assertFalse(text.contains("%"), "$reason 有未替换的占位符：$text")
+        }
+    }
+
+    @Test
+    fun `每个导入字段都有整句文案 界面不拼中文`() {
+        ImportField.entries.forEach { field ->
+            val res = importFieldMessageRes(field)
+            val text = context.getString(res, "2024-13-01")
+
+            assertTrue(text.isNotBlank(), "$field 文案为空")
+            assertFalse(text.contains("%"), "$field 有未替换的占位符：$text")
         }
     }
 

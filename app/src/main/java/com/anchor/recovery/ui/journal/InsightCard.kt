@@ -34,6 +34,7 @@ import com.anchor.recovery.ui.components.AnchorButtonStyle
 import com.anchor.recovery.ui.components.AnchorHairline
 import com.anchor.recovery.ui.components.AnchorListGroup
 import com.anchor.recovery.ui.components.AnchorSectionHeader
+import com.anchor.recovery.ui.text.dayPartShortRes
 import com.anchor.recovery.ui.theme.AnchorTheme
 import com.anchor.recovery.ui.theme.AnchorType
 
@@ -171,7 +172,7 @@ private fun DayPartBars(counts: Map<DayPart, Int>, modifier: Modifier = Modifier
                 )
                 DistributionBar(fraction = count.toFloat() / max)
                 Text(
-                    text = part.shortName,
+                    text = stringResource(dayPartShortRes(part)),
                     style = AnchorType.footnote,
                     color = AnchorTheme.colors.labelTertiary,
                 )
@@ -200,9 +201,6 @@ private fun DistributionBar(fraction: Float, modifier: Modifier = Modifier) {
         }
     }
 }
-
-/** 紧凑排版只放时段名（"上午 05–11" → "上午"），区间本身是固定值，不必每屏重复。 */
-private val DayPart.shortName: String get() = label.substringBefore(' ')
 
 /** 不足一天按小时显示，超过一天同时给出天数，避免"52.5 小时"这种读不出来的数字。 */
 @Composable

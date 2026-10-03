@@ -33,6 +33,7 @@ import com.anchor.recovery.ui.components.AnchorHairline
 import com.anchor.recovery.ui.components.AnchorListGroup
 import com.anchor.recovery.ui.components.AnchorSegmentedControl
 import com.anchor.recovery.ui.components.PublishAnchorNavBar
+import com.anchor.recovery.ui.text.urgeToolLabelRes
 import com.anchor.recovery.ui.theme.AnchorTheme
 import com.anchor.recovery.ui.theme.AnchorType
 import kotlinx.datetime.Instant
@@ -61,12 +62,7 @@ fun TimelineScreen(
             .background(AnchorTheme.colors.groupedBackground),
     ) {
         // 分段控件的 label 参数不是 @Composable：先把每个筛选项的文案取成资源。
-        val filterLabels = mapOf(
-            TimelineFilter.ALL to stringResource(R.string.journal_filter_all),
-            TimelineFilter.CHECK_IN to stringResource(R.string.journal_filter_check_in),
-            TimelineFilter.URGE to stringResource(R.string.journal_filter_urge),
-            TimelineFilter.RELAPSE to stringResource(R.string.journal_filter_relapse),
-        )
+        val filterLabels = TimelineFilter.entries.associateWith { stringResource(it.label) }
         AnchorSegmentedControl(
             options = TimelineFilter.entries,
             selected = state.filter,
@@ -186,7 +182,10 @@ private fun TimelineEntry.label(): String = when (this) {
         stringResource(R.string.journal_label_check_in_with_note)
     }
 
-    is TimelineEntry.Urge -> stringResource(R.string.journal_label_urge, record.tool.label)
+    is TimelineEntry.Urge -> stringResource(
+        R.string.journal_label_urge,
+        stringResource(urgeToolLabelRes(record.tool)),
+    )
     is TimelineEntry.Relapse -> stringResource(R.string.journal_label_relapse)
 }
 

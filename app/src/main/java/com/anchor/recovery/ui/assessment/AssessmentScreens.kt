@@ -49,6 +49,13 @@ import com.anchor.recovery.ui.components.AnchorListGroup
 import com.anchor.recovery.ui.components.AnchorSectionHeader
 import com.anchor.recovery.ui.components.PublishAnchorNavBar
 import com.anchor.recovery.ui.journal.formatLocal
+import com.anchor.recovery.ui.text.csbdDimensionRes
+import com.anchor.recovery.ui.text.csbdLevelAdviceRes
+import com.anchor.recovery.ui.text.csbdLevelLabelRes
+import com.anchor.recovery.ui.text.csbdLevelRangeRes
+import com.anchor.recovery.ui.text.moralItemKindRes
+import com.anchor.recovery.ui.text.moralQuadrantInterpretationRes
+import com.anchor.recovery.ui.text.moralQuadrantLabelRes
 import com.anchor.recovery.ui.theme.AnchorTheme
 import com.anchor.recovery.ui.theme.AnchorType
 
@@ -257,7 +264,7 @@ fun QuizScreen(
         Text(
             text = stringResource(
                 R.string.quiz_progress_line,
-                state.timeWindow,
+                state.timeWindowRes?.let { stringResource(it) }.orEmpty(),
                 state.positionText,
                 state.answeredCount,
             ),
@@ -285,12 +292,12 @@ fun QuizScreen(
                     verticalArrangement = Arrangement.spacedBy(10.dp),
                 ) {
                     Text(
-                        text = question.dimensionLabel,
+                        text = stringResource(question.dimensionLabelRes),
                         style = AnchorType.footnote,
                         color = AnchorTheme.colors.tint,
                     )
                     Text(
-                        text = question.text,
+                        text = stringResource(question.textRes),
                         style = AnchorType.headline,
                         color = AnchorTheme.colors.label,
                     )
@@ -451,7 +458,11 @@ fun CsbdResultScreen(state: CsbdResultUiState, modifier: Modifier = Modifier) {
                 )
                 if (result != null) {
                     Text(
-                        text = stringResource(R.string.csbd_level_summary, result.level.label, result.level.rangeText),
+                        text = stringResource(
+                            R.string.csbd_level_summary,
+                            stringResource(csbdLevelLabelRes(result.level)),
+                            stringResource(csbdLevelRangeRes(result.level)),
+                        ),
                         style = AnchorType.headline,
                         color = if (result.level == CsbdLevel.LOW) {
                             AnchorTheme.colors.success
@@ -460,7 +471,7 @@ fun CsbdResultScreen(state: CsbdResultUiState, modifier: Modifier = Modifier) {
                         },
                     )
                     Text(
-                        text = result.level.advice,
+                        text = stringResource(csbdLevelAdviceRes(result.level)),
                         style = AnchorType.body,
                         color = if (result.level == CsbdLevel.HIGH || result.level == CsbdLevel.URGENT) {
                             AnchorTheme.colors.danger
@@ -496,7 +507,7 @@ fun CsbdResultScreen(state: CsbdResultUiState, modifier: Modifier = Modifier) {
                                 horizontalArrangement = Arrangement.SpaceBetween,
                             ) {
                                 Text(
-                                    text = dimension.label,
+                                    text = stringResource(csbdDimensionRes(dimension)),
                                     style = AnchorType.body,
                                     color = AnchorTheme.colors.label,
                                 )
@@ -517,7 +528,7 @@ fun CsbdResultScreen(state: CsbdResultUiState, modifier: Modifier = Modifier) {
                     Text(
                         text = stringResource(
                             R.string.csbd_top_dimension,
-                            result.topDimension.label,
+                            stringResource(csbdDimensionRes(result.topDimension)),
                             result.topDimensionScore,
                         ),
                         style = AnchorType.footnote,
@@ -550,7 +561,13 @@ fun CsbdResultScreen(state: CsbdResultUiState, modifier: Modifier = Modifier) {
 
         if (result != null) {
             Text(
-                text = result.thresholdNote,
+                text = stringResource(
+                    R.string.csbd_threshold_note,
+                    stringResource(csbdLevelRangeRes(CsbdLevel.LOW)),
+                    stringResource(csbdLevelRangeRes(CsbdLevel.WATCH)),
+                    stringResource(csbdLevelRangeRes(CsbdLevel.HIGH)),
+                    stringResource(csbdLevelRangeRes(CsbdLevel.URGENT)),
+                ),
                 style = AnchorType.footnote,
                 color = AnchorTheme.colors.labelSecondary,
                 modifier = Modifier
@@ -606,7 +623,7 @@ fun MoralResultScreen(state: MoralResultUiState, modifier: Modifier = Modifier) 
                 )
                 if (result != null) {
                     Text(
-                        text = result.quadrant.label,
+                        text = stringResource(moralQuadrantLabelRes(result.quadrant)),
                         style = AnchorType.headline,
                         color = when {
                             result.behaviorHigh && result.moralHigh -> AnchorTheme.colors.danger
@@ -615,7 +632,7 @@ fun MoralResultScreen(state: MoralResultUiState, modifier: Modifier = Modifier) 
                         },
                     )
                     Text(
-                        text = result.quadrant.interpretation,
+                        text = stringResource(moralQuadrantInterpretationRes(result.quadrant)),
                         style = AnchorType.body,
                         color = AnchorTheme.colors.label,
                     )
@@ -651,7 +668,7 @@ fun MoralResultScreen(state: MoralResultUiState, modifier: Modifier = Modifier) 
                                 horizontalArrangement = Arrangement.SpaceBetween,
                             ) {
                                 Text(
-                                    text = kind.label,
+                                    text = stringResource(moralItemKindRes(kind)),
                                     style = AnchorType.body,
                                     color = AnchorTheme.colors.label,
                                 )
@@ -706,7 +723,11 @@ fun MoralResultScreen(state: MoralResultUiState, modifier: Modifier = Modifier) 
 
         if (result != null) {
             Text(
-                text = result.thresholdNote,
+                text = stringResource(
+                    R.string.moral_threshold_note,
+                    MoralIncongruenceScale.maxScorePerKind,
+                    MoralIncongruenceScale.HIGH_THRESHOLD,
+                ),
                 style = AnchorType.footnote,
                 color = AnchorTheme.colors.labelSecondary,
                 modifier = Modifier
@@ -777,7 +798,7 @@ fun CsbdIntroScreen(onStart: () -> Unit, modifier: Modifier = Modifier) {
     AssessmentIntroScreen(
         title = stringResource(R.string.csbd_title),
         subtitle = stringResource(R.string.csbd_intro_subtitle),
-        disclaimer = CsbdQuestionnaire.DISCLAIMER,
+        disclaimer = stringResource(R.string.csbd_disclaimer),
         points = listOf(
             stringResource(R.string.csbd_intro_point_1),
             stringResource(R.string.csbd_intro_point_2),
@@ -794,7 +815,7 @@ fun MoralIntroScreen(onStart: () -> Unit, modifier: Modifier = Modifier) {
     AssessmentIntroScreen(
         title = stringResource(R.string.moral_title),
         subtitle = stringResource(R.string.moral_intro_subtitle),
-        disclaimer = MoralIncongruenceScale.DISCLAIMER,
+        disclaimer = stringResource(R.string.moral_disclaimer),
         points = listOf(
             stringResource(R.string.moral_intro_point_1),
             stringResource(

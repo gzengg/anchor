@@ -33,6 +33,12 @@ data class AnchorSettingsSnapshot(
 
         /**
          * 默认提示语。刻意写成中性、无功效宣称的句式，只描述"此刻的选择"。
+         *
+         * 保留字面量不走资源：这是**默认数据**而非界面文案——它会写进 DataStore、
+         * 并入导出 JSON（DataExporter）随用户数据流转，取值要跨设备/跨版本稳定；
+         * 走资源会让「同一份导出里的提示语」随界面语言漂移，且要把 Context 拖进
+         * 只做数据的 `AnchorSettingsSnapshot`。用户在设置页自写的提示语已经是数据，
+         * 这两者必须同一种处理方式。
          */
         val DEFAULT_PROMPTS: List<String> = listOf(
             "先不做决定，十分钟之后再看这件事。",

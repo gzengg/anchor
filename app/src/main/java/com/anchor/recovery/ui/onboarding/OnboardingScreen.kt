@@ -27,7 +27,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
 import com.anchor.recovery.R
-import com.anchor.recovery.core.AnchorCore
 import com.anchor.recovery.core.legal.Disclaimer
 import com.anchor.recovery.ui.components.AnchorButton
 import com.anchor.recovery.ui.components.AnchorHairline
@@ -37,6 +36,7 @@ import com.anchor.recovery.ui.components.AnchorSectionHeader
 import com.anchor.recovery.ui.components.PublishAnchorNavBar
 import com.anchor.recovery.ui.theme.AnchorTheme
 import com.anchor.recovery.ui.theme.AnchorType
+import com.anchor.recovery.ui.text.disclaimerParagraphRes
 
 /**
  * 首启门禁页（提示词 §5.1）。
@@ -68,7 +68,7 @@ fun OnboardingScreen(
             .padding(bottom = 24.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp),
     ) {
-        AnchorLargeTitle(AnchorCore.APP_DISPLAY_NAME)
+        AnchorLargeTitle(stringResource(R.string.app_name))
         Text(
             text = stringResource(R.string.onboarding_offline_notice),
             style = AnchorType.footnote,
@@ -87,7 +87,7 @@ fun OnboardingScreen(
             PurposeRow(stringResource(R.string.onboarding_purpose_articles))
         }
 
-        AnchorSectionHeader(Disclaimer.TITLE)
+        AnchorSectionHeader(stringResource(R.string.legal_disclaimer_title))
         AnchorListGroup {
             Column(
                 modifier = Modifier
@@ -97,7 +97,7 @@ fun OnboardingScreen(
             ) {
                 Disclaimer.paragraphs.forEach { paragraph ->
                     Text(
-                        text = "· $paragraph",
+                        text = "· ${stringResource(disclaimerParagraphRes(paragraph))}",
                         style = AnchorType.body,
                         color = AnchorTheme.colors.label,
                     )
@@ -109,7 +109,7 @@ fun OnboardingScreen(
             CheckRow(
                 checked = acknowledged,
                 onCheckedChange = { acknowledged = it },
-                text = Disclaimer.ACK_LABEL,
+                text = stringResource(R.string.legal_disclaimer_ack_label),
             )
         }
 

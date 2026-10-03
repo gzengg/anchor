@@ -78,12 +78,12 @@ class WithdrawalPhaseResolverTest {
         val openEndedFirst = listOf(
             WithdrawalPhase(
                 id = "ONLY",
-                name = "全部",
+                nameKey = PhaseTextKey.REPAIR_NAME,
                 minDay = 0,
                 maxDay = null,
-                headline = "h",
-                expectation = listOf(PhaseNote("t", listOf("cases-001"))),
-                coping = listOf(PhaseNote("c", listOf("cases-001"))),
+                headlineKey = PhaseTextKey.REPAIR_HEADLINE,
+                expectation = listOf(PhaseNote(PhaseTextKey.REPAIR_COPING_1, listOf("cases-001"))),
+                coping = listOf(PhaseNote(PhaseTextKey.REPAIR_COPING_2, listOf("cases-001"))),
             ),
         )
 
@@ -92,8 +92,24 @@ class WithdrawalPhaseResolverTest {
 
         // 但后面还有阶段时，前一个阶段不能没有上界
         val overlapping = listOf(
-            WithdrawalPhase("A", "a", 0, null, "h", listOf(PhaseNote("t", listOf("cases-001"))), emptyList()),
-            WithdrawalPhase("B", "b", 10, null, "h", listOf(PhaseNote("t", listOf("cases-001"))), emptyList()),
+            WithdrawalPhase(
+                "A",
+                PhaseTextKey.REPAIR_NAME,
+                0,
+                null,
+                PhaseTextKey.REPAIR_HEADLINE,
+                listOf(PhaseNote(PhaseTextKey.REPAIR_COPING_1, listOf("cases-001"))),
+                emptyList(),
+            ),
+            WithdrawalPhase(
+                "B",
+                PhaseTextKey.CONSOLIDATION_NAME,
+                10,
+                null,
+                PhaseTextKey.CONSOLIDATION_HEADLINE,
+                listOf(PhaseNote(PhaseTextKey.CONSOLIDATION_COPING_1, listOf("cases-001"))),
+                emptyList(),
+            ),
         )
         assertFailsWith<IllegalArgumentException> { WithdrawalPhaseResolver(overlapping) }
     }
@@ -101,7 +117,15 @@ class WithdrawalPhaseResolverTest {
     @Test
     fun `首个阶段必须从第0天开始`() {
         val shifted = listOf(
-            WithdrawalPhase("A", "a", 1, null, "h", emptyList(), emptyList()),
+            WithdrawalPhase(
+                "A",
+                PhaseTextKey.REPAIR_NAME,
+                1,
+                null,
+                PhaseTextKey.REPAIR_HEADLINE,
+                emptyList(),
+                emptyList(),
+            ),
         )
 
         assertFailsWith<IllegalArgumentException> { WithdrawalPhaseResolver(shifted) }
@@ -113,10 +137,11 @@ class WithdrawalPhaseResolverTest {
         resolver.phases.forEach { phase ->
             assertTrue(phase.expectation.isNotEmpty(), "${phase.id} 缺预期反应")
             assertTrue(phase.coping.isNotEmpty(), "${phase.id} 缺应对建议")
-            assertTrue(phase.headline.isNotBlank(), "${phase.id} 缺阶段标题")
             (phase.expectation + phase.coping).forEach { note ->
-                assertTrue(note.text.isNotBlank(), "${phase.id} 出现空文案")
-                assertTrue(note.sourceArticleIds.isNotEmpty(), "${phase.id} 的文案没标来源：${note.text}")
+                assertTrue(
+                    note.sourceArticleIds.isNotEmpty(),
+                    "${phase.id} 的文案没标来源：${note.textKey}",
+                )
                 note.sourceArticleIds.forEach { id ->
                     assertTrue(
                         Regex("^(cases|methods)-\\d{3}$").matches(id),
@@ -125,6 +150,16 @@ class WithdrawalPhaseResolverTest {
                 }
             }
         }
+    }
+
+    @Test
+    fun `阶段文案 key 在目录里不重复`() {
+        val keys = resolver.phases.flatMap { phase ->
+            listOfNotNull(phase.nameKey, phase.headlineKey, phase.cautionKey) +
+                (phase.expectation + phase.coping).map { it.textKey }
+        }
+
+        assertEquals(keys.size, keys.distinct().size, "阶段文案 key 有重复：$keys")
     }
 
     @Test
@@ -138,23 +173,10 @@ class WithdrawalPhaseResolverTest {
     }
 
     @Test
-    fun `阶段文案不含疗效宣称且高风险阶段带求助提示`() {
-        val forbidden = listOf("治愈", "疗效", "提升睾酮", "治疗成瘾", "根治")
-        val allText = resolver.phases.flatMap { phase ->
-            listOf(phase.headline, phase.caution.orEmpty()) +
-                (phase.expectation + phase.coping).map { it.text }
-        }
-
-        allText.forEach { text ->
-            forbidden.forEach { word ->
-                assertTrue(!text.contains(word), "阶段文案出现禁用宣称「$word」：$text")
-            }
-        }
-
-        val acute = resolver.resolve(0)
-        assertNotNull(acute.caution)
-        assertTrue(acute.caution.contains("专业医生"), "急性期提示应给出求助指引")
-        // 「不能替代诊疗」统一由卡片底部的 HELP_SEEKING_NOTICE 显示，不在每条 caution 里重复。
-        assertTrue(WithdrawalPhaseCatalog.HELP_SEEKING_NOTICE.contains("不能替代诊疗"))
+    fun `高风险阶段带求助提示`() {
+        assertNotNull(resolver.resolve(0).cautionKey, "急性期应带求助提示")
+        assertNotNull(resolver.resolve(60).cautionKey, "重连期应带求助提示")
+        // 「不含疗效宣称」「求助提示写到了什么」都是对资源文案的断言：文案外移后由
+        // :app 的 PhaseTextTest 覆盖（本测试只保证关键阶段确实带上了 caution key）。
     }
 }

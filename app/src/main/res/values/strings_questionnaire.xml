@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--
+      问卷题干与计分文案（原本硬编码在 :core 的 CsbdQuestionnaire / MoralIncongruenceScale /
+      CsbdScorer / MoralIncongruenceScorer）。:core 只保留题号、维度归属与阈值口径，
+      文案集中在这里，由 QuestionnaireTextTest 覆盖映射完整性与合规守卫。
+    -->
+
+    <!-- F7 五个维度 -->
+    <string name="csbd_dimension_control">控制失控</string>
+    <string name="csbd_dimension_coping">情绪应对</string>
+    <string name="csbd_dimension_compulsive">强迫性</string>
+    <string name="csbd_dimension_consequence">负面后果</string>
+    <string name="csbd_dimension_attempts">尝试失败</string>
+
+    <!-- F8 两个维度 -->
+    <string name="moral_kind_behavior">行为影响</string>
+    <string name="moral_kind_moral">价值观冲突</string>
+
+    <!-- 作答时间窗 -->
+    <string name="csbd_time_window">过去 6 个月</string>
+    <string name="moral_time_window">过去 1 个月</string>
+
+    <!-- 卷首说明（随题项一起展示） -->
+    <string name="csbd_disclaimer">本问卷为自评参考工具，非临床诊断；题项参照 CSBD 相关维度自行撰写，不是 CSBD-19 原版，未经验证。如结果让你担心，建议咨询专业人士或考虑就诊。</string>
+    <string name="moral_disclaimer">本问卷为自评参考工具，非临床诊断；题项参照道德不一致研究方向自行撰写，未经验证。它不判断你是否成瘾，只帮助你看清“行为影响”与“价值观冲突”各自的分量。</string>
+
+    <!-- F7 题项：id 1..19，与 CsbdQuestionnaire.questions 一一对应 -->
+    <string name="csbd_q_1">我常把大量时间花在与性 / 色情内容相关的想法或行为上，超出原本的打算。</string>
+    <string name="csbd_q_2">我很难控制自己开始或停下这类行为。</string>
+    <string name="csbd_q_3">明知当时有更要紧的事，我仍会先去做这件事。</string>
+    <string name="csbd_q_4">我常在事后才发现，自己又在这件事上花了好几个小时。</string>
+    <string name="csbd_q_5">心情低落、焦虑或孤独时，我会靠这类内容让自己好受一点。</string>
+    <string name="csbd_q_6">遇到压力大的事情，我会用这类内容逃避一会儿。</string>
+    <string name="csbd_q_7">无聊或无事可做时，我最容易去做这件事。</string>
+    <string name="csbd_q_8">做完之后情绪并没有真的变好，反而更沉。</string>
+    <string name="csbd_q_9">相关念头会反复出现在脑海里，很难让它停下来。</string>
+    <string name="csbd_q_10">我减少或停止过这类行为，但过一段时间又会重新开始。</string>
+    <string name="csbd_q_11">越是想控制，这类念头反而越强烈。</string>
+    <string name="csbd_q_12">在不太合适的场合（如工作、学习时），我也会想着这件事。</string>
+    <string name="csbd_q_13">这件事已经影响到我的睡眠、精力或日常作息。</string>
+    <string name="csbd_q_14">我因此耽误过工作、学习或本该完成的事。</string>
+    <string name="csbd_q_15">我因此疏远或伤害了身边的人（伴侣、家人、朋友）。</string>
+    <string name="csbd_q_16">我在这件事上花的时间，已经影响了我本来重视的目标。</string>
+    <string name="csbd_q_17">我尝试过减少或停止，但没有成功。</string>
+    <string name="csbd_q_18">我曾因为这件事对自己感到失望或厌恶。</string>
+    <string name="csbd_q_19">我需要更强或更多的刺激，才能获得和以前一样的感觉。</string>
+
+    <!-- F8 题项：id 1..12，与 MoralIncongruenceScale.questions 一一对应 -->
+    <string name="moral_q_1">最近一个月，我在这件事上花的时间比我期望的多。</string>
+    <string name="moral_q_2">这件事的频率已经影响到我的日常安排。</string>
+    <string name="moral_q_3">我在并不想做的时候仍然去做了。</string>
+    <string name="moral_q_4">我因为这件事推迟了原本要完成的事情。</string>
+    <string name="moral_q_5">我很难在一段时间内完全不接触这类内容。</string>
+    <string name="moral_q_6">这件事在我生活里的比重，比我愿意承认的更大。</string>
+    <string name="moral_q_7">做完之后，我会觉得自己违背了重要的价值观。</string>
+    <string name="moral_q_8">我觉得这件事与我的信仰或原则不相容。</string>
+    <string name="moral_q_9">我担心如果别人知道，会对我改变看法。</string>
+    <string name="moral_q_10">我会因为这件事而觉得自己不是一个好人。</string>
+    <string name="moral_q_11">我曾向伴侣或家人隐瞒这件事的程度或频率。</string>
+    <string name="moral_q_12">我在这件事上的行为，与我想成为的人并不一致。</string>
+
+    <!-- F7 分级文案：等级名 / 分区间 / 建议（自研参考阈值，未经临床验证） -->
+    <string name="csbd_level_low_label">低风险</string>
+    <string name="csbd_level_low_range">&lt; 20</string>
+    <string name="csbd_level_low_advice">当前自评分数较低。继续如实记录、保持已有的作息与支持关系即可。</string>
+    <string name="csbd_level_watch_label">需关注</string>
+    <string name="csbd_level_watch_range">20 – 39</string>
+    <string name="csbd_level_watch_advice">有些方面已经在消耗你的时间和情绪。可以先用 App 里的渴求工具与打卡记录观察规律，如果持续困扰，建议咨询专业人士。</string>
+    <string name="csbd_level_high_label">高风险</string>
+    <string name="csbd_level_high_range">40 – 55</string>
+    <string name="csbd_level_high_advice">自评分数偏高，说明这件事可能已经带来明显影响。建议咨询心理咨询师或精神科医生，把你的记录一并带去讨论。</string>
+    <string name="csbd_level_urgent_label">强烈建议就医</string>
+    <string name="csbd_level_urgent_range">≥ 56</string>
+    <string name="csbd_level_urgent_advice">自评分数很高。请考虑尽快就诊（精神科 / 心理科 / 成瘾医学门诊），这不是靠意志力硬扛的问题，专业评估会更有帮助。</string>
+    <string name="csbd_threshold_note">分级阈值（%1$s / %2$s / %3$s / %4$s）为自研参考阈值，未经临床验证。</string>
+
+    <!-- F8 四象限：象限名 / 解读（刻意避免病理化：价值观冲突不等于成瘾） -->
+    <string name="moral_quadrant_high_both_label">行为影响偏高 + 价值观冲突偏高</string>
+    <string name="moral_quadrant_high_both_interpretation">两边都不轻：行为已经带来实际影响，同时伴随明显的自我冲突。这一类最值得尽早找人聊一聊（心理咨询师或精神科医生都可以）。</string>
+    <string name="moral_quadrant_high_behavior_only_label">行为影响偏高 + 价值观冲突偏低</string>
+    <string name="moral_quadrant_high_behavior_only_interpretation">困扰更集中在实际影响上：你并不为价值观层面自责，但时间和生活安排确实被占用了。可以从记录规律、设定边界开始。</string>
+    <string name="moral_quadrant_high_moral_only_label">行为影响偏低 + 价值观冲突偏高</string>
+    <string name="moral_quadrant_high_moral_only_interpretation">痛苦更多来自自我评价：行为本身的影响有限，但你对它的道德评价很重。价值观冲突不等于成瘾，也不等于你的人格有问题；这类冲突本身就可以作为议题去谈。</string>
+    <string name="moral_quadrant_low_both_label">行为影响偏低 + 价值观冲突偏低</string>
+    <string name="moral_quadrant_low_both_interpretation">两项都不高：目前记录到的行为影响与价值观冲突都不明显。如果仍有说不清的困扰，依然可以和专业人士讨论。</string>
+    <string name="moral_threshold_note">判定口径：每个维度满分 %1$d 分，≥ %2$d 分记为偏高——这是自研参考阈值，未经临床验证。</string>
+</resources>

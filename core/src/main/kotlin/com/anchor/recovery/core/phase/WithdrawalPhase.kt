@@ -1,34 +1,95 @@
 package com.anchor.recovery.core.phase
 
 /**
+ * 阶段文案的稳定 key。
+ *
+ * 用户可见文案（阶段名、标题、可能经历、可做的事、caution、天数区间与求助提示）全部外移到
+ * `:app` 的 `values/strings_phases.xml`，由 `PhaseText.phaseTextRes` 映射成资源 id；`:core`
+ * 只保留这套 key 与天数口径——它连 `android.*` 都不能依赖，也不该持有中文文案。
+ *
+ * 命名规则 `阶段_区块_序号`（序号从 1 起，与目录中的顺序一致，如 `ACUTE_EXPECTATION_2`
+ * 对应正序第二条「期待反应」）。`PhaseText.phaseTextRes` 的 `when` 不写 `else`：这里新增
+ * key 时 `:app` 编译期就会失败，避免出现「有状态没文案」。
+ */
+enum class PhaseTextKey {
+    ACUTE_NAME,
+    ACUTE_HEADLINE,
+    ACUTE_EXPECTATION_1,
+    ACUTE_EXPECTATION_2,
+    ACUTE_EXPECTATION_3,
+    ACUTE_COPING_1,
+    ACUTE_COPING_2,
+    ACUTE_COPING_3,
+    ACUTE_COPING_4,
+    ACUTE_CAUTION,
+
+    FLUCTUATION_NAME,
+    FLUCTUATION_HEADLINE,
+    FLUCTUATION_EXPECTATION_1,
+    FLUCTUATION_EXPECTATION_2,
+    FLUCTUATION_EXPECTATION_3,
+    FLUCTUATION_COPING_1,
+    FLUCTUATION_COPING_2,
+    FLUCTUATION_COPING_3,
+    FLUCTUATION_COPING_4,
+
+    REPAIR_NAME,
+    REPAIR_HEADLINE,
+    REPAIR_EXPECTATION_1,
+    REPAIR_EXPECTATION_2,
+    REPAIR_EXPECTATION_3,
+    REPAIR_COPING_1,
+    REPAIR_COPING_2,
+    REPAIR_COPING_3,
+
+    RECONNECT_NAME,
+    RECONNECT_HEADLINE,
+    RECONNECT_EXPECTATION_1,
+    RECONNECT_EXPECTATION_2,
+    RECONNECT_COPING_1,
+    RECONNECT_COPING_2,
+    RECONNECT_COPING_3,
+    RECONNECT_CAUTION,
+
+    CONSOLIDATION_NAME,
+    CONSOLIDATION_HEADLINE,
+    CONSOLIDATION_EXPECTATION_1,
+    CONSOLIDATION_EXPECTATION_2,
+    CONSOLIDATION_COPING_1,
+    CONSOLIDATION_COPING_2,
+    CONSOLIDATION_COPING_3,
+}
+
+/**
  * 一条带出处的阶段文案。
  *
  * [sourceArticleIds] 指向 `assets/content/articles.json` 里的文章 id，
  * 由 `WithdrawalPhaseResolverTest` / `WithdrawalPhaseContentTest` 校验必须真实存在。
+ * [textKey] 指向 `:app` 的文案资源。
  */
 data class PhaseNote(
-    val text: String,
+    val textKey: PhaseTextKey,
     val sourceArticleIds: List<String>,
 )
 
 /**
  * 戒断阶段（F2）。天数边界为闭区间；[maxDay] 为 null 表示没有上限（最后一个阶段）。
+ *
+ * 阶段名 / 标题 / caution 是用户可见文案，均已外移；这里只留 key 与天数。
+ * 天数区间文案（"第 3–7 天"）也由 `:app` 按 [minDay] / [maxDay] 渲染，`core` 不做字符串拼接。
  */
 data class WithdrawalPhase(
     val id: String,
-    val name: String,
+    val nameKey: PhaseTextKey,
     val minDay: Int,
     val maxDay: Int?,
-    val headline: String,
+    val headlineKey: PhaseTextKey,
     val expectation: List<PhaseNote>,
     val coping: List<PhaseNote>,
-    val caution: String? = null,
+    val cautionKey: PhaseTextKey? = null,
 ) {
     fun contains(dayNumber: Int): Boolean =
         dayNumber >= minDay && (maxDay == null || dayNumber <= maxDay)
-
-    val dayLabel: String
-        get() = if (maxDay == null) "第 $minDay 天起" else "第 $minDay–$maxDay 天"
 
     /** 阶段内全部引用到的文章 id（去重，保持出现顺序）。 */
     val sourceArticleIds: List<String>
@@ -40,190 +101,189 @@ data class WithdrawalPhase(
 }
 
 /**
- * 五个阶段的文案目录。
+ * 五个阶段的目录（结构与天数口径见 `WithdrawalPhaseResolver`）。
  *
  * 时间线（症状与主观经验）提炼自 `anchor-reference-docs/05-cases/`（社区自我报告与定性研究），
  * 应对技术另引 `04-methods/` 里的干预研究。社区来源（cases-006/007/008：YBOP、NoFap）
  * 自我报告性质、无对照验证，故文案中一律标明"自我报告/社区经验"，不做医学结论。
+ * 文案本体在 `:app` 的 `values/strings_phases.xml`，合规断言在 `PhaseTextTest`。
  */
 object WithdrawalPhaseCatalog {
-
-    const val HELP_SEEKING_NOTICE = "本 App 只提供自助记录与科普，不能替代诊疗。若痛苦持续加重，请咨询专业医生。"
 
     val phases: List<WithdrawalPhase> = listOf(
         WithdrawalPhase(
             id = "ACUTE",
-            name = "急性期",
+            nameKey = PhaseTextKey.ACUTE_NAME,
             minDay = 0,
             maxDay = 7,
-            headline = "最强烈的反应通常出现在开头几天：这不是“意志力不够”，而是身体与注意力系统正在重新适应。",
+            headlineKey = PhaseTextKey.ACUTE_HEADLINE,
             expectation = listOf(
                 PhaseNote(
-                    text = "常见的自我报告：入睡困难、焦虑烦躁、注意力涣散（脑雾）、情绪波动、头痛或肌肉紧绷。",
+                    textKey = PhaseTextKey.ACUTE_EXPECTATION_1,
                     sourceArticleIds = listOf("cases-006"),
                 ),
                 PhaseNote(
-                    text = "前 5 天性欲可能不降反升，随后常突然转为性欲低下的“平坦期”；这种起伏本身是过程的一部分。",
+                    textKey = PhaseTextKey.ACUTE_EXPECTATION_2,
                     sourceArticleIds = listOf("cases-007"),
                 ),
                 PhaseNote(
-                    text = "突然浮现的画面（闪回）与性梦在这一阶段很常见，出现闪回并不代表失败。",
+                    textKey = PhaseTextKey.ACUTE_EXPECTATION_3,
                     sourceArticleIds = listOf("cases-006", "cases-007"),
                 ),
             ),
             coping = listOf(
                 PhaseNote(
-                    text = "把戒断反应预期成过程的一部分：事先知道它会来，能明显降低“我是不是坏了”的二次恐慌。",
+                    textKey = PhaseTextKey.ACUTE_COPING_1,
                     sourceArticleIds = listOf("cases-006"),
                 ),
                 PhaseNote(
-                    text = "社区经验反复提到酒精与“先看一眼、再越陷越深”的路径是复发高危因素，提前避开。",
+                    textKey = PhaseTextKey.ACUTE_COPING_2,
                     sourceArticleIds = listOf("cases-006"),
                 ),
                 PhaseNote(
-                    text = "为深夜与独处时段准备一个替代活动（个案用的是出门开车、散步这类需要轻度专注的事）。",
+                    textKey = PhaseTextKey.ACUTE_COPING_3,
                     sourceArticleIds = listOf("cases-007"),
                 ),
                 PhaseNote(
-                    text = "渴求来时先“观察而不行动”，让冲动像浪一样自己过去，而不是立刻对抗或顺从。",
+                    textKey = PhaseTextKey.ACUTE_COPING_4,
                     sourceArticleIds = listOf("methods-006"),
                 ),
             ),
-            caution = "若出现持续失眠、明显抑郁或伤害自己的念头，请尽快联系专业医生或当地心理援助热线。",
+            cautionKey = PhaseTextKey.ACUTE_CAUTION,
         ),
         WithdrawalPhase(
             id = "FLUCTUATION",
-            name = "波动期",
+            nameKey = PhaseTextKey.FLUCTUATION_NAME,
             minDay = 8,
             maxDay = 29,
-            headline = "第 2–4 周常被社区描述为“最艰难”的一段：好转不是直线，症状会反复。",
+            headlineKey = PhaseTextKey.FLUCTUATION_HEADLINE,
             expectation = listOf(
                 PhaseNote(
-                    text = "多人报告戒断最强烈期集中在第 1–3 周，症状断断续续可持续数月（社区将其类比为急性期后戒断综合征 PAWS）。",
+                    textKey = PhaseTextKey.FLUCTUATION_EXPECTATION_1,
                     sourceArticleIds = listOf("cases-006"),
                 ),
                 PhaseNote(
-                    text = "平坦期：性欲与情绪都低而空，甚至对原本感兴趣的人和事也提不起劲，自述“不是抑郁，因为对未来还是乐观的”。",
+                    textKey = PhaseTextKey.FLUCTUATION_EXPECTATION_2,
                     sourceArticleIds = listOf("cases-007"),
                 ),
                 PhaseNote(
-                    text = "最容易出现的念头是“进展太慢、到底有没有用”，这种不耐烦本身就是这一阶段的典型反应。",
+                    textKey = PhaseTextKey.FLUCTUATION_EXPECTATION_3,
                     sourceArticleIds = listOf("cases-007"),
                 ),
             ),
             coping = listOf(
                 PhaseNote(
-                    text = "把长期目标切成小目标（例如先稳稳走到 30 天），用可达成的小节点替代“一口气戒到底”。",
+                    textKey = PhaseTextKey.FLUCTUATION_COPING_1,
                     sourceArticleIds = listOf("cases-008"),
                 ),
                 PhaseNote(
-                    text = "用累计使用时长/次数去理解恢复所需时间：个案靠算清“7000 次”来接受恢复本来就要几个月。",
+                    textKey = PhaseTextKey.FLUCTUATION_COPING_2,
                     sourceArticleIds = listOf("cases-007"),
                 ),
                 PhaseNote(
-                    text = "列清自己的高危情境（时间、地点、情绪、设备）并事先写好对策，避免临场硬扛。",
+                    textKey = PhaseTextKey.FLUCTUATION_COPING_3,
                     sourceArticleIds = listOf("methods-012"),
                 ),
                 PhaseNote(
-                    text = "正念练习（观察渴求、不评判、不立刻行动）有随机对照试验支持用于降低渴求与复发。",
+                    textKey = PhaseTextKey.FLUCTUATION_COPING_4,
                     sourceArticleIds = listOf("methods-004"),
                 ),
             ),
         ),
         WithdrawalPhase(
             id = "REPAIR",
-            name = "修复期",
+            nameKey = PhaseTextKey.REPAIR_NAME,
             minDay = 30,
             maxDay = 59,
-            headline = "强度通常在下降，但波动仍在：这一阶段的关键是别把“还有渴求”当成失败。",
+            headlineKey = PhaseTextKey.REPAIR_HEADLINE,
             expectation = listOf(
                 PhaseNote(
-                    text = "闪回与偶发渴求仍会出现，常由压力、孤独、酒精等触发，但强度与频率一般较前几周下降。",
+                    textKey = PhaseTextKey.REPAIR_EXPECTATION_1,
                     sourceArticleIds = listOf("cases-006"),
                 ),
                 PhaseNote(
-                    text = "开始出现主观获益的自我报告：情绪更稳、精力更集中、对自己更有掌控感；这是社区自我报告，不构成医学结论。",
+                    textKey = PhaseTextKey.REPAIR_EXPECTATION_2,
                     sourceArticleIds = listOf("cases-001"),
                 ),
                 PhaseNote(
-                    text = "典型体验是“大体平稳，但能感觉到有变化正在发生”。",
+                    textKey = PhaseTextKey.REPAIR_EXPECTATION_3,
                     sourceArticleIds = listOf("cases-006"),
                 ),
             ),
             coping = listOf(
                 PhaseNote(
-                    text = "把每次成功抵抗闪回算作一次训练：抵抗闪回不是副作用，而是康复过程本身。",
+                    textKey = PhaseTextKey.REPAIR_COPING_1,
                     sourceArticleIds = listOf("cases-007"),
                 ),
                 PhaseNote(
-                    text = "继续写记录并回看：对戒色日志的定性分析显示，书写与同伴反馈是受访者最主要的应对资源。",
+                    textKey = PhaseTextKey.REPAIR_COPING_2,
                     sourceArticleIds = listOf("cases-001"),
                 ),
                 PhaseNote(
-                    text = "环境控制 + 问责伙伴：把高风险设备、时段、应用设为默认阻断，并留一个可以如实汇报的人。",
+                    textKey = PhaseTextKey.REPAIR_COPING_3,
                     sourceArticleIds = listOf("methods-012"),
                 ),
             ),
         ),
         WithdrawalPhase(
             id = "RECONNECT",
-            name = "重连期",
+            nameKey = PhaseTextKey.RECONNECT_NAME,
             minDay = 60,
             maxDay = 89,
-            headline = "多数人此时已趋平稳，但要留意个案记录到的“第二波”不适。",
+            headlineKey = PhaseTextKey.RECONNECT_HEADLINE,
             expectation = listOf(
                 PhaseNote(
-                    text = "个案逐周记录显示第 61–76 天可能出现第二波较强不适（抑郁、焦虑、极度孤独、失眠、无性欲），第 80 天后基本平稳。",
+                    textKey = PhaseTextKey.RECONNECT_EXPECTATION_1,
                     sourceArticleIds = listOf("cases-006"),
                 ),
                 PhaseNote(
-                    text = "社区把 90 天当作重启参照线（约 ±30 天），个体差异很大，不要把它当成硬性截止日。",
+                    textKey = PhaseTextKey.RECONNECT_EXPECTATION_2,
                     sourceArticleIds = listOf("cases-008", "cases-007"),
                 ),
             ),
             coping = listOf(
                 PhaseNote(
-                    text = "第二波来了先回看自己已经完成的记录：走过 60 天本身就是能力证据，别用“又回到原点”评价自己。",
+                    textKey = PhaseTextKey.RECONNECT_COPING_1,
                     sourceArticleIds = listOf("cases-006"),
                 ),
                 PhaseNote(
-                    text = "把目标从“攒天数”换成“成为什么样的人”：多数受访者更在意身份与生活节奏的改变。",
+                    textKey = PhaseTextKey.RECONNECT_COPING_2,
                     sourceArticleIds = listOf("cases-001", "cases-004"),
                 ),
                 PhaseNote(
-                    text = "若痛苦主要来自“我不该是这样的人”的价值观冲突，重点要处理的是自我评价，而不是把它全部归因于成瘾。",
+                    textKey = PhaseTextKey.RECONNECT_COPING_3,
                     sourceArticleIds = listOf("cases-004", "cases-012"),
                 ),
             ),
-            caution = "第二波的强度与时长个体差异极大；若持续两周以上并影响工作生活，建议寻求专业帮助。",
+            cautionKey = PhaseTextKey.RECONNECT_CAUTION,
         ),
         WithdrawalPhase(
             id = "CONSOLIDATION",
-            name = "巩固期",
+            nameKey = PhaseTextKey.CONSOLIDATION_NAME,
             minDay = 90,
             maxDay = null,
-            headline = "90 天不是终点线，而是把新习惯固定下来的起点。",
+            headlineKey = PhaseTextKey.CONSOLIDATION_HEADLINE,
             expectation = listOf(
                 PhaseNote(
-                    text = "90 天来自 NoFap 社区的“90 天重启挑战”，属于社区方案而非临床标准，采信时应保守。",
+                    textKey = PhaseTextKey.CONSOLIDATION_EXPECTATION_1,
                     sourceArticleIds = listOf("methods-011", "cases-008"),
                 ),
                 PhaseNote(
-                    text = "即使长期稳定，强压力事件仍可能唤起旧反应；偶发失误不等于前功尽弃。",
+                    textKey = PhaseTextKey.CONSOLIDATION_EXPECTATION_2,
                     sourceArticleIds = listOf("cases-006"),
                 ),
             ),
             coping = listOf(
                 PhaseNote(
-                    text = "把替代性奖励写进日常结构（规律作息、运动、社交），而不是只靠“不再做某件事”。",
+                    textKey = PhaseTextKey.CONSOLIDATION_COPING_1,
                     sourceArticleIds = listOf("methods-012", "cases-001"),
                 ),
                 PhaseNote(
-                    text = "用长期视角看波动：叙事分析提示，“戒断—复发”的二元框架本身会放大痛苦，允许起伏比追求零失误更可持续。",
+                    textKey = PhaseTextKey.CONSOLIDATION_COPING_2,
                     sourceArticleIds = listOf("cases-002", "cases-008"),
                 ),
                 PhaseNote(
-                    text = "把同伴支持与如实汇报保持下去，别在“已经好了”的时候把它撤掉。",
+                    textKey = PhaseTextKey.CONSOLIDATION_COPING_3,
                     sourceArticleIds = listOf("cases-001"),
                 ),
             ),

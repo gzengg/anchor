@@ -21,15 +21,15 @@ class ContentRepositoryTest {
 
     @Test
     fun `assets 里的真实内容可以被解析`() {
-        assertNull(snapshot.error)
-        val library = assertNotNull(snapshot.library, "知识库未加载：${snapshot.error}")
+        assertNull(snapshot.errorRes)
+        val library = assertNotNull(snapshot.library, "知识库未加载：${snapshot.errorArgs}")
         assertEquals(71, library.articles.size)
         assertEquals(6, library.index.categories.size)
     }
 
     @Test
     fun `分类筛选与检索在真实内容上可用`() {
-        val library = assertNotNull(snapshot.library, "知识库未加载：${snapshot.error}")
+        val library = assertNotNull(snapshot.library, "知识库未加载：${snapshot.errorArgs}")
 
         library.index.categories.forEach { category ->
             assertEquals(
@@ -46,7 +46,7 @@ class ContentRepositoryTest {
 
     @Test
     fun `阶段文案的来源 id 都能在知识库里找到`() {
-        val library = assertNotNull(snapshot.library, "知识库未加载：${snapshot.error}")
+        val library = assertNotNull(snapshot.library, "知识库未加载：${snapshot.errorArgs}")
         val missing = WithdrawalPhaseCatalog.phases
             .flatMap { phase -> phase.sourceArticleIds.map { phase.id to it } }
             .filter { (_, id) -> library.article(id) == null }
@@ -58,8 +58,8 @@ class ContentRepositoryTest {
     fun `内容格式错误时降级为错误快照而不是抛异常`() {
         val broken = ContentRepository.fromStrings("{ not json", indexJson)
         assertNull(broken.library)
-        assertNotNull(broken.error)
-        assertTrue(broken.error!!.isNotBlank())
+        assertNotNull(broken.errorRes, "解析失败应带上可展示的错误资源")
+        assertTrue(broken.errorArgs.firstOrNull().orEmpty().isNotBlank(), "错误参数应是可展示的异常说明")
     }
 
     private fun assetFile(name: String): File {

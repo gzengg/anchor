@@ -19,10 +19,9 @@ class CsbdScorerTest {
         assertEquals(5, CsbdDimension.entries.size, "维度应为 5 个")
         CsbdDimension.entries.forEach { dimension ->
             val actual = CsbdQuestionnaire.questions.count { it.dimension == dimension }
-            assertEquals(dimension.questionCount, actual, "维度 ${dimension.label} 题数不一致")
+            assertEquals(dimension.questionCount, actual, "维度 $dimension 题数不一致")
         }
         assertEquals(76, CsbdQuestionnaire.maxTotalScore)
-        assertTrue(CsbdQuestionnaire.questions.all { it.text.isNotBlank() })
         assertFalse(CsbdQuestionnaire.questions.any { it.reverseScored }, "本问卷不使用反向计分题")
     }
 
