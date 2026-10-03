@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
@@ -34,6 +35,8 @@ import com.anchor.recovery.ui.theme.AnchorTheme
  *
  * @param color 底色，默认透明（由外层卡片提供）
  * @param role 默认按按钮上报；纯展示型卡片传 `null`
+ * @param contentAlignment 内容在面内的对齐方式；需要「面填满、内容居中」时传 `Alignment.Center`。
+ *   默认 `TopStart` 保持列表行/卡片这类「内容自己撑满」的用法不变。
  */
 @Composable
 @OptIn(ExperimentalFoundationApi::class)
@@ -47,6 +50,7 @@ fun AnchorClickableSurface(
     onLongClick: (() -> Unit)? = null,
     onLongClickLabel: String? = null,
     contentPadding: PaddingValues = PaddingValues(),
+    contentAlignment: Alignment = Alignment.TopStart,
     content: @Composable BoxScope.() -> Unit,
 ) {
     val colors = AnchorTheme.colors
@@ -91,6 +95,7 @@ fun AnchorClickableSurface(
                 },
             )
             .padding(contentPadding),
+        contentAlignment = contentAlignment,
         content = content,
     )
 }

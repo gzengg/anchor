@@ -251,11 +251,14 @@ fun AnchorButton(
         shape = RoundedCornerShape(12.dp),
         color = container,
         role = Role.Button,
+        contentAlignment = Alignment.Center,
     ) {
+        // 刻意不用 `fillMaxSize()`：它会让按钮向父级声明「我需要整行宽度」，
+        // 于是同排未被加权的兄弟（或带 weight 的兄弟）会被挤成 0 宽。
+        // 内容按需量（文案 + 左右 16dp），调用方要整行时自己传 `fillMaxWidth()`，
+        // 居中的职责交给上面的 contentAlignment。
         Row(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(horizontal = 16.dp),
+            modifier = Modifier.padding(horizontal = 16.dp),
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically,
         ) {

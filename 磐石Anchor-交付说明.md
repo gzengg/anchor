@@ -162,7 +162,41 @@ E:\Anchor\app\build\outputs\apk\debug\app-debug.apk      （debug，18,988,885 �
   取消选择器时不应留下空文件。
 - 一键清空：清空后首页/日志归零，提醒时间与提示语等设置保留。
 - 免责声明版本升级：把 `Disclaimer.VERSION` 调大后，老用户重进 App 应再次看到门禁页。
-- TalkBack：表单、按钮的 `contentDescription` 是否齐全（当前只给图标补齐了描述，未做朗读实测）。
+- TalkBack：表单、按钮的 `contentDescription` 是否齐全；逐项核查见 §4.4。
+
+### 4.4 TalkBack 与语义核查（P3-2）
+
+**代码层已逐项核对（无需真机即可确认）**
+
+| 组件 | 语义 | 位置 |
+|---|---|---|
+| 主/次按钮 | `Role.Button` + 文案；内容刻意不用 `fillMaxSize`（否则会向父级声明「占满整行」，把同排兄弟挤成 0 宽） | `AnchorControls.kt` 的 `AnchorButton` |
+| 图标按钮 | `Role.Button` + **必填** `contentDescription` | `AnchorIconButton`（各页设置入口） |
+| 开关 | `toggleable(role = Role.Switch)`，读屏播报开/关 | `AnchorSwitch`（提醒、准点提醒） |
+| 分段控件 | `selectableGroup` + `selectable(role = Role.RadioButton)` | `AnchorSegmentedControl`（知识库分类、日志过滤） |
+| 底栏标签 | `selectableGroup` + `selected` 语义 + `Role.Tab`；图标 `contentDescription = null`，意义由标签文字承载（避免重复朗读） | `AnchorTabBar` |
+| 可点列表行 | `mergeDescendants = true` + `Role.Button`，标题/副标题/值合并成一句 | `AnchorList.kt` 的 `AnchorListItem` |
+| 顶栏返回 | `Role.Button` + `contentDescription = "返回"` | `AnchorNavBar` |
+| 表单输入 | Material3 `OutlinedTextField` + `label`（读屏播报标签与已输入内容） | 打卡备注、破戒表单、提示语 |
+| 纯装饰图形 | 无语义、不参与朗读（数值由相邻文字承担）：时段分布条 | `InsightCard.kt` 的 `DistributionBar` |
+
+**需真机逐项实测（本机无设备，列入待实测）**
+
+- 首页：焦点顺序应为「连续天数 → 状态卡 → 主按钮 → 工具入口 → 知识库文章」；
+  大数字卡不应只读出裸露数字而没有上下文。
+- 打卡页：备注框（含 `label`）→ 保存打卡 → 撤销今天（未打卡时「撤销今天」应播报为不可用，而不是读不到）。
+- 破戒表单：情绪/触发源/情境标签（多选）的「已选中」播报、备注框、保存按钮；
+  保存被拒时错误文案应被自动朗读。
+- 渴求冲浪 / 十分钟延时：计时数字频繁更新时不应反复抢焦点；结束时是否有可感知提示（震动 + 文案）。
+- 问卷（CSBD / 道德不一致）：第 N / 共 M 题的播报、选项（`RadioButton` 语义）的选中态、
+  「下一题」未作答时的不可用态。
+- 徽章墙：未点亮徽章的「还差 N 天」与已点亮的达成日期都应可读，不依赖颜色区分。
+- 日志 / 统计：过滤分段控件的选中态、统计卡「展开/收起」的展开态播报；
+  时段分布四列（「上午 3 次」这类文本已承担数值，柱体无读音是预期行为）。
+- 设置：提醒开关 → 时间步进（−5/+5 分钟）→ 准点提醒 → 提示语输入框 → 导出/导入/清空按钮的先后顺序；
+  弹窗（清空确认、导入确认）应自动聚焦到标题并把焦点限制在弹窗内。
+- 全局：开启 TalkBack 后用底栏切页，焦点应回到新页面顶部标题；
+  禁用按钮应播报为「不可用」，而不是完全读不到。
 
 ---
 

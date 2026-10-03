@@ -114,6 +114,9 @@ dependencies {
     testImplementation(libs.robolectric)
     testImplementation(libs.androidx.room.testing)
     testImplementation(libs.androidx.work.testing)
+    // Compose UI 测试跑在 JVM（Robolectric）里，这样没有真机也能纳入 :app 门禁；
+    // ui-test-manifest 提供宿主 ComponentActivity，只给 debug 变体（测试与调试包同源）。
+    testImplementation(libs.androidx.compose.ui.test.junit4)
 
     // 真机验证（SQLCipher 原生库与 Android Keystore 在 JVM/Robolectric 下不可用，只能跑在这里）
     androidTestImplementation(libs.junit4)
