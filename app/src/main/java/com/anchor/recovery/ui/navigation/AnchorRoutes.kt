@@ -24,7 +24,6 @@ object AnchorRoutes {
     const val MORAL_RESULT = "moral_result"
     const val ARTICLE = "article/{articleId}"
     const val SETTINGS = "settings"
-    const val ONBOARDING = "onboarding"
 
     val bottomTabs = listOf(HOME, TOOLS, LIBRARY, JOURNAL)
 
@@ -45,7 +44,6 @@ object AnchorRoutes {
         MORAL_INTRO, MORAL_QUIZ, MORAL_RESULT -> "道德冲突评估"
         ARTICLE -> "文章"
         SETTINGS -> "设置"
-        ONBOARDING -> null
         else -> null
     }
 }

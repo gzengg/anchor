@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
+import com.anchor.recovery.AppInfo
 import com.anchor.recovery.core.model.CheckInRecord
 import com.anchor.recovery.core.model.RelapseRecord
 import com.anchor.recovery.core.model.UrgeEpisodeRecord
@@ -20,6 +21,7 @@ import com.anchor.recovery.ui.assessment.CsbdQuizViewModel
 import com.anchor.recovery.ui.assessment.CsbdResultViewModel
 import com.anchor.recovery.ui.assessment.MoralQuizViewModel
 import com.anchor.recovery.ui.assessment.MoralResultViewModel
+import com.anchor.recovery.ui.settings.SettingsViewModel
 import com.anchor.recovery.ui.tools.DelayToolViewModel
 import com.anchor.recovery.ui.tools.RelapseEditViewModel
 import com.anchor.recovery.ui.tools.UrgeSurfingViewModel
@@ -220,4 +222,12 @@ fun anchorViewModelFactory(repository: AnchorRepository, settings: AnchorSetting
     initializer { CsbdResultViewModel(repository) }
     initializer { MoralQuizViewModel(repository) }
     initializer { MoralResultViewModel(repository) }
+    initializer {
+        SettingsViewModel(
+            repository = repository,
+            settings = settings,
+            appName = AppInfo.DISPLAY_NAME,
+            appVersion = AppInfo.VERSION,
+        )
+    }
 }

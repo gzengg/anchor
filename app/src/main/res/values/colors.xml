@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--
+      启动窗口底色：与 Theme.kt 的主色 AnchorBlue(0xFF2E6F73) 保持一致。
+      冷启动到 Compose 首帧之间只显示这一块颜色，不再闪白屏。
+    -->
+    <color name="anchor_splash_background">#FF2E6F73</color>
+
+    <!-- 自适应图标底色：暖白，让深色锚形保持对比度。 -->
+    <color name="ic_launcher_background">#FFF3EDE2</color>
+</resources>

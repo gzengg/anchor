@@ -1,6 +1,9 @@
 package com.anchor.recovery.ui
 
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
@@ -8,6 +11,7 @@ import androidx.compose.material.icons.automirrored.outlined.MenuBook
 import androidx.compose.material.icons.outlined.Build
 import androidx.compose.material.icons.outlined.EditNote
 import androidx.compose.material.icons.outlined.Home
+import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -20,6 +24,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -31,6 +36,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.anchor.recovery.AppInfo
+import com.anchor.recovery.core.legal.Disclaimer
 import com.anchor.recovery.data.content.ContentRepository
 import com.anchor.recovery.data.repo.AnchorRepository
 import com.anchor.recovery.data.settings.AnchorSettings
@@ -45,17 +52,21 @@ import com.anchor.recovery.ui.assessment.MoralQuizViewModel
 import com.anchor.recovery.ui.assessment.MoralResultScreen
 import com.anchor.recovery.ui.assessment.MoralResultViewModel
 import com.anchor.recovery.ui.assessment.QuizScreen
-import com.anchor.recovery.ui.common.ComingSoonScreen
 import com.anchor.recovery.ui.home.CheckInScreen
 import com.anchor.recovery.ui.home.HomeScreen
 import com.anchor.recovery.ui.journal.TimelineScreen
 import com.anchor.recovery.ui.library.ArticleScreen
 import com.anchor.recovery.ui.library.LibraryScreen
 import com.anchor.recovery.ui.navigation.AnchorRoutes
+import com.anchor.recovery.ui.onboarding.OnboardingScreen
+import com.anchor.recovery.ui.settings.SettingsScreen
+import com.anchor.recovery.ui.settings.SettingsViewModel
 import com.anchor.recovery.ui.tools.DelayToolScreen
 import com.anchor.recovery.ui.tools.RelapseEditScreen
 import com.anchor.recovery.ui.tools.ToolsScreen
 import com.anchor.recovery.ui.tools.UrgeSurfingScreen
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
 
 /**
  * 单 Activity + Navigation-Compose 的根布局。
@@ -72,6 +83,39 @@ fun AnchorApp(
 ) {
     val factory = remember(repository, settings) { anchorViewModelFactory(repository, settings) }
     val navController = rememberNavController()
+    val coroutineScope = rememberCoroutineScope()
+    val gate by remember(settings) {
+        settings.snapshot.map { snapshot ->
+            val required = Disclaimer.requiresAcknowledgement(
+                onboardingDone = snapshot.onboardingDone,
+                acknowledgedVersion = snapshot.disclaimerAckVersion,
+            )
+            if (required) DisclaimerGate.REQUIRED else DisclaimerGate.PASSED
+        }
+    }.collectAsState(initial = DisclaimerGate.LOADING)
+
+    when (gate) {
+        // DataStore 首帧还没读到：留白一瞬，避免给已同意的用户闪一下声明页。
+        DisclaimerGate.LOADING -> {
+            Box(modifier = Modifier.fillMaxSize())
+            return
+        }
+
+        DisclaimerGate.REQUIRED -> {
+            OnboardingScreen(
+                onAccept = {
+                    coroutineScope.launch {
+                        settings.setOnboardingDone(true)
+                        settings.setDisclaimerAckVersion(Disclaimer.VERSION)
+                    }
+                },
+            )
+            return
+        }
+
+        DisclaimerGate.PASSED -> Unit
+    }
+
     val backStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = backStackEntry?.destination?.route
     val onTab = currentRoute != null && currentRoute in AnchorRoutes.bottomTabs
@@ -89,6 +133,22 @@ fun AnchorApp(
                                 Icon(
                                     imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                                     contentDescription = "返回",
+                                )
+                            }
+                        }
+                    },
+                    actions = {
+                        if (onTab) {
+                            IconButton(
+                                onClick = {
+                                    navController.navigate(AnchorRoutes.SETTINGS) {
+                                        launchSingleTop = true
+                                    }
+                                },
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Outlined.Settings,
+                                    contentDescription = "设置",
                                 )
                             }
                         }
@@ -121,7 +181,11 @@ fun AnchorApp(
             startDestination = AnchorRoutes.HOME,
             modifier = Modifier
                 .fillMaxSize()
-                .padding(padding),
+                .padding(padding)
+                // 系统栏 insets 已在 Scaffold 里消费完；键盘弹出时再补一段，
+                // 让底部输入框（打卡备注、复吸表单、提示语）不被输入法遮住。
+                .consumeWindowInsets(padding)
+                .imePadding(),
         ) {
             composable(AnchorRoutes.HOME) {
                 HomeScreen(
@@ -189,7 +253,8 @@ fun AnchorApp(
                 )
             }
             composable(AnchorRoutes.SETTINGS) {
-                ComingSoonScreen(title = "设置")
+                val settingsViewModel: SettingsViewModel = viewModel(factory = factory)
+                SettingsScreen(viewModel = settingsViewModel)
             }
             composable(AnchorRoutes.ASSESSMENT_HUB) {
                 val hubViewModel: AssessmentHubViewModel = viewModel(factory = factory)
@@ -259,6 +324,9 @@ fun AnchorApp(
 }
 
 private const val ARTICLE_ID_ARG = "articleId"
+
+/** 首启门禁的三种状态。用三态枚举而不是可空布尔，已同意的用户不会看到声明页闪现。 */
+private enum class DisclaimerGate { LOADING, REQUIRED, PASSED }
 
 /** 切换底部 Tab：保留各 Tab 的返回栈与滚动位置。 */
 private fun NavHostController.switchTab(route: String) {

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  自适应图标前景：直接复用通知小图标里的锚形（@drawable/ic_anchor），
+  用 inset 把图形收进 108dp 画布的中央安全区（约 58%），避免被圆形/方形遮罩裁掉。
+  这样锚形只画一次，图标与通知不会走形。
+-->
+<inset xmlns:android="http://schemas.android.com/apk/res/android"
+    android:drawable="@drawable/ic_anchor"
+    android:inset="22%" />
