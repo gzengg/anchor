@@ -13,52 +13,61 @@ import androidx.compose.ui.unit.sp
  * 在没法逐页过真机的情况下属于盲改。这里作为独立字阶提供，由 P1-2 逐页切入：
  * 改完的页面统一用 AnchorType 内部自洽，没改的页面保持原样，收口过程可分段验证。
  *
- * 字体不打包：San Francisco 有版权，用系统默认字体，只对齐字号/字重/行高/字距。
+ * 字体：v0.2.1 起打包 HarmonyOS Sans SC（见 AnchorFont.kt 的许可与选型说明）。
+ * SF Pro / 苹方是 Apple 专有字体、不可再分发，只对齐字号/字重/行高/字距。
  */
 object AnchorType {
     val largeTitle = TextStyle(
+        fontFamily = AnchorFontFamily,
         fontSize = 34.sp,
         lineHeight = 41.sp,
         fontWeight = FontWeight.Bold,
         letterSpacing = 0.37.sp,
     )
     val title1 = TextStyle(
+        fontFamily = AnchorFontFamily,
         fontSize = 28.sp,
         lineHeight = 34.sp,
         fontWeight = FontWeight.Bold,
         letterSpacing = 0.36.sp,
     )
     val title2 = TextStyle(
+        fontFamily = AnchorFontFamily,
         fontSize = 22.sp,
         lineHeight = 28.sp,
         fontWeight = FontWeight.Bold,
         letterSpacing = 0.35.sp,
     )
     val title3 = TextStyle(
+        fontFamily = AnchorFontFamily,
         fontSize = 20.sp,
         lineHeight = 25.sp,
         fontWeight = FontWeight.SemiBold,
         letterSpacing = 0.38.sp,
     )
     val headline = TextStyle(
+        fontFamily = AnchorFontFamily,
         fontSize = 17.sp,
         lineHeight = 22.sp,
         fontWeight = FontWeight.SemiBold,
         letterSpacing = (-0.41).sp,
     )
     val body = TextStyle(
+        fontFamily = AnchorFontFamily,
         fontSize = 17.sp,
         lineHeight = 22.sp,
         fontWeight = FontWeight.Normal,
         letterSpacing = (-0.41).sp,
     )
     val callout = TextStyle(
+        fontFamily = AnchorFontFamily,
         fontSize = 16.sp,
         lineHeight = 21.sp,
         fontWeight = FontWeight.Normal,
         letterSpacing = (-0.32).sp,
     )
     val subheadline = TextStyle(
+        fontFamily = AnchorFontFamily,
         fontSize = 15.sp,
         lineHeight = 20.sp,
         fontWeight = FontWeight.Normal,
@@ -66,6 +75,7 @@ object AnchorType {
     )
     val subheadlineSemibold = subheadline.copy(fontWeight = FontWeight.SemiBold)
     val footnote = TextStyle(
+        fontFamily = AnchorFontFamily,
         fontSize = 13.sp,
         lineHeight = 18.sp,
         fontWeight = FontWeight.Normal,
@@ -73,12 +83,14 @@ object AnchorType {
     )
     val footnoteSemibold = footnote.copy(fontWeight = FontWeight.SemiBold)
     val caption1 = TextStyle(
+        fontFamily = AnchorFontFamily,
         fontSize = 12.sp,
         lineHeight = 16.sp,
         fontWeight = FontWeight.Normal,
         letterSpacing = 0.sp,
     )
     val caption2 = TextStyle(
+        fontFamily = AnchorFontFamily,
         fontSize = 11.sp,
         lineHeight = 13.sp,
         fontWeight = FontWeight.Normal,

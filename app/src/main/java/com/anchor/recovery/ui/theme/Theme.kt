@@ -3,14 +3,17 @@ package com.anchor.recovery.ui.theme
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ColorScheme
+import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Shapes
+import androidx.compose.material3.Typography
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 
 /*
@@ -38,6 +41,33 @@ private val AnchorShapes = Shapes(
     large = RoundedCornerShape(16.dp),
     extraLarge = RoundedCornerShape(24.dp),
 )
+
+/*
+ * M3 槽位同样换成打包字体。
+ *
+ * 理由：Button / TextField / AlertDialog / Snackbar 这类保留 M3 实现的组件，文字用的是
+ * MaterialTheme.typography（labelLarge、bodyLarge…），不跟着 AnchorType 走。只换 fontFamily，
+ * 尺寸沿用 M3 默认值——这些组件的内边距是按 M3 字号定的，一起改会撑破布局。
+ */
+private val AnchorTypography: Typography = Typography().let { m3 ->
+    Typography(
+        displayLarge = m3.displayLarge.copy(fontFamily = AnchorFontFamily),
+        displayMedium = m3.displayMedium.copy(fontFamily = AnchorFontFamily),
+        displaySmall = m3.displaySmall.copy(fontFamily = AnchorFontFamily),
+        headlineLarge = m3.headlineLarge.copy(fontFamily = AnchorFontFamily),
+        headlineMedium = m3.headlineMedium.copy(fontFamily = AnchorFontFamily),
+        headlineSmall = m3.headlineSmall.copy(fontFamily = AnchorFontFamily),
+        titleLarge = m3.titleLarge.copy(fontFamily = AnchorFontFamily),
+        titleMedium = m3.titleMedium.copy(fontFamily = AnchorFontFamily),
+        titleSmall = m3.titleSmall.copy(fontFamily = AnchorFontFamily),
+        bodyLarge = m3.bodyLarge.copy(fontFamily = AnchorFontFamily),
+        bodyMedium = m3.bodyMedium.copy(fontFamily = AnchorFontFamily),
+        bodySmall = m3.bodySmall.copy(fontFamily = AnchorFontFamily),
+        labelLarge = m3.labelLarge.copy(fontFamily = AnchorFontFamily),
+        labelMedium = m3.labelMedium.copy(fontFamily = AnchorFontFamily),
+        labelSmall = m3.labelSmall.copy(fontFamily = AnchorFontFamily),
+    )
+}
 
 private val LightColors = lightColorScheme(
     primary = AnchorTeal,
@@ -138,8 +168,16 @@ fun AnchorTheme(
         MaterialTheme(
             colorScheme = anchorColorScheme(darkTheme),
             shapes = AnchorShapes,
-            content = content,
-        )
+            typography = AnchorTypography,
+        ) {
+            // 冗余兑底：全仓还有约 23 处 `Text(...)` 没显式传 style，它们取 LocalTextStyle 的默认值
+            // （TextStyle.Default）。这里只补 fontFamily，不动 fontSize——只动字体不会改变这些位置的
+            // 排版尺寸，避免在没法逐页过真机的情况下变动布局。
+            CompositionLocalProvider(
+                LocalTextStyle provides TextStyle.Default.copy(fontFamily = AnchorFontFamily),
+                content = content,
+            )
+        }
     }
 }
 

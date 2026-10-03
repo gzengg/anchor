@@ -1,0 +1,24 @@
+HarmonyOS Sans SC
+=================
+
+Files in app/src/main/res/font/ (harmonyos_sans_sc_regular.ttf,
+harmonyos_sans_sc_medium.ttf, harmonyos_sans_sc_bold.ttf) are modified
+(subsetted) copies of "HarmonyOS Sans SC" by Huawei Device Co., Ltd.
+
+  Copyright 2021 Huawei Device Co., Ltd. All Rights Reserved.
+  Manufacturer: Huawei Device Co., Ltd & Hanyi Fonts
+  Version 1.0
+  Licensed under the HarmonyOS Sans Fonts License Agreement, which permits
+  free use, reproduction and distribution, including in commercial products.
+  License text: https://developer.huawei.com/consumer/cn/design/resource/
+
+Modification applied for this project: the character set was reduced with
+fontTools (pyftsubset) to GB2312 (6763 Hanzi) plus the characters actually
+used by the app and common punctuation; no glyph outlines were altered.
+Characters outside this set are rendered by the system font fallback.
+
+Why not San Francisco (SF Pro) or PingFang SC: both are Apple-proprietary
+fonts and may not be redistributed. HarmonyOS Sans SC is the closest
+freely-licensable match for the iOS look (similar proportions, modern heiti),
+and it is not the default UI font of any non-Huawei ROM, so the app's
+appearance is consistent across devices.
