@@ -26,6 +26,8 @@
 | AndroidX | lifecycle（runtime-ktx / viewmodel-compose） | 2.8.7 |
 | AndroidX | navigation-compose | 2.8.5 |
 | AndroidX | room（runtime / ktx / compiler，走 KSP） | 2.7.1 |
+| AndroidX | room-testing（迁移测试，仅测试源集） | 2.7.1 |
+| 加密 | sqlcipher-android（SQLCipher 4.13.0 的 Android 绑定，含 JNI） | 4.13.0 |
 | AndroidX | work-runtime-ktx | 2.10.0 |
 | AndroidX | datastore-preferences | 1.1.7 |
 | AndroidX | browser（CustomTabs） | 1.8.0 |
@@ -34,6 +36,7 @@
 | kotlinx | datetime | 0.6.1 |
 | 测试 | kotlin-test-junit5 / junit-jupiter | 2.2.20 / 5.11.4（`:core`） |
 | 测试 | junit4 / robolectric / androidx-test | 4.13.2 / 4.14.1 / core 1.6.1 · ext-junit 1.2.1（`:app`） |
+| 测试 | androidx-test:runner（androidTest 运行时） | 1.6.2 |
 
 未引入的第三方库（刻意的取舍）：无 DI 框架（手写 `AnchorApplication` 装配）、无图片加载库、
 无 `core-splashscreen`（Android 12+ 用系统默认启动画面）、无 `SCHEDULE_EXACT_ALARM`
@@ -47,21 +50,27 @@
 
 | 模块 | 测试类数 | 用例数 | 失败 | 错误 | 跳过 |
 |---|---|---|---|---|---|
-| `:core`（jvm library，单变体） | 18 | **135** | 0 | 0 | 0 |
-| `:app`（Android library 单元测试，debug 变体） | 8 | **29** | 0 | 0 | 0 |
-| 合计（去重后） | 26 | **164** | 0 | 0 | 0 |
+| `:core`（jvm library，单变体） | 20 | **151** | 0 | 0 | 0 |
+| `:app`（Android library 单元测试，debug 变体） | 10 | **33** | 0 | 0 | 0 |
+| 合计（去重后） | 30 | **184** | 0 | 0 | 0 |
 
 去重说明：`:app:test` 会分别跑 `testDebugUnitTest` 与 `testReleaseUnitTest`，两个变体是同一份源码，
-按 XML 直接相加会得到 58 个用例；上表只取 debug 变体的 29 个。另用源码 `@Test` 计数交叉核对
-（`:core` 135、`:app` 29），与 XML 一致。
+按 XML 直接相加会得到 66 个用例；上表只取 debug 变体的 33 个。另用源码 `@Test` 计数交叉核对
+（`:core` 151、`:app` 33），与 XML 一致。迁移测试放在 `src/testDebug`（release 变体不打包
+schema 资产），所以它只出现在 debug 变体的 33 个里。
 
 测试分布（可测逻辑全部落在 `:core`，UI 层保持哑渲染）：
 
 - `:core`：`StreakCalculator` / `CheckInPolicy` / `RebootFramework`、`WithdrawalPhaseResolver` +
   阶段文案、`CsbdScorer` / `MoralIncongruenceScorer`、`UrgeSurfingSession` / `DelayTool` /
-  `BreathingPattern`、`TriggerAnalyzer`、`ContentIndex` / `MarkdownLite`、`DataExporter`、
-  `Disclaimer`、`ReminderMessages` / `ReminderTimeCalculator`。
-- `:app`：Room DAO / 实体映射 / 仓库（Robolectric）+ 导出 JSON 装配。
+  `BreathingPattern`、`TriggerAnalyzer`、`ContentIndex` / `MarkdownLite`、`DataExporter` /
+  `DataImporter`（导出导入往返、版本拒绝、坏字段拒绝）、`Disclaimer`、`ReminderMessages` /
+  `ReminderTimeCalculator`。
+- `:app`：Room DAO / 实体映射 / 仓库（Robolectric）+ 导出 JSON 装配 + 导入整体替换端到端
+  （导出→清空→导入→再导出逐字节一致）+ Room schema 迁移骨架（`src/testDebug`）。
+
+v2 的 P0 阶段（加密库 + 导出导入）另有一套真机用例（`app/src/androidTest`，未在无设备环境下执行）：
+`SqlCipherAvailabilityTest` 验 libsqlcipher 能加载、库文件不是明文、错口令打不开、Keystore 口令稳定。
 
 阶段门禁命令（每个阶段收尾都跑过，最后一次为 S7 完成后的全量门禁）：
 

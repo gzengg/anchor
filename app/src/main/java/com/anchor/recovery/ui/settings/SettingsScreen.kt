@@ -3,6 +3,7 @@ package com.anchor.recovery.ui.settings
 import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Build
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -30,6 +31,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -40,6 +42,9 @@ import androidx.core.content.ContextCompat
 import com.anchor.recovery.AppInfo
 import com.anchor.recovery.core.legal.Disclaimer
 import com.anchor.recovery.core.notify.ReminderMessages
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 /**
  * 设置页（提示词 §S7）：每日提醒与通知权限、F4 提示语、数据导出 JSON、一键清空、隐私说明。
@@ -51,6 +56,7 @@ fun SettingsScreen(
 ) {
     val state by viewModel.state.collectAsState()
     val context = LocalContext.current
+    val scope = rememberCoroutineScope()
     var showFullDisclaimer by remember { mutableStateOf(false) }
 
     val exportLauncher = rememberLauncherForActivityResult(
@@ -76,6 +82,21 @@ fun SettingsScreen(
             viewModel.setReminderEnabled(true)
         } else {
             viewModel.onPermissionDenied()
+        }
+    }
+
+    // 不限定 MIME：部分文件管理器把 .json 报成 octet-stream，限定后反而选不中。
+    val importLauncher = rememberLauncherForActivityResult(
+        ActivityResultContracts.OpenDocument(),
+    ) { uri ->
+        if (uri == null) {
+            viewModel.cancelImport()
+            return@rememberLauncherForActivityResult
+        }
+        val fileName = importFileName(uri.lastPathSegment)
+        scope.launch {
+            val text = withContext(Dispatchers.IO) { readImportText(context, uri) }
+            viewModel.onImportFilePicked(fileName, text)
         }
     }
 
@@ -169,6 +190,21 @@ fun SettingsScreen(
             )
         }
 
+        SettingsCard(title = "数据导入") {
+            Text(
+                text = "读一份之前导出的 JSON，整体替换当前记录。导入前会先自动导出一份当前数据作备份。",
+                style = MaterialTheme.typography.bodyMedium,
+            )
+            Button(onClick = { importLauncher.launch(arrayOf("*/*")) }) {
+                Text(text = "从文件导入")
+            }
+            Text(
+                text = "只读你在系统文件选择器里选中的那一个文件，不认识别的位置。",
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
+        }
+
         SettingsCard(title = "清空数据") {
             Text(
                 text = "清空后无法恢复：记录不会有云端备份，也不会有回收站。",
@@ -214,6 +250,27 @@ fun SettingsScreen(
                 color = MaterialTheme.colorScheme.primary,
             )
         }
+    }
+
+    state.pendingImport?.let { pending ->
+        AlertDialog(
+            onDismissRequest = viewModel::cancelImport,
+            title = { Text(text = "用这份文件替换现有记录？") },
+            text = {
+                Text(
+                    text = "文件：${pending.fileName}\n" +
+                        "导出时间：${humanReadableTime(pending.exportedAt)}\n" +
+                        "含 ${pending.countsLine}\n\n" +
+                        "当前记录会被这份文件整体替换，替换前先导出一份备份。",
+                )
+            },
+            confirmButton = {
+                TextButton(onClick = viewModel::confirmImport) { Text(text = "备份并导入") }
+            },
+            dismissButton = {
+                TextButton(onClick = viewModel::cancelImport) { Text(text = "取消") }
+            },
+        )
     }
 
     if (state.awaitingClearConfirm) {
@@ -262,6 +319,25 @@ private fun SettingsCard(
 
 private const val EXPORT_MIME = "application/json"
 private const val STEP_MINUTES = 5
+
+/** 导入文件上限 4 MB：导出文件是纯文本记录，超过这个量级基本是选错了文件。 */
+private const val MAX_IMPORT_BYTES = 4L * 1024 * 1024
+
+/** 读选中的文件为文本；读不出来或过大都返回 null，由 ViewModel 统一提示。 */
+private fun readImportText(context: Context, uri: Uri): String? = runCatching {
+    val size = context.contentResolver.openFileDescriptor(uri, "r")?.use { it.statSize } ?: -1L
+    if (size > MAX_IMPORT_BYTES) null else context.contentResolver.openInputStream(uri)
+        ?.use { it.readBytes().toString(Charsets.UTF_8) }
+}.getOrNull()
+
+/** 系统给的多是 `primary:Download/xxx.json`，只留最后的文件名给人看。 */
+private fun importFileName(lastPathSegment: String?): String =
+    lastPathSegment?.substringAfterLast('/')?.substringAfterLast(':').orEmpty()
+        .ifBlank { "所选文件" }
+
+/** `2024-05-04T09:31:00Z` → `2024-05-04 09:31`；解析不了就原样显示。 */
+private fun humanReadableTime(exportedAt: String): String =
+    exportedAt.take(16).replace('T', ' ').ifBlank { "未知" }
 
 /** Android 13 起 POST_NOTIFICATIONS 需要运行时授权；更低版本安装即授权。 */
 private fun needsNotificationPermission(context: Context): Boolean =

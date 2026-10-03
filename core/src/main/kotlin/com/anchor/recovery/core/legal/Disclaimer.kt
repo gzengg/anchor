@@ -9,7 +9,7 @@ package com.anchor.recovery.core.legal
 object Disclaimer {
 
     /** 声明内容版本。每次改动 [paragraphs] 的实质含义都要 +1。 */
-    const val VERSION: Int = 3
+    const val VERSION: Int = 4
 
     const val TITLE: String = "使用前请阅读"
 
@@ -26,7 +26,7 @@ object Disclaimer {
         "它不是医疗器械，不提供诊断、治疗或医疗建议；自评问卷结果只是参考，不能用来判断疾病。",
         PRIVACY_PARAGRAPH,
         "有紧急情况，或情绪持续困扰影响生活时，请联系专业医生或当地心理援助热线。",
-        "可以随时在设置页导出数据或一键清空，清空后无法恢复。",
+        "可以随时在设置页导出数据、用导出文件恢复记录，或一键清空；清空后无法恢复。",
     )
 
     /**
