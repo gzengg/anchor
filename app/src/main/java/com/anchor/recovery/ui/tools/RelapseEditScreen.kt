@@ -20,7 +20,9 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.anchor.recovery.R
 import com.anchor.recovery.core.relapse.RelapseTags
 import com.anchor.recovery.ui.components.AnchorButton
 import com.anchor.recovery.ui.components.AnchorLargeTitle
@@ -54,10 +56,10 @@ fun RelapseEditScreen(
             .padding(bottom = 24.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
-        AnchorLargeTitle("记录一次破戒")
+        AnchorLargeTitle(stringResource(R.string.relapse_title))
 
         Text(
-            text = "如实记录就好，破戒很常见。保存后连续天数从今天重新算。",
+            text = stringResource(R.string.relapse_hint),
             style = AnchorType.body,
             color = AnchorTheme.colors.label,
             modifier = Modifier.padding(horizontal = 16.dp),
@@ -67,7 +69,7 @@ fun RelapseEditScreen(
             OutlinedTextField(
                 value = state.situation,
                 onValueChange = viewModel::updateSituation,
-                label = { Text(text = "情境（在哪、和谁、在做什么）") },
+                label = { Text(text = stringResource(R.string.relapse_situation_label)) },
                 minLines = 2,
                 colors = OutlinedTextFieldDefaults.colors(
                     focusedBorderColor = AnchorTheme.colors.tint,
@@ -83,14 +85,14 @@ fun RelapseEditScreen(
         }
 
         TagSection(
-            title = "情绪（可多选）",
+            title = stringResource(R.string.relapse_emotions_title),
             options = RelapseTags.emotions,
             selected = state.emotions,
             onToggle = viewModel::toggleEmotion,
         )
 
         TagSection(
-            title = "触发源（可多选）",
+            title = stringResource(R.string.relapse_triggers_title),
             options = RelapseTags.triggers,
             selected = state.triggers,
             onToggle = viewModel::toggleTrigger,
@@ -100,7 +102,7 @@ fun RelapseEditScreen(
             OutlinedTextField(
                 value = state.note,
                 onValueChange = viewModel::updateNote,
-                label = { Text(text = "备注（当时在想什么）") },
+                label = { Text(text = stringResource(R.string.relapse_note_label)) },
                 minLines = 3,
                 colors = OutlinedTextFieldDefaults.colors(
                     focusedBorderColor = AnchorTheme.colors.tint,
@@ -115,7 +117,7 @@ fun RelapseEditScreen(
             )
         }
 
-        state.message?.let { message ->
+        state.messageRes?.let { messageRes ->
             AnchorListGroup {
                 Column(
                     modifier = Modifier
@@ -124,13 +126,13 @@ fun RelapseEditScreen(
                     verticalArrangement = Arrangement.spacedBy(10.dp),
                 ) {
                     Text(
-                        text = message,
+                        text = stringResource(messageRes),
                         style = AnchorType.body,
                         color = AnchorTheme.colors.label,
                     )
                     if (state.saved) {
                         AnchorButton(
-                            text = "去看日志与统计",
+                            text = stringResource(R.string.relapse_open_journal_button),
                             onClick = onSaved,
                             modifier = Modifier.fillMaxWidth(),
                         )
@@ -141,7 +143,7 @@ fun RelapseEditScreen(
 
         AnchorListGroup {
             AnchorButton(
-                text = "保存记录",
+                text = stringResource(R.string.relapse_save_button),
                 onClick = viewModel::save,
                 enabled = state.canSave,
                 modifier = Modifier
@@ -151,7 +153,7 @@ fun RelapseEditScreen(
         }
 
         Text(
-            text = "标签由你自己选，统计只说明记录里出现过多少次，不代表因果关系。",
+            text = stringResource(R.string.relapse_footnote),
             style = AnchorType.footnote,
             color = AnchorTheme.colors.labelSecondary,
             modifier = Modifier.padding(horizontal = 16.dp),

@@ -21,12 +21,16 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.pluralStringResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.anchor.recovery.R
 import com.anchor.recovery.core.streak.MilestoneStatus
 import com.anchor.recovery.ui.components.AnchorHairline
 import com.anchor.recovery.ui.components.AnchorLargeTitle
 import com.anchor.recovery.ui.components.AnchorListGroup
+import com.anchor.recovery.ui.text.milestoneTitleRes
 import com.anchor.recovery.ui.components.PublishAnchorNavBar
 import com.anchor.recovery.ui.theme.AnchorTheme
 import com.anchor.recovery.ui.theme.AnchorType
@@ -56,10 +60,10 @@ fun MilestoneWallScreen(
             .verticalScroll(scrollState)
             .padding(bottom = 24.dp),
     ) {
-        AnchorLargeTitle("里程碑")
+        AnchorLargeTitle(stringResource(R.string.milestone_title))
 
         Text(
-            text = "徽章按连续打卡天数点亮。断签或破戒后重新开始，已经点亮的徽章会保留。",
+            text = stringResource(R.string.milestone_header_note),
             style = AnchorType.footnote,
             color = AnchorTheme.colors.labelSecondary,
             modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 12.dp),
@@ -73,7 +77,7 @@ fun MilestoneWallScreen(
         }
 
         Text(
-            text = "里程碑只表示你在这里记录了多少天，不代表治疗结果或「痊愈」。",
+            text = stringResource(R.string.milestone_footer_note),
             style = AnchorType.footnote,
             color = AnchorTheme.colors.labelSecondary,
             modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 12.dp),
@@ -95,7 +99,7 @@ private fun MilestoneRow(status: MilestoneStatus) {
 
         Column(modifier = Modifier.weight(1f)) {
             Text(
-                text = status.milestone.title,
+                text = stringResource(milestoneTitleRes(status.milestone.days)),
                 style = AnchorType.body,
                 color = AnchorTheme.colors.label,
             )
@@ -132,7 +136,7 @@ private fun Badge(days: Int, achieved: Boolean) {
             color = foreground,
         )
         Text(
-            text = "天",
+            text = stringResource(R.string.milestone_day_unit),
             style = AnchorType.caption1,
             color = foreground,
         )
@@ -140,11 +144,18 @@ private fun Badge(days: Int, achieved: Boolean) {
 }
 
 /** 已达成：`6 月 1 日达成` / 多次达成时 `6 月 1 日达成 · 累计 3 次`；未达成：`还差 7 天`。 */
+@Composable
 private fun statusLine(status: MilestoneStatus): String = when {
     status.achieved -> {
-        val date = status.latestAchievedDate?.let { "${it.monthNumber} 月 ${it.dayOfMonth} 日" }.orEmpty()
-        if (status.eraCount > 1) "$date 达成 · 累计 ${status.eraCount} 次" else "$date 达成"
+        val date = status.latestAchievedDate
+            ?.let { stringResource(R.string.milestone_date, it.monthNumber, it.dayOfMonth) }
+            .orEmpty()
+        if (status.eraCount > 1) {
+            stringResource(R.string.milestone_achieved_with_count, date, status.eraCount)
+        } else {
+            stringResource(R.string.milestone_achieved, date)
+        }
     }
 
-    else -> "还差 ${status.daysRemaining} 天"
+    else -> pluralStringResource(R.plurals.milestone_days_remaining, status.daysRemaining, status.daysRemaining)
 }

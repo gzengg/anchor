@@ -22,9 +22,11 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
+import com.anchor.recovery.R
 import com.anchor.recovery.core.AnchorCore
 import com.anchor.recovery.core.legal.Disclaimer
 import com.anchor.recovery.ui.components.AnchorButton
@@ -68,7 +70,7 @@ fun OnboardingScreen(
     ) {
         AnchorLargeTitle(AnchorCore.APP_DISPLAY_NAME)
         Text(
-            text = "完全离线：数据只在这台手机上。",
+            text = stringResource(R.string.onboarding_offline_notice),
             style = AnchorType.footnote,
             color = AnchorTheme.colors.labelSecondary,
             modifier = Modifier
@@ -76,13 +78,13 @@ fun OnboardingScreen(
                 .padding(horizontal = 16.dp),
         )
 
-        AnchorSectionHeader("它能做什么")
+        AnchorSectionHeader(stringResource(R.string.onboarding_purpose_header))
         AnchorListGroup {
-            PurposeRow("记录：每天打卡，看连续天数")
+            PurposeRow(stringResource(R.string.onboarding_purpose_log))
             AnchorHairline()
-            PurposeRow("应对：冲动来时用十分钟延时、渴求冲浪")
+            PurposeRow(stringResource(R.string.onboarding_purpose_coping))
             AnchorHairline()
-            PurposeRow("科普：71 篇离线文章，标注来源与可信度")
+            PurposeRow(stringResource(R.string.onboarding_purpose_articles))
         }
 
         AnchorSectionHeader(Disclaimer.TITLE)
@@ -112,7 +114,7 @@ fun OnboardingScreen(
         }
 
         AnchorButton(
-            text = "开始使用",
+            text = stringResource(R.string.onboarding_start),
             onClick = onAccept,
             enabled = acknowledged,
             modifier = Modifier

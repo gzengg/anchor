@@ -28,10 +28,13 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.pluralStringResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.selected
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
+import com.anchor.recovery.R
 import com.anchor.recovery.core.assessment.CsbdDimension
 import com.anchor.recovery.core.assessment.CsbdLevel
 import com.anchor.recovery.core.assessment.CsbdQuestionnaire
@@ -69,9 +72,9 @@ fun AssessmentHubScreen(
             .verticalScroll(scrollState)
             .padding(bottom = 24.dp),
     ) {
-        AnchorLargeTitle("自评问卷")
+        AnchorLargeTitle(stringResource(R.string.assessment_hub_title))
         Text(
-            text = "两份自评问卷，都可以随时重做，结果只保存在本机。",
+            text = stringResource(R.string.assessment_hub_subtitle),
             style = AnchorType.footnote,
             color = AnchorTheme.colors.labelSecondary,
             modifier = Modifier
@@ -80,20 +83,20 @@ fun AssessmentHubScreen(
         )
 
         HubCard(
-            title = "成瘾倾向自评",
-            description = "19 题，五个维度：控制失控、情绪应对、强迫性、负面后果、尝试失败。",
+            title = stringResource(R.string.csbd_title),
+            description = stringResource(R.string.csbd_hub_description),
             lastText = state.latestCsbd?.let { record ->
-                "上次：${record.takenAt.formatLocal()} · 总分 ${record.totalScore}"
+                stringResource(R.string.csbd_hub_last_summary, record.takenAt.formatLocal(), record.totalScore)
             },
             onStart = onOpenCsbd,
             onOpenLast = if (state.latestCsbd != null) onOpenLastCsbd else null,
         )
 
         HubCard(
-            title = "道德冲突 vs 真实问题",
-            description = "12 题，把“行为影响”和“价值观冲突”分开计分，看看困扰主要来自哪一边。",
+            title = stringResource(R.string.moral_title),
+            description = stringResource(R.string.moral_hub_description),
             lastText = state.latestMoral?.let { record ->
-                "上次：${record.takenAt.formatLocal()} · 合计 ${record.totalScore}"
+                stringResource(R.string.moral_hub_last_summary, record.takenAt.formatLocal(), record.totalScore)
             },
             onStart = onOpenMoral,
             onOpenLast = if (state.latestMoral != null) onOpenLastMoral else null,
@@ -129,13 +132,13 @@ private fun HubCard(
             }
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 AnchorButton(
-                    text = "开始作答",
+                    text = stringResource(R.string.quiz_start),
                     onClick = onStart,
                     modifier = Modifier.weight(1f),
                 )
                 if (onOpenLast != null) {
                     AnchorButton(
-                        text = "查看上次结果",
+                        text = stringResource(R.string.quiz_view_last_result),
                         onClick = onOpenLast,
                         style = AnchorButtonStyle.Tinted,
                         modifier = Modifier.weight(1f),
@@ -180,7 +183,7 @@ fun AssessmentIntroScreen(
                 .padding(horizontal = 16.dp),
         )
 
-        AnchorSectionHeader("说明")
+        AnchorSectionHeader(stringResource(R.string.assessment_section_explain))
         AnchorListGroup {
             Text(
                 text = disclaimer,
@@ -210,12 +213,12 @@ fun AssessmentIntroScreen(
             CheckRow(
                 checked = acknowledged,
                 onCheckedChange = { acknowledged = it },
-                text = "我理解：这是自评参考，不是诊断。",
+                text = stringResource(R.string.assessment_intro_acknowledge),
             )
         }
 
         AnchorButton(
-            text = "开始答题",
+            text = stringResource(R.string.assessment_intro_start),
             onClick = onStart,
             enabled = acknowledged,
             modifier = Modifier
@@ -250,9 +253,14 @@ fun QuizScreen(
             .verticalScroll(scrollState)
             .padding(bottom = 24.dp),
     ) {
-        AnchorLargeTitle(state.title)
+        AnchorLargeTitle(state.titleRes?.let { stringResource(it) }.orEmpty())
         Text(
-            text = "作答范围：${state.timeWindow} · 第 ${state.positionText} 题 · 已完成 ${state.answeredCount} 题",
+            text = stringResource(
+                R.string.quiz_progress_line,
+                state.timeWindow,
+                state.positionText,
+                state.answeredCount,
+            ),
             style = AnchorType.footnote,
             color = AnchorTheme.colors.labelSecondary,
             modifier = Modifier
@@ -290,7 +298,7 @@ fun QuizScreen(
                     val selectedValue = state.answers[question.id]
                     QuizOptions.labels.forEachIndexed { value, label ->
                         QuizOptionRow(
-                            label = label,
+                            label = stringResource(label),
                             isChosen = selectedValue == value,
                             onClick = { onSelect(question.id, value) },
                         )
@@ -299,9 +307,13 @@ fun QuizScreen(
             }
         }
 
-        state.message?.let { message ->
+        state.messageRes?.let { res ->
+            val args = state.messageArgs.toTypedArray()
+            val text = state.messageQuantity
+                ?.let { pluralStringResource(res, it, *args) }
+                ?: stringResource(res, *args)
             Text(
-                text = message,
+                text = text,
                 style = AnchorType.footnote,
                 color = AnchorTheme.colors.danger,
                 modifier = Modifier
@@ -318,14 +330,14 @@ fun QuizScreen(
             verticalAlignment = Alignment.CenterVertically,
         ) {
             AnchorButton(
-                text = "上一题",
+                text = stringResource(R.string.quiz_previous),
                 onClick = onPrevious,
                 style = AnchorButtonStyle.Tinted,
                 enabled = state.index > 0,
                 modifier = Modifier.weight(1f),
             )
             AnchorButton(
-                text = "下一题",
+                text = stringResource(R.string.quiz_next),
                 onClick = onNext,
                 style = AnchorButtonStyle.Tinted,
                 enabled = !state.isLast,
@@ -333,7 +345,7 @@ fun QuizScreen(
             )
         }
         AnchorButton(
-            text = if (state.saving) "保存中…" else "提交并查看结果",
+            text = if (state.saving) stringResource(R.string.quiz_saving) else stringResource(R.string.quiz_submit),
             onClick = onSubmit,
             enabled = state.allAnswered && !state.saving,
             modifier = Modifier
@@ -406,11 +418,11 @@ fun CsbdResultScreen(state: CsbdResultUiState, modifier: Modifier = Modifier) {
             .verticalScroll(scrollState)
             .padding(bottom = 24.dp),
     ) {
-        AnchorLargeTitle("成瘾倾向自评")
+        AnchorLargeTitle(stringResource(R.string.csbd_title))
 
         if (record == null) {
             Text(
-                text = "还没有作答记录，先回上一页完成问卷。",
+                text = stringResource(R.string.assessment_no_record),
                 style = AnchorType.body,
                 color = AnchorTheme.colors.label,
                 modifier = Modifier
@@ -428,18 +440,18 @@ fun CsbdResultScreen(state: CsbdResultUiState, modifier: Modifier = Modifier) {
                 verticalArrangement = Arrangement.spacedBy(6.dp),
             ) {
                 Text(
-                    text = "作答时间：${record.takenAt.formatLocal()}",
+                    text = stringResource(R.string.assessment_taken_at, record.takenAt.formatLocal()),
                     style = AnchorType.footnote,
                     color = AnchorTheme.colors.labelSecondary,
                 )
                 Text(
-                    text = "总分 ${record.totalScore} / ${CsbdQuestionnaire.maxTotalScore}",
+                    text = stringResource(R.string.csbd_total_score, record.totalScore, CsbdQuestionnaire.maxTotalScore),
                     style = AnchorType.largeTitle,
                     color = AnchorTheme.colors.label,
                 )
                 if (result != null) {
                     Text(
-                        text = "自评分级：${result.level.label}（${result.level.rangeText} 分区间）",
+                        text = stringResource(R.string.csbd_level_summary, result.level.label, result.level.rangeText),
                         style = AnchorType.headline,
                         color = if (result.level == CsbdLevel.LOW) {
                             AnchorTheme.colors.success
@@ -458,7 +470,7 @@ fun CsbdResultScreen(state: CsbdResultUiState, modifier: Modifier = Modifier) {
                     )
                 } else {
                     Text(
-                        text = "分级：${record.level}（原始作答缺失，无法重新计分）",
+                        text = stringResource(R.string.csbd_level_raw_fallback, record.level),
                         style = AnchorType.headline,
                         color = AnchorTheme.colors.label,
                     )
@@ -467,7 +479,7 @@ fun CsbdResultScreen(state: CsbdResultUiState, modifier: Modifier = Modifier) {
         }
 
         if (result != null) {
-            AnchorSectionHeader("五个维度小计")
+            AnchorSectionHeader(stringResource(R.string.csbd_dimension_section))
             AnchorListGroup {
                 Column(
                     modifier = Modifier
@@ -503,8 +515,11 @@ fun CsbdResultScreen(state: CsbdResultUiState, modifier: Modifier = Modifier) {
                         }
                     }
                     Text(
-                        text = "得分最高的维度：${result.topDimension.label}（${result.topDimensionScore} 分）。" +
-                            "只说明这组题得分最高，不是诊断。",
+                        text = stringResource(
+                            R.string.csbd_top_dimension,
+                            result.topDimension.label,
+                            result.topDimensionScore,
+                        ),
                         style = AnchorType.footnote,
                         color = AnchorTheme.colors.labelSecondary,
                     )
@@ -512,7 +527,7 @@ fun CsbdResultScreen(state: CsbdResultUiState, modifier: Modifier = Modifier) {
             }
         }
 
-        AnchorSectionHeader("下一步可以做什么")
+        AnchorSectionHeader(stringResource(R.string.assessment_next_steps))
         AnchorListGroup {
             Column(
                 modifier = Modifier
@@ -521,13 +536,12 @@ fun CsbdResultScreen(state: CsbdResultUiState, modifier: Modifier = Modifier) {
                 verticalArrangement = Arrangement.spacedBy(6.dp),
             ) {
                 Text(
-                    text = "· 带着这份自评和 App 里的记录去咨询心理咨询师或精神科 / 心理科医生；" +
-                        "自评分数不是诊断，专业评估才决定要不要治疗。",
+                    text = stringResource(R.string.csbd_next_step_1),
                     style = AnchorType.body,
                     color = AnchorTheme.colors.label,
                 )
                 Text(
-                    text = "· 继续用打卡与渴求工具看规律；情绪持续低落或有失控感时尽快就诊。",
+                    text = stringResource(R.string.csbd_next_step_2),
                     style = AnchorType.body,
                     color = AnchorTheme.colors.label,
                 )
@@ -564,11 +578,11 @@ fun MoralResultScreen(state: MoralResultUiState, modifier: Modifier = Modifier) 
             .verticalScroll(scrollState)
             .padding(bottom = 24.dp),
     ) {
-        AnchorLargeTitle("道德冲突评估")
+        AnchorLargeTitle(stringResource(R.string.moral_result_title))
 
         if (record == null) {
             Text(
-                text = "还没有作答记录，先回上一页完成问卷。",
+                text = stringResource(R.string.assessment_no_record),
                 style = AnchorType.body,
                 color = AnchorTheme.colors.label,
                 modifier = Modifier
@@ -586,7 +600,7 @@ fun MoralResultScreen(state: MoralResultUiState, modifier: Modifier = Modifier) 
                 verticalArrangement = Arrangement.spacedBy(6.dp),
             ) {
                 Text(
-                    text = "作答时间：${record.takenAt.formatLocal()}",
+                    text = stringResource(R.string.assessment_taken_at, record.takenAt.formatLocal()),
                     style = AnchorType.footnote,
                     color = AnchorTheme.colors.labelSecondary,
                 )
@@ -607,7 +621,7 @@ fun MoralResultScreen(state: MoralResultUiState, modifier: Modifier = Modifier) 
                     )
                 } else {
                     Text(
-                        text = "上次结果：$record.level（原始作答缺失，无法重新解读）",
+                        text = stringResource(R.string.moral_level_raw_fallback, record.level),
                         style = AnchorType.headline,
                         color = AnchorTheme.colors.label,
                     )
@@ -616,7 +630,7 @@ fun MoralResultScreen(state: MoralResultUiState, modifier: Modifier = Modifier) 
         }
 
         if (result != null) {
-            AnchorSectionHeader("两维度得分")
+            AnchorSectionHeader(stringResource(R.string.moral_dimension_section))
             AnchorListGroup {
                 Column(
                     modifier = Modifier
@@ -642,7 +656,12 @@ fun MoralResultScreen(state: MoralResultUiState, modifier: Modifier = Modifier) 
                                     color = AnchorTheme.colors.label,
                                 )
                                 Text(
-                                    text = "$score / $max · ${if (high) "偏高" else "不高"}",
+                                    text = stringResource(
+                                        R.string.moral_dimension_score,
+                                        score,
+                                        max,
+                                        stringResource(if (high) R.string.moral_level_high else R.string.moral_level_low),
+                                    ),
                                     style = AnchorType.body,
                                     color = if (high) AnchorTheme.colors.warning else AnchorTheme.colors.labelSecondary,
                                 )
@@ -656,7 +675,7 @@ fun MoralResultScreen(state: MoralResultUiState, modifier: Modifier = Modifier) 
                         }
                     }
                     Text(
-                        text = "价值观冲突不等于成瘾，行为影响大也不等于成瘾；这两项只是帮你看清困扰从哪来。",
+                        text = stringResource(R.string.moral_dimension_note),
                         style = AnchorType.footnote,
                         color = AnchorTheme.colors.labelSecondary,
                     )
@@ -664,7 +683,7 @@ fun MoralResultScreen(state: MoralResultUiState, modifier: Modifier = Modifier) 
             }
         }
 
-        AnchorSectionHeader("下一步可以做什么")
+        AnchorSectionHeader(stringResource(R.string.assessment_next_steps))
         AnchorListGroup {
             Column(
                 modifier = Modifier
@@ -673,12 +692,12 @@ fun MoralResultScreen(state: MoralResultUiState, modifier: Modifier = Modifier) 
                 verticalArrangement = Arrangement.spacedBy(6.dp),
             ) {
                 Text(
-                    text = "· 如果主要是价值观冲突：和信任的人或咨询师谈这件事本身就有价值，不必先贴标签。",
+                    text = stringResource(R.string.moral_next_step_1),
                     style = AnchorType.body,
                     color = AnchorTheme.colors.label,
                 )
                 Text(
-                    text = "· 如果行为影响明显：带上记录去咨询心理咨询师或精神科 / 心理科医生，由专业评估判断。",
+                    text = stringResource(R.string.moral_next_step_2),
                     style = AnchorType.body,
                     color = AnchorTheme.colors.label,
                 )
@@ -702,10 +721,10 @@ fun MoralResultScreen(state: MoralResultUiState, modifier: Modifier = Modifier) 
 /** 问卷相关页面统一出现的免责声明（合规要求 §5.2）。 */
 @Composable
 private fun DisclaimerCard(modifier: Modifier = Modifier) {
-    AnchorSectionHeader(text = "免责声明", modifier = modifier)
+    AnchorSectionHeader(text = stringResource(R.string.assessment_disclaimer_section), modifier = modifier)
     AnchorListGroup {
         Text(
-            text = "自评参考信息，不是医疗器械、不做诊断，不能替代专业评估；困扰明显时建议咨询专业人士。",
+            text = stringResource(R.string.assessment_disclaimer_body),
             style = AnchorType.footnote,
             color = AnchorTheme.colors.labelSecondary,
             modifier = Modifier
@@ -756,13 +775,13 @@ private fun CheckRow(
 @Composable
 fun CsbdIntroScreen(onStart: () -> Unit, modifier: Modifier = Modifier) {
     AssessmentIntroScreen(
-        title = "成瘾倾向自评",
-        subtitle = "19 道题，按过去 6 个月的实际情况作答。",
+        title = stringResource(R.string.csbd_title),
+        subtitle = stringResource(R.string.csbd_intro_subtitle),
         disclaimer = CsbdQuestionnaire.DISCLAIMER,
         points = listOf(
-            "19 题，每题 5 个选项（0–4 分），没有对错。",
-            "题目参照 CSBD 五个维度自撰，不是 CSBD-19 原版、未经验证；分级阈值也是自研，未经临床验证。",
-            "作答与结果只保存在本机。",
+            stringResource(R.string.csbd_intro_point_1),
+            stringResource(R.string.csbd_intro_point_2),
+            stringResource(R.string.csbd_intro_point_3),
         ),
         onStart = onStart,
         modifier = modifier,
@@ -773,13 +792,16 @@ fun CsbdIntroScreen(onStart: () -> Unit, modifier: Modifier = Modifier) {
 @Composable
 fun MoralIntroScreen(onStart: () -> Unit, modifier: Modifier = Modifier) {
     AssessmentIntroScreen(
-        title = "道德冲突 vs 真实问题",
-        subtitle = "12 道题，按过去 1 个月的实际情况作答。",
+        title = stringResource(R.string.moral_title),
+        subtitle = stringResource(R.string.moral_intro_subtitle),
         disclaimer = MoralIncongruenceScale.DISCLAIMER,
         points = listOf(
-            "前 6 题看“行为影响”，后 6 题看“价值观冲突”，分别计分。",
-            "任一维度 ≥ ${MoralIncongruenceScale.HIGH_THRESHOLD} 分记为偏高（自研阈值，未经临床验证）。",
-            "结果是四象限解读，只看困扰来源，不做诊断；作答与结果只保存在本机。",
+            stringResource(R.string.moral_intro_point_1),
+            stringResource(
+                R.string.moral_intro_point_2,
+                MoralIncongruenceScale.HIGH_THRESHOLD,
+            ),
+            stringResource(R.string.moral_intro_point_3),
         ),
         onStart = onStart,
         modifier = modifier,
@@ -794,12 +816,12 @@ fun ResultActions(onRetake: () -> Unit, modifier: Modifier = Modifier) {
         verticalArrangement = Arrangement.spacedBy(8.dp),
     ) {
         AnchorButton(
-            text = "重新作答",
+            text = stringResource(R.string.quiz_retake),
             onClick = onRetake,
             modifier = Modifier.fillMaxWidth(),
         )
         AnchorButton(
-            text = "结果已保存在本机",
+            text = stringResource(R.string.assessment_result_saved),
             onClick = {},
             enabled = false,
             style = AnchorButtonStyle.Plain,

@@ -27,7 +27,10 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.pluralStringResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.anchor.recovery.R
 import com.anchor.recovery.core.content.Article
 import com.anchor.recovery.data.content.ContentRepository
 import com.anchor.recovery.data.content.ContentSnapshot
@@ -80,12 +83,14 @@ fun LibraryScreen(
     ) {
         when {
             snapshot == null -> LoadingState()
-            library == null -> ErrorState(snapshot?.error ?: "内容不可用")
+            library == null -> ErrorState(
+                snapshot?.error ?: stringResource(R.string.library_content_unavailable),
+            )
             else -> {
                 OutlinedTextField(
                     value = query,
                     onValueChange = { query = it },
-                    label = { Text(text = "搜索标题、标签或正文") },
+                    label = { Text(text = stringResource(R.string.library_search_placeholder)) },
                     singleLine = true,
                     modifier = Modifier
                         .fillMaxWidth()
@@ -94,6 +99,8 @@ fun LibraryScreen(
                 val categories = library.index.categories
                 val categoryKeys = remember(categories) { listOf(CATEGORY_ALL) + categories.map { it.key } }
                 val categoryLabels = remember(categories) { categories.associate { it.key to "${it.title} ${it.count}" } }
+                // 分段控件的 label 参数不是 @Composable，计数文案在调用前取成资源。
+                val allCategoriesLabel = stringResource(R.string.library_category_all_count, library.articles.size)
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -108,7 +115,7 @@ fun LibraryScreen(
                         modifier = Modifier.width(CATEGORY_SEGMENT_WIDTH * categoryKeys.size),
                         label = { key ->
                             if (key == CATEGORY_ALL) {
-                                "全部 ${library.articles.size}"
+                                allCategoriesLabel
                             } else {
                                 categoryLabels.getValue(key)
                             }
@@ -117,9 +124,13 @@ fun LibraryScreen(
                 }
                 Text(
                     text = if (articles.isEmpty()) {
-                        "没有匹配的文章，换个关键词试试。"
+                        stringResource(R.string.library_no_match)
                     } else {
-                        "共 ${articles.size} 篇"
+                        pluralStringResource(
+                            R.plurals.library_article_total,
+                            articles.size,
+                            articles.size,
+                        )
                     },
                     style = AnchorType.footnote,
                     color = AnchorTheme.colors.labelSecondary,
@@ -211,7 +222,7 @@ private fun LoadingState(modifier: Modifier = Modifier) {
     ) {
         CircularProgressIndicator(color = AnchorTheme.colors.tint)
         Text(
-            text = "正在加载离线知识库…",
+            text = stringResource(R.string.library_loading),
             style = AnchorType.subheadline,
             color = AnchorTheme.colors.labelSecondary,
             modifier = Modifier.padding(top = 12.dp),
@@ -229,7 +240,7 @@ private fun ErrorState(message: String, modifier: Modifier = Modifier) {
         verticalArrangement = Arrangement.Center,
     ) {
         Text(
-            text = "知识库暂时不可用",
+            text = stringResource(R.string.library_error_title),
             style = AnchorType.headline,
             color = AnchorTheme.colors.label,
         )

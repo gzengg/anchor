@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 日志页：筛选分段、统计头与动作 -->
+    <string name="journal_filter_all">全部</string>
+    <string name="journal_filter_check_in">打卡</string>
+    <string name="journal_filter_urge">渴求</string>
+    <string name="journal_filter_relapse">破戒</string>
+    <plurals name="journal_summary">
+        <item quantity="other">共 %1$d 条 · 打卡 %2$d · 渴求 %3$d · 破戒 %4$d</item>
+    </plurals>
+    <string name="journal_empty_hint">还没有记录。打卡、渴求练习或破戒记录都会出现在这里。</string>
+    <string name="journal_record_relapse">记录破戒</string>
+
+    <!-- 日志页：时间线条目 -->
+    <string name="journal_label_check_in">打卡</string>
+    <string name="journal_label_check_in_with_note">打卡 · 有备注</string>
+    <string name="journal_label_urge">渴求事件 · %1$s</string>
+    <string name="journal_label_relapse">破戒记录</string>
+    <plurals name="journal_detail_duration">
+        <item quantity="other">持续 %1$d 分 %2$d 秒</item>
+    </plurals>
+    <string name="journal_detail_intensity">峰值强度 %1$d/10 → 结束时 %2$d/10</string>
+    <string name="journal_detail_situation">情境：%1$s</string>
+    <string name="journal_detail_emotions">情绪：%1$s</string>
+    <string name="journal_detail_triggers">触发因素：%1$s</string>
+    <string name="journal_accent_relapse">已在破戒后重置天数 · 记录本身就是有效动作</string>
+    <string name="journal_accent_urge">渴求平均 3–5 分钟达峰后自行下降</string>
+
+    <!-- 日志页：破戒统计卡（InsightCard） -->
+    <string name="insight_section_title">触发因素统计</string>
+    <string name="insight_empty_hint">还没有破戒记录。这里只统计你写下的内容，无记录时不显示任何推断。</string>
+    <plurals name="insight_summary_prefix">
+        <item quantity="other">"破戒 %1$d 次 · 中位间隔 "</item>
+    </plurals>
+    <string name="insight_median_insufficient">不足 2 条记录</string>
+    <plurals name="insight_summary_suffix">
+        <item quantity="other">" · 带备注 %1$d 条"</item>
+    </plurals>
+    <string name="insight_emotion_top">情绪 Top %1$d</string>
+    <string name="insight_trigger_top">触发源 Top %1$d</string>
+    <string name="insight_footnote">只说明记录里出现过什么，不代表因果关系或医学结论。</string>
+    <string name="insight_collapse">收起</string>
+    <string name="insight_expand">展开</string>
+    <string name="insight_frequency_empty">暂无数据</string>
+    <plurals name="insight_frequency_item">
+        <item quantity="other">%1$s %2$d 次</item>
+    </plurals>
+    <plurals name="insight_daypart_count">
+        <item quantity="other">%1$d 次</item>
+    </plurals>
+    <plurals name="insight_hours">
+        <item quantity="other">%1$s 小时</item>
+    </plurals>
+    <plurals name="insight_hours_days">
+        <item quantity="other">%1$s 小时（约 %2$s 天）</item>
+    </plurals>
+</resources>

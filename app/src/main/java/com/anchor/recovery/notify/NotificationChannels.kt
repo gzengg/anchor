@@ -7,8 +7,8 @@ import android.os.Build
 import com.anchor.recovery.core.notify.ReminderMessages
 
 /**
- * 通知渠道（Android 8.0+ 必需）。id / 名称 / 描述都取自 :core 的 [ReminderMessages]，
- * 保证「通知文案不许暴露用途」的规则只有一份来源，并被 :core 测试覆盖。
+ * 通知渠道（Android 8.0+ 必需）。id 取自 :core 的 [ReminderMessages]（规则单一来源），
+ * 渠道名与描述取自资源（用户可见文案集中管理）。
  */
 object NotificationChannels {
 
@@ -19,10 +19,10 @@ object NotificationChannels {
 
         val channel = NotificationChannel(
             ReminderMessages.CHANNEL_ID,
-            ReminderMessages.CHANNEL_NAME,
+            ReminderTexts.channelName(context),
             NotificationManager.IMPORTANCE_DEFAULT,
         ).apply {
-            description = ReminderMessages.CHANNEL_DESCRIPTION
+            description = ReminderTexts.channelDescription(context)
         }
         manager.createNotificationChannel(channel)
     }

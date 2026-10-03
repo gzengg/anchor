@@ -11,7 +11,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.pluralStringResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.anchor.recovery.R
 import com.anchor.recovery.core.phase.PhaseNote
 import com.anchor.recovery.core.phase.WithdrawalPhase
 import com.anchor.recovery.core.phase.WithdrawalPhaseCatalog
@@ -54,7 +57,7 @@ fun PhaseCard(
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 Text(
-                    text = "当前阶段：${phase.name}",
+                    text = stringResource(R.string.phase_current, phase.name),
                     style = AnchorType.headline,
                     color = colors.label,
                 )
@@ -65,19 +68,23 @@ fun PhaseCard(
                 )
             }
             Text(
-                text = phase.dayLabel + "（连续 ${dayNumber.coerceAtLeast(0)} 天）",
+                text = phase.dayLabel + pluralStringResource(
+                    R.plurals.phase_consecutive_days,
+                    dayNumber.coerceAtLeast(0),
+                    dayNumber.coerceAtLeast(0),
+                ),
                 style = AnchorType.footnote,
                 color = colors.tint,
             )
             Text(text = phase.headline, style = AnchorType.body, color = colors.label)
 
             NoteSection(
-                title = "可能会经历（自我报告归纳，不是诊断）",
+                title = stringResource(R.string.phase_expectations_title),
                 notes = phase.expectation,
                 onOpenArticle = onOpenArticle,
             )
             NoteSection(
-                title = "这一阶段可以试试",
+                title = stringResource(R.string.phase_coping_title),
                 notes = phase.coping,
                 onOpenArticle = onOpenArticle,
             )

@@ -31,13 +31,15 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import com.anchor.recovery.AppInfo
+import com.anchor.recovery.R
 import com.anchor.recovery.core.legal.Disclaimer
-import com.anchor.recovery.core.notify.ReminderMessages
 import com.anchor.recovery.notify.ExactReminderScheduler
+import com.anchor.recovery.notify.ReminderTexts
 import com.anchor.recovery.ui.components.AnchorAlert
 import com.anchor.recovery.ui.components.AnchorButton
 import com.anchor.recovery.ui.components.AnchorButtonStyle
@@ -68,6 +70,12 @@ fun SettingsScreen(
     val scope = rememberCoroutineScope()
     var showFullDisclaimer by remember { mutableStateOf(false) }
 
+    // 非 @Composable 的帮助函数与回调取不到 stringResource，统一在这里解析后传进去。
+    val cannotWriteError = stringResource(R.string.settings_error_cannot_write)
+    val unknownError = stringResource(R.string.settings_error_unknown)
+    val unknownFileName = stringResource(R.string.settings_file_unknown_name)
+    val unknownTime = stringResource(R.string.settings_time_unknown)
+
     val exportLauncher = rememberLauncherForActivityResult(
         ActivityResultContracts.CreateDocument(EXPORT_MIME),
     ) { uri ->
@@ -77,10 +85,10 @@ fun SettingsScreen(
         } else {
             runCatching {
                 val stream = context.contentResolver.openOutputStream(uri)
-                    ?: error("无法写入所选位置")
+                    ?: error(cannotWriteError)
                 stream.use { it.write(json.toByteArray(Charsets.UTF_8)) }
             }.onSuccess { viewModel.onExportWritten() }
-                .onFailure { viewModel.onExportFailed(it.message ?: "未知错误") }
+                .onFailure { viewModel.onExportFailed(it.message ?: unknownError) }
         }
     }
 
@@ -124,7 +132,7 @@ fun SettingsScreen(
             viewModel.cancelImport()
             return@rememberLauncherForActivityResult
         }
-        val fileName = importFileName(uri.lastPathSegment)
+        val fileName = importFileName(uri.lastPathSegment, unknownFileName)
         scope.launch {
             val text = withContext(Dispatchers.IO) { readImportText(context, uri) }
             viewModel.onImportFilePicked(fileName, text)
@@ -148,12 +156,12 @@ fun SettingsScreen(
             .verticalScroll(scrollState)
             .padding(bottom = 24.dp),
     ) {
-        AnchorLargeTitle("设置")
+        AnchorLargeTitle(stringResource(R.string.settings_title))
 
-        AnchorSectionHeader("每日提醒")
+        AnchorSectionHeader(stringResource(R.string.settings_section_reminder))
         AnchorListGroup {
             AnchorSwitchRow(
-                title = "每天提醒我记录一次",
+                title = stringResource(R.string.settings_reminder_switch),
                 checked = state.reminderEnabled,
                 onCheckedChange = { checked ->
                     if (checked && needsNotificationPermission(context)) {
@@ -173,7 +181,7 @@ fun SettingsScreen(
                     horizontalArrangement = Arrangement.spacedBy(8.dp),
                 ) {
                     AnchorButton(
-                        text = "−5 分钟",
+                        text = stringResource(R.string.settings_shift_minus),
                         onClick = { viewModel.shiftReminderTime(-STEP_MINUTES) },
                         style = AnchorButtonStyle.Tinted,
                     )
@@ -185,15 +193,15 @@ fun SettingsScreen(
                         modifier = Modifier.weight(1f),
                     )
                     AnchorButton(
-                        text = "+5 分钟",
+                        text = stringResource(R.string.settings_shift_plus),
                         onClick = { viewModel.shiftReminderTime(STEP_MINUTES) },
                         style = AnchorButtonStyle.Tinted,
                     )
                 }
                 AnchorHairline(inset = 0.dp)
                 AnchorSwitchRow(
-                    title = "准点提醒",
-                    subtitle = "用系统闹钟准点提醒。系统未授权时自动改用普通提醒，可能晚几分钟。",
+                    title = stringResource(R.string.settings_exact_reminder),
+                    subtitle = stringResource(R.string.settings_exact_reminder_subtitle),
                     checked = state.exactReminderEnabled,
                     onCheckedChange = { checked ->
                         if (checked && !ExactReminderScheduler.canScheduleExact(context)) {
@@ -207,8 +215,11 @@ fun SettingsScreen(
             AnchorHairline(inset = 0.dp)
             Text(
                 // 提前把锁屏可见的文案展示出来：提醒不含任何用途描述。
-                text = "通知文案（锁屏可见）：「${ReminderMessages.title()}」" +
-                    "${ReminderMessages.body(0)}",
+                text = stringResource(
+                    R.string.settings_notification_preview,
+                    ReminderTexts.title(context),
+                    ReminderTexts.body(context, 0),
+                ),
                 style = AnchorType.footnote,
                 color = AnchorTheme.colors.labelSecondary,
                 modifier = Modifier
@@ -217,7 +228,7 @@ fun SettingsScreen(
             )
         }
 
-        AnchorSectionHeader("提示语（十分钟延时里轮播）")
+        AnchorSectionHeader(stringResource(R.string.settings_section_prompts))
         AnchorListGroup {
             Column(
                 modifier = Modifier
@@ -228,19 +239,19 @@ fun SettingsScreen(
                 OutlinedTextField(
                     value = state.promptDraft,
                     onValueChange = viewModel::updatePromptDraft,
-                    label = { Text(text = "每行一条，留空则用默认三条") },
+                    label = { Text(text = stringResource(R.string.settings_prompts_hint)) },
                     minLines = 3,
                     modifier = Modifier.fillMaxWidth(),
                 )
                 AnchorButton(
-                    text = "保存提示语",
+                    text = stringResource(R.string.settings_save_prompts),
                     onClick = viewModel::savePrompts,
                     modifier = Modifier.fillMaxWidth(),
                 )
             }
         }
 
-        AnchorSectionHeader("数据导出")
+        AnchorSectionHeader(stringResource(R.string.settings_section_export))
         AnchorListGroup {
             Column(
                 modifier = Modifier
@@ -254,20 +265,20 @@ fun SettingsScreen(
                     color = AnchorTheme.colors.labelSecondary,
                 )
                 AnchorButton(
-                    text = "导出为 JSON",
+                    text = stringResource(R.string.settings_export_json),
                     onClick = viewModel::prepareExport,
                     enabled = state.hasAnyRecord,
                     modifier = Modifier.fillMaxWidth(),
                 )
                 Text(
-                    text = "导出文件含打卡、破戒、渴求与问卷结果，位置由你选，磐石不会外发。",
+                    text = stringResource(R.string.settings_export_note),
                     style = AnchorType.footnote,
                     color = AnchorTheme.colors.labelSecondary,
                 )
             }
         }
 
-        AnchorSectionHeader("数据导入")
+        AnchorSectionHeader(stringResource(R.string.settings_section_import))
         AnchorListGroup {
             Column(
                 modifier = Modifier
@@ -276,23 +287,23 @@ fun SettingsScreen(
                 verticalArrangement = Arrangement.spacedBy(12.dp),
             ) {
                 Text(
-                    text = "读一份之前导出的 JSON，整体替换当前记录。导入前会先自动导出一份当前数据作备份。",
+                    text = stringResource(R.string.settings_import_note),
                     style = AnchorType.body,
                 )
                 AnchorButton(
-                    text = "从文件导入",
+                    text = stringResource(R.string.settings_import_from_file),
                     onClick = { importLauncher.launch(arrayOf("*/*")) },
                     modifier = Modifier.fillMaxWidth(),
                 )
                 Text(
-                    text = "只读你在系统文件选择器里选中的那一个文件，不认识别的位置。",
+                    text = stringResource(R.string.settings_import_scope_note),
                     style = AnchorType.footnote,
                     color = AnchorTheme.colors.labelSecondary,
                 )
             }
         }
 
-        AnchorSectionHeader("清空数据")
+        AnchorSectionHeader(stringResource(R.string.settings_section_clear))
         AnchorListGroup {
             Column(
                 modifier = Modifier
@@ -301,11 +312,11 @@ fun SettingsScreen(
                 verticalArrangement = Arrangement.spacedBy(12.dp),
             ) {
                 Text(
-                    text = "清空后无法恢复：记录不会有云端备份，也不会有回收站。",
+                    text = stringResource(R.string.settings_clear_note),
                     style = AnchorType.body,
                 )
                 AnchorButton(
-                    text = "清空全部数据",
+                    text = stringResource(R.string.settings_clear_all),
                     onClick = viewModel::requestClear,
                     enabled = state.hasAnyRecord,
                     destructive = true,
@@ -314,7 +325,7 @@ fun SettingsScreen(
             }
         }
 
-        AnchorSectionHeader("隐私说明")
+        AnchorSectionHeader(stringResource(R.string.settings_section_privacy))
         AnchorListGroup {
             Column(
                 modifier = Modifier
@@ -324,7 +335,7 @@ fun SettingsScreen(
             ) {
                 Text(text = Disclaimer.PRIVACY_PARAGRAPH, style = AnchorType.body)
                 Text(
-                    text = "磐石没有账号，不联网传输记录，也不读通讯录、位置或相册。",
+                    text = stringResource(R.string.settings_privacy_note),
                     style = AnchorType.body,
                 )
                 if (showFullDisclaimer) {
@@ -337,23 +348,32 @@ fun SettingsScreen(
                     }
                 }
                 Text(
-                    text = "${AppInfo.DISPLAY_NAME} v${AppInfo.VERSION} · 声明版本 ${state.disclaimerVersion}",
+                    text = stringResource(
+                        R.string.settings_version_line,
+                        AppInfo.DISPLAY_NAME,
+                        AppInfo.VERSION,
+                        state.disclaimerVersion,
+                    ),
                     style = AnchorType.footnote,
                     color = AnchorTheme.colors.labelSecondary,
                 )
             }
             AnchorHairline(inset = 0.dp)
             AnchorButton(
-                text = if (showFullDisclaimer) "收起完整声明" else "查看完整声明",
+                text = if (showFullDisclaimer) {
+                    stringResource(R.string.settings_hide_full_disclaimer)
+                } else {
+                    stringResource(R.string.settings_show_full_disclaimer)
+                },
                 onClick = { showFullDisclaimer = !showFullDisclaimer },
                 style = AnchorButtonStyle.Plain,
                 modifier = Modifier.fillMaxWidth(),
             )
         }
 
-        state.message?.let { message ->
+        state.messageRes?.let { res ->
             Text(
-                text = message,
+                text = stringResource(res, *state.messageArgs.toTypedArray()),
                 style = AnchorType.footnote,
                 color = AnchorTheme.colors.tint,
                 modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 12.dp),
@@ -363,25 +383,27 @@ fun SettingsScreen(
 
     state.pendingImport?.let { pending ->
         AnchorAlert(
-            title = "用这份文件替换现有记录？",
-            message = "文件：${pending.fileName}\n" +
-                "导出时间：${humanReadableTime(pending.exportedAt)}\n" +
-                "含 ${pending.countsLine}\n\n" +
-                "当前记录会被这份文件整体替换，替换前先导出一份备份。",
-            confirmLabel = "备份并导入",
+            title = stringResource(R.string.settings_import_confirm_title),
+            message = stringResource(
+                R.string.settings_import_confirm_message,
+                pending.fileName,
+                humanReadableTime(pending.exportedAt, unknownTime),
+                pending.countsLine,
+            ),
+            confirmLabel = stringResource(R.string.settings_import_confirm_action),
             onConfirm = viewModel::confirmImport,
-            dismissLabel = "取消",
+            dismissLabel = stringResource(R.string.settings_cancel),
             onDismiss = viewModel::cancelImport,
         )
     }
 
     if (state.awaitingClearConfirm) {
         AnchorAlert(
-            title = "确认清空全部数据？",
-            message = "打卡、破戒、渴求和问卷记录都会被删除，且无法恢复；提醒时间与提示语会保留。",
-            confirmLabel = "清空",
+            title = stringResource(R.string.settings_clear_confirm_title),
+            message = stringResource(R.string.settings_clear_confirm_message),
+            confirmLabel = stringResource(R.string.settings_clear_confirm_action),
             onConfirm = viewModel::confirmClear,
-            dismissLabel = "取消",
+            dismissLabel = stringResource(R.string.settings_cancel),
             onDismiss = viewModel::cancelClear,
             destructive = true,
         )
@@ -402,13 +424,13 @@ private fun readImportText(context: Context, uri: Uri): String? = runCatching {
 }.getOrNull()
 
 /** 系统给的多是 `primary:Download/xxx.json`，只留最后的文件名给人看。 */
-private fun importFileName(lastPathSegment: String?): String =
+private fun importFileName(lastPathSegment: String?, fallback: String): String =
     lastPathSegment?.substringAfterLast('/')?.substringAfterLast(':').orEmpty()
-        .ifBlank { "所选文件" }
+        .ifBlank { fallback }
 
 /** `2024-05-04T09:31:00Z` → `2024-05-04 09:31`；解析不了就原样显示。 */
-private fun humanReadableTime(exportedAt: String): String =
-    exportedAt.take(16).replace('T', ' ').ifBlank { "未知" }
+private fun humanReadableTime(exportedAt: String, fallback: String): String =
+    exportedAt.take(16).replace('T', ' ').ifBlank { fallback }
 
 /** Android 13 起 POST_NOTIFICATIONS 需要运行时授权；更低版本安装即授权。 */
 private fun needsNotificationPermission(context: Context): Boolean =

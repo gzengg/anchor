@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 工具页 -->
+    <string name="tools_title">工具</string>
+    <string name="tools_urge_surfing_title">渴求冲浪</string>
+    <string name="tools_urge_surfing_subtitle">把一次冲动拆成几步：说明 → 呼吸 → 观察 → 等待 → 再评分。</string>
+    <string name="tools_urge_surfing_action">开始</string>
+    <string name="tools_delay_tool_title">十分钟延时</string>
+    <string name="tools_delay_tool_subtitle">先不做决定，把选择往后放十分钟，计时结束再评估。</string>
+    <string name="tools_delay_tool_action">开始计时</string>
+    <string name="tools_relapse_title">记录一次破戒</string>
+    <string name="tools_relapse_subtitle">记下当时的情境、情绪和触发源，只看规律，不做评价。</string>
+    <string name="tools_relapse_action">去记录</string>
+    <string name="tools_assessment_title">自评问卷</string>
+    <string name="tools_assessment_subtitle">成瘾倾向自评 19 题、道德冲突 vs 真实问题 12 题，都是参考，不是诊断。</string>
+    <string name="tools_assessment_action">去作答</string>
+    <string name="tools_section_progress">进度</string>
+    <string name="tools_milestone_title">里程碑徽章</string>
+    <string name="tools_milestone_subtitle">7 / 14 / 30 / 60 / 90 天各一枚；破戒后重新开始，之前的徽章会保留。</string>
+    <string name="tools_milestone_action">查看</string>
+    <string name="tools_footnote">工具仅用于自助记录与应对，不构成医疗建议。</string>
+
+    <!-- F3 渴求冲浪 -->
+    <string name="urge_title">渴求冲浪</string>
+    <string name="urge_start_button">开始</string>
+    <string name="urge_intensity_label">现在的渴求强度</string>
+    <string name="urge_finish_button">完成这一轮</string>
+    <string name="urge_back_to_tools_button">回到工具页</string>
+    <string name="urge_skip_button">跳过这一步</string>
+    <string name="urge_stop_button">先到这里</string>
+    <string name="urge_footnote">自助工具，不构成医疗建议；若痛苦持续加重，请咨询医生。</string>
+    <plurals name="urge_elapsed_seconds">
+        <item quantity="other">已持续 %1$d 秒</item>
+    </plurals>
+    <plurals name="urge_breathing_hold">
+        <item quantity="other">保持 %1$d 秒 · 吸气 4 / 停 2 / 呼气 6</item>
+    </plurals>
+    <string name="urge_result_partial">这一轮记作部分完成</string>
+    <string name="urge_result_finished">这一轮结束了</string>
+    <plurals name="urge_result_summary">
+        <item quantity="other">用时 %1$d 秒 · 峰值 %2$s/10</item>
+    </plurals>
+    <string name="urge_result_end_intensity">" · 结束 %1$d/10"</string>
+    <string name="urge_delta_down">下降 %1$d 分：它自己退下去了。</string>
+    <string name="urge_delta_same">强度没变，但也没有继续升高。</string>
+    <string name="urge_delta_up">比开始时更高。冲浪不保证每次都下降，你已经做到不立刻行动。</string>
+    <string name="urge_no_end_score">没有结束评分，这次不算完整一轮，但记录已保存。</string>
+
+    <!-- F4 十分钟延时 -->
+    <string name="delay_title">十分钟延时</string>
+    <string name="delay_footnote">不替你决定做什么，只是把决定推迟十分钟。不构成医疗建议。</string>
+    <string name="delay_start_heading">把决定往后放十分钟</string>
+    <string name="delay_start_hint">这十分钟里只做两件事：跟着呼吸，看看自己写下的理由。</string>
+    <string name="delay_initial_intensity_label">开始前的渴求强度</string>
+    <string name="delay_start_button">开始计时</string>
+    <plurals name="delay_breathing_hold">
+        <item quantity="other">保持 %1$d 秒（吸气 4 / 停 2 / 呼气 6）</item>
+    </plurals>
+    <plurals name="delay_prompt_rotate_hint">
+        <item quantity="other">每 %1$d 秒换一条，可在设置里改成自己的话。</item>
+    </plurals>
+    <string name="delay_stop_button">结束计时</string>
+    <string name="delay_done_heading">十分钟到了</string>
+    <string name="delay_done_question">刚才那股冲动，现在过去了吗？如实答就好。</string>
+    <string name="delay_answer_passed">过去了</string>
+    <string name="delay_answer_still">还在</string>
+    <string name="delay_end_intensity_label">现在的渴求强度</string>
+    <string name="delay_intensity_compare">开始前 %1$d / 10 → 现在 %2$d / 10</string>
+    <string name="delay_answer_prompt_button">先回答问题</string>
+    <string name="delay_save_button">保存这次记录</string>
+    <string name="delay_saved_heading">已记录</string>
+    <string name="delay_saved_hint">你刚把行动推迟了十分钟，这条记录会出现在日志页。</string>
+    <string name="delay_back_to_tools_button">回到工具页</string>
+
+    <!-- F5 破戒记录 -->
+    <string name="relapse_title">记录一次破戒</string>
+    <string name="relapse_hint">如实记录就好，破戒很常见。保存后连续天数从今天重新算。</string>
+    <string name="relapse_situation_label">情境（在哪、和谁、在做什么）</string>
+    <string name="relapse_emotions_title">情绪（可多选）</string>
+    <string name="relapse_triggers_title">触发源（可多选）</string>
+    <string name="relapse_note_label">备注（当时在想什么）</string>
+    <string name="relapse_open_journal_button">去看日志与统计</string>
+    <string name="relapse_save_button">保存记录</string>
+    <string name="relapse_footnote">标签由你自己选，统计只说明记录里出现过多少次，不代表因果关系。</string>
+    <string name="relapse_message_incomplete">至少填一项：情境、情绪、触发源或备注。</string>
+    <string name="relapse_message_saved">已记录。写下它的价值是让你看清规律，而不是给自己下判断。</string>
+</resources>

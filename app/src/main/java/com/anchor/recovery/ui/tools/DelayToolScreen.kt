@@ -22,7 +22,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.pluralStringResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.anchor.recovery.R
 import com.anchor.recovery.core.urge.BreathingPattern
 import com.anchor.recovery.core.urge.DelayTool
 import com.anchor.recovery.ui.components.AnchorButton
@@ -72,7 +75,7 @@ fun DelayToolScreen(
             .padding(bottom = 24.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
-        AnchorLargeTitle("十分钟延时")
+        AnchorLargeTitle(stringResource(R.string.delay_title))
 
         when {
             !started -> StartCard(
@@ -113,7 +116,7 @@ fun DelayToolScreen(
         }
 
         Text(
-            text = "不替你决定做什么，只是把决定推迟十分钟。不构成医疗建议。",
+            text = stringResource(R.string.delay_footnote),
             style = AnchorType.footnote,
             color = AnchorTheme.colors.labelSecondary,
             modifier = Modifier.padding(horizontal = 16.dp),
@@ -135,22 +138,22 @@ private fun StartCard(
             verticalArrangement = Arrangement.spacedBy(10.dp),
         ) {
             Text(
-                text = "把决定往后放十分钟",
+                text = stringResource(R.string.delay_start_heading),
                 style = AnchorType.title3,
                 color = AnchorTheme.colors.label,
             )
             Text(
-                text = "这十分钟里只做两件事：跟着呼吸，看看自己写下的理由。",
+                text = stringResource(R.string.delay_start_hint),
                 style = AnchorType.body,
                 color = AnchorTheme.colors.label,
             )
             IntensityRow(
-                label = "开始前的渴求强度",
+                label = stringResource(R.string.delay_initial_intensity_label),
                 intensity = initialIntensity,
                 onIntensityChange = onIntensityChange,
             )
             AnchorButton(
-                text = "开始计时",
+                text = stringResource(R.string.delay_start_button),
                 onClick = onStart,
                 modifier = Modifier.fillMaxWidth(),
             )
@@ -192,7 +195,7 @@ private fun RunningCard(uiState: DelayUiState, onCancel: () -> Unit) {
                     color = AnchorTheme.colors.label,
                 )
                 Text(
-                    text = "保持 ${cue.remainingSec} 秒（吸气 4 / 停 2 / 呼气 6）",
+                    text = pluralStringResource(R.plurals.delay_breathing_hold, cue.remainingSec, cue.remainingSec),
                     style = AnchorType.footnote,
                     color = AnchorTheme.colors.labelSecondary,
                 )
@@ -204,13 +207,17 @@ private fun RunningCard(uiState: DelayUiState, onCancel: () -> Unit) {
                     color = AnchorTheme.colors.label,
                 )
                 Text(
-                    text = "每 ${DelayTool.PROMPT_ROTATE_SEC} 秒换一条，可在设置里改成自己的话。",
+                    text = pluralStringResource(
+                        R.plurals.delay_prompt_rotate_hint,
+                        DelayTool.PROMPT_ROTATE_SEC,
+                        DelayTool.PROMPT_ROTATE_SEC,
+                    ),
                     style = AnchorType.footnote,
                     color = AnchorTheme.colors.labelSecondary,
                 )
             }
             AnchorButton(
-                text = "结束计时",
+                text = stringResource(R.string.delay_stop_button),
                 onClick = onCancel,
                 style = AnchorButtonStyle.Tinted,
                 modifier = Modifier.fillMaxWidth(),
@@ -236,12 +243,12 @@ private fun OutcomeCard(
             verticalArrangement = Arrangement.spacedBy(12.dp),
         ) {
             Text(
-                text = "十分钟到了",
+                text = stringResource(R.string.delay_done_heading),
                 style = AnchorType.title3,
                 color = AnchorTheme.colors.label,
             )
             Text(
-                text = "刚才那股冲动，现在过去了吗？如实答就好。",
+                text = stringResource(R.string.delay_done_question),
                 style = AnchorType.body,
                 color = AnchorTheme.colors.label,
             )
@@ -250,29 +257,37 @@ private fun OutcomeCard(
                 horizontalArrangement = Arrangement.spacedBy(12.dp),
             ) {
                 AnchorButton(
-                    text = "过去了",
+                    text = stringResource(R.string.delay_answer_passed),
                     onClick = { onAnswer(true) },
                     modifier = Modifier.weight(1f),
                 )
                 AnchorButton(
-                    text = "还在",
+                    text = stringResource(R.string.delay_answer_still),
                     onClick = { onAnswer(false) },
                     style = AnchorButtonStyle.Tinted,
                     modifier = Modifier.weight(1f),
                 )
             }
             IntensityRow(
-                label = "现在的渴求强度",
+                label = stringResource(R.string.delay_end_intensity_label),
                 intensity = endIntensity,
                 onIntensityChange = onIntensityChange,
             )
             Text(
-                text = "开始前 $initialIntensity / 10 → 现在 $endIntensity / 10",
+                text = stringResource(
+                    R.string.delay_intensity_compare,
+                    initialIntensity,
+                    endIntensity,
+                ),
                 style = AnchorType.footnote,
                 color = AnchorTheme.colors.labelSecondary,
             )
             AnchorButton(
-                text = if (answered == null) "先回答问题" else "保存这次记录",
+                text = if (answered == null) {
+                    stringResource(R.string.delay_answer_prompt_button)
+                } else {
+                    stringResource(R.string.delay_save_button)
+                },
                 onClick = onSave,
                 enabled = answered != null,
                 modifier = Modifier.fillMaxWidth(),
@@ -291,17 +306,17 @@ private fun SavedCard(onDone: () -> Unit) {
             verticalArrangement = Arrangement.spacedBy(10.dp),
         ) {
             Text(
-                text = "已记录",
+                text = stringResource(R.string.delay_saved_heading),
                 style = AnchorType.headline,
                 color = AnchorTheme.colors.label,
             )
             Text(
-                text = "你刚把行动推迟了十分钟，这条记录会出现在日志页。",
+                text = stringResource(R.string.delay_saved_hint),
                 style = AnchorType.body,
                 color = AnchorTheme.colors.label,
             )
             AnchorButton(
-                text = "回到工具页",
+                text = stringResource(R.string.delay_back_to_tools_button),
                 onClick = onDone,
                 modifier = Modifier.fillMaxWidth(),
             )

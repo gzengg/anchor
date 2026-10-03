@@ -20,7 +20,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.pluralStringResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.anchor.recovery.R
 import com.anchor.recovery.ui.TimelineEntry
 import com.anchor.recovery.ui.TimelineFilter
 import com.anchor.recovery.ui.TimelineViewModel
@@ -57,20 +60,34 @@ fun TimelineScreen(
             .fillMaxSize()
             .background(AnchorTheme.colors.groupedBackground),
     ) {
+        // 分段控件的 label 参数不是 @Composable：先把每个筛选项的文案取成资源。
+        val filterLabels = mapOf(
+            TimelineFilter.ALL to stringResource(R.string.journal_filter_all),
+            TimelineFilter.CHECK_IN to stringResource(R.string.journal_filter_check_in),
+            TimelineFilter.URGE to stringResource(R.string.journal_filter_urge),
+            TimelineFilter.RELAPSE to stringResource(R.string.journal_filter_relapse),
+        )
         AnchorSegmentedControl(
             options = TimelineFilter.entries,
             selected = state.filter,
             onSelect = viewModel::selectFilter,
-            label = { filter -> "${filter.label} ${countOf(state, filter)}" },
+            label = { filter -> "${filterLabels.getValue(filter)} ${countOf(state, filter)}" },
             modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp),
         )
 
         AnchorListGroup {
             Text(
                 text = if (state.totalCount == 0) {
-                    "还没有记录。打卡、渴求练习或破戒记录都会出现在这里。"
+                    stringResource(R.string.journal_empty_hint)
                 } else {
-                    "共 ${state.totalCount} 条 · 打卡 ${state.checkInCount} · 渴求 ${state.urgeCount} · 破戒 ${state.relapseCount}"
+                    pluralStringResource(
+                        R.plurals.journal_summary,
+                        state.totalCount,
+                        state.totalCount,
+                        state.checkInCount,
+                        state.urgeCount,
+                        state.relapseCount,
+                    )
                 },
                 style = AnchorType.footnote,
                 color = AnchorTheme.colors.labelSecondary,
@@ -80,7 +97,7 @@ fun TimelineScreen(
             )
             AnchorHairline(inset = 0.dp)
             AnchorButton(
-                text = "记录破戒",
+                text = stringResource(R.string.journal_record_relapse),
                 onClick = onOpenRelapseEdit,
                 style = AnchorButtonStyle.Plain,
                 modifier = Modifier.fillMaxWidth(),
@@ -161,23 +178,41 @@ private fun TimelineRow(entry: TimelineEntry, modifier: Modifier = Modifier) {
     }
 }
 
+@Composable
 private fun TimelineEntry.label(): String = when (this) {
-    is TimelineEntry.CheckIn -> if (record.note.isBlank()) "打卡" else "打卡 · 有备注"
-    is TimelineEntry.Urge -> "渴求事件 · ${record.tool.label}"
-    is TimelineEntry.Relapse -> "破戒记录"
+    is TimelineEntry.CheckIn -> if (record.note.isBlank()) {
+        stringResource(R.string.journal_label_check_in)
+    } else {
+        stringResource(R.string.journal_label_check_in_with_note)
+    }
+
+    is TimelineEntry.Urge -> stringResource(R.string.journal_label_urge, record.tool.label)
+    is TimelineEntry.Relapse -> stringResource(R.string.journal_label_relapse)
 }
 
+@Composable
 private fun TimelineEntry.details(): List<String> = when (this) {
     is TimelineEntry.CheckIn -> listOfNotNull(record.note.takeIf { it.isNotBlank() })
     is TimelineEntry.Urge -> listOf(
-        "持续 ${record.durationSec / 60} 分 ${record.durationSec % 60} 秒",
-        "峰值强度 ${record.peakIntensity}/10 → 结束时 ${record.endIntensity}/10",
+        pluralStringResource(
+            R.plurals.journal_detail_duration,
+            record.durationSec / 60,
+            record.durationSec / 60,
+            record.durationSec % 60,
+        ),
+        stringResource(R.string.journal_detail_intensity, record.peakIntensity, record.endIntensity),
     )
 
     is TimelineEntry.Relapse -> buildList {
-        if (record.situation.isNotBlank()) add("情境：${record.situation}")
-        if (record.emotions.isNotEmpty()) add("情绪：${record.emotions.joinToString("、")}")
-        if (record.triggers.isNotEmpty()) add("触发因素：${record.triggers.joinToString("、")}")
+        if (record.situation.isNotBlank()) {
+            add(stringResource(R.string.journal_detail_situation, record.situation))
+        }
+        if (record.emotions.isNotEmpty()) {
+            add(stringResource(R.string.journal_detail_emotions, record.emotions.joinToString("、")))
+        }
+        if (record.triggers.isNotEmpty()) {
+            add(stringResource(R.string.journal_detail_triggers, record.triggers.joinToString("、")))
+        }
         if (record.note.isNotBlank()) add(record.note)
     }
 }
@@ -198,13 +233,13 @@ private fun TimelineEntry.accent(): Accent? {
             // 与 AnchorButton 的 Tinted 同一种做法：危险色降透明度当容器色。
             container = colors.danger.copy(alpha = 0.14f),
             content = colors.danger,
-            text = "已在破戒后重置天数 · 记录本身就是有效动作",
+            text = stringResource(R.string.journal_accent_relapse),
         )
 
         is TimelineEntry.Urge -> Accent(
             container = colors.fill,
             content = colors.labelSecondary,
-            text = "渴求平均 3–5 分钟达峰后自行下降",
+            text = stringResource(R.string.journal_accent_urge),
         )
 
         is TimelineEntry.CheckIn -> null

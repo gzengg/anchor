@@ -10,8 +10,17 @@ sealed interface CheckInDecision {
     /** 今天已经打过卡，无需重复插入（date 唯一索引）。 */
     data class AlreadyCheckedIn(val date: LocalDate) : CheckInDecision
 
-    /** 不允许打卡，[reason] 用于直接展示给用户。 */
-    data class Rejected(val date: LocalDate, val reason: String) : CheckInDecision
+    /** 不允许打卡，[reason] 由界面按资源渲染（`:app` 的 `checkInRejectionText`）。 */
+    data class Rejected(val date: LocalDate, val reason: CheckInRejection) : CheckInDecision
+}
+
+/** 不允许打卡的原因码；展示文案在 `:app`，core 不持有中文文案。 */
+enum class CheckInRejection {
+    /** 目标日期在未来。 */
+    FUTURE_DATE,
+
+    /** 目标日期不是今天（不支持补打卡）。 */
+    NOT_TODAY,
 }
 
 /**
@@ -29,10 +38,10 @@ class CheckInPolicy(private val clock: Clock) {
         val target = requestedDate ?: today
         return when {
             target.toEpochDays() > today.toEpochDays() ->
-                CheckInDecision.Rejected(target, "不能为未来日期打卡")
+                CheckInDecision.Rejected(target, CheckInRejection.FUTURE_DATE)
 
             target.toEpochDays() < today.toEpochDays() ->
-                CheckInDecision.Rejected(target, "只能为今天打卡，不支持补打卡")
+                CheckInDecision.Rejected(target, CheckInRejection.NOT_TODAY)
 
             existingDates.contains(today) -> CheckInDecision.AlreadyCheckedIn(today)
 

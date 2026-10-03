@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 设置页：每日提醒 -->
+    <string name="settings_title">设置</string>
+    <string name="settings_section_reminder">每日提醒</string>
+    <string name="settings_reminder_switch">每天提醒我记录一次</string>
+    <string name="settings_shift_minus">−5 分钟</string>
+    <string name="settings_shift_plus">+5 分钟</string>
+    <string name="settings_exact_reminder">准点提醒</string>
+    <string name="settings_exact_reminder_subtitle">用系统闹钟准点提醒。系统未授权时自动改用普通提醒，可能晚几分钟。</string>
+    <string name="settings_notification_preview">通知文案（锁屏可见）：「%1$s」%2$s</string>
+
+    <!-- 设置页：提示语 -->
+    <string name="settings_section_prompts">提示语（十分钟延时里轮播）</string>
+    <string name="settings_prompts_hint">每行一条，留空则用默认三条</string>
+    <string name="settings_save_prompts">保存提示语</string>
+
+    <!-- 设置页：数据导出 -->
+    <string name="settings_section_export">数据导出</string>
+    <string name="settings_export_json">导出为 JSON</string>
+    <string name="settings_export_note">导出文件含打卡、破戒、渴求与问卷结果，位置由你选，磐石不会外发。</string>
+
+    <!-- 设置页：数据导入 -->
+    <string name="settings_section_import">数据导入</string>
+    <string name="settings_import_note">读一份之前导出的 JSON，整体替换当前记录。导入前会先自动导出一份当前数据作备份。</string>
+    <string name="settings_import_from_file">从文件导入</string>
+    <string name="settings_import_scope_note">只读你在系统文件选择器里选中的那一个文件，不认识别的位置。</string>
+
+    <!-- 设置页：清空数据 -->
+    <string name="settings_section_clear">清空数据</string>
+    <string name="settings_clear_note">清空后无法恢复：记录不会有云端备份，也不会有回收站。</string>
+    <string name="settings_clear_all">清空全部数据</string>
+
+    <!-- 设置页：隐私说明 -->
+    <string name="settings_section_privacy">隐私说明</string>
+    <string name="settings_privacy_note">磐石没有账号，不联网传输记录，也不读通讯录、位置或相册。</string>
+    <string name="settings_version_line">%1$s v%2$s · 声明版本 %3$d</string>
+    <string name="settings_show_full_disclaimer">查看完整声明</string>
+    <string name="settings_hide_full_disclaimer">收起完整声明</string>
+
+    <!-- 设置页：导入确认弹窗 -->
+    <string name="settings_import_confirm_title">用这份文件替换现有记录？</string>
+    <string name="settings_import_confirm_message">文件：%1$s\n导出时间：%2$s\n含 %3$s\n\n当前记录会被这份文件整体替换，替换前先导出一份备份。</string>
+    <string name="settings_import_confirm_action">备份并导入</string>
+
+    <!-- 设置页：清空确认弹窗 -->
+    <string name="settings_clear_confirm_title">确认清空全部数据？</string>
+    <string name="settings_clear_confirm_message">打卡、破戒、渴求和问卷记录都会被删除，且无法恢复；提醒时间与提示语会保留。</string>
+    <string name="settings_clear_confirm_action">清空</string>
+
+    <!-- 设置页：通用 -->
+    <string name="settings_cancel">取消</string>
+    <string name="settings_error_cannot_write">无法写入所选位置</string>
+    <string name="settings_error_unknown">未知错误</string>
+    <string name="settings_file_unknown_name">所选文件</string>
+    <string name="settings_time_unknown">未知</string>
+
+    <!-- 设置页 ViewModel 提示消息 -->
+    <string name="settings_message_reminder_off">已关闭每日提醒。</string>
+    <string name="settings_message_permission_denied">没有通知权限，提醒无法送达。可稍后在系统设置里为磐石打开通知。</string>
+    <string name="settings_message_exact_on">已改为准点提醒。</string>
+    <string name="settings_message_exact_off">已改回普通提醒。</string>
+    <string name="settings_message_exact_denied">系统没有授权「闹钟与提醒」，仍使用普通提醒。</string>
+    <string name="settings_message_reminder_time_changed">提醒时间已改为 %1$s。</string>
+    <string name="settings_message_prompts_saved">已保存提示语。</string>
+    <string name="settings_message_import_unreadable">读不到这个文件，请换一个再试。</string>
+    <string name="settings_message_import_cancelled">已取消导入。</string>
+    <string name="settings_message_import_done">已导入：%1$s。原来的记录已被这份文件替换。</string>
+    <string name="settings_message_import_failed">导入失败：%1$s。你原来的记录没有被改动。</string>
+    <string name="settings_message_import_failed_no_reason">导入失败：文件内容有冲突。你原来的记录没有被改动。</string>
+    <string name="settings_message_export_done">已导出。请把文件保存到你信任的位置。</string>
+    <string name="settings_message_backup_failed">没有备份成功，导入已取消。你原来的记录没有变动。</string>
+    <string name="settings_message_export_cancelled">已取消导出。</string>
+    <string name="settings_message_export_failed">导出失败：%1$s</string>
+    <string name="settings_message_cleared">已清空全部记录。此操作无法撤销。</string>
+
+    <!-- 应用层 ViewModel 消息（Home / CheckIn） -->
+    <string name="msg_check_in_recorded">已记录今天。</string>
+    <string name="msg_check_in_duplicate">今天已经记录过了。</string>
+    <string name="msg_check_in_undone">已撤销今天的打卡。</string>
+    <!-- :core 产出的中文提示（如 CheckInDecision.Rejected.reason / ImportResult.Rejected.reason）按原样透传 -->
+    <string name="msg_passthrough">%1$s</string>
+</resources>

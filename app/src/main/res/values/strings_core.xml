@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--
+      :core 界面骨架文案。core 只保留原因码与天数口径（:core 禁止依赖 android.*），
+      用户可见文案集中在这里，由 CoreTextTest / MilestoneCopyComplianceTest 覆盖。
+    -->
+    <string name="milestone_days_title_1">第 1 天</string>
+    <string name="milestone_days_title_7">第 1 周</string>
+    <string name="milestone_days_title_30">第 1 个月</string>
+    <string name="milestone_days_title_60">第 2 个月</string>
+    <string name="milestone_days_title_90">90 天重启</string>
+    <!-- 兜底：天数口径固定在 :core，正常不会走到。 -->
+    <string name="milestone_days_title_unknown">里程碑</string>
+
+    <string name="checkin_reject_future_date">不能为未来日期打卡</string>
+    <string name="checkin_reject_not_today">只能为今天打卡，不支持补打卡</string>
+
+    <string name="import_reject_empty_file">文件是空的，没有可导入的数据。</string>
+    <string name="import_reject_not_anchor_file">这不是磐石导出的数据文件，读不出来。</string>
+    <string name="import_reject_missing_version">文件缺少版本号，无法确认格式。</string>
+    <string name="import_reject_unsupported_version">文件来自更新的版本（格式 v%1$d），当前应用只认到 v%2$d，请先升级磐石。</string>
+    <string name="import_reject_parse_error">文件里的记录读不出来（%1$s）。</string>
+    <string name="import_reject_unknown_parse_error">文件里的记录读不出来（格式异常）。</string>
+    <string name="import_reject_duplicate_dates">文件里有重复的打卡日期（%1$s），为免丢数据已拒绝导入。</string>
+</resources>

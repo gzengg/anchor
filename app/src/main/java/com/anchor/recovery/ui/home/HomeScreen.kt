@@ -16,7 +16,10 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.pluralStringResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.anchor.recovery.R
 import com.anchor.recovery.ui.HomeUiState
 import com.anchor.recovery.ui.HomeViewModel
 import com.anchor.recovery.ui.components.AnchorButton
@@ -24,6 +27,7 @@ import com.anchor.recovery.ui.components.AnchorButtonStyle
 import com.anchor.recovery.ui.components.AnchorListGroup
 import com.anchor.recovery.ui.components.AnchorSectionHeader
 import com.anchor.recovery.ui.components.PublishAnchorNavBar
+import com.anchor.recovery.ui.text.milestoneTitleRes
 import com.anchor.recovery.ui.theme.AnchorTheme
 import com.anchor.recovery.ui.theme.AnchorType
 
@@ -57,14 +61,14 @@ fun HomeScreen(
     ) {
         StreakCard(state = state, modifier = Modifier.padding(top = 8.dp))
 
-        AnchorSectionHeader("今天")
+        AnchorSectionHeader(stringResource(R.string.home_section_today))
         TodayCard(
             state = state,
             onCheckIn = viewModel::checkInToday,
             onOpenCheckIn = onOpenCheckIn,
         )
 
-        AnchorSectionHeader("现在有点难熬？")
+        AnchorSectionHeader(stringResource(R.string.home_section_struggling))
         QuickToolCard(
             onOpenUrgeSurfing = onOpenUrgeSurfing,
             onOpenDelayTool = onOpenDelayTool,
@@ -77,7 +81,7 @@ fun HomeScreen(
             modifier = Modifier.padding(top = 20.dp),
         )
 
-        AnchorSectionHeader("知识库")
+        AnchorSectionHeader(stringResource(R.string.home_section_library))
         LibraryCard(onOpenLibrary = onOpenLibrary)
     }
 }
@@ -93,7 +97,7 @@ private fun StreakCard(state: HomeUiState, modifier: Modifier = Modifier) {
             verticalArrangement = Arrangement.spacedBy(6.dp),
         ) {
             Text(
-                text = "当前连续记录",
+                text = stringResource(R.string.home_streak_current_label),
                 style = AnchorType.footnote,
                 color = colors.labelSecondary,
             )
@@ -104,20 +108,29 @@ private fun StreakCard(state: HomeUiState, modifier: Modifier = Modifier) {
                     color = colors.tint,
                 )
                 Text(
-                    text = " 天",
+                    text = stringResource(R.string.home_streak_day_unit),
                     style = AnchorType.subheadline,
                     color = colors.labelSecondary,
                     modifier = Modifier.padding(bottom = 6.dp),
                 )
             }
             Text(
-                text = "历史最长 ${state.streak.longestDays} 天 · 累计记录 ${state.streak.totalCheckInDays} 天",
+                text = pluralStringResource(
+                    R.plurals.home_streak_history,
+                    state.streak.longestDays,
+                    state.streak.longestDays,
+                    state.streak.totalCheckInDays,
+                ),
                 style = AnchorType.footnote,
                 color = colors.labelSecondary,
             )
             state.streak.daysSinceLastRelapse?.let { days ->
                 Text(
-                    text = if (days == 0) "最近一次破戒：今天" else "距最近一次破戒：$days 天",
+                    text = if (days == 0) {
+                        stringResource(R.string.home_relapse_today)
+                    } else {
+                        pluralStringResource(R.plurals.home_relapse_days_ago, days, days)
+                    },
                     style = AnchorType.footnote,
                     color = colors.labelSecondary,
                 )
@@ -131,8 +144,15 @@ private fun StreakCard(state: HomeUiState, modifier: Modifier = Modifier) {
                     .padding(top = 6.dp),
             )
             Text(
-                text = "90 天进度 ${(state.progress * 100).toInt()}%" +
-                    (state.nextMilestone?.let { " · 下一个里程碑：${it.title}" } ?: " · 已走完 90 天"),
+                text = stringResource(R.string.home_progress_percent, (state.progress * 100).toInt()) +
+                    (
+                        state.nextMilestone?.let {
+                            stringResource(
+                                R.string.home_progress_next_milestone,
+                                stringResource(milestoneTitleRes(it.days)),
+                            )
+                        } ?: stringResource(R.string.home_progress_all_done)
+                    ),
                 style = AnchorType.footnote,
                 color = colors.labelSecondary,
             )
@@ -157,28 +177,32 @@ private fun TodayCard(
         ) {
             Text(
                 text = if (state.streak.todayCheckedIn) {
-                    "今天已打卡。"
+                    stringResource(R.string.home_today_checked_in_message)
                 } else {
-                    "还没打卡，一天一次。"
+                    stringResource(R.string.home_today_not_checked_in_message)
                 },
                 style = AnchorType.body,
                 color = colors.label,
             )
             AnchorButton(
-                text = if (state.streak.todayCheckedIn) "今天已打卡" else "打卡",
+                text = if (state.streak.todayCheckedIn) {
+                    stringResource(R.string.home_today_checked_in_button)
+                } else {
+                    stringResource(R.string.home_today_check_in_button)
+                },
                 onClick = onCheckIn,
                 enabled = !state.streak.todayCheckedIn,
                 modifier = Modifier.fillMaxWidth(),
             )
             AnchorButton(
-                text = "打卡记录与感受",
+                text = stringResource(R.string.home_open_check_in_button),
                 onClick = onOpenCheckIn,
                 style = AnchorButtonStyle.Plain,
                 modifier = Modifier.fillMaxWidth(),
             )
-            state.message?.let { message ->
+            state.messageRes?.let { res ->
                 Text(
-                    text = message,
+                    text = stringResource(res, *state.messageArgs.toTypedArray()),
                     style = AnchorType.footnote,
                     color = colors.tint,
                 )
@@ -202,25 +226,25 @@ private fun QuickToolCard(
             verticalArrangement = Arrangement.spacedBy(12.dp),
         ) {
             Text(
-                text = "先做一次冲浪练习，或用十分钟延时把决定往后放。",
+                text = stringResource(R.string.home_quick_tool_hint),
                 style = AnchorType.body,
                 color = colors.label,
             )
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 AnchorButton(
-                    text = "渴求冲浪",
+                    text = stringResource(R.string.home_urge_surfing_button),
                     onClick = onOpenUrgeSurfing,
                     modifier = Modifier.weight(1f),
                 )
                 AnchorButton(
-                    text = "十分钟延时",
+                    text = stringResource(R.string.home_delay_tool_button),
                     onClick = onOpenDelayTool,
                     style = AnchorButtonStyle.Tinted,
                     modifier = Modifier.weight(1f),
                 )
             }
             Text(
-                text = "90 天是社群参照，不是医学判定。",
+                text = stringResource(R.string.home_quick_tool_footnote),
                 style = AnchorType.footnote,
                 color = colors.labelSecondary,
             )
@@ -242,12 +266,12 @@ private fun LibraryCard(
             verticalArrangement = Arrangement.spacedBy(12.dp),
         ) {
             Text(
-                text = "71 篇离线文章，每篇标注来源与可信度。",
+                text = stringResource(R.string.home_library_hint),
                 style = AnchorType.body,
                 color = colors.label,
             )
             AnchorButton(
-                text = "按分类浏览",
+                text = stringResource(R.string.home_library_browse_button),
                 onClick = onOpenLibrary,
                 style = AnchorButtonStyle.Tinted,
                 modifier = Modifier.fillMaxWidth(),

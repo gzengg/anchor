@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 知识库列表 -->
+    <string name="library_search_placeholder">搜索标题、标签或正文</string>
+    <string name="library_category_all_count">全部 %1$d</string>
+    <plurals name="library_article_total">
+        <item quantity="other">共 %1$d 篇</item>
+    </plurals>
+    <string name="library_no_match">没有匹配的文章，换个关键词试试。</string>
+    <string name="library_loading">正在加载离线知识库…</string>
+    <string name="library_error_title">知识库暂时不可用</string>
+    <string name="library_content_unavailable">内容不可用</string>
+
+    <!-- 可信度徽章与来源 chip -->
+    <string name="library_credibility">可信度 %1$s</string>
+    <string name="library_source_label">来源</string>
+
+    <!-- 免责声明卡 -->
+    <string name="library_disclaimer_title">免责声明</string>
+    <string name="library_disclaimer_content">本内容整理自公开来源，仅供科普与自助参考，不构成诊断或治疗建议。</string>
+    <string name="library_disclaimer_help">若你正处于明显痛苦中，请咨询专业医生或当地心理援助热线。</string>
+
+    <!-- 阅读器 -->
+    <string name="article_loading">正在加载…</string>
+    <string name="article_not_found">没找到这篇文章（id=%1$s）。%2$s</string>
+    <string name="article_source_title">原文来源</string>
+    <string name="article_source_hint">链接会用系统浏览器/CustomTabs 打开，属于站外内容。</string>
+</resources>

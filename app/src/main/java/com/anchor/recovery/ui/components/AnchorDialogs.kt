@@ -19,6 +19,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.semantics.Role
@@ -27,6 +28,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
+import com.anchor.recovery.R
 import com.anchor.recovery.ui.theme.AnchorTheme
 import com.anchor.recovery.ui.theme.AnchorType
 import kotlinx.coroutines.launch
@@ -165,7 +167,7 @@ fun AnchorActionSheet(
     modifier: Modifier = Modifier,
     title: String? = null,
     message: String? = null,
-    cancelLabel: String = "取消",
+    cancelLabel: String = stringResource(R.string.common_cancel),
 ) {
     val colors = AnchorTheme.colors
     val sheetState = rememberModalBottomSheetState()

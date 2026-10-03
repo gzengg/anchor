@@ -1,5 +1,8 @@
 package com.anchor.recovery.ui.navigation
 
+import androidx.annotation.StringRes
+import com.anchor.recovery.R
+
 /**
  * 全部路由集中定义，避免字符串散落在各处。
  */
@@ -30,22 +33,23 @@ object AnchorRoutes {
 
     fun article(articleId: String): String = "article/$articleId"
 
-    /** 顶部标题栏文案；返回 null 表示该路由自行渲染标题。 */
-    fun title(route: String?): String? = when (route) {
-        HOME -> "磐石"
-        TOOLS -> "工具"
-        LIBRARY -> "知识库"
-        JOURNAL -> "日志"
-        CHECK_IN -> "今日打卡"
-        URGE_SURFING -> "渴求冲浪"
-        DELAY_TOOL -> "十分钟延时"
-        RELAPSE_EDIT -> "记录一次破戒"
-        ASSESSMENT_HUB -> "自评问卷"
-        CSBD_INTRO, CSBD_QUIZ, CSBD_RESULT -> "成瘾倾向自评"
-        MORAL_INTRO, MORAL_QUIZ, MORAL_RESULT -> "道德冲突评估"
-        ARTICLE -> "文章"
-        SETTINGS -> "设置"
-        MILESTONES -> "里程碑"
+    /** 顶部标题栏文案的资源 id；返回 null 表示该路由自行渲染标题。 */
+    @StringRes
+    fun title(route: String?): Int? = when (route) {
+        HOME -> R.string.route_title_home
+        TOOLS -> R.string.route_title_tools
+        LIBRARY -> R.string.route_title_library
+        JOURNAL -> R.string.route_title_journal
+        CHECK_IN -> R.string.route_title_check_in
+        URGE_SURFING -> R.string.route_title_urge_surfing
+        DELAY_TOOL -> R.string.route_title_delay_tool
+        RELAPSE_EDIT -> R.string.route_title_relapse_edit
+        ASSESSMENT_HUB -> R.string.route_title_assessment_hub
+        CSBD_INTRO, CSBD_QUIZ, CSBD_RESULT -> R.string.route_title_csbd
+        MORAL_INTRO, MORAL_QUIZ, MORAL_RESULT -> R.string.route_title_moral
+        ARTICLE -> R.string.route_title_article
+        SETTINGS -> R.string.route_title_settings
+        MILESTONES -> R.string.route_title_milestones
         else -> null
     }
 }

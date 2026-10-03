@@ -24,6 +24,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
@@ -35,6 +36,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.anchor.recovery.AppInfo
+import com.anchor.recovery.R
 import com.anchor.recovery.core.legal.Disclaimer
 import com.anchor.recovery.data.content.ContentRepository
 import com.anchor.recovery.data.repo.AnchorRepository
@@ -127,16 +129,16 @@ fun AnchorApp(
     val backStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = backStackEntry?.destination?.route
     val onTab = currentRoute != null && currentRoute in AnchorRoutes.bottomTabs
-    val title = AnchorRoutes.title(currentRoute)
+    val titleRes = AnchorRoutes.title(currentRoute)
 
     // 导航栏的唯一状态源：页面把滚动状态挂进来，栏自己读透明度。
     val navBarState = rememberAnchorNavBarState()
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
-            if (title != null) {
+            if (titleRes != null) {
                 AnchorNavBar(
-                    title = title,
+                    title = stringResource(titleRes),
                     onBack = if (currentRoute != null && !onTab) {
                         { navController.navigateUp() }
                     } else {
@@ -147,7 +149,7 @@ fun AnchorApp(
                         if (onTab) {
                             AnchorIconButton(
                                 icon = Icons.Outlined.Settings,
-                                contentDescription = "设置",
+                                contentDescription = stringResource(R.string.nav_settings),
                                 onClick = {
                                     navController.navigate(AnchorRoutes.SETTINGS) {
                                         launchSingleTop = true
@@ -362,9 +364,14 @@ private fun NavHostController.switchTab(route: String) {
 }
 
 /** 四个 Tab 的图标与文案：选中用实心、未选中用描边（iOS 的选中态）。 */
+@Composable
 private fun tabBarItems(): List<AnchorTab> = listOf(
-    AnchorTab("首页", Icons.Outlined.Home, Icons.Filled.Home),
-    AnchorTab("工具", Icons.Outlined.Build, Icons.Filled.Build),
-    AnchorTab("知识库", Icons.AutoMirrored.Outlined.MenuBook, Icons.AutoMirrored.Filled.MenuBook),
-    AnchorTab("日志", Icons.Outlined.EditNote, Icons.Filled.EditNote),
+    AnchorTab(stringResource(R.string.nav_tab_home), Icons.Outlined.Home, Icons.Filled.Home),
+    AnchorTab(stringResource(R.string.nav_tab_tools), Icons.Outlined.Build, Icons.Filled.Build),
+    AnchorTab(
+        stringResource(R.string.nav_tab_library),
+        Icons.AutoMirrored.Outlined.MenuBook,
+        Icons.AutoMirrored.Filled.MenuBook,
+    ),
+    AnchorTab(stringResource(R.string.nav_tab_journal), Icons.Outlined.EditNote, Icons.Filled.EditNote),
 )

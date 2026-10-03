@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 里程碑徽章墙 -->
+    <string name="milestone_title">里程碑</string>
+    <string name="milestone_header_note">徽章按连续打卡天数点亮。断签或破戒后重新开始，已经点亮的徽章会保留。</string>
+    <string name="milestone_footer_note">里程碑只表示你在这里记录了多少天，不代表治疗结果或「痊愈」。</string>
+    <string name="milestone_day_unit">天</string>
+    <string name="milestone_date">%1$d 月 %2$d 日</string>
+    <string name="milestone_achieved">%1$s 达成</string>
+    <string name="milestone_achieved_with_count">%1$s 达成 · 累计 %2$d 次</string>
+
+    <!-- 未达成：数量词用 plurals（中文只有 other） -->
+    <plurals name="milestone_days_remaining">
+        <item quantity="other">还差 %1$d 天</item>
+    </plurals>
+</resources>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 通用组件 -->
+    <string name="common_cancel">取消</string>
+
+    <!-- 导航栏与底部 Tab -->
+    <string name="nav_back">返回</string>
+    <string name="nav_settings">设置</string>
+    <string name="nav_tab_home">首页</string>
+    <string name="nav_tab_tools">工具</string>
+    <string name="nav_tab_library">知识库</string>
+    <string name="nav_tab_journal">日志</string>
+
+    <!-- 各路由的顶栏标题 -->
+    <string name="route_title_home">磐石</string>
+    <string name="route_title_tools">工具</string>
+    <string name="route_title_library">知识库</string>
+    <string name="route_title_journal">日志</string>
+    <string name="route_title_check_in">今日打卡</string>
+    <string name="route_title_urge_surfing">渴求冲浪</string>
+    <string name="route_title_delay_tool">十分钟延时</string>
+    <string name="route_title_relapse_edit">记录一次破戒</string>
+    <string name="route_title_assessment_hub">自评问卷</string>
+    <string name="route_title_csbd">成瘾倾向自评</string>
+    <string name="route_title_moral">道德冲突评估</string>
+    <string name="route_title_article">文章</string>
+    <string name="route_title_settings">设置</string>
+    <string name="route_title_milestones">里程碑</string>
+
+    <!-- 引导页 -->
+    <string name="onboarding_offline_notice">完全离线：数据只在这台手机上。</string>
+    <string name="onboarding_purpose_header">它能做什么</string>
+    <string name="onboarding_purpose_log">记录：每天打卡，看连续天数</string>
+    <string name="onboarding_purpose_coping">应对：冲动来时用十分钟延时、渴求冲浪</string>
+    <string name="onboarding_purpose_articles">科普：71 篇离线文章，标注来源与可信度</string>
+    <string name="onboarding_start">开始使用</string>
+</resources>

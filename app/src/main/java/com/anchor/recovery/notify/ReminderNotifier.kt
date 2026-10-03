@@ -38,7 +38,7 @@ object ReminderNotifier {
         if (!canPostNotifications(context)) return
 
         val streak = application.repository.streak.first()
-        post(context, ReminderMessages.title(), ReminderMessages.body(streak.currentDays))
+        post(context, ReminderTexts.title(context), ReminderTexts.body(context, streak.currentDays))
     }
 
     private fun canPostNotifications(context: Context): Boolean {

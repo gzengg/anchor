@@ -31,14 +31,14 @@ class CheckInPolicyTest {
     fun `未来日期被拒绝`() {
         val decision = CheckInPolicy(clock).evaluate(emptyList(), day(1))
         assertIs<CheckInDecision.Rejected>(decision)
-        assertEquals("不能为未来日期打卡", decision.reason)
+        assertEquals(CheckInRejection.FUTURE_DATE, decision.reason)
     }
 
     @Test
     fun `过去日期不支持补打卡`() {
         val decision = CheckInPolicy(clock).evaluate(emptyList(), day(-1))
         assertIs<CheckInDecision.Rejected>(decision)
-        assertEquals("只能为今天打卡，不支持补打卡", decision.reason)
+        assertEquals(CheckInRejection.NOT_TODAY, decision.reason)
     }
 
     @Test

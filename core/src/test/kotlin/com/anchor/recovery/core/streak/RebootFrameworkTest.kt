@@ -11,10 +11,12 @@ class RebootFrameworkTest {
     fun `里程碑固定为一七三十六十天`() {
         assertEquals(listOf(1, 7, 30, 60, 90), RebootFramework.milestones.map { it.days })
         assertEquals(90, RebootFramework.GOAL_DAYS)
-        assertTrue(
-            RebootFramework.milestones.all { it.title.isNotBlank() && it.hint.isNotBlank() },
-            "里程碑文案不得为空",
+        assertEquals(
+            RebootFramework.milestones.size,
+            RebootFramework.milestones.map { it.days }.toSet().size,
+            "里程碑天数不得重复",
         )
+        assertTrue(RebootFramework.milestones.all { it.days > 0 }, "里程碑天数必须为正")
     }
 
     @Test

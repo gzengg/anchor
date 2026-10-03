@@ -41,7 +41,22 @@ sealed interface ImportResult {
         val schemaVersion: Int,
     ) : ImportResult
 
-    data class Rejected(val reason: String) : ImportResult
+    /**
+     * 拒绝导入。[args] 是展示参数（版本号、字段名、重复日期等），
+     * 由界面按 [reason] 取资源文案（`:app` 的 `importRejectionText`）。
+     */
+    data class Rejected(val reason: ImportRejection, val args: List<Any> = emptyList()) : ImportResult
+}
+
+/** 导入被拒绝的原因码；展示文案在 `:app`，core 不持有中文文案。 */
+enum class ImportRejection {
+    EMPTY_FILE,
+    NOT_ANCHOR_FILE,
+    MISSING_VERSION,
+    UNSUPPORTED_VERSION,
+    PARSE_ERROR,
+    UNKNOWN_PARSE_ERROR,
+    DUPLICATE_DATES,
 }
 
 /**
@@ -56,23 +71,29 @@ sealed interface ImportResult {
 object DataImporter {
 
     fun parse(text: String, supportedVersion: Int = DataExporter.SCHEMA_VERSION): ImportResult {
-        if (text.isBlank()) return ImportResult.Rejected("文件是空的，没有可导入的数据。")
+        if (text.isBlank()) return ImportResult.Rejected(ImportRejection.EMPTY_FILE)
 
         val payload = runCatching { DataExporter.fromJson(text) }.getOrElse {
-            return ImportResult.Rejected("这不是磐石导出的数据文件，读不出来。")
+            return ImportResult.Rejected(ImportRejection.NOT_ANCHOR_FILE)
         }
 
         if (payload.schemaVersion < 1) {
-            return ImportResult.Rejected("文件缺少版本号，无法确认格式。")
+            return ImportResult.Rejected(ImportRejection.MISSING_VERSION)
         }
         if (payload.schemaVersion > supportedVersion) {
             return ImportResult.Rejected(
-                "文件来自更新的版本（格式 v${payload.schemaVersion}），当前应用只认到 v$supportedVersion，请先升级磐石。",
+                ImportRejection.UNSUPPORTED_VERSION,
+                args = listOf(payload.schemaVersion, supportedVersion),
             )
         }
 
         val data = runCatching { payload.toImportedData() }.getOrElse { error ->
-            return ImportResult.Rejected("文件里的记录读不出来（${error.message ?: "格式异常"}）。")
+            val detail = error.message
+            return if (detail == null) {
+                ImportResult.Rejected(ImportRejection.UNKNOWN_PARSE_ERROR)
+            } else {
+                ImportResult.Rejected(ImportRejection.PARSE_ERROR, args = listOf(detail))
+            }
         }
 
         // 打卡以日期为主键、写入时用 IGNORE：同一天两条会被默默丢弃，所以先在这里卡住。
@@ -83,7 +104,8 @@ object DataImporter {
             .keys
         if (duplicatedDates.isNotEmpty()) {
             return ImportResult.Rejected(
-                "文件里有重复的打卡日期（${duplicatedDates.sorted().joinToString("、")}），为免丢数据已拒绝导入。",
+                ImportRejection.DUPLICATE_DATES,
+                args = listOf(duplicatedDates.sorted().joinToString("、")),
             )
         }
 

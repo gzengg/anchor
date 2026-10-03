@@ -22,7 +22,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.pluralStringResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.anchor.recovery.R
 import com.anchor.recovery.core.urge.BreathingPattern
 import com.anchor.recovery.core.urge.UrgeSurfingSession
 import com.anchor.recovery.core.urge.UrgeSurfingStage
@@ -79,7 +82,7 @@ fun UrgeSurfingScreen(
             .padding(bottom = 24.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
-        AnchorLargeTitle("渴求冲浪")
+        AnchorLargeTitle(stringResource(R.string.urge_title))
 
         StageHeader(state = state)
 
@@ -94,7 +97,7 @@ fun UrgeSurfingScreen(
                     ) {
                         IntensityPicker(intensity = intensity, onIntensityChange = { intensity = it })
                         AnchorButton(
-                            text = "开始",
+                            text = stringResource(R.string.urge_start_button),
                             onClick = { state = session.start(state, intensity) },
                             modifier = Modifier.fillMaxWidth(),
                         )
@@ -112,11 +115,11 @@ fun UrgeSurfingScreen(
                     ) {
                         IntensityPicker(
                             intensity = intensity,
-                            label = "现在的渴求强度",
+                            label = stringResource(R.string.urge_intensity_label),
                             onIntensityChange = { intensity = it },
                         )
                         AnchorButton(
-                            text = "完成这一轮",
+                            text = stringResource(R.string.urge_finish_button),
                             onClick = { state = session.finish(state, intensity) },
                             modifier = Modifier.fillMaxWidth(),
                         )
@@ -127,7 +130,7 @@ fun UrgeSurfingScreen(
             UrgeSurfingStage.DONE -> {
                 ResultCard(state = state)
                 AnchorButton(
-                    text = "回到工具页",
+                    text = stringResource(R.string.urge_back_to_tools_button),
                     onClick = onDone,
                     modifier = Modifier
                         .fillMaxWidth()
@@ -151,12 +154,12 @@ fun UrgeSurfingScreen(
                     verticalArrangement = Arrangement.spacedBy(12.dp),
                 ) {
                     AnchorButton(
-                        text = "跳过这一步",
+                        text = stringResource(R.string.urge_skip_button),
                         onClick = { state = session.skipStage(state) },
                         modifier = Modifier.fillMaxWidth(),
                     )
                     AnchorButton(
-                        text = "先到这里",
+                        text = stringResource(R.string.urge_stop_button),
                         onClick = { state = session.abandon(state) },
                         style = AnchorButtonStyle.Plain,
                         modifier = Modifier.fillMaxWidth(),
@@ -166,7 +169,7 @@ fun UrgeSurfingScreen(
         }
 
         Text(
-            text = "自助工具，不构成医疗建议；若痛苦持续加重，请咨询医生。",
+            text = stringResource(R.string.urge_footnote),
             style = AnchorType.footnote,
             color = AnchorTheme.colors.labelSecondary,
             modifier = Modifier.padding(horizontal = 16.dp),
@@ -198,7 +201,7 @@ private fun StageHeader(state: UrgeSurfingState) {
 @Composable
 private fun IntensityPicker(
     intensity: Int,
-    label: String = "现在的渴求强度",
+    label: String = stringResource(R.string.urge_intensity_label),
     onIntensityChange: (Int) -> Unit,
 ) {
     Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
@@ -253,7 +256,7 @@ private fun TimerCard(state: UrgeSurfingState, remainingSec: Int, progress: Floa
                 trackColor = AnchorTheme.colors.fillStrong,
             )
             Text(
-                text = "已持续 ${state.elapsedSecTotal} 秒",
+                text = pluralStringResource(R.plurals.urge_elapsed_seconds, state.elapsedSecTotal, state.elapsedSecTotal),
                 style = AnchorType.footnote,
                 color = AnchorTheme.colors.labelSecondary,
             )
@@ -277,7 +280,7 @@ private fun BreathingHint(elapsedSecInStage: Int) {
                 color = AnchorTheme.colors.label,
             )
             Text(
-                text = "保持 ${cue.remainingSec} 秒 · 吸气 4 / 停 2 / 呼气 6",
+                text = pluralStringResource(R.plurals.urge_breathing_hold, cue.remainingSec, cue.remainingSec),
                 style = AnchorType.footnote,
                 color = AnchorTheme.colors.labelSecondary,
             )
@@ -295,28 +298,36 @@ private fun ResultCard(state: UrgeSurfingState) {
             verticalArrangement = Arrangement.spacedBy(6.dp),
         ) {
             Text(
-                text = if (state.abandoned) "这一轮记作部分完成" else "这一轮结束了",
+                text = if (state.abandoned) {
+                    stringResource(R.string.urge_result_partial)
+                } else {
+                    stringResource(R.string.urge_result_finished)
+                },
                 style = AnchorType.headline,
                 color = AnchorTheme.colors.label,
             )
             Text(
-                text = "用时 ${state.elapsedSecTotal} 秒 · 峰值 ${state.peakIntensity ?: "-"}/10" +
-                    (state.endIntensity?.let { " · 结束 $it/10" } ?: ""),
+                text = pluralStringResource(
+                    R.plurals.urge_result_summary,
+                    state.elapsedSecTotal,
+                    state.elapsedSecTotal,
+                    state.peakIntensity?.toString() ?: "-",
+                ) + (state.endIntensity?.let { stringResource(R.string.urge_result_end_intensity, it) } ?: ""),
                 style = AnchorType.body,
                 color = AnchorTheme.colors.label,
             )
             state.delta?.let { delta ->
                 Text(
                     text = when {
-                        delta > 0 -> "下降 $delta 分：它自己退下去了。"
-                        delta == 0 -> "强度没变，但也没有继续升高。"
-                        else -> "比开始时更高。冲浪不保证每次都下降，你已经做到不立刻行动。"
+                        delta > 0 -> stringResource(R.string.urge_delta_down, delta)
+                        delta == 0 -> stringResource(R.string.urge_delta_same)
+                        else -> stringResource(R.string.urge_delta_up)
                     },
                     style = AnchorType.body,
                     color = AnchorTheme.colors.label,
                 )
             } ?: Text(
-                text = "没有结束评分，这次不算完整一轮，但记录已保存。",
+                text = stringResource(R.string.urge_no_end_score),
                 style = AnchorType.body,
                 color = AnchorTheme.colors.label,
             )

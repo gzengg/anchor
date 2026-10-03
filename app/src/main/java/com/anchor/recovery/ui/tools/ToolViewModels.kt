@@ -1,7 +1,9 @@
 package com.anchor.recovery.ui.tools
 
+import androidx.annotation.StringRes
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.anchor.recovery.R
 import com.anchor.recovery.core.model.RelapseRecord
 import com.anchor.recovery.core.model.UrgeEpisodeRecord
 import com.anchor.recovery.core.model.UrgeTool
@@ -127,7 +129,7 @@ data class RelapseFormState(
     val triggers: Set<String> = emptySet(),
     val note: String = "",
     val saved: Boolean = false,
-    val message: String? = null,
+    @StringRes val messageRes: Int? = null,
 ) {
     /** 一无所填时不允许保存，避免产生无信息量的记录。 */
     val canSave: Boolean
@@ -159,7 +161,7 @@ class RelapseEditViewModel(private val repository: AnchorRepository) : ViewModel
     fun save() {
         val current = mutable.value
         if (!current.canSave) {
-            mutable.value = current.copy(message = "至少填一项：情境、情绪、触发源或备注。")
+            mutable.value = current.copy(messageRes = R.string.relapse_message_incomplete)
             return
         }
         viewModelScope.launch {
@@ -174,13 +176,13 @@ class RelapseEditViewModel(private val repository: AnchorRepository) : ViewModel
             )
             mutable.value = RelapseFormState(
                 saved = true,
-                message = "已记录。写下它的价值是让你看清规律，而不是给自己下判断。",
+                messageRes = R.string.relapse_message_saved,
             )
         }
     }
 
     fun dismissMessage() {
-        mutable.value = mutable.value.copy(message = null)
+        mutable.value = mutable.value.copy(messageRes = null)
     }
 
     private fun Set<String>.toggle(value: String): Set<String> =

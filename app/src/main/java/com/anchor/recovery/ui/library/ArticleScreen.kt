@@ -21,7 +21,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.anchor.recovery.R
 import com.anchor.recovery.core.content.Article
 import com.anchor.recovery.core.content.MarkdownLite
 import com.anchor.recovery.core.content.MdBlock
@@ -68,13 +70,13 @@ fun ArticleScreen(
     ) {
         when {
             snapshot == null -> Text(
-                text = "正在加载…",
+                text = stringResource(R.string.article_loading),
                 style = AnchorType.body,
                 color = AnchorTheme.colors.labelSecondary,
             )
 
             article == null -> Text(
-                text = "没找到这篇文章（id=$articleId）。${snapshot?.error.orEmpty()}",
+                text = stringResource(R.string.article_not_found, articleId, snapshot?.error.orEmpty()),
                 style = AnchorType.body,
                 color = AnchorTheme.colors.danger,
             )
@@ -166,7 +168,7 @@ private fun SourceSection(article: Article, onOpenSource: (String) -> Unit) {
     val colors = AnchorTheme.colors
     Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
         Text(
-            text = "原文来源",
+            text = stringResource(R.string.article_source_title),
             style = AnchorType.subheadlineSemibold,
             color = colors.label,
         )
@@ -177,7 +179,7 @@ private fun SourceSection(article: Article, onOpenSource: (String) -> Unit) {
             modifier = Modifier.fillMaxWidth(),
         )
         Text(
-            text = "链接会用系统浏览器/CustomTabs 打开，属于站外内容。",
+            text = stringResource(R.string.article_source_hint),
             style = AnchorType.footnote,
             color = colors.labelSecondary,
         )

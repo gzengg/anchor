@@ -27,6 +27,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -35,6 +36,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.anchor.recovery.R
 import com.anchor.recovery.core.content.Credibility
 import com.anchor.recovery.core.content.MdBlock
 import com.anchor.recovery.core.content.MdSpan
@@ -71,7 +73,7 @@ fun CredibilityBadge(credibility: Credibility, modifier: Modifier = Modifier) {
         shape = RoundedCornerShape(4.dp),
     ) {
         Text(
-            text = "可信度 ${credibility.label}",
+            text = stringResource(R.string.library_credibility, credibility.label),
             style = AnchorType.caption1,
             modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp),
         )
@@ -92,7 +94,7 @@ fun SourceChips(
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Text(
-            text = "来源",
+            text = stringResource(R.string.library_source_label),
             style = AnchorType.footnote,
             color = colors.labelSecondary,
         )
@@ -117,9 +119,12 @@ fun SourceChips(
 @Composable
 fun DisclaimerCard(
     modifier: Modifier = Modifier,
-    text: String = DEFAULT_DISCLAIMER,
+    text: String? = null,
 ) {
     val colors = AnchorTheme.colors
+    // 未传 text 时用标准免责声明：原文是两句话连排（中间无分隔符），这里也直接拼接。
+    val body = text ?: stringResource(R.string.library_disclaimer_content) +
+        stringResource(R.string.library_disclaimer_help)
     Column(
         modifier = modifier
             .fillMaxWidth()
@@ -128,14 +133,14 @@ fun DisclaimerCard(
             .padding(14.dp),
         verticalArrangement = Arrangement.spacedBy(4.dp),
     ) {
-        Text(text = "免责声明", style = AnchorType.subheadlineSemibold, color = colors.label)
-        Text(text = text, style = AnchorType.footnote, color = colors.labelSecondary)
+        Text(
+            text = stringResource(R.string.library_disclaimer_title),
+            style = AnchorType.subheadlineSemibold,
+            color = colors.label,
+        )
+        Text(text = body, style = AnchorType.footnote, color = colors.labelSecondary)
     }
 }
-
-const val DEFAULT_DISCLAIMER: String =
-    "本内容整理自公开来源，仅供科普与自助参考，不构成诊断或治疗建议。" +
-        "若你正处于明显痛苦中，请咨询专业医生或当地心理援助热线。"
 
 /** 用 CustomTabs 打开外部链接；没有可用浏览器时退回普通 Intent。 */
 @Composable

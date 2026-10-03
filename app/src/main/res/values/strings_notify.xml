@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--
+      通知渠道与每日提醒文案。锁屏可见，一律中性表达、不得出现用途类词汇；
+      合规由 ReminderCopyComplianceTest 用 :core 的 ReminderMessages.containsSensitiveWording 校验。
+      通知标题直接复用 app_name，不另建字符串，避免两处漂移。
+    -->
+    <string name="notify_channel_name">每日记录提醒</string>
+    <string name="notify_channel_description">每天提醒你记录一次。可在设置里关闭。</string>
+    <string name="notify_body">今天也要记录哦。</string>
+    <string name="notify_body_with_days">今天也要记录哦，已经连续 %1$d 天。</string>
+</resources>

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 问卷首页 -->
+    <string name="assessment_hub_title">自评问卷</string>
+    <string name="assessment_hub_subtitle">两份自评问卷，都可以随时重做，结果只保存在本机。</string>
+    <string name="csbd_title">成瘾倾向自评</string>
+    <string name="csbd_hub_description">19 题，五个维度：控制失控、情绪应对、强迫性、负面后果、尝试失败。</string>
+    <string name="csbd_hub_last_summary">上次：%1$s · 总分 %2$d</string>
+    <string name="moral_title">道德冲突 vs 真实问题</string>
+    <string name="moral_hub_description">12 题，把“行为影响”和“价值观冲突”分开计分，看看困扰主要来自哪一边。</string>
+    <string name="moral_hub_last_summary">上次：%1$s · 合计 %2$d</string>
+    <string name="quiz_start">开始作答</string>
+    <string name="quiz_view_last_result">查看上次结果</string>
+
+    <!-- 问卷说明页 -->
+    <string name="assessment_section_explain">说明</string>
+    <string name="assessment_intro_acknowledge">我理解：这是自评参考，不是诊断。</string>
+    <string name="assessment_intro_start">开始答题</string>
+
+    <!-- 逐题作答页 -->
+    <string name="quiz_progress_line">作答范围：%1$s · 第 %2$s 题 · 已完成 %3$d 题</string>
+    <string name="quiz_previous">上一题</string>
+    <string name="quiz_next">下一题</string>
+    <string name="quiz_saving">保存中…</string>
+    <string name="quiz_submit">提交并查看结果</string>
+    <string name="quiz_retake">重新作答</string>
+    <string name="assessment_result_saved">结果已保存在本机</string>
+
+    <!-- 题目选项 -->
+    <string name="quiz_option_0">完全不符合</string>
+    <string name="quiz_option_1">较少符合</string>
+    <string name="quiz_option_2">有时符合</string>
+    <string name="quiz_option_3">经常符合</string>
+    <string name="quiz_option_4">完全符合</string>
+    <string name="quiz_option_unanswered">未作答</string>
+
+    <!-- 作答状态（ViewModel 承载的资源 id，数量词用 plurals） -->
+    <plurals name="quiz_unanswered_message">
+        <item quantity="other">还有 %1$d 题未作答，作答后再提交。</item>
+    </plurals>
+
+    <!-- 问卷页大标题（带 F7 / F8 编号） -->
+    <string name="quiz_title_csbd">成瘾倾向自评（F7）</string>
+    <string name="quiz_title_moral">道德冲突 vs 真实问题（F8）</string>
+
+    <!-- F7 结果页 -->
+    <string name="assessment_no_record">还没有作答记录，先回上一页完成问卷。</string>
+    <string name="assessment_taken_at">作答时间：%1$s</string>
+    <string name="csbd_total_score">总分 %1$d / %2$d</string>
+    <string name="csbd_level_summary">自评分级：%1$s（%2$s 分区间）</string>
+    <string name="csbd_level_raw_fallback">分级：%1$s（原始作答缺失，无法重新计分）</string>
+    <string name="csbd_dimension_section">五个维度小计</string>
+    <string name="csbd_top_dimension">得分最高的维度：%1$s（%2$d 分）。只说明这组题得分最高，不是诊断。</string>
+    <string name="assessment_next_steps">下一步可以做什么</string>
+    <string name="csbd_next_step_1">· 带着这份自评和 App 里的记录去咨询心理咨询师或精神科 / 心理科医生；自评分数不是诊断，专业评估才决定要不要治疗。</string>
+    <string name="csbd_next_step_2">· 继续用打卡与渴求工具看规律；情绪持续低落或有失控感时尽快就诊。</string>
+
+    <!-- F7 说明页 -->
+    <string name="csbd_intro_subtitle">19 道题，按过去 6 个月的实际情况作答。</string>
+    <string name="csbd_intro_point_1">19 题，每题 5 个选项（0–4 分），没有对错。</string>
+    <string name="csbd_intro_point_2">题目参照 CSBD 五个维度自撰，不是 CSBD-19 原版、未经验证；分级阈值也是自研，未经临床验证。</string>
+    <string name="csbd_intro_point_3">作答与结果只保存在本机。</string>
+
+    <!-- F8 结果页 -->
+    <string name="moral_result_title">道德冲突评估</string>
+    <string name="moral_level_raw_fallback">上次结果：%1$s（原始作答缺失，无法重新解读）</string>
+    <string name="moral_dimension_section">两维度得分</string>
+    <string name="moral_dimension_score">%1$d / %2$d · %3$s</string>
+    <string name="moral_level_high">偏高</string>
+    <string name="moral_level_low">不高</string>
+    <string name="moral_dimension_note">价值观冲突不等于成瘾，行为影响大也不等于成瘾；这两项只是帮你看清困扰从哪来。</string>
+    <string name="moral_next_step_1">· 如果主要是价值观冲突：和信任的人或咨询师谈这件事本身就有价值，不必先贴标签。</string>
+    <string name="moral_next_step_2">· 如果行为影响明显：带上记录去咨询心理咨询师或精神科 / 心理科医生，由专业评估判断。</string>
+
+    <!-- F8 说明页 -->
+    <string name="moral_intro_subtitle">12 道题，按过去 1 个月的实际情况作答。</string>
+    <string name="moral_intro_point_1">前 6 题看“行为影响”，后 6 题看“价值观冲突”，分别计分。</string>
+    <string name="moral_intro_point_2">任一维度 ≥ %1$d 分记为偏高（自研阈值，未经临床验证）。</string>
+    <string name="moral_intro_point_3">结果是四象限解读，只看困扰来源，不做诊断；作答与结果只保存在本机。</string>
+
+    <!-- 免责声明 -->
+    <string name="assessment_disclaimer_section">免责声明</string>
+    <string name="assessment_disclaimer_body">自评参考信息，不是医疗器械、不做诊断，不能替代专业评估；困扰明显时建议咨询专业人士。</string>
+</resources>

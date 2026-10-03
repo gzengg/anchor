@@ -1,7 +1,9 @@
 package com.anchor.recovery.ui.settings
 
+import androidx.annotation.StringRes
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.anchor.recovery.R
 import com.anchor.recovery.core.export.DataExporter
 import com.anchor.recovery.core.export.DataImporter
 import com.anchor.recovery.core.export.ImportResult
@@ -10,6 +12,7 @@ import com.anchor.recovery.core.legal.Disclaimer
 import com.anchor.recovery.core.notify.ReminderTime
 import com.anchor.recovery.data.repo.AnchorRepository
 import com.anchor.recovery.data.settings.AnchorSettings
+import com.anchor.recovery.ui.text.importRejectionRes
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -37,7 +40,14 @@ data class SettingsUiState(
     val importingAfterBackup: Boolean = false,
     val disclaimerVersion: Int = Disclaimer.VERSION,
     val acknowledgedVersion: Int = 0,
-    val message: String? = null,
+    @StringRes val messageRes: Int? = null,
+    val messageArgs: List<Any> = emptyList(),
+)
+
+/** ViewModel 侧待展示的提示：资源 id + 格式化参数，切语言时由界面重新解析。 */
+private data class SettingsMessage(
+    @StringRes val res: Int,
+    val args: List<Any> = emptyList(),
 )
 
 /** 待确认的导入内容：条数用于确认弹窗，文件名与导出时间帮用户认出这是哪一份文件。 */
@@ -64,7 +74,7 @@ class SettingsViewModel(
     private val clearConfirm = MutableStateFlow(false)
     private val pendingImport = MutableStateFlow<PendingImport?>(null)
     private val backupBeforeImport = MutableStateFlow(false)
-    private val message = MutableStateFlow<String?>(null)
+    private val message = MutableStateFlow<SettingsMessage?>(null)
 
     val state: StateFlow<SettingsUiState> = combine(
         settings.snapshot,
@@ -100,21 +110,24 @@ class SettingsViewModel(
         base.copy(pendingImport = import)
     }.combine(backupBeforeImport) { base, backing ->
         base.copy(importingAfterBackup = backing)
-    }.combine(message) { base, text ->
-        base.copy(message = text)
+    }.combine(message) { base, pending ->
+        base.copy(
+            messageRes = pending?.res,
+            messageArgs = pending?.args.orEmpty(),
+        )
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), SettingsUiState())
 
     fun setReminderEnabled(enabled: Boolean) {
         viewModelScope.launch {
             settings.setReminderEnabled(enabled)
             if (!enabled) {
-                message.value = "已关闭每日提醒。"
+                message.value = SettingsMessage(R.string.settings_message_reminder_off)
             }
         }
     }
 
     fun onPermissionDenied() {
-        message.value = "没有通知权限，提醒无法送达。可稍后在系统设置里为磐石打开通知。"
+        message.value = SettingsMessage(R.string.settings_message_permission_denied)
     }
 
     /**
@@ -124,7 +137,9 @@ class SettingsViewModel(
     fun setExactReminderEnabled(enabled: Boolean) {
         viewModelScope.launch {
             settings.setExactReminderEnabled(enabled)
-            message.value = if (enabled) "已改为准点提醒。" else "已改回普通提醒。"
+            message.value = SettingsMessage(
+                if (enabled) R.string.settings_message_exact_on else R.string.settings_message_exact_off,
+            )
         }
     }
 
@@ -132,7 +147,7 @@ class SettingsViewModel(
     fun onExactReminderDenied() {
         viewModelScope.launch {
             settings.setExactReminderEnabled(false)
-            message.value = "系统没有授权「闹钟与提醒」，仍使用普通提醒。"
+            message.value = SettingsMessage(R.string.settings_message_exact_denied)
         }
     }
 
@@ -141,7 +156,10 @@ class SettingsViewModel(
         viewModelScope.launch {
             settings.setReminderTime(next.toString())
             if (state.value.reminderEnabled) {
-                message.value = "提醒时间已改为 ${next}。"
+                message.value = SettingsMessage(
+                    R.string.settings_message_reminder_time_changed,
+                    listOf(next),
+                )
             }
         }
     }
@@ -155,7 +173,7 @@ class SettingsViewModel(
         viewModelScope.launch {
             settings.setMotivationPrompts(text.split("\n"))
             promptDraft.value = null
-            message.value = "已保存提示语。"
+            message.value = SettingsMessage(R.string.settings_message_prompts_saved)
         }
     }
 
@@ -185,7 +203,7 @@ class SettingsViewModel(
     /** 用户在系统文件选择器里选好文件后调用；[text] 为 null 表示文件读不出来。 */
     fun onImportFilePicked(fileName: String, text: String?) {
         if (text == null) {
-            message.value = "读不到这个文件，请换一个再试。"
+            message.value = SettingsMessage(R.string.settings_message_import_unreadable)
             return
         }
         when (val result = DataImporter.parse(text)) {
@@ -198,14 +216,17 @@ class SettingsViewModel(
                 message.value = null
             }
 
-            is ImportResult.Rejected -> message.value = result.reason
+            is ImportResult.Rejected -> message.value = SettingsMessage(
+                importRejectionRes(result.reason),
+                result.args,
+            )
         }
     }
 
     fun cancelImport() {
         pendingImport.value = null
         backupBeforeImport.value = false
-        message.value = "已取消导入。"
+        message.value = SettingsMessage(R.string.settings_message_import_cancelled)
     }
 
     /**
@@ -232,10 +253,18 @@ class SettingsViewModel(
                     settings.setReminderEnabled(pending.data.reminderEnabled)
                     settings.setReminderTime(pending.data.reminderTime)
                     settings.setMotivationPrompts(pending.data.motivationPrompts)
-                    message.value = "已导入：${pending.data.countsLine()}。原来的记录已被这份文件替换。"
+                    message.value = SettingsMessage(
+                        R.string.settings_message_import_done,
+                        listOf(pending.data.countsLine()),
+                    )
                 },
                 onFailure = { error ->
-                    message.value = "导入失败：${error.message ?: "文件内容有冲突"}。你原来的记录没有被改动。"
+                    val reason = error.message
+                    message.value = if (reason == null) {
+                        SettingsMessage(R.string.settings_message_import_failed_no_reason)
+                    } else {
+                        SettingsMessage(R.string.settings_message_import_failed, listOf(reason))
+                    }
                 },
             )
         }
@@ -247,22 +276,22 @@ class SettingsViewModel(
             applyImport()
             return
         }
-        message.value = "已导出。请把文件保存到你信任的位置。"
+        message.value = SettingsMessage(R.string.settings_message_export_done)
     }
 
     fun onExportCancelled() {
         pendingExport.value = null
         if (backupBeforeImport.value) {
             backupBeforeImport.value = false
-            message.value = "没有备份成功，导入已取消。你原来的记录没有变动。"
+            message.value = SettingsMessage(R.string.settings_message_backup_failed)
             return
         }
-        message.value = "已取消导出。"
+        message.value = SettingsMessage(R.string.settings_message_export_cancelled)
     }
 
     fun onExportFailed(reason: String) {
         pendingExport.value = null
-        message.value = "导出失败：$reason"
+        message.value = SettingsMessage(R.string.settings_message_export_failed, listOf(reason))
     }
 
     fun requestClear() {
@@ -277,7 +306,7 @@ class SettingsViewModel(
         viewModelScope.launch {
             repository.clearAll()
             clearConfirm.value = false
-            message.value = "已清空全部记录。此操作无法撤销。"
+            message.value = SettingsMessage(R.string.settings_message_cleared)
         }
     }
 

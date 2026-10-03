@@ -182,23 +182,4 @@ class MilestoneAchievementsTest {
         assertNotNull(wall.first { it.milestone.days == 30 }.latestAchievedDate)
         assertEquals(46f / 60f, wall.first { it.milestone.days == 60 }.progress)
     }
-
-    @Test
-    fun `里程碑文案保持中性不承诺疗效`() {
-        // 绝对化承诺词一律不得出现
-        val banned = listOf("保证", "一定", "必然", "已恢复", "已经恢复", "彻底")
-        MilestoneAchievements.wall(emptyList(), emptySet(), 0).forEach { status ->
-            val text = status.milestone.title + status.milestone.hint
-            banned.forEach { word ->
-                assertFalse(text.contains(word), "里程碑文案不得包含「$word」：$text")
-            }
-            // 「痊愈 / 治愈」只能出现在否定语境（同一句内先出现否定词）
-            val negation = Regex("(不是|不代表|并非|并不)[^。！？]*(痊愈|治愈)")
-            listOf("痊愈", "治愈").forEach { word ->
-                if (text.contains(word)) {
-                    assertTrue(negation.containsMatchIn(text), "「$word」只能出现在否定语境中：$text")
-                }
-            }
-        }
-    }
 }

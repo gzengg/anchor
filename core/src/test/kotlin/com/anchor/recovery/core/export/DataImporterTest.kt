@@ -103,8 +103,8 @@ class DataImporterTest {
         val newer = json().replace("\"schemaVersion\": 1", "\"schemaVersion\": 99")
 
         val rejected = assertIs<ImportResult.Rejected>(DataImporter.parse(newer))
-        assertTrue(rejected.reason.contains("v99"), rejected.reason)
-        assertTrue(rejected.reason.contains("升级"), rejected.reason)
+        assertEquals(ImportRejection.UNSUPPORTED_VERSION, rejected.reason)
+        assertEquals(99, rejected.args.firstOrNull(), "参数里要带上文件声明的版本号")
     }
 
     @Test
@@ -118,7 +118,7 @@ class DataImporterTest {
     fun `不是 JSON 的文件被拒绝且不抛异常`() {
         val rejected = assertIs<ImportResult.Rejected>(DataImporter.parse("这是我的备忘录，不是导出文件"))
 
-        assertTrue(rejected.reason.contains("磐石"), rejected.reason)
+        assertEquals(ImportRejection.NOT_ANCHOR_FILE, rejected.reason)
     }
 
     @Test
@@ -131,7 +131,11 @@ class DataImporterTest {
         val broken = json().replace("\"2024-05-03T13:00:00Z\"", "\"昨天下午\"")
 
         val rejected = assertIs<ImportResult.Rejected>(DataImporter.parse(broken))
-        assertTrue(rejected.reason.contains("打卡时间"), rejected.reason)
+        assertEquals(ImportRejection.PARSE_ERROR, rejected.reason)
+        assertTrue(
+            rejected.args.firstOrNull().toString().contains("打卡时间"),
+            "解析报错要作为参数带给界面，不能丢：${rejected.args}",
+        )
     }
 
     @Test
@@ -141,7 +145,11 @@ class DataImporterTest {
         )
 
         val rejected = assertIs<ImportResult.Rejected>(DataImporter.parse(duplicated))
-        assertTrue(rejected.reason.contains("2024-05-03"), rejected.reason)
+        assertEquals(ImportRejection.DUPLICATE_DATES, rejected.reason)
+        assertTrue(
+            rejected.args.firstOrNull().toString().contains("2024-05-03"),
+            "要把冲突日期带给界面：${rejected.args}",
+        )
     }
 
     @Test

@@ -1,10 +1,12 @@
 package com.anchor.recovery.ui
 
+import androidx.annotation.StringRes
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.anchor.recovery.AppInfo
+import com.anchor.recovery.R
 import com.anchor.recovery.core.model.CheckInRecord
 import com.anchor.recovery.core.model.RelapseRecord
 import com.anchor.recovery.core.model.UrgeEpisodeRecord
@@ -14,6 +16,7 @@ import com.anchor.recovery.core.streak.CheckInDecision
 import com.anchor.recovery.core.streak.RebootFramework
 import com.anchor.recovery.core.streak.RebootMilestone
 import com.anchor.recovery.core.streak.StreakState
+import com.anchor.recovery.ui.text.checkInRejectionRes
 import com.anchor.recovery.data.repo.AnchorRepository
 import com.anchor.recovery.data.settings.AnchorSettings
 import com.anchor.recovery.ui.assessment.AssessmentHubViewModel
@@ -38,33 +41,41 @@ import kotlinx.datetime.LocalDate
 /**
  * ViewModel 只做状态转发：所有业务判断都在 :core 与 Repository。
  */
+/** ViewModel 侧待展示的提示：资源 id + 格式化参数，切语言时由界面重新解析。 */
+private data class UiMessage(
+    @StringRes val res: Int,
+    val args: List<Any> = emptyList(),
+)
+
 data class HomeUiState(
     val streak: StreakState = StreakState.EMPTY,
     val nextMilestone: RebootMilestone? = null,
     val progress: Float = 0f,
-    val message: String? = null,
+    @StringRes val messageRes: Int? = null,
+    val messageArgs: List<Any> = emptyList(),
 )
 
 class HomeViewModel(private val repository: AnchorRepository) : ViewModel() {
 
-    private val message = MutableStateFlow<String?>(null)
+    private val message = MutableStateFlow<UiMessage?>(null)
 
     val state: StateFlow<HomeUiState> =
-        combine(repository.streak, message) { streak, message ->
+        combine(repository.streak, message) { streak, pending ->
             HomeUiState(
                 streak = streak,
                 nextMilestone = RebootFramework.next(streak.currentDays),
                 progress = RebootFramework.progress(streak.currentDays),
-                message = message,
+                messageRes = pending?.res,
+                messageArgs = pending?.args.orEmpty(),
             )
         }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), HomeUiState())
 
     fun checkInToday() {
         viewModelScope.launch {
             message.value = when (val decision = repository.checkInToday()) {
-                is CheckInDecision.Allowed -> "已记录今天。"
-                is CheckInDecision.AlreadyCheckedIn -> "今天已经记录过了。"
-                is CheckInDecision.Rejected -> decision.reason
+                is CheckInDecision.Allowed -> UiMessage(R.string.msg_check_in_recorded)
+                is CheckInDecision.AlreadyCheckedIn -> UiMessage(R.string.msg_check_in_duplicate)
+                is CheckInDecision.Rejected -> UiMessage(checkInRejectionRes(decision.reason))
             }
         }
     }
@@ -154,26 +165,28 @@ data class CheckInUiState(
     val todayCheckedIn: Boolean = false,
     val note: String = "",
     val recent: List<com.anchor.recovery.core.model.CheckInRecord> = emptyList(),
-    val message: String? = null,
+    @StringRes val messageRes: Int? = null,
+    val messageArgs: List<Any> = emptyList(),
 )
 
 class CheckInViewModel(private val repository: AnchorRepository) : ViewModel() {
 
     private val note = MutableStateFlow("")
-    private val message = MutableStateFlow<String?>(null)
+    private val message = MutableStateFlow<UiMessage?>(null)
 
     val state: StateFlow<CheckInUiState> = combine(
         repository.streak,
         repository.checkIns,
         note,
         message,
-    ) { streak, checkIns, note, message ->
+    ) { streak, checkIns, note, pending ->
         CheckInUiState(
             today = repository.today(),
             todayCheckedIn = streak.todayCheckedIn,
             note = note,
             recent = checkIns.sortedByDescending { it.date }.take(RECENT_LIMIT),
-            message = message,
+            messageRes = pending?.res,
+            messageArgs = pending?.args.orEmpty(),
         )
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), CheckInUiState(repository.today()))
 
@@ -186,11 +199,11 @@ class CheckInViewModel(private val repository: AnchorRepository) : ViewModel() {
             message.value = when (val decision = repository.checkInToday(note.value)) {
                 is CheckInDecision.Allowed -> {
                     note.value = ""
-                    "已记录今天。"
+                    UiMessage(R.string.msg_check_in_recorded)
                 }
 
-                is CheckInDecision.AlreadyCheckedIn -> "今天已经记录过了。"
-                is CheckInDecision.Rejected -> decision.reason
+                is CheckInDecision.AlreadyCheckedIn -> UiMessage(R.string.msg_check_in_duplicate)
+                is CheckInDecision.Rejected -> UiMessage(checkInRejectionRes(decision.reason))
             }
         }
     }
@@ -198,7 +211,7 @@ class CheckInViewModel(private val repository: AnchorRepository) : ViewModel() {
     fun undoToday() {
         viewModelScope.launch {
             repository.removeCheckIn(repository.today())
-            message.value = "已撤销今天的打卡。"
+            message.value = UiMessage(R.string.msg_check_in_undone)
         }
     }
 

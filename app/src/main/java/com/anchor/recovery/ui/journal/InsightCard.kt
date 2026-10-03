@@ -18,11 +18,14 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.pluralStringResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
+import com.anchor.recovery.R
 import com.anchor.recovery.core.relapse.DayPart
 import com.anchor.recovery.core.relapse.FrequencyItem
 import com.anchor.recovery.core.relapse.RelapseInsight
@@ -47,7 +50,7 @@ fun RelapseInsightCard(insight: RelapseInsight, modifier: Modifier = Modifier) {
     var expanded by rememberSaveable { mutableStateOf(false) }
 
     Column(modifier = modifier.fillMaxWidth()) {
-        AnchorSectionHeader("触发因素统计")
+        AnchorSectionHeader(stringResource(R.string.insight_section_title))
         AnchorListGroup {
             Column(
                 modifier = Modifier
@@ -57,7 +60,7 @@ fun RelapseInsightCard(insight: RelapseInsight, modifier: Modifier = Modifier) {
             ) {
                 if (insight.isEmpty) {
                     Text(
-                        text = "还没有破戒记录。这里只统计你写下的内容，无记录时不显示任何推断。",
+                        text = stringResource(R.string.insight_empty_hint),
                         style = AnchorType.footnote,
                         color = AnchorTheme.colors.labelSecondary,
                     )
@@ -65,25 +68,38 @@ fun RelapseInsightCard(insight: RelapseInsight, modifier: Modifier = Modifier) {
                 }
 
                 // 三个关键数字并成一行：原来每格两行，仅这一块就占掉约 40dp。
+                val medianText = insight.medianIntervalHours?.let { formatHours(it) }
+                    ?: stringResource(R.string.insight_median_insufficient)
                 Text(
-                    text = "破戒 ${insight.totalRelapses} 次 · 中位间隔 " +
-                        (insight.medianIntervalHours?.let(::formatHours) ?: "不足 2 条记录") +
-                        " · 带备注 ${insight.noteCount} 条",
+                    text = pluralStringResource(
+                        R.plurals.insight_summary_prefix,
+                        insight.totalRelapses,
+                        insight.totalRelapses,
+                    ) +
+                        medianText +
+                        pluralStringResource(
+                            R.plurals.insight_summary_suffix,
+                            insight.noteCount,
+                            insight.noteCount,
+                        ),
                     style = AnchorType.footnote,
                     color = AnchorTheme.colors.label,
                 )
 
                 if (expanded) {
-                    FrequencyLine(title = "情绪 Top ${insight.emotionTop.size}", items = insight.emotionTop)
                     FrequencyLine(
-                        title = "触发源 Top ${insight.triggerTop.size}",
+                        title = stringResource(R.string.insight_emotion_top, insight.emotionTop.size),
+                        items = insight.emotionTop,
+                    )
+                    FrequencyLine(
+                        title = stringResource(R.string.insight_trigger_top, insight.triggerTop.size),
                         items = insight.triggerTop,
                     )
                     DayPartBars(counts = insight.dayPartCounts)
                 }
 
                 Text(
-                    text = "只说明记录里出现过什么，不代表因果关系或医学结论。",
+                    text = stringResource(R.string.insight_footnote),
                     style = AnchorType.footnote,
                     color = AnchorTheme.colors.labelTertiary,
                 )
@@ -92,7 +108,11 @@ fun RelapseInsightCard(insight: RelapseInsight, modifier: Modifier = Modifier) {
             if (!insight.isEmpty) {
                 AnchorHairline(inset = 0.dp)
                 AnchorButton(
-                    text = if (expanded) "收起" else "展开",
+                    text = if (expanded) {
+                        stringResource(R.string.insight_collapse)
+                    } else {
+                        stringResource(R.string.insight_expand)
+                    },
                     onClick = { expanded = !expanded },
                     style = AnchorButtonStyle.Plain,
                     modifier = Modifier.fillMaxWidth(),
@@ -105,15 +125,20 @@ fun RelapseInsightCard(insight: RelapseInsight, modifier: Modifier = Modifier) {
 /** 一行一条 Top 榜：标题加粗，条目用「·」内联，避免每个条目独占一行。 */
 @Composable
 private fun FrequencyLine(title: String, items: List<FrequencyItem>, modifier: Modifier = Modifier) {
+    // map 是 inline、joinToString 不是：条目文案先在可组合上下文里取好再拼。
+    val itemTexts = items.map { item ->
+        pluralStringResource(R.plurals.insight_frequency_item, item.count, item.label, item.count)
+    }
+    val body = if (itemTexts.isEmpty()) {
+        stringResource(R.string.insight_frequency_empty)
+    } else {
+        itemTexts.joinToString(" · ")
+    }
     Text(
         text = buildAnnotatedString {
             withStyle(SpanStyle(fontWeight = FontWeight.SemiBold)) { append(title) }
             append("：")
-            if (items.isEmpty()) {
-                append("暂无数据")
-            } else {
-                append(items.joinToString(" · ") { "${it.label} ${it.count} 次" })
-            }
+            append(body)
         },
         style = AnchorType.footnote,
         color = AnchorTheme.colors.label,
@@ -139,7 +164,11 @@ private fun DayPartBars(counts: Map<DayPart, Int>, modifier: Modifier = Modifier
                 modifier = Modifier.weight(1f),
                 verticalArrangement = Arrangement.spacedBy(3.dp),
             ) {
-                Text(text = "$count 次", style = AnchorType.footnote, color = AnchorTheme.colors.label)
+                Text(
+                    text = pluralStringResource(R.plurals.insight_daypart_count, count, count),
+                    style = AnchorType.footnote,
+                    color = AnchorTheme.colors.label,
+                )
                 DistributionBar(fraction = count.toFloat() / max)
                 Text(
                     text = part.shortName,
@@ -176,12 +205,14 @@ private fun DistributionBar(fraction: Float, modifier: Modifier = Modifier) {
 private val DayPart.shortName: String get() = label.substringBefore(' ')
 
 /** 不足一天按小时显示，超过一天同时给出天数，避免"52.5 小时"这种读不出来的数字。 */
+@Composable
 private fun formatHours(hours: Double): String {
     val rounded = (hours * 10).toLong() / 10.0
+    // 数量词用 plurals（中文只有 other）：count 只用于选形式，展示值仍是原样的 Double。
     return if (rounded < 24) {
-        "$rounded 小时"
+        pluralStringResource(R.plurals.insight_hours, rounded.toInt(), rounded)
     } else {
         val days = (rounded / 24 * 10).toLong() / 10.0
-        "$rounded 小时（约 $days 天）"
+        pluralStringResource(R.plurals.insight_hours_days, rounded.toInt(), rounded, days)
     }
 }

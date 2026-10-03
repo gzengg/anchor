@@ -16,7 +16,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.pluralStringResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.anchor.recovery.R
 import com.anchor.recovery.ui.CheckInUiState
 import com.anchor.recovery.ui.CheckInViewModel
 import com.anchor.recovery.ui.components.AnchorButton
@@ -52,7 +55,7 @@ fun CheckInScreen(
             .verticalScroll(scrollState)
             .padding(bottom = 24.dp),
     ) {
-        AnchorLargeTitle("今日打卡")
+        AnchorLargeTitle(stringResource(R.string.checkin_title))
 
         TodayStatusCard(state = state, modifier = Modifier.padding(top = 8.dp))
 
@@ -66,7 +69,7 @@ fun CheckInScreen(
                 OutlinedTextField(
                     value = state.note,
                     onValueChange = viewModel::updateNote,
-                    label = { Text(text = "今天的感受 / 触发情境（可留空）") },
+                    label = { Text(text = stringResource(R.string.checkin_note_label)) },
                     minLines = 3,
                     enabled = !state.todayCheckedIn,
                     colors = OutlinedTextFieldDefaults.colors(
@@ -85,21 +88,25 @@ fun CheckInScreen(
                 )
                 Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                     AnchorButton(
-                        text = if (state.todayCheckedIn) "今天已打卡" else "保存打卡",
+                        text = if (state.todayCheckedIn) {
+                            stringResource(R.string.checkin_checked_in_button)
+                        } else {
+                            stringResource(R.string.checkin_save_button)
+                        },
                         onClick = viewModel::save,
                         enabled = !state.todayCheckedIn,
                         modifier = Modifier.weight(1f),
                     )
                     AnchorButton(
-                        text = "撤销今天",
+                        text = stringResource(R.string.checkin_undo_button),
                         onClick = viewModel::undoToday,
                         style = AnchorButtonStyle.Tinted,
                         enabled = state.todayCheckedIn,
                     )
                 }
-                state.message?.let { message ->
+                state.messageRes?.let { messageRes ->
                     Text(
-                        text = message,
+                        text = stringResource(messageRes, *state.messageArgs.toTypedArray()),
                         style = AnchorType.footnote,
                         color = colors.tint,
                     )
@@ -107,11 +114,17 @@ fun CheckInScreen(
             }
         }
 
-        AnchorSectionHeader("最近 ${state.recent.size} 次打卡")
+        AnchorSectionHeader(
+            pluralStringResource(
+                R.plurals.checkin_recent_count,
+                state.recent.size,
+                state.recent.size,
+            ),
+        )
         AnchorListGroup {
             if (state.recent.isEmpty()) {
                 Text(
-                    text = "还没有打卡记录。",
+                    text = stringResource(R.string.checkin_empty),
                     style = AnchorType.body,
                     color = colors.labelSecondary,
                     modifier = Modifier
@@ -142,12 +155,16 @@ private fun TodayStatusCard(state: CheckInUiState, modifier: Modifier = Modifier
         ) {
             Text(text = state.today.toString(), style = AnchorType.headline, color = colors.label)
             Text(
-                text = if (state.todayCheckedIn) "状态：已打卡" else "状态：今天还没打卡",
+                text = if (state.todayCheckedIn) {
+                    stringResource(R.string.checkin_status_checked_in)
+                } else {
+                    stringResource(R.string.checkin_status_not_checked_in)
+                },
                 style = AnchorType.body,
                 color = colors.label,
             )
             Text(
-                text = "只能为今天打卡：漏一天就断签，补打会让连续天数失真。",
+                text = stringResource(R.string.checkin_only_today_notice),
                 style = AnchorType.footnote,
                 color = colors.labelSecondary,
             )

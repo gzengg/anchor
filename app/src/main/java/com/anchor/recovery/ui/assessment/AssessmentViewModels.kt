@@ -1,7 +1,9 @@
 package com.anchor.recovery.ui.assessment
 
+import androidx.annotation.StringRes
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.anchor.recovery.R
 import com.anchor.recovery.core.assessment.CsbdQuestionnaire
 import com.anchor.recovery.core.assessment.CsbdResult
 import com.anchor.recovery.core.assessment.CsbdScorer
@@ -26,22 +28,40 @@ data class QuizQuestionUi(
     val dimensionLabel: String,
 )
 
-/** 每题的五个选项（0–4 分）。 */
+/** 每题的五个选项（0–4 分）；只暴露资源 id，文案在 Compose 层解析。 */
 object QuizOptions {
-    val labels = listOf("完全不符合", "较少符合", "有时符合", "经常符合", "完全符合")
+    @StringRes
+    val labels = listOf(
+        R.string.quiz_option_0,
+        R.string.quiz_option_1,
+        R.string.quiz_option_2,
+        R.string.quiz_option_3,
+        R.string.quiz_option_4,
+    )
 
-    fun labelOf(value: Int): String = labels.getOrElse(value) { "未作答" }
+    @StringRes
+    fun labelResOf(value: Int): Int = labels.getOrElse(value) { R.string.quiz_option_unanswered }
 }
 
+/** 校验失败提示：资源 id + 占位符参数（数量词走 [quantity]）。 */
+data class QuizMessage(
+    @StringRes val res: Int,
+    val args: List<Any> = emptyList(),
+    val quantity: Int? = null,
+)
+
 data class QuizUiState(
-    val title: String = "",
+    @StringRes val titleRes: Int? = null,
     val timeWindow: String = "",
     val questions: List<QuizQuestionUi> = emptyList(),
     val answers: Map<Int, Int> = emptyMap(),
     val index: Int = 0,
     val saving: Boolean = false,
     val finished: Boolean = false,
-    val message: String? = null,
+    @StringRes val messageRes: Int? = null,
+    val messageArgs: List<Any> = emptyList(),
+    /** 非 null 时按数量词解析（plurals）。 */
+    val messageQuantity: Int? = null,
 ) {
     val current: QuizQuestionUi? get() = questions.getOrNull(index)
 
@@ -68,11 +88,12 @@ abstract class QuizViewModel(protected val repository: AnchorRepository) : ViewM
     private val index = MutableStateFlow(0)
     private val saving = MutableStateFlow(false)
     private val finished = MutableStateFlow(false)
-    private val message = MutableStateFlow<String?>(null)
+    private val message = MutableStateFlow<QuizMessage?>(null)
 
     protected abstract val type: AssessmentType
 
-    protected abstract val title: String
+    @get:StringRes
+    protected abstract val titleRes: Int
 
     protected abstract val timeWindow: String
 
@@ -84,14 +105,16 @@ abstract class QuizViewModel(protected val repository: AnchorRepository) : ViewM
     val state: StateFlow<QuizUiState> =
         combine(answers, index, saving, finished, message) { answers, index, saving, finished, message ->
             QuizUiState(
-                title = title,
+                titleRes = titleRes,
                 timeWindow = timeWindow,
                 questions = questions,
                 answers = answers,
                 index = index.coerceIn(0, (questions.size - 1).coerceAtLeast(0)),
                 saving = saving,
                 finished = finished,
-                message = message,
+                messageRes = message?.res,
+                messageArgs = message?.args ?: emptyList(),
+                messageQuantity = message?.quantity,
             )
         }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), QuizUiState())
 
@@ -119,7 +142,12 @@ abstract class QuizViewModel(protected val repository: AnchorRepository) : ViewM
     fun submit() {
         val ordered = orderedAnswers()
         if (ordered == null) {
-            message.value = "还有 ${questions.size - answers.value.size} 题未作答，作答后再提交。"
+            val remaining = questions.size - answers.value.size
+            message.value = QuizMessage(
+                res = R.plurals.quiz_unanswered_message,
+                args = listOf(remaining),
+                quantity = remaining,
+            )
             return
         }
         viewModelScope.launch {
@@ -145,7 +173,7 @@ abstract class QuizViewModel(protected val repository: AnchorRepository) : ViewM
 class CsbdQuizViewModel(repository: AnchorRepository) : QuizViewModel(repository) {
 
     override val type = AssessmentType.CSBD
-    override val title = "成瘾倾向自评（F7）"
+    override val titleRes = R.string.quiz_title_csbd
     override val timeWindow = CsbdQuestionnaire.TIME_WINDOW
     override val questions = CsbdQuestionnaire.questions.map {
         QuizQuestionUi(id = it.id, text = it.text, dimensionLabel = it.dimension.label)
@@ -166,7 +194,7 @@ class CsbdQuizViewModel(repository: AnchorRepository) : QuizViewModel(repository
 class MoralQuizViewModel(repository: AnchorRepository) : QuizViewModel(repository) {
 
     override val type = AssessmentType.MORAL
-    override val title = "道德冲突 vs 真实问题（F8）"
+    override val titleRes = R.string.quiz_title_moral
     override val timeWindow = MoralIncongruenceScale.TIME_WINDOW
     override val questions = MoralIncongruenceScale.questions.map {
         QuizQuestionUi(id = it.id, text = it.text, dimensionLabel = it.kind.label)
