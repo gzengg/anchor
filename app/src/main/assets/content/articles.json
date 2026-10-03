@@ -1,0 +1,1410 @@
+[
+ {
+  "id": "science-001",
+  "category": "science",
+  "categoryDir": "01-science",
+  "title": "多巴胺奖励回路：'想要'与'喜欢'的分离及激励敏感化理论",
+  "source": "https://pubmed.ncbi.nlm.nih.gov/27977239/",
+  "author": "Kent C. Berridge & Terry E. Robinson（密歇根大学）",
+  "date": "2016",
+  "tags": [
+   "神经科学",
+   "多巴胺",
+   "奖励回路",
+   "激励敏感化"
+  ],
+  "credibility": "高",
+  "credibilityRaw": "高",
+  "summary": "经典综述，提出多巴胺介导的是对奖励的'想要'（wanting）而非'喜欢'（liking）；成瘾的本质是中脑边缘多巴胺系统对诱因线索的神经敏化，导致线索触发的过度渴求，即使愉悦感并未增加。",
+  "bodyMarkdown": "## 核心要点\n- 奖励包含两个可分离的心理成分：'想要'（incentive salience，由包含中脑边缘多巴胺在内的庞大神经环路产生）与'喜欢'（愉悦冲击，由更小、更脆弱的阿片类'享乐热点'环路介导，不依赖多巴胺）。\n- 激励敏感化理论认为，成瘾的本质是易感性个体多巴胺相关动机系统发生持久的神经敏化，使'想要'被病理性放大——尤其是被线索触发时——而'喜欢'并不同步放大。\n- 多巴胺耗竭的动物失去获取奖励的动力，但对甜味的享乐反应不变；人类研究中抑制多巴胺传递降低的是渴求/欲求而非愉悦评分。\n- 敏化状态可在戒断症状消失后持续数年，解释了复吸倾向；该理论已被扩展到行为成瘾（如赌博、网络游戏、强迫性性行为）。\n\n## 关键数据\n- 综述提出 25 周年更新版（原理论 1993 年提出），发表于 American Psychologist 71(8): 670–679。\n- 多巴胺拮抗/耗竭研究：降低'想要'评分但不降低'喜欢'反应（大鼠甜味享乐面部反应实验）。\n\n## 参考信息\n- 期刊：American Psychologist, 2016, 71(8): 670–679\n- DOI: 10.1037/amp0000059\n- PMID: 27977239\n- 链接：https://pubmed.ncbi.nlm.nih.gov/27977239/"
+ },
+ {
+  "id": "science-002",
+  "category": "science",
+  "categoryDir": "01-science",
+  "title": "Voon 等 2014：强迫性性行为者的性线索反应脑机制（CSB fMRI 研究）",
+  "source": "https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0102419",
+  "author": "Valerie Voon 等（剑桥大学精神病学系）",
+  "date": "2014",
+  "tags": [
+   "神经科学",
+   "fMRI",
+   "线索反应",
+   "腹侧纹状体"
+  ],
+  "credibility": "高",
+  "credibilityRaw": "高",
+  "summary": "剑桥大学 fMRI 研究：强迫性性行为（CSB）者观看色情视频时腹侧纹状体、背侧前扣带回、杏仁核激活增强——正是药物成瘾者面对药物线索时激活的区域；且欲望（wanting）与喜欢（liking）分离。",
+  "bodyMarkdown": "## 核心要点\n- 19 名 CSB 男性与 19 名健康志愿者观看性露骨视频与运动视频，CSB 组对性视频的腹侧纹状体、背侧前扣带回皮层（dACC）、杏仁核激活显著更强——与药物线索反应研究中的脑区重叠。\n- CSB 组对性视频的'欲望'（desire/wanting）评分更高，但'喜欢'（liking）评分与对照组相似——符合成瘾的激励动机理论。\n- dACC–腹侧纹状体–杏仁核网络的功能连接强度与主观性欲（而非喜欢）相关，且该相关在 CSB 组更强。\n- 年龄越小，腹侧纹状体对色情的反应越强，该关联在 CSB 个体中最显著——提示青春期/成年早期是易感窗口（额叶控制区约 25 岁才发育成熟）。\n- CSB 患者初次接触色情的年龄更早、观看比例更高。\n- 作者明确声明：该研究不能用于诊断，也不能证明色情本身成瘾。\n\n## 关键数据\n- 样本量：19 名 CSB 男性 vs 19 名匹配健康志愿者（fMRI 病例对照设计）。\n- CSB 在社区/大学生中的估计患病率：2–4%。\n- 资金来源：Wellcome Trust Intermediate Fellowship (093705/Z/10/Z)。\n\n## 参考信息\n- 期刊：PLoS ONE, 2014, 9(7): e102419\n- DOI: 10.1371/journal.pone.0102419\n- PMID: 25013940 / PMCID: PMC4094516\n- 链接：https://pubmed.ncbi.nlm.nih.gov/25013940/"
+ },
+ {
+  "id": "science-003",
+  "category": "science",
+  "categoryDir": "01-science",
+  "title": "Kühn & Gallinat 2014（JAMA Psychiatry）：色情消费与纹状体灰质体积及功能连接",
+  "source": "https://pubmed.ncbi.nlm.nih.gov/24871202/",
+  "author": "Simone Kühn（马克斯·普朗克人类发展研究所）& Jürgen Gallinat",
+  "date": "2014",
+  "tags": [
+   "神经科学",
+   "纹状体",
+   "灰质体积",
+   "功能连接",
+   "JAMA Psychiatry"
+  ],
+  "credibility": "高",
+  "credibilityRaw": "高",
+  "summary": "64 名健康男性 MRI 研究：每周色情观看时长与右侧尾状核灰质体积呈负相关（r=-0.432），与左侧壳核性线索反应降低、右侧尾状核-左背外侧前额叶功能连接减弱相关——提示奖励系统下调与额叶自上而下调控减弱。",
+  "bodyMarkdown": "## 核心要点\n- 64 名健康男性（21–45 岁，平均约 29 岁）报告每周色情观看时长（平均约 4.09 小时/周），接受 3T MRI 结构像、性线索反应任务与静息态扫描。\n- 每周色情小时数与右侧尾状核灰质体积显著负相关（r64 = −0.432, P < .001，经多重比较校正）；累计（终生）色情消费量也与右尾状核灰质负相关（r64 = −0.329, P < .01）。\n- 性线索（vs 注视点）任务中，观看时长与左侧壳核 BOLD 激活负相关（P < .001）。\n- 右侧尾状核与左侧背外侧前额叶皮层（DLPFC）的静息态功能连接随观看时长增加而减弱——提示额叶对纹状体的自上而下调控降低。\n- 控制网络成瘾（IAT）与性成瘾（SAST）得分后，灰质负相关仍显著（r61 = −0.336 / −0.364, P < .01）。\n- 横断面设计无法确定因果方向：可能是高强度刺激奖励系统导致的可塑性改变，也可能是先天脑结构特征使色情更具奖赏性。\n- 所有参与者身心健康，无人达到网络性成瘾筛查标准。\n\n## 关键数据\n- 样本量：64 名健康男性；平均色情消费 4.09 小时/周；21 人被评为'有网络性成瘾风险'（媒体报道）。\n- 效应量：右侧尾状核灰质–观看时长 r = −0.432；中介分析显示结构与功能效应各自独立预测消费量。\n\n## 参考信息\n- 期刊：JAMA Psychiatry, 2014, 71(7): 827–834\n- DOI: 10.1001/jamapsychiatry.2014.93\n- PMID: 24871202\n- 链接：https://pubmed.ncbi.nlm.nih.gov/24871202/"
+ },
+ {
+  "id": "science-004",
+  "category": "science",
+  "categoryDir": "01-science",
+  "title": "Gola 等 2017（Neuropsychopharmacology）：色情能否成瘾？寻求治疗者的腹侧纹状体线索反应",
+  "source": "https://pubmed.ncbi.nlm.nih.gov/28409565/",
+  "author": "Mateusz Gola 等（波兰科学院 Nencki 研究所 / 耶鲁大学 Marc Potenza 团队）",
+  "date": "2017",
+  "tags": [
+   "神经科学",
+   "fMRI",
+   "腹侧纹状体",
+   "wanting与liking",
+   "问题性色情使用"
+  ],
+  "credibility": "高",
+  "credibilityRaw": "高",
+  "summary": "28 名因问题性色情使用（PPU）寻求治疗的男性 vs 24 名对照：PPU 组仅对'预测色情图片的线索'出现腹侧纹状体激活增强，对色情图片本身及金钱线索无差异——选择性'想要'增强，与物质/赌博成瘾的线索反应模式一致。",
+  "bodyMarkdown": "## 核心要点\n- 28 名寻求治疗的 PPU 男性（符合性欲亢进障碍标准）与 24 名无问题色情使用者完成激励延迟任务（incentive delay task），区分线索相关'想要'与奖励相关'喜欢'。\n- PPU 组对预测色情图片的线索出现腹侧纹状体（伏隔核）激活增强，但对金钱奖励线索无此差异——说明是奖励特异性敏化，而非广泛奖励加工障碍。\n- 两组对色情图片本身（奖励兑现阶段）的反应无差异：'想要'增强而'喜欢'不变，支持激励敏感化理论（IST），不支持奖励缺陷综合征。\n- 色情线索 vs 金钱线索的相对敏感性与观看色情图片的行为动机（更快反应时）、PPU 严重程度、每周色情使用量、每周自慰次数显著相关。\n- 结论：PPU 在临床相关特征上表现出与物质和赌博成瘾类似的神经与行为机制，可考虑借鉴成瘾干预方案。\n\n## 关键数据\n- 样本量：28 名 PPU 治疗寻求者 vs 24 名异性恋男性对照（F1000 评审记录筛选时为 31 vs 26，最终分析样本 28 vs 24）。\n- Kent Berridge（激励敏感化理论提出者）在 F1000 评价该研究为'New Finding'，认为其支持性成瘾的真实性。\n\n## 参考信息\n- 期刊：Neuropsychopharmacology, 2017, 42(10): 2021–2031\n- DOI: 10.1038/npp.2017.78\n- PMID: 28409565\n- 链接：https://pubmed.ncbi.nlm.nih.gov/28409565/"
+ },
+ {
+  "id": "science-005",
+  "category": "science",
+  "categoryDir": "01-science",
+  "title": "Love 等 2015：《网络色情成瘾的神经科学：综述与更新》",
+  "source": "https://www.mdpi.com/2076-328X/5/3/388",
+  "author": "Todd Love, Christian Laier, Matthias Brand, Linda Hatch, Raju Hajela",
+  "date": "2015",
+  "tags": [
+   "神经科学",
+   "综述",
+   "行为成瘾",
+   "网络色情"
+  ],
+  "credibility": "高",
+  "credibilityRaw": "高",
+  "summary": "被广泛引用的综述（311 篇参考文献）：整合网络成瘾、游戏障碍与网络色情成瘾的神经影像学与分子证据，论证网络色情成瘾符合成瘾框架，与物质成瘾共享基本机制。",
+  "bodyMarkdown": "## 核心要点\n- 系统梳理成瘾的概念模型（耐受、戒断、敏化、渴求）并将其应用于网络色情使用行为。\n- 综述网络成瘾与网络游戏障碍的神经科学研究：奖励回路（纹状体）反应性改变、前额叶控制减弱，与物质成瘾的神经模式相似。\n- 整合了当时可得的网络色情成瘾神经科学文献（如 Voon 2014、Kühn & Gallinat 2014），论证其与成瘾模型吻合。\n- 结论：网络色情成瘾符合成瘾框架，与物质成瘾共享基本机制；结合网络成瘾与游戏障碍的证据，有充分理由将成瘾性网络行为视为行为成瘾。\n- 引用 Pitchers 等的 ΔFosB 研究（DOI: 10.1523/JNEUROSCI.4881-12.2013）论证自然奖励与药物奖励作用于共同的可塑性机制。\n\n## 关键数据\n- 综述类论文，含 311 篇参考文献（据 Scopus 记录）。\n- Google Scholar 被引 350+ 次，是该领域被引最高的综述之一。\n- 注：作者含临床治疗师背景（SASH），立场偏向成瘾模型，解读时应结合 Prause 等的对立证据。\n\n## 参考信息\n- 期刊：Behavioral Sciences (MDPI), 2015, 5(3): 388–433\n- DOI: 10.3390/bs5030388\n- 链接：https://www.mdpi.com/2076-328X/5/3/388"
+ },
+ {
+  "id": "science-006",
+  "category": "science",
+  "categoryDir": "01-science",
+  "title": "Pitchers 等 2013：ΔFosB——自然奖励与药物奖励共同的神经可塑性分子",
+  "source": "https://pubmed.ncbi.nlm.nih.gov/23426671/",
+  "author": "Kyle K. Pitchers, Eric J. Nestler, Lique M. Coolen 等（西安大略大学/西奈山医学院）",
+  "date": "2013",
+  "tags": [
+   "神经科学",
+   "ΔFosB",
+   "敏化",
+   "伏隔核",
+   "动物研究"
+  ],
+  "credibility": "高",
+  "credibilityRaw": "高",
+  "summary": "动物研究（雄鼠）：性经验使伏隔核 ΔFosB 持续升高并增强安非他明奖励敏化；阻断 ΔFosB 可消除该效应。证明自然性奖励与成瘾药物作用于共同的分子可塑性机制。",
+  "bodyMarkdown": "## 核心要点\n- 雄鼠性经验后，伏隔核（NAc）壳部与核心的 ΔFosB 阳性细胞数立即升高，且可持续至最后一次交配后 28 天——ΔFosB 半衰期长，被认为是成瘾持久改变的分子开关。\n- 性经验使动物对低剂量安非他明（0.5 mg/kg）产生敏化的条件性位置偏好（CPP），即性奖励经验增强了药物奖励的易感性，效应可持续 28 天。\n- 性经验后 NAc 神经元树突棘数量一过性增加（7 天时显著，28 天时回落）——突触结构可塑性与敏化起始相关。\n- 用病毒载体过表达显性负性结合伙伴 ΔJunD 抑制 ΔFosB 活性，可阻断性经验诱导的安非他明奖励敏化与树突棘增生——证明 ΔFosB 是因果性介导者。\n- 该过程依赖交配时 NAc 内多巴胺 D1 受体（而非 D2 受体）激活：D1 拮抗剂可阻断 ΔFosB 诱导、树突棘增生与药物敏化。\n\n## 关键数据\n- 动物模型：雄性大鼠，多组样本量 n = 4–11/组（免疫组化、CPP、药理学阻断实验）。\n- 关键时间线：ΔFosB 升高持续 ≥28 天；树突棘增生为一过性（7 天出现、28 天消退）。\n- 效应：性经验组对 0.5 mg/kg 安非他明 CPP 显著高于性幼稚组（p < 0.05）。\n\n## 参考信息\n- 期刊：Journal of Neuroscience, 2013, 33(8): 3434–3442\n- DOI: 10.1523/JNEUROSCI.4881-12.2013\n- PMID: 23426671 / PMCID: PMC3865508\n- 链接：https://pubmed.ncbi.nlm.nih.gov/23426671/"
+ },
+ {
+  "id": "science-007",
+  "category": "science",
+  "categoryDir": "01-science",
+  "title": "Banca 等 2016：对性奖励的新奇偏好、条件反射与注意偏向——耐受与升级使用的机制",
+  "source": "https://dx.doi.org/10.1016/j.jpsychires.2015.10.017",
+  "author": "Paula Banca, Valerie Voon 等（剑桥大学）",
+  "date": "2016",
+  "tags": [
+   "神经科学",
+   "习惯化",
+   "新奇寻求",
+   "注意偏向",
+   "升级使用"
+  ],
+  "credibility": "高",
+  "credibilityRaw": "高",
+  "summary": "22 名 CSB 男性 vs 40 名对照：CSB 者对性新奇刺激偏好增强、对重复性刺激的背侧扣带回习惯化更快，习惯化程度与新奇偏好相关——为'越看越重口/越升级'的耐受现象提供了神经机制证据。",
+  "bodyMarkdown": "## 核心要点\n- CSB 个体对性图像的新奇偏好（相对熟悉图像）显著增强，且对性奖励和金钱奖励的条件化线索均表现出更强的泛化偏好。\n- CSB 组对重复出现的性图像（相对金钱图像）表现出更强的背侧扣带回习惯化；习惯化程度与对性新奇刺激的偏好增强相关。\n- 对性条件化线索的趋近行为（可与新奇偏好分离）与对性图像的早期注意偏向相关——提示注意偏向由条件反射而非新奇寻求驱动。\n- 互联网提供了近乎无限的新异性刺激：对旧内容习惯化 + 对新奇内容偏好增强，构成'需要更新/更强刺激'的行为升级（escalation）的神经认知基础。\n- 新奇寻求在啮齿类研究中可预测向强迫性可卡因寻求的转化（Belin 等），提示其既是成瘾易感性标志也可能是结果。\n\n## 关键数据\n- 样本量：22 名 CSB 男性 vs 40 名年龄匹配男性志愿者（两项行为任务）；其中每组各 20 人完成第三次条件化-消退 fMRI 任务。\n- 背侧扣带回对重复性图像的习惯化程度与性新奇偏好显著相关（具体统计见原文）。\n\n## 参考信息\n- 期刊：Journal of Psychiatric Research, 2016, 75: 40–49\n- DOI: 10.1016/j.jpsychires.2015.10.017\n- 链接：https://dx.doi.org/10.1016/j.jpsychires.2015.10.017"
+ },
+ {
+  "id": "science-008",
+  "category": "science",
+  "categoryDir": "01-science",
+  "title": "Klucken 等 2016：强迫性性行为者的食欲性条件反射改变与纹状体-前额叶连接减弱",
+  "source": "https://pubmed.ncbi.nlm.nih.gov/26936075/",
+  "author": "Tim Klucken, Rudolf Stark 等（吉森大学）",
+  "date": "2016",
+  "tags": [
+   "神经科学",
+   "fMRI",
+   "条件反射",
+   "杏仁核",
+   "强迫性性行为"
+  ],
+  "credibility": "高",
+  "credibilityRaw": "高",
+  "summary": "20 名 CSB 者 vs 20 名对照的经典条件反射 fMRI 研究：CSB 组对预测性刺激（CS+）的杏仁核激活增强，腹侧纹状体与前额叶耦合减弱——提示性奖励的条件化学习增强与情绪调节受损。",
+  "bodyMarkdown": "## 核心要点\n- 首个考察 CSB 食欲性（奖励）条件反射的 fMRI 研究：中性刺激（CS+）预测视觉性刺激出现，另一刺激（CS-）不预测。\n- CSB 组在 CS+ vs CS- 对比中杏仁核激活显著增强——可能反映对性刺激的条件化（奖励学习）过程被强化。\n- CSB 组腹侧纹状体与前额叶皮层之间的功能耦合减弱——被解读为该群体情绪调节能力受损的标志。\n- 结果支持'易化的食欲性条件反射'是 CSB 发展与维持的重要机制，与成瘾的条件化理论一致。\n- 背景数据：2013 年英国约 10% 的互联网流量流向成人网站，超过所有社交网络流量总和（原文引述）。\n\n## 关键数据\n- 样本量：20 名 CSB 被试 vs 20 名健康对照。\n- 范式：fMRI 经典条件反射（CS+/CS-）+ 心理生理交互（PPI）连接分析。\n\n## 参考信息\n- 期刊：Journal of Sexual Medicine, 2016, 13(4): 627–636\n- DOI: 10.1016/j.jsxm.2016.01.013\n- PMID: 26936075\n- 链接：https://pubmed.ncbi.nlm.nih.gov/26936075/"
+ },
+ {
+  "id": "science-009",
+  "category": "science",
+  "categoryDir": "01-science",
+  "title": "Seok & Sohn 2015：问题性性欲亢进者性欲的神经基质",
+  "source": "https://pubmed.ncbi.nlm.nih.gov/26648855/",
+  "author": "Ji-Woo Seok & Jin-Hun Sohn（韩国忠南国立大学脑研究所）",
+  "date": "2015",
+  "tags": [
+   "神经科学",
+   "fMRI",
+   "性欲",
+   "性欲亢进",
+   "前额叶"
+  ],
+  "credibility": "高",
+  "credibilityRaw": "高",
+  "summary": "23 名问题性性欲亢进（PHB）者 vs 22 名对照：PHB 组观看性刺激时尾状核、丘脑、背侧前扣带回、背外侧前额叶激活更强，主观性欲更频繁更强烈——与物质/行为成瘾脑影像模式一致。",
+  "bodyMarkdown": "## 核心要点\n- 23 名 PHB 个体与 22 名年龄匹配健康对照在被动观看性/非性刺激时接受事件相关 fMRI 扫描，并对每个性刺激的性欲强度评分。\n- PHB 组对性刺激体验到更频繁、更强的性欲。\n- PHB 组尾状核、下顶叶、背侧前扣带回、丘脑、背外侧前额叶皮层（DLPFC）激活显著强于对照组；两组血流动力学反应的时间进程模式也不同。\n- 激活模式与物质成瘾及行为成瘾脑影像研究一致：前额叶与皮层下奖励区域功能改变。\n- 背景流行病学：美国社区及大学生 PHB 患病率约 3–6%，韩国大学生约 2%。\n\n## 关键数据\n- 样本量：23 名 PHB vs 22 名对照（事件相关 fMRI，FDR 校正 p < 0.05）。\n- 关键坐标：右侧 dACC (x=24, y=−16, z=34)、双侧丘脑 (x=6, y=−36, z=4)、右侧 DLPFC (x=56, y=10, z=22)。\n\n## 参考信息\n- 期刊：Frontiers in Behavioral Neuroscience, 2015, 9: 321\n- DOI: 10.3389/fnbeh.2015.00321\n- PMID: 26648855 / PMCID: PMC4663274\n- 链接：https://pubmed.ncbi.nlm.nih.gov/26648855/"
+ },
+ {
+  "id": "science-010",
+  "category": "science",
+  "categoryDir": "01-science",
+  "title": "Prause 等 2015：高频色情使用的脑电（LPP）证据与'色情成瘾'模型之争",
+  "source": "https://pubmed.ncbi.nlm.nih.gov/26095441/",
+  "author": "Nicole Prause, Vaughn R. Steele, Greg Hajcak 等（UCLA/Mind Research Network/Stony Brook）",
+  "date": "2015",
+  "tags": [
+   "神经科学",
+   "EEG",
+   "LPP",
+   "成瘾争议",
+   "反对证据"
+  ],
+  "credibility": "高",
+  "credibilityRaw": "高",
+  "summary": "122 名被试 EEG 研究：报告难以控制色情使用且性欲高者对性图像的晚期正电位（LPP）反而更低——与物质成瘾'线索反应增强'的预测相反，成为'色情成瘾'模型最著名的反证，并引发 Gola 等人的学术交锋。",
+  "bodyMarkdown": "## 核心要点\n- 122 名报告有/无视性刺激（VSS）使用调节问题的被试观看情绪图片（含露骨性图片）并记录事件相关电位（ERP）。\n- 若色情使用符合成瘾模型，问题使用者应对性线索表现出增强的 LPP（注意/动机显著性指标）；实际结果相反：报告使用调节问题且性欲望高者对性图像的 LPP 反而更低。\n- 作者据此认为该模式不同于物质成瘾模型，'色情成瘾'框架未获支持；这是该群体首批功能性生理数据。\n- 学术交锋：Gola（2016, Biol Psychol）评论指出，成瘾模型的另一种解读（敏化导致对非新奇性图片反应钝化、LPP 降低）同样能解释该结果——'一切取决于模型'；Prause 等随即回复反驳（2016, Biol Psychol 120:159–161）。\n- 该争议凸显该领域核心方法论问题：线索反应性的升高或降低究竟支持还是反对成瘾模型，取决于所采用的理论版本。\n\n## 关键数据\n- 样本量：N = 122（含男性和女性）。\n- 核心指标：LPP 波幅（300–600ms 窗口），问题组 × 性欲交互作用显著。\n- 辩论文献：Gola 2016 评论（Biol Psychol 120:156–158, DOI: 10.1016/j.biopsycho.2016.05.003）；Prause 等 2016 回复（DOI: 10.1016/j.biopsycho.2016.05.007）。\n\n## 参考信息\n- 期刊：Biological Psychology, 2015, 109: 192–199\n- DOI: 10.1016/j.biopsycho.2015.06.005\n- PMID: 26095441\n- 链接：https://pubmed.ncbi.nlm.nih.gov/26095441/"
+ },
+ {
+  "id": "science-011",
+  "category": "science",
+  "categoryDir": "01-science",
+  "title": "Brand 等 I-PACE 模型：网络色情等特定网络使用障碍的成因理论框架",
+  "source": "https://pubmed.ncbi.nlm.nih.gov/27590829/",
+  "author": "Matthias Brand, Kimberly S. Young, Christian Laier, Klaus Wölfling, Marc N. Potenza（杜伊斯堡-埃森大学等）",
+  "date": "2016（2019 更新）",
+  "tags": [
+   "理论模型",
+   "I-PACE",
+   "网络成瘾",
+   "行为成瘾",
+   "执行功能"
+  ],
+  "credibility": "高",
+  "credibilityRaw": "高",
+  "summary": "I-PACE（人-情感-认知-执行交互）模型：特定网络使用障碍（含网络色情）是易感因素×调节因素×中介过程交互的结果；条件化过程在成瘾进程中不断强化线索-渴求关联。2019 年更新版推广至所有成瘾行为。",
+  "bodyMarkdown": "## 核心要点\n- I-PACE = Interaction of Person-Affect-Cognition-Execution：障碍源于①易感因素（神经生物学与心理特质，如冲动性、奖赏敏感性）×②调节变量（应对方式、网络相关认知偏差）×③中介过程（对情境触发的情感与认知反应 + 执行功能/抑制控制减弱）的交互。\n- 条件化（conditioning）过程在成瘾进程中不断强化上述关联：早期阶段以奖励驱动为主，随病程进展渴求与习惯化成分增强，执行控制进一步削弱。\n- 模型覆盖色情浏览、游戏、赌博、购物、社交沟通等特定网络应用，是当前行为成瘾领域引用最广的理论框架之一。\n- 2019 年更新版（Neurosci Biobehav Rev 104:1–10）：将模型推广到网络使用障碍之外的所有成瘾行为，并细化成瘾行为的'过程性'特征（不同阶段各成分权重动态变化）。\n- 治疗启示：针对应对方式、认知偏差、触发-反应链条与执行功能的干预（如 CBT）有理论依据。\n\n## 关键数据\n- 理论综述（无原始样本），整合当时网络成瘾/游戏障碍的实证研究。\n- 原文 2016 年 8 月 30 日在线发表，正式版 Neurosci Biobehav Rev 71: 252–266。\n- 2019 更新版 DOI: 10.1016/j.neubiorev.2019.06.032。\n\n## 参考信息\n- 期刊：Neuroscience & Biobehavioral Reviews, 2016, 71: 252–266；更新版 2019, 104: 1–10\n- DOI: 10.1016/j.neubiorev.2016.08.033（2016）；10.1016/j.neubiorev.2019.06.032（2019）\n- PMID: 27590829\n- 链接：https://pubmed.ncbi.nlm.nih.gov/27590829/"
+ },
+ {
+  "id": "science-012",
+  "category": "science",
+  "categoryDir": "01-science",
+  "title": "大脑可塑性与戒断后恢复：强迫性性行为是否应被视为成瘾",
+  "source": "https://doi.org/10.1111/add.13297",
+  "author": "Shane W. Kraus, Valerie Voon, Marc N. Potenza（退伍军人医院/剑桥/耶鲁）",
+  "date": "2016",
+  "tags": [
+   "神经科学",
+   "可塑性",
+   "戒断恢复",
+   "综述",
+   "成瘾分类"
+  ],
+  "credibility": "高",
+  "credibilityRaw": "高",
+  "summary": "发表于 Addiction 的权威综述：评估强迫性性行为（CSB）符合成瘾模型的神经生物学证据（奖励回路敏化、ΔFosB 样分子可塑性、前额叶控制减弱），并讨论可塑性改变的可逆性与长期性。",
+  "bodyMarkdown": "## 核心要点\n- 综述结论：CSB 与赌博障碍等行为成瘾在临床特征（失控、渴求、耐受样升级、负面后果下仍持续）与神经机制（奖励回路、条件化、执行控制）上高度相似，支持将其纳入成瘾框架——此立场后被 ICD-11 采纳（CSBD 列入冲动控制障碍）。\n- 神经可塑性是双刃剑：成瘾相关改变（ΔFosB 积累、树突棘重塑、线索-奖励关联强化）由反复奖励驱动形成，意味着理论上也可因行为消退而部分逆转。\n- 动物证据提示恢复的时间尺度不一：性奖励诱导的伏隔核树突棘增生在停止后数周内消退（Pitchers 2013：7 天显著、28 天回落），但 ΔFosB 升高可持续 ≥28 天，条件化的线索-渴求关联可长期潜伏并诱发复吸。\n- 人类纵向恢复研究目前缺乏：Kühn & Gallinat（2014）的横断面设计无法回答'戒断后纹状体结构与功能能否恢复'，这是该领域关键证据空白。\n- 临床含义：戒断早期常见渴求高峰与情绪低谷（消退期），长期恢复需重建额叶控制并弱化条件化线索关联（暴露/消退训练、CBT）。\n\n## 关键数据\n- 综述类论文（Addiction, 2016, 111(12): 2097–2106）。\n- 引用 ΔFosB 时程数据：升高持续 ≥28 天（Pitchers et al., 2013, J Neurosci）；树突棘一过性增生 7 天出现、28 天消退。\n- CSB 患病率估计 2–4%（Voon 2014 引述数据）。\n\n## 参考信息\n- 期刊：Addiction, 2016, 111(12): 2097–2106（\"Should compulsive sexual behavior be considered an addiction?\"）\n- DOI: 10.1111/add.13297\n- 关联文献：Kraus et al. 2018, World Psychiatry 17(1):109–110, DOI: 10.1002/wps.20499（ICD-11 收录说明）\n- 链接：https://doi.org/10.1111/add.13297"
+ },
+ {
+  "id": "authority-001",
+  "category": "authority",
+  "categoryDir": "02-authority",
+  "title": "WHO ICD-11：强迫性性行为障碍（6C72）官方条目",
+  "source": "https://icd.who.int/browse11/l-m/en#/http://id.who.int/icd/entity/1630268048",
+  "author": "世界卫生组织（WHO）",
+  "date": "2019年通过，2022年1月1日生效",
+  "tags": [
+   "WHO",
+   "ICD-11",
+   "CSBD",
+   "诊断标准",
+   "冲动控制障碍"
+  ],
+  "credibility": "高",
+  "credibilityRaw": "高",
+  "summary": "ICD-11 将强迫性性行为障碍（CSBD，编码 6C72）列入冲动控制障碍章节，定义为持续无法控制强烈、反复的性冲动并导致显著痛苦或功能损害，病程通常 6 个月以上。",
+  "bodyMarkdown": "## 核心要点\n- CSBD 在 ICD-11 中编码为 **6C72**，归于\"冲动控制障碍\"章节，**未**被归入成瘾行为章节（与赌博障碍、游戏障碍的分类不同）。\n- 定义核心：持续性地无法控制强烈、反复的性冲动或性欲，导致反复性行为；表现为性行为成为生活中心、多次尝试减少/停止失败、不顾不良后果或已无法从中获得满足仍持续。\n- 病程要求：通常持续 6 个月或以上，并造成显著痛苦或个人、家庭、社会、教育、职业等功能领域损害。\n- **道德排除条款**：完全由对性冲动的道德评判和不赞同所导致的痛苦，不足以满足诊断要求。\n- 排除项：性欲倒错障碍（6D30-6D3Z）。\n- 诊断指南还提示：不能由其他精神障碍（如躁狂发作）或物质/药物作用更好解释。\n\n## 关键数据\n- 编码：6C72；上位类目：冲动控制障碍（Impulse control disorders）\n- 病程阈值：≥6 个月（\"extended period of time, e.g., 6 months or more\"）\n- ICD-11 于 2019 年 5 月世界卫生大会通过，2022 年 1 月 1 日正式生效\n\n## 参考信息\n- WHO ICD-11 浏览器条目（6C72）：https://icd.who.int/browse11/l-m/en#/http://id.who.int/icd/entity/1630268048\n- ICD-11 诊断指南要点亦见 J Behav Addict 2022;11(2):230-233 的引用（PMC9295241 表 1 脚注）"
+ },
+ {
+  "id": "authority-002",
+  "category": "authority",
+  "categoryDir": "02-authority",
+  "title": "WHO ICD-11 官方门户：行为成瘾与冲动控制障碍的分类框架",
+  "source": "https://icd.who.int/en/",
+  "author": "世界卫生组织（WHO）",
+  "date": "ICD-11（2018发布预览，2022生效）",
+  "tags": [
+   "WHO",
+   "ICD-11",
+   "分类体系",
+   "行为成瘾",
+   "冲动控制障碍"
+  ],
+  "credibility": "高",
+  "credibilityRaw": "高",
+  "summary": "WHO 官方 ICD-11 门户说明：赌博障碍与游戏障碍归入\"成瘾行为所致障碍\"，而强迫性性行为障碍归入\"冲动控制障碍\"，体现 WHO 对两类问题的不同概念化。",
+  "bodyMarkdown": "## 核心要点\n- ICD-11 是全球疾病与健康问题诊断统计的国际标准，由 WHO 维护，2019 年世界卫生大会通过，2022 年 1 月 1 日生效。\n- 在 ICD-11 结构中：\n  - **成瘾行为所致障碍（Disorders due to addictive behaviours）**：赌博障碍（6C50）、游戏障碍（6C51）。\n  - **冲动控制障碍（Impulse control disorders）**：强迫性性行为障碍（6C72）、纵火狂、偷窃狂、间歇性暴怒障碍等。\n- 这一分类意味着 WHO 目前**未将强迫性色情使用定性为\"成瘾\"**，而是定性为\"冲动控制\"问题——这是理解\"色情成瘾\"争议的关键官方立场。\n- 是否纳入某一诊断类别，取决于该健康问题是否有足够证据及其对各国 ICD 应用的效用。\n\n## 关键数据\n- ICD-11 生效日期：2022 年 1 月 1 日\n- 相关编码：6C50 赌博障碍、6C51 游戏障碍、6C72 强迫性性行为障碍\n\n## 参考信息\n- WHO ICD-11 官方门户：https://icd.who.int/en/\n- WHO ICD-11 浏览器：https://icd.who.int/browse11/l-m/en"
+ },
+ {
+  "id": "authority-003",
+  "category": "authority",
+  "categoryDir": "02-authority",
+  "title": "WHO 问答：成瘾行为——游戏障碍的官方立场",
+  "source": "https://www.who.int/news-room/questions-and-answers/item/addictive-behaviours-gaming-disorder",
+  "author": "世界卫生组织（WHO）",
+  "date": "2020-10-22（更新）",
+  "tags": [
+   "WHO",
+   "游戏障碍",
+   "行为成瘾",
+   "ICD-11",
+   "官方立场"
+  ],
+  "credibility": "高",
+  "credibilityRaw": "高",
+  "summary": "WHO 官方问答明确游戏障碍的 ICD-11 定义、12 个月病程要求、纳入依据（循证审查与专家共识），并强调游戏障碍只影响游戏者中的一小部分人。",
+  "bodyMarkdown": "## 核心要点\n- 游戏障碍定义：对游戏行为失去控制；游戏优先级高于其他兴趣和日常活动；即使出现负面后果仍继续或升级游戏。\n- 诊断要求：行为模式须足够严重，导致个人、家庭、社交、教育、职业等重要功能领域显著受损，通常需持续至少 **12 个月**。\n- 纳入依据：基于可获得证据的审查，反映参与 ICD-11 技术咨询的不同学科和地区专家的共识；此前全球多地已出现针对此类状况的治疗项目。\n- WHO 明确提示：研究表明游戏障碍只影响**一小部分**游戏者；普通游戏爱好者不等于患病，但应留意游戏时间及其对身心健康和社会功能的影响。\n- 该问答是理解 WHO 对\"行为成瘾\"整体思路的范本：失控 + 优先级改变 + 不顾后果持续 + 功能损害 + 时间阈值。\n\n## 关键数据\n- 病程阈值：通常至少 12 个月\n- 发布时间：2020 年 10 月 22 日（WHO 新闻室问答）\n- 与赌博障碍同列\"成瘾行为所致障碍\"章节\n\n## 参考信息\n- WHO 新闻室问答原文：https://www.who.int/news-room/questions-and-answers/item/addictive-behaviours-gaming-disorder"
+ },
+ {
+  "id": "authority-004",
+  "category": "authority",
+  "categoryDir": "02-authority",
+  "title": "WHO 分类标准 FAQ：游戏障碍",
+  "source": "https://www.who.int/standards/classifications/frequently-asked-questions/gaming-disorder",
+  "author": "世界卫生组织（WHO）",
+  "date": "WHO 官网持续更新页面",
+  "tags": [
+   "WHO",
+   "游戏障碍",
+   "ICD-11",
+   "分类标准",
+   "FAQ"
+  ],
+  "credibility": "高",
+  "credibilityRaw": "高",
+  "summary": "WHO 标准与分类部门的 FAQ 页面，解释 ICD 的作用、游戏障碍的定义与识别方式、纳入 ICD-11 的理由，并提醒并非所有游戏者都有患病风险。",
+  "bodyMarkdown": "## 核心要点\n- ICD 的作用：在全球记录和报告健康及健康相关状况，保证数字健康数据的互操作性与可比性；某类目是否纳入取决于其对 ICD 各种用途的效用及\"该健康状况确实存在\"的充分证据。\n- 游戏障碍的识别三要素：失控（对频率、时长等的控制力受损）、优先级（游戏凌驾于其他兴趣和日常活动）、不顾负面后果仍继续或升级。\n- 功能损害 + 时间要求：行为模式须严重到造成重要功能领域显著受损，且通常已持续至少 12 个月。\n- 纳入理由：循证审查 + 跨学科、跨地区专家共识；世界各地已存在针对相同状况的治疗项目，纳入有助于专业人员关注风险并推动预防与治疗。\n- 风险澄清：游戏障碍只影响游戏人群中的一小部分；但游戏者应警惕游戏时间挤占日常活动以及身心/社会功能的变化。\n\n## 关键数据\n- 病程：通常 ≥12 个月\n- 分类位置：ICD-11\"成瘾行为所致障碍\"（与强迫性性行为障碍的\"冲动控制障碍\"分类不同）\n\n## 参考信息\n- WHO 标准与分类 FAQ：https://www.who.int/standards/classifications/frequently-asked-questions/gaming-disorder"
+ },
+ {
+  "id": "authority-005",
+  "category": "authority",
+  "categoryDir": "02-authority",
+  "title": "APA《心理学监测》：色情是否成瘾？——兼论 DSM-5 为何未收录",
+  "source": "https://www.apa.org/monitor/2014/04/pornography",
+  "author": "美国心理学会（APA），Kirsten Weir",
+  "date": "2014-04（Monitor on Psychology, Vol 45, No.4, p.46）",
+  "tags": [
+   "APA",
+   "DSM-5",
+   "色情成瘾",
+   "性欲亢进障碍",
+   "官方立场"
+  ],
+  "credibility": "高",
+  "credibilityRaw": "高",
+  "summary": "APA 官方刊物说明：DSM-5 起草时曾考虑纳入含色情亚型的\"性欲亢进障碍\"，但因证据不足未收录 2013 版；多数色情使用者无问题，约 9% 观看者曾尝试停止未果。",
+  "bodyMarkdown": "## 核心要点\n- **DSM-5 立场**：起草 DSM-5 时，专家曾考虑名为\"性欲亢进障碍（hypersexual disorder）\"的拟议诊断（含色情使用亚型），但评审最终认定证据不足，未将其纳入 2013 版 DSM-5。\n- 使用率背景：引述 Gert Martin Hald 等在《APA 性与心理学手册》中的综述，各国研究估计男性色情消费率 50%–99%，女性 30%–86%。\n- 网络\"3A 引擎\"：已故性研究者 Alvin Cooper 提出网络色情的可及性（Accessibility）、可负担性（Affordability）、匿名性（Anonymity）放大了其影响。\n- 问题使用比例：金赛研究所 2002 年为 PBS/Frontline 所做调查显示，**9%** 的色情观看者表示曾尝试停止但未成功；80% 的使用者表示对此感觉\"良好\"。\n- 伴侣影响研究结论不一致：男性使用与双方性质量下降相关，女性使用在部分研究中与性质量提升相关；因果方向（先有不满关系还是先有高频使用）尚不清楚。\n- APA 总结：无论色情是否构成可诊断的成瘾，它确实伤害了一部分使用者，而目前关于最佳干预方式的证据很少。\n\n## 关键数据\n- 男性色情消费率：50%–99%；女性：30%–86%（Hald 等，APA Handbook 综述）\n- 尝试停止未果者：9%（Kinsey/PBS 2002 调查）\n- DSM-5（2013）：未收录性欲亢进障碍/色情成瘾\n\n## 参考信息\n- Weir, K. (2014). Is pornography addictive? Monitor on Psychology, 45(4), 46. https://www.apa.org/monitor/2014/04/pornography"
+ },
+ {
+  "id": "authority-006",
+  "category": "authority",
+  "categoryDir": "02-authority",
+  "title": "美国成瘾医学会（ASAM）2019 年成瘾定义",
+  "source": "https://www.asam.org/news/detail/2019/08/09/asam-releases-new-definition-of-addiction-to-advance-greater-understanding-of-the-complex-chronic-disease",
+  "author": "美国成瘾医学会（ASAM）",
+  "date": "2019-08-09（董事会 2019-09-15 通过）",
+  "tags": [
+   "ASAM",
+   "成瘾定义",
+   "慢性病模型",
+   "脑回路",
+   "官方立场"
+  ],
+  "credibility": "高",
+  "credibilityRaw": "高",
+  "summary": "ASAM 2019 年更新成瘾定义：成瘾是可治疗的慢性医学疾病，涉及脑回路、遗传、环境与人生经历的复杂交互；患者使用物质或从事变得强迫性的行为，常不顾有害后果仍持续。",
+  "bodyMarkdown": "## 核心要点\n- 官方定义全文：\"成瘾是一种可治疗的慢性医学疾病，涉及脑回路、遗传、环境和个人人生经历之间的复杂相互作用。成瘾者使用物质或从事变得强迫性的行为，并且常常不顾有害后果仍继续。成瘾的预防工作和治疗方法通常与其他慢性病同样有效。\"\n- 定义要点：**行为**也可落入成瘾范畴（\"engage in behaviors that become compulsive\"），但 ASAM 并未据此单独认定\"色情成瘾\"诊断。\n- 强调生物—心理—社会—环境交互，反对将成瘾简化为\"意志力薄弱\"或道德问题。\n- 背景：对成瘾理解的不完整，阻碍了医学界、司法系统和政策制定者在预防、治疗、康复及减少过量死亡方面的应对。\n- 该定义由 ASAM 董事会于 2019 年 9 月 15 日通过，并配合\"全国成瘾治疗周\"（2019 年 10 月 21–27 日）发布。\n\n## 关键数据\n- 定义通过时间：2019 年 9 月 15 日（ASAM 董事会）；新闻发布：2019 年 8 月 9 日\n- 关键要素数量：脑回路、遗传、环境、人生经历四大交互因素\n\n## 参考信息\n- ASAM 新闻稿：https://www.asam.org/news/detail/2019/08/09/asam-releases-new-definition-of-addiction-to-advance-greater-understanding-of-the-complex-chronic-disease\n- ASAM 官网：https://www.asam.org"
+ },
+ {
+  "id": "authority-007",
+  "category": "authority",
+  "categoryDir": "02-authority",
+  "title": "AASECT 立场声明：性成瘾/色情成瘾缺乏足够实证依据",
+  "source": "https://www.aasect.org/sites/default/files/AASECT_Press_Release_on_Sex_Addiction.pdf",
+  "author": "美国性教育、咨询与治疗协会（AASECT）",
+  "date": "2016-12-08",
+  "tags": [
+   "AASECT",
+   "性成瘾",
+   "色情成瘾",
+   "立场声明",
+   "争议"
+  ],
+  "credibility": "高",
+  "credibilityRaw": "高",
+  "summary": "AASECT 2016 年历史性声明：没有足够实证证据支持将性成瘾或色情成瘾归类为心理健康障碍；反对将性冲动相关问题归因于\"色情/性成瘾过程\"作为性教育、咨询与治疗的标准实践。",
+  "bodyMarkdown": "## 核心要点\n- 两大核心结论：(1) 没有足够实证证据支持将**性成瘾或色情成瘾归类为心理健康障碍**；(2) 性成瘾的培训、治疗方法与教学体系未充分建立在准确的人类性学知识之上。\n- 因此，AASECT 的立场是：不能将与性冲动、性想法或性行为相关的问题归因于\"色情/性成瘾过程\"，作为性教育、咨询或治疗的标准实践。\n- 但 AASECT 同时承认：人们确实可能因其性冲动、想法或行为而经历显著的身体、心理、精神和性健康后果——\"问题行为是真实的，需要的是更好的性科学，而非成瘾标签\"。\n- 作者之一 Braun-Harvey：\"性成瘾概念是对人类性行为复杂领域的过度简化，未获性科学与性治疗证实。\"\n- 声明引用 DSM-5 拒绝性成瘾诊断的说明：\"要将其纳入成瘾，需要目前并不存在的已发表科学研究。\"\n- 作者之一 Stambaugh：性行为与真正成瘾可能共享部分神经通路，但相关性不等于因果；\"过度使用色情导致勃起功能丧失或伴侣欲望下降\"的证据薄弱。\n- 时任 AASECT 主席 Herbenick：问题性行为往往可用高性欲、抑郁焦虑等心理健康问题或文化影响下的内疚/羞耻更好解释。\n\n## 关键数据\n- 发布日期：2016 年 12 月 8 日（新闻稿 PDF）\n- AASECT 成立年份：1967 年\n- 背景事件：犹他州及共和党将色情宣布为\"公共健康危害\"（2016 年）\n\n## 参考信息\n- AASECT 新闻稿 PDF：https://www.aasect.org/sites/default/files/AASECT_Press_Release_on_Sex_Addiction.pdf"
+ },
+ {
+  "id": "authority-008",
+  "category": "authority",
+  "categoryDir": "02-authority",
+  "title": "Kraus 等（2018）：ICD-11 中的强迫性性行为障碍——权威概念说明",
+  "source": "https://europepmc.org/articles/PMC5775124",
+  "author": "Kraus SW, Krueger RB, Briken P, First MB, Stein DJ, Voon V, Reed GM（含 WHO 精神卫生与物质滥用司人员）等",
+  "date": "2018-02（World Psychiatry 17(1):109-110）",
+  "tags": [
+   "ICD-11",
+   "CSBD",
+   "World Psychiatry",
+   "诊断指南",
+   "过度病理化"
+  ],
+  "credibility": "高",
+  "credibilityRaw": "高",
+  "summary": "由参与 ICD-11 制定的专家团队撰写的权威短文：阐述 CSBD 诊断指南、为何归为冲动控制障碍，以及如何防止将高性欲或道德性痛苦过度病理化。",
+  "bodyMarkdown": "## 核心要点\n- CSBD 被提议并纳入 ICD-11 冲动控制障碍章节；核心为持续无法控制强烈、反复的性冲动，造成显著痛苦或功能损害，病程通常 ≥6 个月。\n- 四项表现（满足一项或多项）：性行为成为生活中心并忽视健康/职责；多次尝试减少失败；不顾不良后果（关系破裂、职业后果、健康损害）仍持续；即使已很少获得满足仍持续。\n- **防过度病理化的明确护栏**：\n  - 性欲水平高但控制力和功能未受损者，不应诊断。\n  - 不应以此诊断描述青少年常见的（如自慰）高性兴趣行为，即使伴随痛苦。\n  - 不能仅基于道德评判导致的痛苦下诊断。\n  - 自称\"性瘾/色情成瘾\"者经检查可能并不符合临床特征，他们可能需要的是焦虑、抑郁等其他问题的治疗。\n- 纳入 ICD-11 的目的：提升诊断与治疗的一致性（包括何时**不应**诊断），满足求助者未被满足的临床需求，并可能减少求助相关的羞耻与内疚。\n- 后续计划：多国多语言网络实地研究 + 临床实地研究，检验诊断指南的跨文化适用性与临床效用。\n\n## 关键数据\n- 发表：World Psychiatry, 2018; 17(1):109-110\n- DOI：10.1002/wps.20499；PMID：29352554\n- 作者含 WHO 精神卫生与物质滥用司（Geoffrey M. Reed 等），被引 600+ 次\n\n## 参考信息\n- Europe PMC 全文：https://europepmc.org/articles/PMC5775124\n- DOI：https://doi.org/10.1002/wps.20499"
+ },
+ {
+  "id": "authority-009",
+  "category": "authority",
+  "categoryDir": "02-authority",
+  "title": "CSBD 与问题性色情使用的治疗干预：预注册系统综述（2022）",
+  "source": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9872540/",
+  "author": "系统综述团队（Journal of Clinical Medicine，PMC9872540）",
+  "date": "2022（预注册系统综述）",
+  "tags": [
+   "CSBD",
+   "PPU",
+   "治疗",
+   "系统综述",
+   "预注册"
+  ],
+  "credibility": "高",
+  "credibilityRaw": "高",
+  "summary": "聚焦问题性色情使用（PPU）的 CSBD 治疗干预预注册系统综述：梳理 CSBD 概念史、ICD-11 纳入过程及现有治疗证据，指出患病率估计因测量工具差异而范围很宽。",
+  "bodyMarkdown": "## 核心要点\n- 概念史：失控性行为曾分别被概念化为强迫症、性欲倒错相关障碍、冲动控制障碍、性欲亢进或行为成瘾；2010 年 Kafka 的性欲亢进障碍进入 DSM-5 的努力失败；2019 年 WHO 决定将 CSBD（6C72）列入 ICD-11 冲动控制障碍章节。\n- 色情使用是 CSBD 中最常出现问题的行为（Reid et al., 2012），研究因此分化为\"CSBD 总体\"与\"PPU 专门\"两条研究线。\n- 患病率估计因工具差异（单题项到成套问卷）而范围很宽：\n  - CSBD：男性 **4.2%–7%**，女性 **0–5.5%**（Bőthe et al., 2020; Briken et al., 2022; Fuss et al., 2019）。\n  - PPU：男性 **3%–10%**，女性 **1%–7%**（Bőthe, Potenza, et al., 2020; Grubbs, Kraus & Perry, 2019 等）。\n- 治疗证据：综述系统检索了针对 CSBD/PPU 的心理与药物干预研究，整体证据仍有限，亟需规范化、基于 ICD-11 标准的干预研究与标准化评估工具。\n- 机制讨论：PPU 与线下强迫性性行为是否应共享 CSBD 伞形诊断仍有争论（Antons & Brand, 2021 的 I-PACE 模型常被引用）。\n\n## 关键数据\n- CSBD 患病率区间：男 4.2–7%，女 0–5.5%\n- PPU 患病率区间：男 3–10%，女 1–7%\n- ICD-11 决策时间：2019 年（WHO 相关小组委员会）\n\n## 参考信息\n- Treatments and interventions for compulsive sexual behavior disorder with a focus on problematic pornography use: A preregistered systematic review. PMC9872540. https://pmc.ncbi.nlm.nih.gov/articles/PMC9872540/"
+ },
+ {
+  "id": "authority-010",
+  "category": "authority",
+  "categoryDir": "02-authority",
+  "title": "ICD-11 视角下 CSBD（冲动控制障碍）与游戏/赌博障碍（成瘾行为）的症状对比",
+  "source": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9295241/table/T1/",
+  "author": "Journal of Behavioral Addictions（2022;11(2):230-233）",
+  "date": "2022-07-13",
+  "tags": [
+   "ICD-11",
+   "CSBD",
+   "游戏障碍",
+   "赌博障碍",
+   "分类对比"
+  ],
+  "credibility": "高",
+  "credibilityRaw": "高",
+  "summary": "基于 ICD-11 官网条目的对照表：CSBD 的核心是'无法控制性冲动'，而游戏/赌博障碍的核心是'对行为的控制受损+优先级升高'，两者分属冲动控制障碍与成瘾行为两个章节。",
+  "bodyMarkdown": "## 核心要点\n- 该文依据 ICD-11 官网条目，将 CSBD（6C72）与游戏障碍（6C50）/赌博障碍（6C51）的症状逐条对比，凸显 WHO 对\"性相关问题\"与\"行为成瘾\"的不同概念化。\n- CSBD 侧关键词：**failure to control** intense sexual impulses/urges；性行为成为生活中心；不顾不良后果或无法获得满足仍持续；显著痛苦或功能损害。\n- 游戏/赌博侧关键词：**impaired control** over gaming/gambling；优先级凌驾于其他生活兴趣与日常活动；不顾负面后果仍继续或升级；显著痛苦或功能损害。\n- 概念差异：CSBD 强调\"冲动\"本身（urge 层面）的失控，成瘾行为障碍强调\"行为\"层面的控制受损与优先级结构改变——这是 WHO 未把 CSBD 归入成瘾章节的诊断学逻辑。\n- 文章同时直接引用了 ICD-11 官方条目 URL（entity/1630268048 为 CSBD；entity/1448597234 为游戏/赌博），可作为核对官方原文的入口。\n\n## 关键数据\n- 出处：J Behav Addict. 2022;11(2):230-233. DOI: 10.1556/2006.2022.00039\n- 引用 ICD-11 实体：6C72（CSBD）= entity/1630268048；6C50/6C51 = entity/1448597234\n\n## 参考信息\n- 对比表（Table 1）：https://pmc.ncbi.nlm.nih.gov/articles/PMC9295241/table/T1/\n- ICD-11 CSBD 条目：https://icd.who.int/browse11/l-m/en#/http://id.who.int/icd/entity/1630268048"
+ },
+ {
+  "id": "authority-011",
+  "category": "authority",
+  "categoryDir": "02-authority",
+  "title": "英国精神科备考资料库：ICD-11 CSBD（6C72）诊断标准全文转载",
+  "source": "https://www.mrcpsych.uk/2022/05/icd-11-criteria-for-compulsive-sexual.html",
+  "author": "MRCPsych 备考资源站（转引 WHO ICD-11 官方文本）",
+  "date": "2022-05",
+  "tags": [
+   "ICD-11",
+   "CSBD",
+   "诊断标准",
+   "英国",
+   "精神科医生培训"
+  ],
+  "credibility": "中",
+  "credibilityRaw": "中",
+  "summary": "面向英国精神科医师（MRCPsych）备考的资料页，逐字转载 WHO ICD-11（2022, Geneva）对 CSBD 的完整定义、症状、病程、功能损害与道德排除条款及排除项。",
+  "bodyMarkdown": "## 核心要点\n- 全文转载 ICD-11 官方表述：CSBD 的特征是持续无法控制强烈、反复的性冲动或性欲，导致反复性行为。\n- 症状可能包括：性行为成为生活中心以至忽视健康、个人照料及其他兴趣/活动/责任；多次尝试显著减少性行为未果；不顾不良后果或已无法从中获得满足仍持续。\n- 病程与严重性：失控模式需持续较长时间（如 6 个月或以上），并造成显著痛苦或个人、家庭、社会、教育、职业等重要功能领域损害。\n- 道德排除条款：完全由对性冲动、性欲或性行为的道德评判与不赞同所致的痛苦，**不足以**满足诊断要求。\n- 排除：性欲倒错障碍（BlockL1-6D3）。\n- 引用格式注明：International Classification of Diseases Eleventh Revision (ICD-11). Geneva: World Health Organization; 2022（CC BY-ND 3.0 IGO 许可）——即内容为 WHO 官方文本的忠实转载，但站点本身为培训资源而非官方机构，故可信度标为中。\n\n## 关键数据\n- 发布：2022 年 5 月\n- 文本来源：WHO ICD-11（Geneva, 2022）\n- 病程阈值：≥6 个月\n\n## 参考信息\n- 页面：https://www.mrcpsych.uk/2022/05/icd-11-criteria-for-compulsive-sexual.html\n- WHO ICD-11 官方条目（首选引用）：https://icd.who.int/browse11/l-m/en#/http://id.who.int/icd/entity/1630268048"
+ },
+ {
+  "id": "medical-001",
+  "category": "medical",
+  "categoryDir": "03-medical",
+  "title": "强迫性性行为障碍（性欲亢进/性成瘾）：症状、成因与治疗",
+  "source": "https://my.clevelandclinic.org/health/diseases/22690-sex-addiction-hypersexuality-and-compulsive-sexual-behavior",
+  "author": "Cleveland Clinic（克利夫兰医学中心，医疗专业人员审阅）",
+  "date": "2022-04-05（页面版本）",
+  "tags": [
+   "CSBD",
+   "性欲亢进",
+   "诊断",
+   "症状",
+   "治疗概述"
+  ],
+  "credibility": "中",
+  "credibilityRaw": "中-高",
+  "summary": "克利夫兰医学中心对强迫性性行为障碍（CSBD）的权威科普：定义、常见行为模式、可能成因、触发因素、风险因素、并发症与诊断治疗路径。",
+  "bodyMarkdown": "## 核心要点\n- CSBD 指性想法、冲动或行为强烈且难以控制，反复出现并干扰日常生活，造成压力、羞耻、关系/工作/财务问题。\n- 常见行为模式：性思维占据大量时间、失控感、重复行为（如反复看色情内容、自慰）、行为逐步升级、明知有害仍持续、事后内疚羞耻、满足感下降、停止时烦躁。\n- 可能成因：多巴胺/去甲肾上腺素/血清素等神经递质活动异常；额叶、杏仁核、前额叶皮层相关脑疾病或损伤（如痴呆、癫痫、双相障碍）；长期习惯化形成自动化冲动；以性行为短暂缓解紧张形成负强化；某些影响多巴胺的药物可诱发。\n- 常见触发因素：焦虑/抑郁/无聊/空虚等强烈情绪、重大生活事件、侵入性性思维、持续压力、渴求累积、色情内容线索、社交孤立与生活缺乏结构。\n- 风险因素：情绪调节困难、早年压力或创伤、轻易获取性内容、冲动性、负面自我信念。\n- 诊断无单一测试：医生通过访谈评估失控程度与功能损害；仅凭性欲强不构成 CSBD；需排除药物、物质使用或其他躯体疾病；评估过程应保持尊重、不评判。\n\n## 关键数据 / 证据\n- 克利夫兰医学中心明确 CSBD 可治疗：心理治疗理解行为模式与触发因素，处理共病心理健康问题，必要时辅以药物。\n- 并发症清单涵盖关系破裂、焦虑抑郁及自杀意念升高、性传播感染风险、物质使用、法律后果与职业功能下降。\n\n## 参考信息\n- 克利夫兰医学中心为美国顶级学术医疗机构，该页面属机构健康图书馆内容，经医学专业人员撰写/审阅，属权威科普而非同行评审研究。\n- 相关：Mayo Clinic 强迫性性行为条目（见 002）。"
+ },
+ {
+  "id": "medical-002",
+  "category": "medical",
+  "categoryDir": "03-medical",
+  "title": "强迫性性行为：症状与病因（妙佑医疗国际/Mayo Clinic）",
+  "source": "https://www.mayoclinic.org/zh-hans/diseases-conditions/compulsive-sexual-behavior/symptoms-causes/syc-20360434",
+  "author": "Mayo Clinic（妙佑医疗国际）",
+  "date": "页面持续更新（2023 版）",
+  "tags": [
+   "CSBD",
+   "症状",
+   "病因",
+   "风险因素",
+   "就医指征"
+  ],
+  "credibility": "中",
+  "credibilityRaw": "中-高",
+  "summary": "Mayo Clinic 中文页面对强迫性性行为的系统介绍：症状清单、何时就诊、大脑通路与神经递质病因假说、风险因素、并发症与预防建议。",
+  "bodyMarkdown": "## 核心要点\n- 定义：对性幻想、性冲动或性行为的强烈关注且无法控制，对健康、工作、亲密关系造成困扰和问题；自慰、网络性活动、色情使用、付费性行为等都可能成为表现。\n- 警示症状：反复强烈的性幻想/冲动/行为占用大量时间且感觉失控；被驱使实施性行为、事后紧张释放但伴内疚懊悔；多次尝试减少或控制但不成功；用性行为逃避孤独、抑郁、焦虑或压力；明知造成严重问题（性病、关系破裂、工作、经济、法律问题）仍继续；难以建立和维持健康亲密关系。\n- 可能病因：大脑\"神经回路\"（尤其与强化相关区域）随时间改变，需要更强烈刺激才能获得满足；血清素、多巴胺、去甲肾上腺素失衡影响情绪与性行为；失智等脑部疾病及帕金森病治疗药物可致强迫性性行为。\n- 风险因素：色情内容易于获取、行为的隐秘性；合并饮酒/药物问题、抑郁、焦虑、赌博成瘾；家庭冲突或家庭成员有成瘾问题；身体虐待或性虐待史。\n- 就医建议：不治疗往往随时间加重，应尽早寻求帮助；医务人员对信息保密，但涉及自伤/伤人或虐待需上报。\n- 预防：及早求助、尽早治疗抑郁焦虑等心理健康问题、处理酒精药物问题、避免危险情境。\n\n## 关键数据 / 证据\n- Mayo 明确指出强迫性性行为\"通过治疗和自助措施，您可以学会控制\"，强调可干预性。\n- 病因部分与神经科学中\"奖赏系统敏化—习惯化\"模型一致。\n\n## 参考信息\n- Mayo Clinic（妙佑医疗国际）为美国权威医疗机构，该页面为其官方中文翻译版患者教育内容。"
+ },
+ {
+  "id": "medical-003",
+  "category": "medical",
+  "categoryDir": "03-medical",
+  "title": "色情成瘾：症状、治疗与并发症（WebMD）",
+  "source": "https://www.webmd.com/mental-health/addiction/porn-addiction-possible",
+  "author": "WebMD（医疗审阅编辑团队）",
+  "date": "页面持续更新（含 2023 年调查数据）",
+  "tags": [
+   "色情成瘾",
+   "治疗",
+   "药物",
+   "支持团体",
+   "青少年"
+  ],
+  "credibility": "中",
+  "credibilityRaw": "中-高",
+  "summary": "WebMD 医学科普：色情成瘾的风险因素、心理治疗选项（CBT/ACT/心理动力）、药物（抗抑郁药、纳曲酮、心境稳定剂、抗雄激素）、支持团体与不治疗的并发症。",
+  "bodyMarkdown": "## 核心要点\n- 风险因素：药物/酒精使用问题（本人或家族）、心境障碍（如抑郁）、赌博成瘾、家庭冲突、身体或性虐待史。\n- 主要治疗为心理治疗：CBT（识别问题领域并学习应对）；接纳承诺疗法（ACT，强调接纳想法与冲动、按价值行动）；心理动力治疗（觉察无意识动机、化解冲突）。\n- 药物辅助：抗抑郁药（治疗共病抑郁、焦虑或强迫症）；纳曲酮（Vivitrol，阻断成瘾行为的奖赏感）；心境稳定剂（减少双相等情况的强迫性性冲动）；抗雄激素（降低男性性冲动）。\n- 支持团体：Sex Addicts Anonymous、Sexaholics Anonymous 等十二步骤团体；美国可拨打 SAMHSA 热线 800-662-4357 转介。\n- 不治疗的并发症：内疚羞耻与低自尊、抑郁焦虑及自杀意念、忽视伴侣与关系破裂、工作分心甚至失业、购买色情内容致债务、物质滥用。\n- 青少年数据（2023 年调查）：73% 青少年看过网络色情，超过半数 13 岁前看过；11 岁前看过的占 15%。家长应直接沟通、讲清色情是\"表演\"并谈同意与安全性行为。\n\n## 关键数据 / 证据\n- 73% 青少年接触过网络色情（2023 年调查，WebMD 引用）。\n- 强迫行为\"在隐秘中滋长\"——公开求助本身是干预的一部分。\n\n## 参考信息\n- WebMD 为美国主流医学科普平台，内容经医学编辑流程；页面还包含如何帮助亲友的实操建议（了解、沟通、支持、协助预约）。"
+ },
+ {
+  "id": "medical-004",
+  "category": "medical",
+  "categoryDir": "03-medical",
+  "title": "关于色情'成瘾'你需要知道的一切：强迫与成瘾之辨",
+  "source": "https://www.healthline.com/health/pornography-addiction",
+  "author": "Healthline（经医学审阅，遵循同行评审来源引用规范）",
+  "date": "页面持续更新",
+  "tags": [
+   "色情成瘾",
+   "强迫vs成瘾",
+   "自助",
+   "DSM-5",
+   "就医指征"
+  ],
+  "credibility": "中",
+  "credibilityRaw": "中-高",
+  "summary": "Healthline 医学审阅文章：区分强迫（compulsion）与成瘾（addiction），说明 DSM 未收录色情成瘾，列出自助步骤、治疗路径与不干预的后果，立场审慎平衡。",
+  "bodyMarkdown": "## 核心要点\n- \"色情成瘾\"不是美国精神医学会（APA）认可的官方诊断，DSM 未收录；但对部分人来说，无法控制的观看冲动可与其他行为成瘾一样造成实质问题。\n- 强迫 vs 成瘾：强迫是为缓解焦虑而重复的、无理性动机的行为；成瘾是明知负面后果仍无法停止；两者共同点是失控。\n- 需警惕的观看模式：观看时间不断增长；需要色情\"刺激\"才能获得兴奋；为后果感到内疚；连续数小时浏览以致忽视责任和睡眠；强迫伴侣观看或模仿色情内容；不看色情就无法享受性生活；明知扰乱生活仍无法抗拒。\n- 可能的成因：从无聊、孤独、焦虑或抑郁期开始；研究显示网络成瘾等某些行为成瘾涉及与物质成瘾类似的神经过程，网络色情成瘾与之可比（2015 年综述）。\n- 自助步骤：删除设备上的电子色情与书签、丢弃实体色情；让他人安装反色情软件且不告知密码；预先准备 1-2 个替代活动应对强烈冲动；写下色情对生活的影响以提醒；识别并回避触发因素；找问责伙伴定期询问；写日记记录挫折与有效替代活动。\n- 何时看专业人士：同时有焦虑、抑郁迹象或强迫症时尤其应评估；警惕自称\"专治色情\"的治疗师——该领域缺乏公认定义和诊断标准。\n- 不治疗的后果：关系质量差、性满意度低、自尊降低、职业/财务问题。\n- Kinsey 研究所 2002 年调查：9% 的色情观看者曾试图停止但未成功。\n\n## 关键数据 / 证据\n- 9% 观看者曾无法成功停止（Kinsey Institute 2002 年调查）。\n- 2015 年综述认为网络色情与物质成瘾共享基本机制（Healthline 引用 Love et al., 2015）。\n\n## 参考信息\n- Healthline 有严格引用规范，仅使用同行评审研究、学术机构和医学期刊来源。"
+ },
+ {
+  "id": "medical-005",
+  "category": "medical",
+  "categoryDir": "03-medical",
+  "title": "色情如何影响我们：问题性色情使用的迹象、成因与求助（Verywell Mind）",
+  "source": "https://www.verywellmind.com/how-does-pornography-affect-us-5097559",
+  "author": "Verywell Mind（经执业心理健康专业人士审阅）",
+  "date": "页面持续更新",
+  "tags": [
+   "问题性色情使用",
+   "迹象",
+   "成因",
+   "大脑奖赏",
+   "AASECT争议"
+  ],
+  "credibility": "中",
+  "credibilityRaw": "中-高",
+  "summary": "Verywell Mind 综述问题性色情使用的表现、成因（大脑差异/文化/压力/关系）、对生活的影响，并呈现 AASECT 与'感知成瘾'研究的争议视角。",
+  "bodyMarkdown": "## 核心要点\n- 色情成瘾尚非可正式诊断的状况，临床上称\"问题性色情使用\"（problematic pornography use）；一项研究估计约影响 3%-6% 成人，年轻人更常见，男性多于女性。\n- 成瘾迹象：不断渴求色情内容且减少尝试失败；工作、学业、社交被观看需求挤压；色情占据所有其他兴趣；在公共场所也观看。\n- 不健康关系的表现：为色情过度消费甚至压缩必需开支；出现危险性行为；用色情应对痛苦、焦虑、悲伤；在被劝阻时愤怒；屡戒不成；观看后羞耻但停不下来；需要更极端内容才能获得快感；真实性生活满意度下降；对伴侣隐瞒。\n- 可能成因：大脑化学/结构的生物学差异；对外貌、性与关系的社会文化期待；把色情当作压力或心理问题的逃避与应对机制；亲密关系困难。\n- 争议视角：美国性教育者、咨询师与治疗师协会（AASECT）认为证据不足以将色情成瘾认定为心理健康状况；有研究显示\"相信自己色情成瘾\"带来的痛苦超过行为本身（道德不一致）。\n- 对生活的影响：高观看量者对色情线索的脑反应增强；奖赏通路与多巴胺受影响（类似物质/赌博成瘾对线索的反应）；伴侣亲密度下降、抑郁风险与自尊受损；日常功能受损；与焦虑障碍相关。\n- 最强的色情使用预测因素：年轻男性、负性情绪状态、频繁上网、宗教性、性厌倦。\n\n## 关键数据 / 证据\n- 色情成瘾估计影响约 3%-6% 成人（Verywell Mind 引用研究）。\n- AASECT 官方立场：证据不足，不认可色情成瘾为心理健康状况——提示临床上需区分\"感知成瘾\"与真正失控。\n\n## 参考信息\n- Verywell Mind 文章经执业专业人士事实核查与医学审阅，同时平衡呈现了成瘾模型与道德不一致模型两派证据。"
+ },
+ {
+  "id": "medical-006",
+  "category": "medical",
+  "categoryDir": "03-medical",
+  "title": "CSBD 诊断标准应包含什么？ICD-11 与 DSM-5 性欲亢进障碍标准比较",
+  "source": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9295236/",
+  "author": "Journal of Behavioral Addictions（同行评审，PMC 收录）",
+  "date": "2022",
+  "tags": [
+   "CSBD",
+   "ICD-11",
+   "DSM-5",
+   "诊断标准",
+   "道德不一致"
+  ],
+  "credibility": "高",
+  "credibilityRaw": "高",
+  "summary": "同行评审文章系统比较 ICD-11 强迫性性行为障碍与 DSM-5 曾提议的性欲亢进障碍（HD）诊断标准的四点关键差异及临床意义。",
+  "bodyMarkdown": "## 核心要点\n- ICD-11 将 CSBD 定义为冲动控制障碍：持续无法控制强烈、重复的性冲动或性行为，表现为（1）性活动成为生活中心以致忽视健康、个人照料、兴趣和责任；（2）多次努力减少性行为失败；（3）明知不良后果仍持续；（4）几乎无满足感仍持续；（5）造成显著痛苦或功能损害。\n- ICD-11 明确：完全源于对性冲动的道德评判和不赞同的痛苦不足以满足诊断要求；性欲倒错障碍为排除条件。\n- 与 DSM-5 拟议的 HD 标准的四点差异：\n  1. HD 将\"以性行为作为适应不良的应对/情绪调节策略\"列入标准，CSBD 未列入；\n  2. HD 排除双相障碍与物质使用所致，CSBD 未作同样排除；\n  3. CSBD 新增\"道德不一致\"作为诊断时的排除考量；\n  4. CSBD 纳入\"从性行为中获得的满足减少\"这一维度。\n- 临床意义：自我认定\"性成瘾/色情成瘾\"者未必符合 CSBD 临床特征，可能更适合按焦虑、抑郁等其他问题处理——避免过度病理化正常性行为。\n\n## 关键数据 / 证据\n- HD 标准由 Kafka 于 2010 年为 DSM-5 提议，最终被 DSM-5（2013）拒绝收录；CSBD 则进入 ICD-11（WHO, 2020 生效版）。\n- 该文发表于 Journal of Behavioral Addictions，PMID: 35895453 同刊相关评论（Lew-Starowicz & Coleman）。\n\n## 参考信息\n- 原文：Bőthe 等 / Kraus 等作者群围绕 ICD-11 CSBD 标准的学术讨论，PMC 全文开放获取。"
+ },
+ {
+  "id": "medical-007",
+  "category": "medical",
+  "categoryDir": "03-medical",
+  "title": "ICD-11 中的强迫性性行为障碍（Kraus 等，World Psychiatry）",
+  "source": "https://europepmc.org/articles/PMC5775124",
+  "author": "Kraus SW, Krueger RB, Briken P 等（WHO ICD-11 性健康相关工作组，同行评审）",
+  "date": "2018",
+  "tags": [
+   "CSBD",
+   "ICD-11",
+   "诊断指南",
+   "鉴别诊断",
+   "患病率"
+  ],
+  "credibility": "高",
+  "credibilityRaw": "高",
+  "summary": "World Psychiatry 权威论文：阐述 ICD-11 将 CSBD 归入冲动控制障碍（而非成瘾障碍）的理由、诊断指南要点、与双相/痴呆/药物/物质的鉴别及患病率估计。",
+  "bodyMarkdown": "## 核心要点\n- CSBD 定义：持续无法控制的强烈、重复性冲动或行为，持续较长时间（如 6 个月以上），造成显著痛苦或个人、家庭、社会、教育、职业等领域功能损害。\n- 防过度病理化：高性欲但无失控与功能损害者不应诊断；青少年常见的高水平性兴趣（如自慰）即使伴痛苦也不应诊断；纯粹因道德不赞同产生的痛苦不足以诊断。\n- 鉴别诊断要点：双相障碍患者中 CSBD 比例升高，但性行为须在轻躁狂/躁狂发作之外持续存在方可诊断 CSBD；痴呆等躯体疾病、帕金森病药物、可卡因/冰毒等物质直接作用所致者不诊断 CSBD。\n- 分类立场：ICD-11 采取相对保守立场——尚无定论其发生维持机制是否等同于物质使用障碍、赌博与游戏障碍，故归入冲动控制障碍而非\"成瘾行为所致障碍\"。\n- 患病率：流行病学估计成人中最高达 3%-6%，近期研究估计较低（1%-3%）；更严格的 ICD-11 标准预计产生更低患病率；男性多于女性；物质使用障碍者中比例更高。\n- 意义：纳入 ICD-11 有助于满足求治患者的临床需求、减少求助相关的羞耻与内疚。\n\n## 关键数据 / 证据\n- 成人患病率估计：早期 3%-6%，近期 1%-3%。\n- 论文出处：Kraus SW et al. Compulsive sexual behaviour disorder in the ICD-11. World Psychiatry, 2018;17(1):109-110（PMC5775124）。\n\n## 参考信息\n- World Psychiatry 为精神医学领域顶级期刊；该文是 ICD-11 CSBD 诊断框架的核心文献。"
+ },
+ {
+  "id": "medical-008",
+  "category": "medical",
+  "categoryDir": "03-medical",
+  "title": "强迫性性行为的评估与治疗：当前局限与潜在策略（临床综述）",
+  "source": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12268503/",
+  "author": "Zhu L, Ma W 等（Frontiers in Psychiatry，同行评审综述）",
+  "date": "2025",
+  "tags": [
+   "CSBD",
+   "临床综述",
+   "流行病学",
+   "神经科学",
+   "心理治疗",
+   "药物"
+  ],
+  "credibility": "高",
+  "credibilityRaw": "高",
+  "summary": "2025 年 Frontiers in Psychiatry 综述：CSBD 的历史沿革、流行病学、共病、神经科学理论、现行诊断与治疗建议，指出心理/CBT 为首选、SSRI 与纳曲酮为常用超说明书药物。",
+  "bodyMarkdown": "## 核心要点\n- ICD-11 CSBD 诊断：持续无法控制强烈、重复的性冲动导致重复性行为，持续 6 个月或以上，造成显著痛苦或关键心理社会功能领域损害；完全源于道德评判的痛苦不计入。\n- 治疗总原则：心理治疗和认知行为疗法是首选；SSRI 和纳曲酮为常用\"超说明书\"药物；诊疗应整合生物、心理、社会因素与性医学专长，采取整体治疗路径。\n- 治疗目标不仅是控制异常性欲和行为，还包括帮助患者获得健康、满意的性生活与福祉。\n- 药物研究梳理（综述表格）：\n  - Lew-Starowicz 等双盲研究（N=73 异性恋男性）：帕罗西汀 20mg vs 纳曲酮 50mg vs 安慰剂，临床访谈中两药均优于安慰剂；帕罗西汀组减少对性接触和色情的渴求；\n  - Wainberg 等双盲研究（N=28 男男性行为者）：西酞普兰 20-60mg 12 周，性欲、自慰频率和色情使用时长下降更明显；\n  - Kafka 开放研究：氟西汀 20-60mg，12 周后总性发泄（total sexual outlet）平均减少 65.2%；\n  - Kafka & 等开放研究：舍曲林/氟西汀治疗 24 名男性中 17 人（70.8%）获临床显著改善。\n- 未来方向：阐明病因学、提高研究人群代表性、纠正治疗评估方法学缺陷、加强性医学临床培训。\n\n## 关键数据 / 证据\n- 氟西汀开放研究总性发泄平均减少 65.2%（Kafka 等）。\n- 舍曲林/氟西汀开放序列中 70.8%（17/24）临床显著有效。\n- 综述原文 DOI: 10.3389/fpsyt.2025.1621136（Frontiers in Psychiatry, 2025）。\n\n## 参考信息\n- 该综述为截至目前较全面的 CSBD 评估与治疗中文作者团队综述，含完整治疗研究证据表。"
+ },
+ {
+  "id": "medical-009",
+  "category": "medical",
+  "categoryDir": "03-medical",
+  "title": "道德不一致与'自我感知的色情成瘾'：PPMI 模型验证研究",
+  "source": "https://academic.oup.com/jsm/article/17/2/300/6973498",
+  "author": "Lewczuk K, Glica A, Nowakowska I, Gola M, Grubbs JB（The Journal of Sexual Medicine，同行评审）",
+  "date": "2020-02（2019-12 在线）",
+  "tags": [
+   "道德不一致",
+   "PPMI模型",
+   "自我感知成瘾",
+   "诊断鉴别",
+   "横断面研究"
+  ],
+  "credibility": "高",
+  "credibilityRaw": "高",
+  "summary": "波兰全国代表性样本（N=1036）验证'色情问题源于道德不一致'（PPMI）模型：失控、使用习惯与道德不一致三者各自独立贡献于自我感知的色情成瘾与问题性使用。",
+  "bodyMarkdown": "## 核心要点\n- PPMI 模型（Pornography Problems due to Moral Incongruence）：自我评价为\"色情成瘾\"源于三因素——（1）普遍失调（以回避性应对为指标）；（2）使用习惯（使用频率）；（3）内化了道德规范与行为之间的道德不一致。\n- 全国代表性在线样本：1036 名波兰成人，其中 880 人报告一生中有过色情观看。\n- 主要结果：回避性应对、使用频率、道德不一致相关痛苦均正向预测自我感知成瘾与问题性使用，基本证实模型。\n- 强度差异：道德不一致痛苦与自我感知成瘾仅弱相关（β=0.15），与问题性使用关联更强（β=0.31）；使用频率是两类结局的最强预测因子（β=0.52 与 β=0.43）；控制其他因素后宗教性仅弱预测问题性使用（β=0.13），不预测自我感知成瘾。\n- 临床含义：模型中三因素是不同的干预靶点——评估\"色情成瘾\"主诉时应同时评估真实失控程度、使用习惯与道德/宗教冲突，避免把道德痛苦误诊为成瘾。\n- 局限：横断面设计，无法确立因果。\n\n## 关键数据 / 证据\n- 道德不一致→自我感知成瘾 β=0.15（P<.001）；→问题性使用 β=0.31（P<.001）。\n- 使用频率→自我感知成瘾 β=0.52；→问题性使用 β=0.43（均为最强预测因子）。\n- 相关文献：Grubbs & Perry (2019) 道德不一致综述，J Sex Res 56(1):29-37，DOI: 10.1080/00224499.2018.1427204；Grubbs 等 (2022) 注册报告（N=4363），Psychol Addict Behav 36(7):749-761，DOI: 10.1037/adb0000876——道德不一致预测对色情与赌博的成瘾感，但与烟草/违禁药物无关。\n\n## 参考信息\n- 原文：Lewczuk K, et al. Evaluating Pornography Problems Due to Moral Incongruence Model. J Sex Med. 2020;17(2):300-311。"
+ },
+ {
+  "id": "medical-010",
+  "category": "medical",
+  "categoryDir": "03-medical",
+  "title": "强迫性性行为的鉴别诊断与共病：与双相、强迫症、ADHD 的关系",
+  "source": "https://www.mdedge.com/node/157348/path_term/48404/page/0/1",
+  "author": "MDedge / Current Psychiatry（面向精神科医生的临床媒体）",
+  "date": "2019 前后（Current Psychiatry 临床综述）",
+  "tags": [
+   "鉴别诊断",
+   "共病",
+   "双相障碍",
+   "强迫症",
+   "ADHD",
+   "药物诱发"
+  ],
+  "credibility": "中",
+  "credibilityRaw": "中-高",
+  "summary": "面向临床医生的 CSB 鉴别诊断指南：避免污名化误诊；区分双相躁狂、物质使用、强迫症、ADHD 与药物（多巴胺能药/阿立哌唑）所致的性欲亢进；共病率数据。",
+  "bodyMarkdown": "## 核心要点\n- 避免误诊：医生需警惕对特定性行为的隐性偏见；同性个体的出柜过程、伴侣关系问题、性/性别认同议题可能表现为\"过度性行为\"，须在社会心理情境中评估。\n- 双相障碍：过度性行为可为躁狂发作的一部分；若情绪稳定期仍存在该行为，则可能是 CSB 与双相共病——鉴别重要，因双相用心境稳定剂，而抗惊厥药在 CSB 中仅有病例报告支持。\n- 物质滥用：兴奋剂（可卡因、安非他明）滥用时可出现过度性行为；若仅在使用毒品时发生，则不宜诊断 CSB。\n- 强迫症（OCD）：OCD 患者常被性主题占据并自觉\"过度想性\"；关键区别——CSB 者从这些想法中感到兴奋和愉悦，OCD 的性想法是令人不快的侵入性想法。\n- 其他可致性欲亢进的疾病：神经认知障碍、ADHD、自闭症谱系障碍、抑郁障碍。\n- 药物副作用：需询问用药史——帕金森病/不宁腿综合征药物、阿立哌唑可致问题性性行为；若减量或停药后行为减少，则不应诊断 CSB。\n- 共病常见：约半数 CSB 成人至少符合另一种精神障碍；一项男性 CSB 研究（N=103）中 71% 符合心境障碍、40% 焦虑障碍、41% 物质使用障碍、24% 冲动控制障碍（如赌博障碍）。\n- 医学共病：意外妊娠、性传播感染、HIV/AIDS——治疗常需整合性健康教育与转诊。\n\n## 关键数据 / 证据\n- CSB 男性样本（N=103）共病率：心境障碍 71%、焦虑障碍 40%、物质使用障碍 41%、冲动控制障碍 24%。\n- 约 50% CSB 成人符合至少一种其他精神障碍。\n\n## 参考信息\n- 原文：Current Psychiatry \"Compulsive sexual behavior: A nonjudgmental approach\"，面向执业精神科医生的临床综述。"
+ },
+ {
+  "id": "medical-011",
+  "category": "medical",
+  "categoryDir": "03-medical",
+  "title": "色情'成瘾'的麻烦：一个道德不一致的病例分析（Psychology Today）",
+  "source": "http://psychologytoday.com/us/blog/talking-apes/202207/the-trouble-porn-addiction",
+  "author": "David Ludden 博士（心理学教授，Talking Apes 专栏；评述 Smaniotto 等发表于 Archives of Sexual Behavior 的病例研究）",
+  "date": "2022-07",
+  "tags": [
+   "道德不一致",
+   "感知成瘾",
+   "病例分析",
+   "治疗目标",
+   "去病理化"
+  ],
+  "credibility": "中",
+  "credibilityRaw": "中",
+  "summary": "执业心理学家评述法国心理学家 Smaniotto 等的病例研究：自认'色情成瘾'者的性行为往往与常人无异，痛苦源于性态度与行为的道德不一致，治疗目标是化解不一致而非消除行为。",
+  "bodyMarkdown": "## 核心要点\n- 核心命题：自认有色情成瘾的人通常认为自己的性行为异常，实际上其行为往往与他人相似；色情成瘾常涉及性态度与性行为之间的\"道德不一致\"。\n- 病例（Kevin，34 岁法国男性）：自称 15 岁起\"对色情着迷\"，独处时看色情自慰，但工作或陪伴侣时无冲动；无耐受性增加、无戒断症状；有保守的性态度与严格道德准则，对看其他女性都感内疚；治疗初期停看色情后甚至回避与伴侣性生活以防\"复吸\"。\n- 分析：成瘾需具备渴求、侵入性想法、耐受与戒断——Kevin 不完全符合；他的问题更像独处时的习惯性消遣加未解决的性议题；感知成瘾不等于真实成瘾，但仍涉及真实的心理痛苦。\n- 临床共识问题：专业界对问题性色情使用是否应视为成瘾无共识；但主诉痛苦是真实的，治疗目标是识别痛苦来源。\n- 治疗方向：化解性行为与道德信念之间的错配——即不是色情使用本身，而是对性的道德化思维导致痛苦。\n- 警示：将问题性色情使用医学化可能使人逃避对性行为的责任。\n\n## 关键数据 / 证据\n- 原始研究：Smaniotto B, Le Bigot J, Camps FD. \"Pornography Addiction\": Elements for Discussion of a Case Report. Archives of Sexual Behavior（2021 在线发表）。\n- 与 Grubbs 系列研究互证：感知成瘾与宗教性、道德不赞同相关，与实际使用频率关系较弱。\n\n## 参考信息\n- Psychology Today 专栏文章，作者为心理学教授，评述同行评审病例研究；属专家解读层级。"
+ },
+ {
+  "id": "medical-012",
+  "category": "medical",
+  "categoryDir": "03-medical",
+  "title": "戒除问题性色情使用的收益：一名性强迫行为治疗师的临床观察（Psychology Today）",
+  "source": "https://www.psychologytoday.com/us/blog/minority-report/202001/the-benefits-curbing-problematic-porn-use",
+  "author": "Sam Louie, MA, LMHC, CSAT（持照心理健康咨询师、认证性成瘾治疗师，西雅图执业）",
+  "date": "2020-01",
+  "tags": [
+   "康复",
+   "临床观察",
+   "意义感",
+   "情绪觉察",
+   "十二步骤"
+  ],
+  "credibility": "中",
+  "credibilityRaw": "中",
+  "summary": "认证性成瘾治疗师（CSAT）的一手临床观察：戒断早期'失去快感来源'是真实体验，但戒断后情绪识字力、真实自我与意义感逐步回归；康复需治疗、阅读、十二步骤团体与关系修复并行。",
+  "bodyMarkdown": "## 核心要点\n- 作者为专攻强迫性性行为（S-PSB）的心理治疗师、CSAT 认证治疗师，基于大量个案经验写作。\n- 戒断早期的真实困境：没有什么能替代性高潮带来的\"兴奋与欣快\"——承认这一点比空洞安慰更有助于坚持。\n- 否认打破后大脑开始转变：不再把时间花在策划、隐瞒、搜寻性满足上，精力可投向与核心价值一致的追求。\n- 早期康复的任务组合：个体治疗、阅读、参加十二步骤团体；已婚/有伴侣者需投入关系修复。\n- 戒断后的\"收益\"：情绪与语言识字力提升——自我药疗停止后，焦虑、恐惧、悲伤、抑郁、愤怒、怨恨等被掩埋的情绪浮现，患者学会新技能应对，而非依赖旧的应对策略。\n- 更深层变化：真实性（spiritual growth）——生命意义与目的等存在性问题开始清晰，权力、地位、声望的执念松动。\n- 转化视角：痛苦是自由的入口——改变发生于痛苦的熔炉之中。\n\n## 关键数据 / 证据\n- 属治疗师临床经验性文章（非研究数据）；作者资质：MA, LMHC（持照心理健康咨询师）, CSAT（IITAP 认证性成瘾治疗师）。\n- 与其同主题文章互参：\"Problematic Porn Use and a Lack of Purpose\"（2020-06）——缺乏目的感者易被色情困住，康复部分在于卸下强迫习惯、重新连接自我。\n\n## 参考信息\n- Psychology Today 专家专栏；适合作为康复动机与过程预期的质性素材，不作为疗效证据。"
+ },
+ {
+  "id": "methods-001",
+  "category": "methods",
+  "categoryDir": "04-methods",
+  "title": "接纳承诺疗法（ACT）治疗问题性网络色情使用：随机对照试验",
+  "source": "https://www.sciencedirect.com/science/article/pii/S0005-7894(16)00017-4",
+  "author": "Crosby JM（McLean Hospital/Harvard Medical School）, Twohig MP（Utah State University，临床心理学教授）",
+  "date": "2016",
+  "tags": [
+   "ACT",
+   "接纳承诺疗法",
+   "RCT",
+   "渴求管理",
+   "价值导向"
+  ],
+  "credibility": "高",
+  "credibilityRaw": "高",
+  "summary": "首个针对问题性色情使用的心理治疗 RCT：12 次个体 ACT 使观看时长减少 93%（对照组 21%），治疗后 54% 完全停止，3 个月随访维持 86% 降幅。",
+  "bodyMarkdown": "## 核心要点\n- 核心机制：问题行为常被\"对冲动的僵化控制反应\"加重；ACT 改变个体对冲动的反应方式，把心理能量导向管理行为而非压制冲动。\n- 样本：28 名成年男性（随机分 ACT 组 n=14 与等待对照 n=14），平均 29 岁，平均问题使用史 13.6 年。\n- 结果：组间比较 ACT 组观看时长减少 93% vs 对照 21%；合并全体（N=26）治疗后减少 92%，3 个月随访减少 86%；治疗后 54% 完全停止观看，93% 至少减少 70%；随访时 35% 完全停止，74% 至少减少 70%。\n- 局限：样本几乎全为摩门教男性、同质性高；生活质量未见显著提升（作者推测生活质量改善滞后于行为减少）。\n\n## 方法步骤\n1. 心理教育：理解对冲动的挣扎与控制尝试为何适得其反（创造性无望）。\n2. 接纳训练：学习允许渴求与不适想法存在而不对抗、不行动。\n3. 认知解离：把\"我想看色情\"看作一个心理事件而非必须服从的命令。\n4. 正念当下：以好奇、不评判的方式观察冲动的升起与消退。\n5. 澄清价值：明确自己在关系、事业、健康等领域的深层价值。\n6. 承诺行动：制定与价值一致的具体行为计划，冲动出现时选择价值导向行为。\n7. 共 12 次个体治疗，每周进行，配合行为记录（自报每周观看时长）。\n\n## 关键数据 / 证据\n- 观看时长：93%（ACT）vs 21%（等待对照）的降幅；总效应量 pre-post 为 1.86（Crosby 2011 博士论文）。\n- 完全停止率：治疗后 54%，3 个月随访 35%。\n- DOI: 10.1016/j.beth.2016.02.001；PMID: 27157029；Behavior Therapy, 47(3):355-366。\n\n## 参考信息\n- 论文：Crosby JM, Twohig MP. Acceptance and Commitment Therapy for Problematic Internet Pornography Use: A Randomized Trial. Behav Ther. 2016.\n- 机构报道：https://www.usu.edu/today/story/usu-research-yields-dramatic-results-in-treatment-for-pornography-addiction"
+ },
+ {
+  "id": "methods-002",
+  "category": "methods",
+  "categoryDir": "04-methods",
+  "title": "团体认知行为疗法（CBT）治疗性欲亢进障碍：随机对照研究",
+  "source": "https://pubmed.ncbi.nlm.nih.gov/30956109/",
+  "author": "Hallberg J, Kaldo V, Arver S, Dhejne C, Jokinen J, Öberg KG（Karolinska Institutet，瑞典）",
+  "date": "2019",
+  "tags": [
+   "CBT",
+   "认知行为疗法",
+   "团体治疗",
+   "RCT",
+   "性欲亢进障碍"
+  ],
+  "credibility": "高",
+  "credibilityRaw": "高",
+  "summary": "瑞典 Karolinska 团队的团体 CBT 随机对照研究：结构化团体 CBT 显著降低男性性欲亢进障碍症状，是 CSBD 心理治疗领域少有的 RCT 级证据。",
+  "bodyMarkdown": "## 核心要点\n- 研究：A Randomized Controlled Study of Group-Administered Cognitive Behavioral Therapy for Hypersexual Disorder in Men，J Sex Med 2019;16(5):733-745。\n- 团体 CBT 为该团队开发的结构化手册治疗，针对失控性行为及共病（抑郁、焦虑）。\n- 团队系列工作：2017 年可行性研究（J Sex Med 14(7):950-958，PMID: 28602666）→ 2019 年 RCT → 2020 年互联网 CBT（ICBT）试点。\n- CBT 针对强迫性性行为的核心成分：识别触发因素与高危情境、认知重构（挑战助长行为的自动化思维）、行为实验与替代行为、复发预防技能。\n- 实践要点：强迫性性行为的 CBT 需要同时处理共病情绪问题，否则复发风险高。\n\n## 方法步骤\n1. 评估与个案概念化：明确目标行为、频率、触发链条（情境→想法→情绪→行为→后果）。\n2. 自我监测：每日记录冲动、触发情境与行为。\n3. 刺激控制：移除/阻断触发线索（设备过滤、环境调整）。\n4. 认知重构：识别并挑战\"我控制不了\"\"就这一次\"等许可性思维。\n5. 替代行为训练：为冲动时刻准备具体的替代活动清单。\n6. 应对高危情境：预先演练孤独、压力、失眠等情境下的应对。\n7. 复发预防：区分失误（lapse）与复发（relapse），制定失误后的即时应对计划。\n\n## 关键数据 / 证据\n- RCT 设计，团体 CBT 相比对照显著改善 HD 症状（J Sex Med 2019;16(5):733-745，DOI: 10.1016/j.jsxm.2019.03.005）。\n- 综述（Frontiers in Psychiatry 2025）结论：心理治疗和 CBT 是 CSBD 的首选治疗方法。\n\n## 参考信息\n- PMID: 30956109；DOI: 10.1016/j.jsxm.2019.03.005。\n- 相关：ClinicalTrials.gov NCT06404684 显示该手册已扩展用于性欲倒错障碍治疗研究。"
+ },
+ {
+  "id": "methods-003",
+  "category": "methods",
+  "categoryDir": "04-methods",
+  "title": "互联网自助式认知行为疗法（ICBT）治疗性欲亢进障碍：试点研究",
+  "source": "https://pubmed.ncbi.nlm.nih.gov/32900671/",
+  "author": "Hallberg J, Kaldo V, Arver S, Dhejne C, Piwowar M, Jokinen J, Öberg KG（Karolinska Institutet）",
+  "date": "2020",
+  "tags": [
+   "ICBT",
+   "网络认知行为疗法",
+   "自助干预",
+   "远程治疗"
+  ],
+  "credibility": "高",
+  "credibilityRaw": "高",
+  "summary": "36 名男性性欲亢进障碍患者接受 12 周互联网 CBT：症状与性强迫大幅显著下降、心理福祉中度改善，效果维持至 3 个月随访——支持可扩展的低成本远程干预。",
+  "bodyMarkdown": "## 核心要点\n- 首个评估互联网 CBT（ICBT）治疗性欲亢进障碍（伴或不伴性欲倒错）的研究。\n- 样本：36 名符合 HD 拟议诊断标准的男性；治疗：12 周 ICBT；主要结局为 HBI-19（性欲亢进行为量表）。\n- 结果：HD 症状与性强迫大幅显著下降；心理福祉与性欲倒错症状中度改善；3 个月随访效果稳定。\n- 意义：羞耻感是求助最大障碍之一，ICBT 提供低门槛、隐私性好的治疗入口；模块化的 CBT 手册可被其他机构复用。\n- 局限：无对照组、部分结局量表未验证、长期效果与对女性疗效未知。\n\n## 方法步骤\n1. 在线评估：HBI-19、HD:CAS、SCS 等量表筛查。\n2. 按周解锁治疗模块（约 10 个模块、12 周）：心理教育、自我监测、触发识别、认知重构、行为替代、情绪调节、共病管理（抑郁/焦虑）、复发预防。\n3. 每周完成量表测量，跟踪症状变化曲线。\n4. 配合练习作业（阅读+实操）。\n5. 治疗结束后 2 周评估访谈，3 个月随访测量。\n\n## 关键数据 / 证据\n- \"Large, significant decreases\" in HD 症状与性强迫；效果维持 3 个月。\n- 出处：J Sex Med 2020;17(10):2039-2054，DOI: 10.1016/j.jsxm.2020.07.018，PMID: 32900671。\n\n## 参考信息\n- 同一手册已用于线下团体 RCT（见 002）；模块框架适合改编为中文自助干预程序。"
+ },
+ {
+  "id": "methods-004",
+  "category": "methods",
+  "categoryDir": "04-methods",
+  "title": "正念防复吸（MBRP）治疗强迫性性行为障碍：试点研究",
+  "source": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8969735/",
+  "author": "Holas P, Draps M, Kowalewska E, Lewczuk K, Gola M（华沙大学/波兰科学院等）",
+  "date": "2020",
+  "tags": [
+   "正念",
+   "MBRP",
+   "防复吸",
+   "渴求",
+   "试点研究"
+  ],
+  "credibility": "高",
+  "credibilityRaw": "高",
+  "summary": "13 名 CSBD 男性接受 8 周正念防复吸（MBRP）干预：问题性色情使用时间显著减少，焦虑、抑郁与强迫症状下降——首个 CSBD 正念干预研究之一。",
+  "bodyMarkdown": "## 核心要点\n- MBRP（Mindfulness-Based Relapse Prevention）原为物质成瘾的循证治疗，结合 CBT 防复吸技能与正念减压（MBSR）训练，靶向渴求与负性情绪——二者正是问题性性行为的核心维持机制。\n- 样本：13 名确诊 CSBD 的成年男性；干预：8 周 MBRP。\n- 结果：干预后问题性色情使用时间显著减少；焦虑、抑郁、强迫症状下降。\n- 机制逻辑：正念培养对内外部触发因素的觉察，以及耐受不适情绪、认知与躯体感受的能力，打破\"触发→自动化行为\"链条。\n- 局限：样本小、无对照组、无延迟随访；作者呼吁开展 RCT。\n\n## 方法步骤\n1. 身体扫描与呼吸觉察：建立对当下体验的非评判注意（每日练习）。\n2. 触发觉察：识别外部触发（设备、场景、时间）与内部触发（情绪、躯体感觉、想法）。\n3. 冲动冲浪（urge surfing）：把渴求想象为波浪，观察其升起、达峰、消退，全程不行动。\n4. 暂停练习（SOBER）：Stop-Observe-Breathe-Expand awareness-Respond，高危时刻插入觉察间隙。\n5. 接纳不适：练习与焦虑、烦躁、空虚等负性情绪共处而不借性行为逃避。\n6. 高危情境演练与复发预防计划。\n7. 8 周团体课程 + 每日家庭练习。\n\n## 关键数据 / 证据\n- 干预后色情观看时间显著减少、情绪困扰下降（J Behav Addict. 2020;9(4):1088-1092，DOI: 10.1556/2006.2020.00075，PMID: 33216012）。\n- 此前 CSBD 正念干预仅有两例临床病例报告。\n\n## 参考信息\n- PMC 全文开放获取；Gola 团队同时是 CSBD 神经影像研究的主要团队。"
+ },
+ {
+  "id": "methods-005",
+  "category": "methods",
+  "categoryDir": "04-methods",
+  "title": "正念冥想作为问题性色情消费的治疗工具：两周干预研究",
+  "source": "https://www.tandfonline.com/doi/abs/10.1080/26929953.2023.2270620",
+  "author": "Pareek S, Jain G, Gupta RK（印度 Manipal University Jaipur 心理学系）",
+  "date": "2023",
+  "tags": [
+   "正念冥想",
+   "内观",
+   "渴求",
+   "短期干预",
+   "PPCS"
+  ],
+  "credibility": "中",
+  "credibilityRaw": "中-高",
+  "summary": "8 名问题性色情使用男性每日 20 分钟正念呼吸冥想持续 2 周：PPU 量表均分从 84.75 降至 63.37，耐受、复吸、戒断等所有因子分均下降。",
+  "bodyMarkdown": "## 核心要点\n- 干预极简：Vipassana（内观）式冥想——舒适坐姿，观察呼吸进出而不控制，对任何感觉与冲动保持不评判觉察；每次 20 分钟 + 5 分钟放松音乐，每日一次，共 2 周。\n- 样本：从 76 名大学男性中筛出 PPCS（问题性色情消费量表）高分者，最终 8 人完成干预。\n- 结果：PPU 均分 84.75（基线）→ 72.38（干预中）→ 63.37（干预后），各因子（色情重要性、情绪改变效应、耐受、复吸、戒断症状）均显著下降。\n- 意外发现：部分参与者初期抵触冥想、难以完成单次练习，随练习推进转为兴趣；除减少观看外还报告整体生活满意度提升。\n- 局限：样本极小且同质（年龄/性别/文化背景），作者强调结果非常初步，需更多研究验证。\n\n## 方法步骤\n1. 选安静环境，舒适坐姿。\n2. 闭眼，将注意力放在自然呼吸上，观察吸气与呼气。\n3. 走神或出现冲动时，不评判、不追随，温和地把注意力带回呼吸。\n4. 每次 20 分钟，结束后听 5 分钟放松音乐。\n5. 每日固定时间练习，持续至少 2 周。\n6. 可选：用 PPCS 等量表每 1-2 周自测一次，跟踪变化。\n\n## 关键数据 / 证据\n- PPU 均分：84.75 → 72.38 → 63.37（前-中-后）。\n- 出处：Sexual Health & Compulsivity, 2023，DOI: 10.1080/26929953.2023.2270620。\n\n## 参考信息\n- 媒体报道（含作者访谈）：https://www.psypost.org/mindfulness-meditation-shows-promise-in-reducing-problematic-pornography-use/"
+ },
+ {
+  "id": "methods-006",
+  "category": "methods",
+  "categoryDir": "04-methods",
+  "title": "冲动冲浪（Urge Surfing）：简短正念指导对渴求行为的随机研究",
+  "source": "https://pubmed.ncbi.nlm.nih.gov/20025372/",
+  "author": "Bowen S, Marlatt A（华盛顿大学成瘾行为研究中心；Marlatt 为防复吸理论奠基人）",
+  "date": "2009",
+  "tags": [
+   "urge surfing",
+   "冲动冲浪",
+   "渴求",
+   "正念",
+   "防复吸"
+  ],
+  "credibility": "高",
+  "credibilityRaw": "高",
+  "summary": "Marlatt 经典'冲动冲浪'技术的实证检验（吸烟线索暴露范式，N=123）：简短正念指导不一定降低渴求强度，但改变对渴求的反应——7 天随访中吸烟量显著更少。",
+  "bodyMarkdown": "## 核心要点\n- 技术来源：Marlatt & Gordon (1985) 防复吸模型中的 urge surfing——把渴求当作海浪，观察其升起、达峰、消退，而不\"被浪卷走\"。\n- 研究设计：123 名想改变吸烟的大学生，线索暴露诱发吸烟渴求，随机分简短正念指导组 vs 无指导对照组。\n- 关键发现：两组渴求强度无显著差异——正念技术不消灭渴求；但正念组 7 天随访吸烟量显著更少——它改变的是对渴求的反应。\n- 对色情渴求的迁移意义：目标不是\"不再有冲动\"，而是\"冲动出现时不再自动化行动\"；每次成功\"冲浪\"都在削弱触发-行为联结。\n- 该研究是 MBRP（见 004）的核心技术实证基础。\n\n## 方法步骤\n1. 冲动出现时先停下，找个安静位置坐下。\n2. 注意渴求在身体的哪个部位（胸口、喉咙、腹部），观察其感觉特质。\n3. 把渴求想象成海浪：它会升高、到顶、然后退去——通常 15-30 分钟内消退。\n4. 专注呼吸，每次注意力被渴求拉走就温和带回。\n5. 不对抗、不评判、不喂養（不去搜索、不打开设备、不讨价还价）。\n6. 浪退后，记录这次冲浪成功，强化\"我能挺过去\"的经验。\n\n## 关键数据 / 证据\n- N=123 随机分组；正念组 7 天吸烟量显著少于对照组（Psychol Addict Behav. 2009;23(4):666-671，DOI: 10.1037/a0017127）。\n- 机制表述（原文）：技术\"may not initially reduce urges... but may change the response to urges\"。\n\n## 参考信息\n- 注意：该研究针对吸烟，对色情渴求为机制迁移证据；色情特异性正念研究见 004、005。"
+ },
+ {
+  "id": "methods-007",
+  "category": "methods",
+  "categoryDir": "04-methods",
+  "title": "纳曲酮治疗强迫性性行为障碍：20 名男性的可行性研究",
+  "source": "https://pubmed.ncbi.nlm.nih.gov/32532705/",
+  "author": "Savard J, Öberg KG, Chatzittofis A, Dhejne C, Arver S, Jokinen J（Karolinska Institutet/Karolinska 大学医院 ANOVA 性医学门诊）",
+  "date": "2020",
+  "tags": [
+   "纳曲酮",
+   "药物治疗",
+   "CSBD",
+   "可行性研究",
+   "超说明书用药"
+  ],
+  "credibility": "高",
+  "credibilityRaw": "高",
+  "summary": "首个非司法人群 CSBD 纳曲酮前瞻试验：20 名男性服 25-50mg/日 4 周，HD:CAS 与 HBI 分显著下降，停药后症状回升；副作用常见（疲劳 55%）但无严重不良事件。",
+  "bodyMarkdown": "## 核心要点\n- 机制：纳曲酮为阿片受体拮抗剂，阻断内源性阿片对多巴胺奖赏的放大，理论上降低强迫行为的\"奖赏感\"与渴求（与酒精依赖用药逻辑平行）。\n- 样本：20 名 27-60 岁（平均 38.8 岁）CSBD 男性，非司法门诊求治者；剂量 25-50mg/日，4 周；基线、治疗中、停药 4 周后测量。\n- 结果：治疗期间 HD:CAS（主要结局）与 HBI 分显著下降；停药后部分效果保留，但 HD:CAS 回升提示症状反弹——可能需要持续用药。\n- 安全性：疲劳 55%、恶心 30%、眩晕 30%、腹痛 30%；无导致停药的严重不良事件。\n- 定位：FDA 未批准 CSBD 适应症，属超说明书使用；2022 年 WFSBP 指南视其为\"最相关\"的药物选项之一，但承认证据有限。\n\n## 方法步骤\n1. 由精神科/性医学专科医生评估确诊 CSBD，排除双相躁狂、物质与药物（多巴胺能药）所致。\n2. 基线检查：肝功能、肾功能；确认无阿片类药物使用（需脱毒 7-10 天以上）。\n3. 起始 25mg/日评估耐受，耐受后升至 50mg/日。\n4. 每 3-6 个月监测肝功能；告知常见副作用（疲劳、恶心、眩晕、腹痛）。\n5. 与心理治疗（CBT 首选）联合，而非替代。\n6. 停药需医生指导；注意研究显示停药后症状可能反弹。\n\n## 关键数据 / 证据\n- HD:CAS 与 HBI 治疗期间显著下降（J Sex Med 2020;17(8):1544-1552，DOI: 10.1016/j.jsxm.2020.04.318）。\n- 副作用率：疲劳 55%、恶心/眩晕/腹痛各 30%。\n\n## 参考信息\n- PMID: 32532705；团队后续开展了氟西汀 vs 纳曲酮 RCT（BMJ Open 2022 研究方案，e051756）。"
+ },
+ {
+  "id": "methods-008",
+  "category": "methods",
+  "categoryDir": "04-methods",
+  "title": "纳曲酮增效治疗强迫性性行为：19 例病例系列",
+  "source": "https://www.pubmed.gov/20196983/",
+  "author": "Raymond NC, Grant JE, Coleman E（明尼苏达大学，成人性健康门诊）",
+  "date": "2010",
+  "tags": [
+   "纳曲酮",
+   "病例系列",
+   "增效治疗",
+   "CSB"
+  ],
+  "credibility": "高",
+  "credibilityRaw": "高",
+  "summary": "明尼苏达性健康门诊回顾性病例系列：19 名 CSB 男性加用纳曲酮，17 人（89%）症状减轻（CGI 1-2 分），平均有效剂量 104mg/日，用药 2 个月至 2.3 年。",
+  "bodyMarkdown": "## 核心要点\n- 背景：纳曲酮已成功用于酒精依赖等以\"冲动\"为核心特征的障碍，作者假设其可减少 CSB 的冲动与行为。\n- 方法：回顾 19 名在成人性健康门诊接受纳曲酮治疗的 CSB 男性病历；多数患者用药前已在使用其他精神药物（增效策略）且均合并 CBT。\n- 结果：17/19（89%）报告 CSB 症状减轻，临床总体印象（CGI）评分 1-2 分（\"显著改善\"或\"非常明显改善\"）；17 人平均有效剂量 104±41mg/日；治疗期 2 个月至 2.3 年；耐受良好；5 人（26%）选择停药。\n- 意义：为纳曲酮用于 CSB 提供了最早的系统性临床证据之一，提示剂量可能需高于酒精依赖标准剂量（50mg）。\n- 局限：回顾性、无对照、与多种药物及 CBT 合用，无法确定独立效应。\n\n## 方法步骤\n1. 确诊 CSB（含性欲倒错与非性欲倒错型），心理治疗（CBT）为基础。\n2. 在现有治疗反应不足时，由医生评估加用纳曲酮。\n3. 从 50mg/日起始，按反应滴定（该系列平均有效剂量约 104mg/日）。\n4. 定期随访评估冲动频率与行为控制，监测耐受性。\n5. 疗程个体化：该系列为 2 个月至 2.3 年。\n\n## 关键数据 / 证据\n- 89%（17/19）症状减轻；平均有效剂量 104±41mg/日。\n- 出处：Ann Clin Psychiatry. 2010;22(1):56-62，PMID: 20196983。\n\n## 参考信息\n- 后续病例报告佐证：Bostwick & Bucci 2008（网络性成瘾，50-150mg/日，3 年以上近乎完全缓解）；Camacho 2018（单药 100mg/日，10 个月近乎完全缓解）——见 MDPI 综述 https://www.mdpi.com/1422-0067/21/8/3002"
+ },
+ {
+  "id": "methods-009",
+  "category": "methods",
+  "categoryDir": "04-methods",
+  "title": "纳曲酮辅助治疗强迫性色情使用：病例报告（CBT 减行为、纳曲酮减渴求）",
+  "source": "https://www.psychiatryonline.org/doi/10.1176/appi.ajp.2015.15060843",
+  "author": "Kraus SW, Meshberg-Cohen S, Martino S, Quinones LJ, Potenza MN（耶鲁大学医学院/VA 康涅狄格医疗系统）",
+  "date": "2015",
+  "tags": [
+   "纳曲酮",
+   "病例报告",
+   "CBT联合药物",
+   "渴求",
+   "色情"
+  ],
+  "credibility": "高",
+  "credibilityRaw": "高",
+  "summary": "American Journal of Psychiatry 病例：30 余岁男性经 CBT 后色情使用减 70% 但渴求依旧，加用纳曲酮 50mg/日后渴求强度从 3.71 降至 2.37（Cohen's d=1.25），观看天数大减并恢复正常夫妻生活。",
+  "bodyMarkdown": "## 核心要点\n- 病例：30 余岁已婚男性退伍军人，13 岁起看色情，近 10 年强迫性看色情自慰，多次自行戒断失败；基线几乎每日观看约 30 分钟；有重性抑郁病史。\n- 治疗过程：每周个体 CBT，18 周每日自我监测渴求（1-7 分）与观看行为；前 9 周 CBT 使色情使用减少约 70%，但渴求仍频繁。\n- 加药：第 10 周起加纳曲酮 50mg/日，2 周内主观渴求下降。\n- 数据：渴求均分从第 1-9 周的 3.71（SD=1.28）降至第 10-18 周的 2.37（SD=0.80），t=6.93, p<0.0001，Cohen's d=1.25（大效应）；观看天数从前 9 周 17 天降至后 9 周 5 天（OR=0.25）；并恢复与妻子满意的规律性生活。\n- 核心启示：CBT 与纳曲酮可能作用于不同靶点——CBT 减行为，纳曲酮减渴求；联合互补。\n- 局限：单病例、无 A-B-A 反转设计；作者呼吁双盲 RCT。\n\n## 方法步骤\n1. 每日自我监测：记录渴求强度（1-7 分）与当天是否观看色情。\n2. 先行足量 CBT（该例 9-10 周）评估行为改善幅度。\n3. 若行为减少但渴求仍突出，由精神科医生评估加用纳曲酮 50mg/日。\n4. 继续监测渴求与行为曲线，评估 2-4 周内的变化。\n5. 症状稳定后由医生决定疗程与减停方案。\n\n## 关键数据 / 证据\n- 渴求降幅效应量 Cohen's d=1.25；观看天数 OR=0.25（95%CI 0.09-0.73）。\n- 出处：Am J Psychiatry. 2015;172(12):1260-1261，DOI: 10.1176/appi.ajp.2015.15060843。\n\n## 参考信息\n- 通讯作者 Potenza 为耶鲁成瘾医学权威；该病例是\"心理+药物\"联合路径的代表性文献。"
+ },
+ {
+  "id": "methods-010",
+  "category": "methods",
+  "categoryDir": "04-methods",
+  "title": "SSRI 类药物治疗强迫性性行为：西酞普兰双盲试验与帕罗西汀三臂试验",
+  "source": "https://www.pubmed.ncbi.nlm.nih.gov/17194276/",
+  "author": "Wainberg ML 等（哥伦比亚大学/纽约州立精神病研究所，2006）；Lew-Starowicz M 等（华沙研究生医学教育中心，2022）",
+  "date": "2006 / 2022",
+  "tags": [
+   "SSRI",
+   "西酞普兰",
+   "帕罗西汀",
+   "双盲试验",
+   "超说明书用药"
+  ],
+  "credibility": "高",
+  "credibilityRaw": "高",
+  "summary": "两项双盲试验：西酞普兰（N=28，12 周）显著降低性欲、自慰与色情使用频率；帕罗西汀 vs 纳曲酮 vs 安慰剂（N=73）三臂试验中，自评量表三组均降且无组间差异，但临床访谈显示两药优于安慰剂、帕罗西汀独降渴求。",
+  "bodyMarkdown": "## 核心要点\n- Wainberg 2006（J Clin Psychiatry）：28 名男男性行为 CSB 患者，双盲随机西酞普兰 20-60mg/日 vs 安慰剂，12 周；性欲/性驱力（p<.05）、自慰频率（p<.01）、色情使用（p<.05）显著改善；完成率 85%，无严重不良事件。\n- Lew-Starowicz 2022（World Psychiatry）：73 名符合 ICD-11 CSBD 的异性恋男性（87.7% 问题性色情使用），帕罗西汀 20mg vs 纳曲酮 50mg vs 安慰剂，20 周；自评量表（SAST-R/BPS/HBI）三组均显著下降、组间无差异（提示强安慰剂/期望效应）；但临床访谈中帕罗西汀与纳曲酮均优于安慰剂（第 8 周即显现）；EMA 手机实时测量显示仅帕罗西汀降低对性接触与色情的渴求。\n- 机制假说：SSRI 通过 5-HT2 受体作用降低性欲、延迟射精，其\"副作用\"在此成为治疗效应；同时改善共病抑郁焦虑。\n- 临床定位：超说明书使用；特别适合合并抑郁、焦虑或强迫特征的 CSBD；需告知性功能副作用（延迟射精、勃起影响）并随访。\n\n## 方法步骤\n1. 专科医生确诊 CSBD 并评估共病（抑郁/焦虑/OCD）。\n2. 基线量表（HBI、HD:CAS 等）+ 肝功能等躯体检查。\n3. 起始剂量（如帕罗西汀 20mg/日或西酞普兰 20mg/日），4-8 周评估。\n4. 监测性功能副作用与情绪变化；8-20 周评估疗效。\n5. 与 CBT 联合；疗效不足时可考虑换用或联合纳曲酮（需医生判断）。\n6. 疗程与减停由医生决定，避免骤停。\n\n## 关键数据 / 证据\n- 西酞普兰：性欲 p<.05、自慰 p<.01、色情使用 p<.05（PMID: 17194276，DOI: 10.4088/JCP.v67n1218）。\n- 帕罗西汀/纳曲酮三臂：量表无组间差异、临床访谈两药优于安慰剂、帕罗西汀独降渴求（World Psychiatry 2022;21(3):468-469，DOI: 10.1002/wps.21026，PMC9453901）。\n- 开放研究：氟西汀使总性发泄平均减少 65.2%（Kafka）；舍曲林/氟西汀序列 70.8% 有效（见 008 综述引用）。\n\n## 参考信息\n- Europe PMC 全文：https://europepmc.org/article/pmc/9453901"
+ },
+ {
+  "id": "methods-011",
+  "category": "methods",
+  "categoryDir": "04-methods",
+  "title": "90 天重启挑战：NoFap 社区戒断方案（含 7 天/月度入门挑战）",
+  "source": "https://nofap.com/rebooting/",
+  "author": "NoFap（社区互助平台，非医疗机构；创始人 Alexander Rhodes）",
+  "date": "页面持续更新",
+  "tags": [
+   "90天挑战",
+   "NoFap",
+   "社区方案",
+   "戒断",
+   "习惯重塑"
+  ],
+  "credibility": "低",
+  "credibilityRaw": "低",
+  "summary": "NoFap 官方'重启'指南：90 天为社区金标准挑战时长，另有 7 天试水、月度挑战与症状导向时长可选；通过游戏化挑战+社区支持戒除色情/自慰，属同伴经验方案而非临床证据。",
+  "bodyMarkdown": "## 核心要点\n- \"重启\"（rebooting）：戒除色情、自慰（有时含高潮）足够时长，让大脑从长期高强度刺激中恢复——社区比喻为\"恢复出厂设置\"。\n- 时长选项：90 天为社区\"金标准\"（难但可达成，多数人完成时报告福祉明显改善）；7 天短挑战用于试水（若 7 天都难以戒色情，提示完整重启有益）；月度挑战（论坛/Reddit 每月签到帖）；症状导向时长（如以 PIED 症状缓解为准，建议先定 90 天目标再评估）。\n- 模式分级：Easy（戒色情、可自慰）、Standard（戒色情与自慰、可有伴侣性生活）、Hard（戒色情/自慰/高潮）。\n- 社区机制：游戏化（打卡、计数徽章）+ 论坛互助（承诺帖、日志帖、求助帖）+ 公开承诺增强问责。\n- 典型过程体验（社区报告）：早期渴求高峰与戒断感（烦躁、脑雾、情绪波动）；\"flatline\"（性欲与情绪低谷期，约 25% 受访者报告，多在最初数月）常被社区解释为恢复期现象——注意此概念无临床验证。\n- 可信度说明：该方案基于同伴经验，\"90 天多巴胺受体恢复\"等说法缺乏直接人体证据；习惯形成研究显示平均约 66 天形成新习惯（UCL 研究被社区引用），但戒断时长无 RCT 验证。\n\n## 方法步骤\n1. 选择模式（Easy/Standard/Hard）与时长（建议 90 天，或先 7 天试水）。\n2. 环境清理：删除色情内容与书签，设备装过滤软件且密码交他人保管。\n3. 在社区公开承诺，开始每日打卡计数。\n4. 记录日志：渴求时间、触发情境、应对方式与成败。\n5. 渴求高峰（约第 4-21 天）执行替代行为：运动、冷水澡、外出、联系伙伴。\n6. 遇到 flatline 不恐慌、不\"测试\"自己是否恢复（不主动看色情验证）。\n7. 达标后评估：是否延长挑战、转向症状导向目标或建立长期\"90+\"生活方式。\n8. 失误后重新计数但不自我谴责，分析触发因素后继续。\n\n## 关键数据 / 证据\n- 无对照研究支持；约 25% 社区受访重启者报告经历 flatline（社区调查，非同行评审）。\n- 社区引用的旁证：禁欲 7 天睾酮短暂升至基线 145.7%（浙江大学学报研究，第 7 天峰值后回落——为暂时现象）。\n\n## 参考信息\n- NoFap 官方重启指南：https://nofap.com/rebooting/\n- 警示：该社区方案适合轻度问题使用者的自助；符合 CSBD 标准者应优先寻求专业治疗（见 001-003）。"
+ },
+ {
+  "id": "methods-012",
+  "category": "methods",
+  "categoryDir": "04-methods",
+  "title": "复吸预防实操工具箱：触发识别、环境控制、问责伙伴与习惯替代",
+  "source": "https://www.verywellmind.com/7-ways-to-stop-watching-porn-5204044",
+  "author": "Verywell Mind（经执业心理健康专业人士审阅）；辅助来源：Healthline 医学审阅内容",
+  "date": "页面持续更新",
+  "tags": [
+   "复吸预防",
+   "触发因素",
+   "环境控制",
+   "问责伙伴",
+   "习惯替代",
+   "内容过滤"
+  ],
+  "credibility": "中",
+  "credibilityRaw": "中",
+  "summary": "综合 Verywell Mind 与 Healthline 医学审阅内容的防复吸实操框架：明确戒除动机、彻底环境清理、过滤软件密码托管、问责伙伴、支持团体、习惯替代与失误后不自我打击。",
+  "bodyMarkdown": "## 核心要点\n- 动机先行：明确并写下戒除理由（关系、价值观、功能受损），动机强度决定诱惑时刻的坚持力。\n- 环境控制（证据一致支持的一线自助策略）：删除所有数字与实体色情内容；设备安装过滤/拦截软件，密码交由信任的人设置保管——使自己在冲动时无法自行解除封锁。\n- 问责伙伴：找可信任的朋友定期询问进展，或用记录天数的 App；公开问责利用社会承诺增强坚持。\n- 支持团体：同伴团体消除\"只有我如此\"的孤立感（十二步骤团体如 SAA/SA，或社区互助）。\n- 习惯替代：为冲动时刻预置具体替代活动（如跑步、出门、打电话）——Healthline 建议\"准备一两个冲动来袭时可立即转向的活动\"；消除旧习惯最可靠的方式是用新习惯占据同一触发位点。\n- 触发管理：识别个人触发（无聊、孤独、压力、失眠、特定设备/地点/时段），能回避则回避，不能回避则预演应对。\n- 失误应对：失误后不自我打击（自我谴责会触发\"管他呢效应\"导致全面复发）；研究新的应对策略后回到正轨。\n- 警示：若自我调节多次失败，或合并抑郁、焦虑、OCD，应寻求专业治疗（CBT/ACT 有一线证据）。\n\n## 方法步骤\n1. 写下戒除理由清单，放在可见处。\n2. 第 1 天彻底清理：删除内容、书签、App；安装过滤软件（DNS 级+设备级），密码交他人。\n3. 列出个人触发清单（情绪类/情境类/时段类），逐条写下应对预案。\n4. 指定 1 名问责伙伴，约定每周固定汇报；或加入支持团体。\n5. 建立\"冲动应急卡\"：冲动来时的 3 个立即行动（如 10 次深呼吸+出门走 15 分钟+给伙伴发消息）。\n6. 每日简短日记：记录渴求强度、触发、应对、是否观看。\n7. 失误后 24 小时内复盘：哪个环节失效？调整预案后继续，不清零自我评价。\n8. 每周庆祝小胜（连续天数里程碑），用非色情奖励强化。\n\n## 关键数据 / 证据\n- 来源为医学审阅科普（Verywell Mind/Healthline），方法本身与 CBT 复发预防、刺激控制原则一致；无针对该具体流程包的 RCT。\n- 机制证据支持：ACT RCT（见 001）与 CBT 手册（见 002-003）均包含触发识别、价值/动机澄清与复发预防成分。\n\n## 参考信息\n- 主要来源：https://www.verywellmind.com/7-ways-to-stop-watching-porn-5204044\n- 辅助来源：https://www.healthline.com/health/pornography-addiction （自助步骤部分）"
+ },
+ {
+  "id": "cases-001",
+  "category": "cases",
+  "categoryDir": "05-cases",
+  "title": "色情'重启'体验：在线戒色论坛禁欲日志的定性分析",
+  "source": "https://link.springer.com/article/10.1007/s10508-020-01858-w",
+  "author": "David P. Fernandez, Daria J. Kuss, Mark D. Griffiths（诺丁汉特伦特大学）",
+  "date": "2021",
+  "tags": [
+   "戒断反应",
+   "经验分享",
+   "重启",
+   "定性研究",
+   "NoFap"
+  ],
+  "credibility": "高",
+  "credibilityRaw": "高",
+  "summary": "发表于《性行为档案》的同行评审定性研究，对某在线戒色（rebooting）论坛104篇男性禁欲日志做主题分析，提炼出四大主题、九个子主题，系统呈现戒色者的动机、挣扎、应对资源与主观获益。",
+  "bodyMarkdown": "## 核心内容\n- 样本：某在线\"重启\"论坛 104 篇男性成员的禁欲日志（abstinence journals），采用主题分析（thematic analysis）。\n- 四大主题：(1) 禁欲是解决色情相关问题的方案；(2) 有时禁欲看似不可能；(3) 有了正确资源禁欲是可达成的；(4) 坚持下去禁欲是有回报的。\n- 戒色主要动机：克服自认为的\"色情成瘾\"，以及缓解自认为由色情使用造成的负面后果——尤其是性功能方面的困难（如勃起问题）。\n- 戒断与反复的核心困难：习惯性行为模式 + 多种线索（cues）触发的渴求（cravings），使维持禁欲\"非常有挑战性\"。\n- 有效资源：内部资源（认知-行为策略，如觉察触发线索、转移注意）与外部资源（社会支持、论坛互助、问责伙伴）的结合。\n- 成员报告的获益：性功能改善、情绪与精力提升、自尊增强、人际关系改善等；作者强调这些是\"主观归因的获益\"，需前瞻性研究排除第三变量解释。\n\n## 戒断时间线（如适用）\n- 研究未给出统一时间线，但日志显示：戒断早期（数周内）渴求与触发最频繁，习惯性模式最强；坚持更久（数月）的成员报告渴求频率下降、获益感增强。\n- 反复（relapse）被成员普遍经历，并被主题二\"有时禁欲看似不可能\"所涵盖——反复期的自我批判是维持痛苦的重要因素。\n\n## 应对方法（如适用）\n- 认知-行为策略：识别并回避触发线索、渴求冲浪式的耐受、重构对色情的认知。\n- 社会支持：论坛发帖打卡、日志记录、同伴鼓励与问责。\n- 生活方式替代：运动、社交、新爱好填补原有用色情的时间。\n\n## 参考信息\n- 文献：Fernandez, D. P., Kuss, D. J., & Griffiths, M. D. (2021). The Pornography \"Rebooting\" Experience: A Qualitative Analysis of Abstinence Journals on an Online Pornography Abstinence Forum. Archives of Sexual Behavior, 50(2), 711–728. DOI: 10.1007/s10508-020-01858-w\n- 开放获取（CC-BY），PMID: 33403533\n- 局限：样本来单一论坛、全为男性、自我选择样本，日志的公开性可能带来自我呈现偏差。"
+ },
+ {
+  "id": "cases-002",
+  "category": "cases",
+  "categoryDir": "05-cases",
+  "title": "NoFap/PornFree 重启社区中问题性色情使用的病因路径：论坛数据的批判性叙事分析",
+  "source": "https://pubmed.ncbi.nlm.nih.gov/34143364/",
+  "author": "Diana Chasioti, Jon Binnie（曼彻斯特都会大学等）",
+  "date": "2021",
+  "tags": [
+   "经验分享",
+   "NoFap",
+   "定性研究",
+   "复发",
+   "社区研究"
+  ],
+  "credibility": "高",
+  "credibilityRaw": "高",
+  "summary": "同行评审定性研究，对 NoFap/PornFree 自我报告有问题性色情使用的成员发帖做批判性叙事分析，揭示从脆弱感、逃避到'戒断-复发'框架维持痛苦的复杂因果网络。",
+  "bodyMarkdown": "## 核心内容\n- 研究对象：NoFap / PornFree 在线自助社区中自我感知存在 PPU（问题性色情使用）的成员发帖；方法为批判性叙事分析（critical narrative analysis）。\n- 病因路径：情境资源、物质条件与\"具身观看者\"的辩证关系 → 形成以自我探索、尝试与社交为动机的在线人格；脆弱感（vulnerability）使色情成为逃避与获得认可的手段。\n- 关键发现：以\"康复/复发\"（recovery/relapse）框架表述的禁欲承诺，被发现是维持痛苦（distress）的主要因素——即\"非成即败\"的戒色叙事本身可能加剧羞耻与焦虑循环。\n- 干预启示：作者主张超越生物医学模型，将 PPU 置于\"意义危机\"的语境中理解，而非单纯视为大脑疾病。\n\n## 戒断时间线（如适用）\n- 非时间线研究；但叙事材料显示成员常经历\"下决心—短期戒断—触发—复发—羞耻—再下决心\"的循环。\n\n## 应对方法（如适用）\n- 对内容库的提示：引用社区经验时需注意\"康复/复发\"话语的双刃剑效应——它既提供结构与支持，也可能强化全或无思维和复发后的自我谴责。\n- 更温和的框架：将反复视为学习过程而非彻底失败，减少道德化归因。\n\n## 参考信息\n- 文献：Chasioti, D., & Binnie, J. (2021). Exploring the Etiological Pathways of Problematic Pornography Use in NoFap/PornFree Rebooting Communities: A Critical Narrative Analysis of Internet Forum Data. Archives of Sexual Behavior. DOI: 10.1007/s10508-021-01930-z；PMID: 34143364；PMCID: PMC8275519\n- 与 Fernandez et al. (2021) 互补：后者描述体验结构，本研究强调叙事框架的潜在伤害。"
+ },
+ {
+  "id": "cases-003",
+  "category": "cases",
+  "categoryDir": "05-cases",
+  "title": "戒除手淫与性欲亢进：戒色动机的态度与行为相关因素调查",
+  "source": "https://link.springer.com/article/10.1007/s10508-019-01623-8",
+  "author": "Felix Zimmer, Roland Imhoff（美因茨大学）",
+  "date": "2020",
+  "tags": [
+   "经验分享",
+   "调查研究",
+   "戒色动机",
+   "NoFap"
+  ],
+  "credibility": "中",
+  "credibilityRaw": "中",
+  "summary": "同行评审在线问卷调查（Reddit 招募，n=1063），发现戒撸动机主要与'认为手淫不健康'的态度、保守主义、宗教性和较低的科学信任相关，而非实际行为失控指标；样本为自选网络样本。",
+  "bodyMarkdown": "## 核心内容\n- 样本：通过非主题 Reddit 帖子招募的在线问卷，n = 1063；多数人报告曾尝试戒撸。\n- 核心发现：戒色动机最强的预测因素是态度性的——\"认为手淫有害健康\"这一信念；与性欲亢进（hypersexuality）有相关性，但与行为标志（如最大高潮次数）无显著相关。\n- 戒色动机更高者：感知手淫影响更大、政治更保守、宗教性更高、对科学信任更低。\n- 作者观点：研究戒色现象有助于理解\"平均频率的健康行为如何被病理化\"——即部分戒色者可能是把正常行为当成了病。\n\n## 戒断时间线（如适用）\n- 不适用（横断面调查，非过程研究）。\n\n## 应对方法（如适用）\n- 对内容库的提示：社区中\"戒色动机\"不等于\"临床失控\"；区分态度驱动（道德/健康信念）与行为驱动（真实失控）两类戒色者，有助于匹配不同的内容策略。\n\n## 参考信息\n- 文献：Zimmer, F., & Imhoff, R. (2020). Abstinence from Masturbation and Hypersexuality. Archives of Sexual Behavior, 49(4), 1333–1343. DOI: 10.1007/s10508-019-01623-8；PMID: 32130561；PMCID: PMC7145784（开放获取）\n- 偏差说明：Reddit 自选样本、横断面设计、自我报告，不能推断因果；credibility 标\"中\"的原因即在于同行评审但样本与设计有限。\n- 后续通信：Imhoff & Zimmer (2020), Arch Sex Behav, 49(5), 1429–1430, DOI: 10.1007/s10508-020-01722-x（作者指出戒色者动机未必与 reboot 网站的宣称一致）。"
+ },
+ {
+  "id": "cases-004",
+  "category": "cases",
+  "categoryDir": "05-cases",
+  "title": "'我要夺回那种力量'：在线戒色论坛中的男性气质话语",
+  "source": "https://journals.sagepub.com/doi/10.1177/1363460717740248",
+  "author": "Kris Taylor, Sue Jackson",
+  "date": "2018",
+  "tags": [
+   "经验分享",
+   "话语分析",
+   "NoFap",
+   "男性气质"
+  ],
+  "credibility": "中",
+  "credibilityRaw": "中",
+  "summary": "同行评审话语分析研究，考察 NoFap 论坛成员如何通过'天生男性气质'与'真实性行为'话语建构戒色身份，指出部分成员戒色是为了调和色情使用与规范男性气质期待之间的矛盾。",
+  "bodyMarkdown": "## 核心内容\n- 方法：对 Reddit NoFap 论坛发帖的话语分析（discourse analysis）。\n- 发现一：成员调用\"理想化的天生男性气质\"与\"需要真实性爱（real sex）\"的话语，为抵制色情与手淫正名。\n- 发现二：悖论——成员必须\"表演\"那些据称是天生的特质；同时 outright 拒绝女权主义对色情的批判。\n- 理论贡献：对流行的\"使用者效应\"范式（即用户因生物驱力受扰而戒色）提出替代解释——部分戒色行为是为了让色情使用与规范性男性气质的期待相调和。\n\n## 戒断时间线（如适用）\n- 不适用。\n\n## 应对方法（如适用）\n- 对内容库的提示：戒色社区话语中夹杂着性别规范建构（甚至反女权倾向），内容库引用社区\"成功经验\"时应剥离其中的性别刻板成分，只保留行为层面的可迁移策略。\n\n## 参考信息\n- 文献：Taylor, K., & Jackson, S. (2018). 'I want that power back': Discourses of masculinity within an online pornography abstinence forum. Sexualities, 21(4), 621–639. DOI: 10.1177/1363460717740248\n- 局限：定性话语分析，不评估戒色的生理/心理效果，只分析话语建构。"
+ },
+ {
+  "id": "cases-005",
+  "category": "cases",
+  "categoryDir": "05-cases",
+  "title": "NoFap 之争：关于戒撸的迷思、男性气质与意义争夺",
+  "source": "https://journals.sagepub.com/doi/10.1177/1097184X211018256",
+  "author": "Scott Burnett",
+  "date": "2022",
+  "tags": [
+   "经验分享",
+   "话语分析",
+   "NoFap",
+   "社区文化"
+  ],
+  "credibility": "中",
+  "credibilityRaw": "中",
+  "summary": "同行评审研究，分析推特上 6569 条 NoFap 相关推文，识别出七种不同的主体立场与迷思，包括极端反女权与反犹 articulation，提示 NoFap 是围绕'戒色'意义的政治争夺场。",
+  "bodyMarkdown": "## 核心内容\n- 数据：从推特抓取的 6569 条推文的大语料分析。\n- 七种主体立场：研究识别出与不同\"迷思\"（myths）相连的七种主体立场，从世俗自我提升、宗教纪律到极端反女权、反犹 articulation 不等。\n- 核心论点：NoFap 运动是\"戒色意义\"的政治争夺场（site of political contestation），同一行为被不同群体赋予截然不同的意义。\n- 对内容库的意义：戒色社区并非同质群体；\"戒色成功经验\"的传播渠道中混有极端意识形态内容，引用社区材料需做来源净化。\n\n## 戒断时间线（如适用）\n- 不适用。\n\n## 应对方法（如适用）\n- 内容库风控建议：警惕引导用户进入含极端话语的子社区；推荐以行为改变为中心的世俗化、去意识形态化的互助资源。\n\n## 参考信息\n- 文献：Burnett, S. (2022). The Battle for NoFap: Myths, Masculinity, and the Meaning of Masturbation Abstention. Men and Masculinities, 25(3), 477–496. DOI: 10.1177/1097184X211018256\n- 备注：该文被作者警告称\"围绕 NoFap 等概念争夺所产生的神话式 articulation 有可能煽动年轻男性走向现实中的可怕暴力\"，引用时应注意语境。"
+ },
+ {
+  "id": "cases-006",
+  "category": "cases",
+  "categoryDir": "05-cases",
+  "title": "戒色戒断反应是什么样子？Your Brain on Porn 戒断症状汇总",
+  "source": "https://www.yourbrainonporn.com/?p=99",
+  "author": "Your Brain on Porn（Gary Wilson 创办的倡导性网站）",
+  "date": "持续更新（内容主要汇集于2010年代）",
+  "tags": [
+   "戒断反应",
+   "经验分享",
+   "戒断时间线",
+   "flatline"
+  ],
+  "credibility": "中",
+  "credibilityRaw": "中",
+  "summary": "倡导性网站 YBOP 汇总的社区自我报告戒断症状清单与时间线个案。注意：该站为倡导性（advocacy）来源而非中立学术来源，症状均为自我报告，无对照验证。",
+  "bodyMarkdown": "## 核心内容\n- 常见自我报告戒断症状清单：失眠与睡眠困难；焦虑、压力与恐惧；头痛及肌肉/关节/牙齿/下颌/生殖器疼痛僵硬；疲劳虚弱；抑郁、绝望；烦躁不安；注意力涣散（脑雾）；情绪波动；易怒、挫败感；类流感症状、恶心、发热感；性欲低下或消失（flatline，可延迟数日出现并持续很久）；色情画面闪回与性梦；性渴求与冲动；回避社交。\n- 网站援引 Swansea 与 Milan 大学关于互联网\"戒断\"的研究作为类比佐证（网瘾者停网后出现负面情绪）。\n- 多人报告戒断症状可断断续续持续数月（网站将其类比为 PAWS——急性期后戒断综合征）。\n\n## 戒断时间线（如适用）\n- 站内典型个案时间线（18岁男性，自我报告）：第1-12天\"感觉极好\"；第16-25天进入 flatline，疲倦、悲伤但渴求强烈；第26-60天大体平稳但\"感觉有变化在发生\"；第61-76天出现严重戒断与 flatline 症状（抑郁、焦虑、极度孤独、无望感、失眠、无性欲）；第80天后\"基本一帆风顺\"。\n- 另一自我报告：前三天完全无法入睡、易激惹、抑郁焦虑、类流感症状持续一个月。\n- 多数报告：戒断最强烈期集中在第1-3周；第2-4周被多人描述为\"最艰难（ROUGH）\"。\n\n## 应对方法（如适用）\n- 社区经验：远离酒精（多名报告者指出酒精与\"偷看-追逐（peeking and chasing）\"是复发主因）；预期戒断反应是过程的一部分（\"withdrawals are a part of the process\"）。\n- 重要提示：自我报告中的\"自杀念头\"等表述提示重度痛苦人群存在，内容库应始终附带求助渠道提示。\n\n## 参考信息\n- 性质声明：Your Brain on Porn 为 Gary Wilson 创办的倡导性网站，立场为\"色情可成瘾、戒断有益\"，非中立学术来源；页面内容为匿名论坛帖汇编，无临床验证。credibility 标\"中\"仅因其原始经验材料丰富，结论层面应降权采信。"
+ },
+ {
+  "id": "cases-007",
+  "category": "cases",
+  "categoryDir": "05-cases",
+  "title": "一次完整重启（reboot）的逐周概要：色情诱导ED康复者博客摘录（含情绪图表）",
+  "source": "https://yourbrainonporn.com/zh-CN/synopsis-of-entire-reboot-with-mood-chart",
+  "author": "Your Brain on Porn 转载的匿名康复者博客（中文版页面）",
+  "date": "页面持续在线（原始博客约2010年代）",
+  "tags": [
+   "戒断反应",
+   "戒断时间线",
+   "经验分享",
+   "PIED",
+   "flatline"
+  ],
+  "credibility": "中",
+  "credibilityRaw": "中",
+  "summary": "YBOP 转载的一份色情诱导勃起功能障碍（PIED）康复者的逐周重启记录（有中文页面），详述从强烈渴求到 flatline 再到逐步恢复的数周历程。倡导性网站来源，个案性质，需降权采信。",
+  "bodyMarkdown": "## 核心内容\n- 个案背景：自述约20年每日使用色情，因色情诱导的 ED（PIED）决定\"重启\"大脑；恢复时间据站点经验为 4-12 周不等，该个案被视为\"典型且记录详尽\"。\n- 个案自述估算：20年 × 365天，累计超过 7000 次 PMO（色情/手淫/高潮），以此理解习惯强度与恢复所需时间。\n\n## 戒断时间线（如适用）\n- 第1-2周（前10天）：前5天极度难熬且性欲异常高涨（\"大脑试图让我回到旧习惯\"）；第5天后性欲骤然消失，进入\"平坦、麻木、空无\"状态——对之前有好感的女性失去兴趣，甚至感到敌对、易怒，但自述\"不是抑郁，因为对未来乐观\"。\n- 第3周：对\"再敏化\"进展缓慢感到不耐烦；通过计算累计使用次数来自我说服，接受恢复需要长期过程。\n- 第4周：仍出现对色情画面的\"非常强烈\"闪回；领悟到\"抵抗闪回不是副作用，而是康复过程本身\"——每次成功抵抗都离摆脱更近一步。\n- 应对性活动：深夜独自驾车数小时作为替代性安抚方式。\n\n## 应对方法（如适用）\n- 重构闪回：把触发画面视为训练抵抗力的机会而非失败预兆。\n- 量化习惯强度：用\"累计使用次数\"合理化恢复时长，缓解急躁。\n- 替代性独处活动：驾车等需要轻度专注的活动安抚渴求。\n\n## 参考信息\n- 性质声明：倡导性网站转载的匿名个案，credibility 标\"中\"仅因其时间线细节对内容库有结构参考价值；PIED 概念本身在学术界有争议（参见 _fragments/part-D.md）。"
+ },
+ {
+  "id": "cases-008",
+  "category": "cases",
+  "categoryDir": "05-cases",
+  "title": "重启需要多久？YBOP 重启案例库与常见问题（FAQ）汇编",
+  "source": "https://www.yourbrainonporn.com/rebooting-accounts/rebooting-accounts-page-1/age-18-so-many-benefits-121-days/",
+  "author": "Your Brain on Porn / YourBrainRebalanced 论坛用户",
+  "date": "2010年代",
+  "tags": [
+   "经验分享",
+   "戒断时间线",
+   "应对方法",
+   "重启FAQ"
+  ],
+  "credibility": "低",
+  "credibilityRaw": "低",
+  "summary": "YBOP 重启案例库中的社区 FAQ 与成功案例汇编：平均重启约90天（±30天），建议把长期目标切分为小目标。社区自我报告，样本自选，无验证，credibility 低。",
+  "bodyMarkdown": "## 核心内容\n- 社区共识（FAQ）：平均重启约 90 天（30±天的个体差异）；强烈建议设定目标（如100天）并切分为小目标（3天→1周→2周→3周→1个月→1.5个月→2个月→3个月→100天）。\n- 术语：flatline＝对性/一切失去欲望的阶段，\"只是个阶段，会过去\"；edging（不高潮的手淫）被视为复发高风险行为。\n- \"重启后再看一次色情\"被认为会约倒退1/3进度，并可能引发 binge（失控性放纵）而毁掉整个重启。\n- 成功案例示例（18岁，121天）：报告\"诸多获益\"，但均为自我归因。\n\n## 戒断时间线（如适用）\n- 90天框架：社区把 90 天作为\"标准重启\"里程碑，30/60/90 天为常见打卡节点；flatline 可出现在戒断早期并持续数周。\n\n## 应对方法（如适用）\n- 目标切分法（chunking）：把100天拆成 3天/1周/2周/1月 等小里程碑。\n- 环境控制：删除收藏、书签与素材；使用 K9、DNS 屏蔽等工具（FAQ 同时承认屏蔽工具\"并非万无一失，只是减速带\"）。\n- 写日志：在论坛 journal 区记录背景与进度，并通过支持他人获得社区互动。\n- 社区建议如有 ED 可暂缓性生活，否则真实亲密有助于\"重启\"性欲（此建议无临床依据，需谨慎对待）。\n\n## 参考信息\n- 偏差说明：论坛活跃用户自我选择样本，成功者更可能发帖（幸存者偏差）；数字（90天、倒退1/3）为社区经验法则而非研究数据。credibility：低。"
+ },
+ {
+  "id": "cases-009",
+  "category": "cases",
+  "categoryDir": "05-cases",
+  "title": "NoFap 社区画像：官方社区投票（2012年4月）人口学与性状况自我报告",
+  "source": "https://nofap.com/?p=6243",
+  "author": "NoFap 官方（Alexander Rhodes 创办）",
+  "date": "2012",
+  "tags": [
+   "经验分享",
+   "社区调查",
+   "NoFap",
+   "人口学"
+  ],
+  "credibility": "低",
+  "credibilityRaw": "低",
+  "summary": "NoFap 官网发布的社区自我报告投票：97%男性、91%直男、44%自报处男、51%来自美国、72%白人。自选在线投票，无抽样控制，存在严重自选偏差，credibility 低。",
+  "bodyMarkdown": "## 核心内容\n- 样本性质：NoFap 官网社区投票（2012年4月），参与者为自愿填答的社区成员。\n- 人口学：97% 男性，3% 女性；91% 异性恋男性；72% 白人、6% 亚裔、4% 西语裔；51% 美国、21% 西欧、9% 加拿大、5% 澳大利亚。\n- 性状况：44% 自报是处男；20% 过去6个月无性行为；26% 自报在恋爱关系中（含5%已婚）；仅3%有子女。\n- 用途：说明戒色社区的主体构成——以年轻、无固定性伴侣的西方男性为主，这直接影响\"戒色经验\"的适用边界。\n\n## 戒断时间线（如适用）\n- 不适用。\n\n## 应对方法（如适用）\n- 不适用；但对内容库的意义：面向中文用户的内容不应直接移植以西方年轻男性为主的社区经验，需要本地化校准。\n\n## 参考信息\n- 偏差说明：在线自愿投票，样本量与回收方式未披露，存在明显自选偏差与\"深度用户\"偏差；数据为2012年，社区规模此后已大幅扩张（r/NoFap 2022年已接近百万订阅），画像可能已变化。credibility：低。"
+ },
+ {
+  "id": "cases-010",
+  "category": "cases",
+  "categoryDir": "05-cases",
+  "title": "VICE 采访：一个100天不自慰不做爱的男人（#Rory100）",
+  "source": "https://www.vice.com/en_uk/article/vdpyqy/our-interview-with-a-guy-who-didnt-masturbate-for-100-days-722",
+  "author": "VICE（记者访谈，受访者 Rory Patrick）",
+  "date": "2014",
+  "tags": [
+   "经验分享",
+   "媒体报道",
+   "100天挑战"
+  ],
+  "credibility": "低",
+  "credibilityRaw": "低",
+  "summary": "VICE 对完成100天戒撸挑战者 Rory Patrick 的访谈。其动机是察觉手淫干扰了健身等日常计划、且成为主要压力应对方式。媒体报道个案，非研究，credibility 低。",
+  "bodyMarkdown": "## 核心内容\n- 个案：Rory Patrick 于2014年4月5日宣布进行100天戒撸挑战（推特话题 #Rory100），7月13日完成。\n- 动机自述：注意到手淫改变了日常轨迹——\"计划去跑步，先奖励自己一下\"，结果之后瘫在床上看电视吃零食而放弃跑步；且手淫成为应对压力与疼痛的首要策略，\"这看起来不健康\"。\n- 挑战源起：听说有人做90天挑战，出于竞争心理加码到100天；挑战期间通过推特公开打卡获得社会支持。\n- 背景知识：报道提到 NoFap 社区的兴起源于 Reddit 上一则\"禁欲7天睾酮提升超45%\"的帖子（该说法对应的2003年研究已于2021年被撤稿，详见 _fragments/part-D.md [D7]）。\n\n## 戒断时间线（如适用）\n- 100天框架：个案证明100天可完成，但报道未提供逐阶段症状细节。\n\n## 应对方法（如适用）\n- 公开承诺与打卡：通过社交媒体公开挑战进度，利用同伴关注维持动机。\n- 识别功能替代：意识到自己用手淫作为压力应对机制，是改变的第一步（个案启示）。\n\n## 参考信息\n- 性质说明：媒体人物报道，单一个案，无代表性；VICE 为大众媒体而非学术/医学来源。credibility：低。"
+ },
+ {
+  "id": "cases-011",
+  "category": "cases",
+  "categoryDir": "05-cases",
+  "title": "中国的问题性色情使用（Problematic Pornography Use in China）研究综述",
+  "source": "https://pubmed.ncbi.nlm.nih.gov/35433194/",
+  "author": "Current Addiction Reports 综述作者团队",
+  "date": "2022",
+  "tags": [
+   "中文来源",
+   "研究综述",
+   "PPU",
+   "中国"
+  ],
+  "credibility": "中",
+  "credibilityRaw": "中",
+  "summary": "同行评审综述，梳理中国问题性色情使用的研究现状，涵盖流行病学、测量工具与文化因素，是少数可引用的中文人群相关学术来源。",
+  "bodyMarkdown": "## 核心内容\n- 期刊：Current Addiction Reports（2022年第9卷第2期，80-85页），同行评审综述。\n- 主题：中国语境下问题性色情使用的研究进展，包括发生率估计、评估工具的中文版验证、以及文化与社会因素（如对性的保守态度、道德观念）如何塑造\"自认有问题\"的报告。\n- 与西方发现呼应：中国样本中同样存在\"道德不一致\"式的自我归因模式——对色情的道德否定态度与实际使用行为之间的冲突，是报告\"色情问题\"的重要来源（与 Grubbs 等的 PPMI 模型一致）。\n- 对内容库的意义：中文世界缺乏正规媒体的深度戒色报道与本土大型调查，该综述是可引用的中文学术锚点；直接采集中文社区\"戒色吧\"类经验帖不符合本库收录标准，故以学术综述替代。\n\n## 戒断时间线（如适用）\n- 不适用（综述非过程研究）。\n\n## 应对方法（如适用）\n- 内容本地化建议：引用中文人群数据时优先使用该综述及其引用的原始研究，避免引用无审核的中文社区帖。\n\n## 参考信息\n- 文献：Problematic Pornography Use in China. Current Addiction Reports, 9(2), 80–85 (2022). DOI: 10.1007/s40429-022-00408-9；PMID: 35433194；PMCID 全文开放获取（见 PubMed 页面链接）。\n- 局限：综述层级证据，中国本土原创研究数量有限，多为大学生便利样本。"
+ },
+ {
+  "id": "cases-012",
+  "category": "cases",
+  "categoryDir": "05-cases",
+  "title": "'我感觉自己像个冒充女权主义者的骗子'：Porn Free Women 在线论坛的讨论主题与性脚本",
+  "source": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11176243/",
+  "author": "（研究发表于同行评审期刊，PMC 全文开放获取）",
+  "date": "2024",
+  "tags": [
+   "经验分享",
+   "女性视角",
+   "定性研究",
+   "戒色社区"
+  ],
+  "credibility": "中",
+  "credibilityRaw": "中",
+  "summary": "同行评审定性研究，用结构主题模型与批判性话语分析考察女性戒色论坛（Porn Free Women）的讨论，呈现女性戒色者在女权身份与戒色实践之间的张力。少数聚焦女性的研究。",
+  "bodyMarkdown": "## 核心内容\n- 方法：对 Porn Free Women 论坛讨论文本的结构主题模型（structural topic modeling）+ 批判性话语分析。\n- 核心张力：女性成员在\"反色情的女权主义批判\"与\"主流女权对色情的多元态度\"之间定位自己的戒色实践，有人自述\"感觉自己像个冒充女权主义者的骗子\"。\n- 社区语境：戒色论坛以男性霸权话语为主导（既有研究反复发现其中渗透有毒男性气质与厌女话语），女性成员需在此语境中协商自身位置。\n- 与男性社区研究的对照：男性戒色话语多围绕\"夺回力量/男性气质\"，女性话语更多围绕性脚本、亲密关系伤害与身份一致性。\n\n## 戒断时间线（如适用）\n- 不适用。\n\n## 应对方法（如适用）\n- 对内容库的提示：戒色内容默认男性视角是行业通病；为女性用户提供内容时应采用独立的女性经验材料，并说明性别差异（女性更少以视觉色情为问题核心）。\n\n## 参考信息\n- 全文开放获取：PMC11176243（PubMed Central）。\n- 该文引用的相关研究脉络：Osadchiy et al. (2020)（NoFap 发帖中的焦虑与勃起功能担忧）、Grubbs et al. (2020)（宗教性调节色情使用与自认成瘾的关系）、Smith et al. (2022)（新冠期间 NoFap 社区分析）——可作为延伸阅读线索再单独核实。\n- 局限：定性研究，论坛文本，不能推广至一般女性人群。"
+ },
+ {
+  "id": "statistics-001",
+  "category": "statistics",
+  "categoryDir": "06-statistics",
+  "title": "美国全国代表性调查：8.6% 成人因难以控制性冲动而痛苦（Dickenson et al., 2018）",
+  "source": "https://pubmed.ncbi.nlm.nih.gov/30646355/",
+  "author": "Dickenson JA, Gleason N, Coleman E, Miner MH（明尼苏达大学）",
+  "date": "2018-11-09（JAMA Network Open）",
+  "tags": [
+   "CSBD",
+   "患病率",
+   "美国",
+   "全国代表性",
+   "JAMA"
+  ],
+  "credibility": "高",
+  "credibilityRaw": "高",
+  "summary": "基于 NSSHB 全国代表性样本（N=2325，18–50 岁）的研究：8.6% 的美国成人（男 10.3%、女 7.0%）达到 CSBI-13 临床筛查界值，报告与难以控制性感受/冲动/行为相关的显著痛苦或损害。",
+  "bodyMarkdown": "## 核心要点\n- 首个基于美国全国代表性样本评估\"难以控制性感受、冲动和行为所致痛苦与损害\"患病率的研究，该核心特征正是 ICD-11 CSBD 的突出特征。\n- 测量工具：Compulsive Sexual Behavior Inventory–13（CSBI-13），0–65 分，≥35 分为临床相关界值。\n- 总体 **8.6%**（201/2325）达到临床筛查界值。\n- 性别差异小于既往理论推测：男性 **10.3%**、女性 **7.0%**。\n- 样本：2016 年 11 月从美国 50 个州随机抽样的 2325 名 18–50 岁成人（50.5% 女性，平均 34.0 岁）。\n- 作者结论：如此高的症状比例具有重大公共卫生意义，医务人员应注意识别并在社会文化情境中评估问题性质，为男女均提供适当治疗。\n- 注意：这是\"筛查阳性\"而非临床确诊 CSBD，实际诊断患病率通常更低。\n\n## 关键数据\n- 患病率：8.6%（男 10.3% / 女 7.0%）\n- 样本量：N=2325；全国概率抽样\n- 量表：CSBI-13，界值 ≥35/65\n- DOI：10.1001/jamanetworkopen.2018.4468；PMID：30646355\n\n## 参考信息\n- PubMed：https://pubmed.ncbi.nlm.nih.gov/30646355/\n- PMC 全文：PMC6324590"
+ },
+ {
+  "id": "statistics-002",
+  "category": "statistics",
+  "categoryDir": "06-statistics",
+  "title": "42 国国际性调查（ISS）：4.84% 参与者属 CSBD 高风险组（Bőthe et al., 2023）",
+  "source": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10316175/",
+  "author": "Bőthe B, Koós M, Nagy L, Kraus SW, Demetrovics Z, Potenza MN 等（International Sex Survey 协作组）",
+  "date": "2023（Journal of Behavioral Addictions）",
+  "tags": [
+   "CSBD",
+   "患病率",
+   "国际比较",
+   "CSBD-19",
+   "性别差异"
+  ],
+  "credibility": "高",
+  "credibilityRaw": "高",
+  "summary": "覆盖 42 国、8 万余人的 International Sex Survey：4.84%（n=3971）达到 CSBD-19 高风险界值，各国/性别/性取向亚组在 1.6%–16.7% 之间；高风险组 13.7% 曾寻求治疗。",
+  "bodyMarkdown": "## 核心要点\n- 使用标准化 CSBD-19 量表在 42 国开展的大样本调查（低风险组 n=78,065；高风险组 n=3,971）。\n- 总体高风险比例 **4.84%**；各国家/性别/性取向亚组估计值在 **1.6%–16.7%** 之间。\n- 性别差异明显：低风险组中男性占 91.83% 之外的构成提示男性高风险比例远高于女性（女性低风险率 97.58%，即高风险约 2.4%；男性高风险约 8%）。\n- 高风险组在独自（自慰）和伴侣性活动频率上均显著更高。\n- **治疗缺口**：高风险组仅 13.7% 曾寻求 CSBD 治疗，另有 32.8% 因费用等原因想治而未治；低风险组仅 1.6% 曾寻求治疗。\n- 局限：非各国代表性样本，跨国比较与外推需谨慎。\n- 研究同时推出了 CSBD 标准化评估工具，便于跨国比较。\n\n## 关键数据\n- 总样本：82,036 人（42 国）\n- 高风险比例：4.84%（n=3,971）；亚组范围 1.6%–16.7%\n- 高风险组治疗寻求率：13.7%（另 32.8% 未能治疗）\n- 国家示例：中国样本高风险约 10.4%（低风险 89.62%），美国约 5.7%，波兰约 2.25%\n\n## 参考信息\n- PMC 全文：https://pmc.ncbi.nlm.nih.gov/articles/PMC10316175/\n- 期刊：Journal of Behavioral Addictions（Akadémiai Kiadó）"
+ },
+ {
+  "id": "statistics-003",
+  "category": "statistics",
+  "categoryDir": "06-statistics",
+  "title": "美国全国代表性样本：11% 男性和 3% 女性自认\"色情成瘾\"（Grubbs, Kraus & Perry, 2019）",
+  "source": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7044607/",
+  "author": "Grubbs JB, Kraus SW, Perry SL",
+  "date": "2019（Journal of Behavioral Addictions 8(1):88-93）",
+  "tags": [
+   "自认成瘾",
+   "全国代表性",
+   "道德不一致",
+   "宗教性",
+   "性别差异"
+  ],
+  "credibility": "高",
+  "credibilityRaw": "高",
+  "summary": "N=2075 的美国成年互联网用户代表性样本：约 11% 男性、3% 女性认同\"我对色情成瘾\"；自认成瘾与男性、年轻、宗教性强、道德不一致及使用频率高均相关。",
+  "bodyMarkdown": "## 核心要点\n- 美国成年互联网用户全国代表性样本（N=2,075）。\n- 大多数人（n=1,461）一生中看过色情内容；略超半数（n=1,056）报告过去一年有使用。\n- **约 11% 男性与 3% 女性**对\"我对色情成瘾\"这一陈述表示某种程度的同意。\n- 自认成瘾的最强相关因素：男性、更年轻、宗教性更强、对色情使用的**道德不一致**感更强、使用频率更高。\n- 结论：自认色情成瘾是客观行为与主观道德评价共同预测的复杂现象——这为\"戒色社区中自认成瘾者比例远高于临床 CSBD 患病率\"提供了机制解释。\n- 与 Dickenson 2018（8.6% 痛苦筛查）和 ICD-11 道德排除条款相互印证：自认成瘾 ≠ 临床障碍。\n\n## 关键数据\n- 样本：N=2,075（全国代表性）\n- 自认成瘾：男 11% / 女 3%\n- 一生使用率：约 70%（1,461/2,075）；过去一年：约 51%（1,056/2,075）\n- DOI：10.1556/2006.7.2018.134；PMID：30632378\n\n## 参考信息\n- PMC 全文：https://pmc.ncbi.nlm.nih.gov/articles/PMC7044607/\n- DOI：https://doi.org/10.1556/2006.7.2018.134"
+ },
+ {
+  "id": "statistics-004",
+  "category": "statistics",
+  "categoryDir": "06-statistics",
+  "title": "道德不一致导致色情问题：整合模型、系统综述与元分析（Grubbs et al., 2019）",
+  "source": "https://pubmed.ncbi.nlm.nih.gov/30076491/",
+  "author": "Grubbs JB, Perry SL, Wilt JA, Reid RC",
+  "date": "2019-02（Archives of Sexual Behavior 48(2):397-415）",
+  "tags": [
+   "道德不一致",
+   "元分析",
+   "色情使用",
+   "宗教",
+   "理论模型"
+  ],
+  "credibility": "高",
+  "credibilityRaw": "高",
+  "summary": "系统综述+元分析：提出\"道德不一致致色情问题（PPMI）\"模型——许多\"色情成瘾感\"实为行为与道德信念的冲突所致；元分析证实道德不一致与自认问题性使用/成瘾显著相关。",
+  "bodyMarkdown": "## 核心要点\n- 问题提出：尽管学界对色情是否\"成瘾\"分歧严重，确有大量个体报告**感觉**自己的使用有问题。\n- 核心模型：Pornography Problems due to Moral Incongruence（PPMI）——当行为（色情使用）与信念（道德/宗教反对色情）不一致时，个体会将这种冲突体验为\"失控\"或\"成瘾\"。\n- 方法：对该领域文献的系统综述 + 元分析，检验道德不一致与自认问题性色情使用之间的关联强度。\n- 主要发现：道德不一致与自认色情成瘾/问题使用呈稳健正相关；换言之，**相当比例自认成瘾者的问题感可被道德冲突解释，而非客观的失控行为**。\n- 临床含义：评估求助者时必须区分\"行为失控（PPU 路径）\"与\"价值冲突（PPMI 路径）\"；与 ICD-11\"纯道德痛苦不足以诊断 CSBD\"条款一致。\n- 该文为该领域高被引文献（Google Scholar 引用 450+）。\n\n## 关键数据\n- 期刊：Archives of Sexual Behavior, 48(2):397-415\n- DOI：10.1007/s10508-018-1248-x；PMID：30076491\n- 研究类型：系统综述 + 元分析（整合模型）\n\n## 参考信息\n- PubMed：https://pubmed.ncbi.nlm.nih.gov/30076491/\n- DOI：https://doi.org/10.1007/s10508-018-1248-x"
+ },
+ {
+  "id": "statistics-005",
+  "category": "statistics",
+  "categoryDir": "06-statistics",
+  "title": "澳大利亚全国代表性调查：色情使用者画像（Rissel et al., 2017, ASHR2）",
+  "source": "https://doi.org/10.1080/00224499.2016.1191597",
+  "author": "Rissel C, Richters J, de Visser RO, McKee A, Yeung A, Caruana T",
+  "date": "2017-02-12（Journal of Sex Research 54(2):227-240）",
+  "tags": [
+   "澳大利亚",
+   "全国代表性",
+   "使用率",
+   "性别差异",
+   "自认成瘾"
+  ],
+  "credibility": "高",
+  "credibilityRaw": "高",
+  "summary": "第二届澳大利亚健康与关系研究（N≈2 万，16–69 岁）：84% 男性和 54% 女性看过色情内容；仅 4% 男性和 1% 女性自认对色情\"成瘾\"，其中约半数报告过不良影响。",
+  "bodyMarkdown": "## 核心要点\n- 数据来自第二届澳大利亚健康与关系研究（ASHR2）：计算机辅助电话访谈，代表性样本为男性 9,963 人、女性 10,131 人（16–69 岁），总参与率 66%。\n- **一生使用率**：男性 84%、女性 54%。\n- **过去一年使用**（在看过者中）：男性 76%、女性 41%。\n- **自认\"对色情成瘾\"**：男性仅 **4%**、女性仅 **1%**；且自认成瘾者中约半数同时报告色情使用对自己产生了不良影响。\n- 结论：观看色情内容在澳大利亚相当普遍，但报告不良后果者仅为少数——\"普遍使用\"与\"问题使用\"必须区分。\n- 这是戒色内容中常被引用的关键参照系：大众使用率（84%/54%）与自认成瘾率（4%/1%）之间存在数量级差异。\n\n## 关键数据\n- 样本：N=20,094（男 9,963 / 女 10,131），参与率 66%\n- 一生使用：男 84% / 女 54%；过去一年（使用者中）：男 76% / 女 41%\n- 自认成瘾：男 4% / 女 1%\n- DOI：10.1080/00224499.2016.1191597\n\n## 参考信息\n- DOI 页面：https://doi.org/10.1080/00224499.2016.1191597\n- 开放获取稿（悉尼科技大学库）：https://hdl.handle.net/10453/48993"
+ },
+ {
+  "id": "statistics-006",
+  "category": "statistics",
+  "categoryDir": "06-statistics",
+  "title": "英国 Natsal-3：近 1/4 年轻男性将色情列为性信息来源（Tanton et al., 2015）",
+  "source": "https://bmjopen.bmj.com/content/5/3/e007834",
+  "author": "Tanton C 等（Natsal-3 团队，UCL/LSHTM）",
+  "date": "2015（BMJ Open 5(3):e007834）",
+  "tags": [
+   "英国",
+   "Natsal",
+   "青少年",
+   "性信息来源",
+   "性别差异"
+  ],
+  "credibility": "高",
+  "credibilityRaw": "高",
+  "summary": "基于三次英国全国性态度与生活方式调查（Natsal）的 16–24 岁样本：23.9% 男性、2.2% 女性将色情列为性信息来源之一；但作为主要来源者男性仅 3.4%、女性 0.2%，学校仍是最主要来源。",
+  "bodyMarkdown": "## 核心要点\n- 数据：Natsal-3（2010–2012）16–24 岁样本 3,869 人，并与 Natsal-1（1990–91）、Natsal-2（1999–2001）共 7,334 人做趋势比较；Natsal-3 应答率 57.7%。\n- 色情作为**任一**性信息来源：男性 **23.9%**（其中网络色情 19.4%、杂志/影片 9.2%），女性仅 **2.2%**——性别差异约 10 倍。\n- 色情作为**主要**来源：男性 3.4%、女性 0.2%；学校课程才是两性最常见主要来源（男 39.4%、女 41.3%）。\n- 趋势：尽管互联网普及，年轻人最常报告的仍是传统来源（学校、朋友、父母）；学校作为主要来源的报告比例在三次调查间上升。\n- 含义：色情确实是部分年轻男性的性教育渠道之一，但\"色情取代了正规性教育\"的说法在人口数据中并不成立。\n- 作者建议：性教育应帮助年轻人批判看待色情中的形象与规范。\n\n## 关键数据\n- 色情为任一来源：男 23.9%（95% CI 21.6–26.4）/ 女 2.2%（1.7–3.0）\n- 色情为主要来源：男 3.4% / 女 0.2%\n- Natsal-3 样本：16–24 岁 3,869 人；三波合计 7,334 人\n\n## 参考信息\n- BMJ Open 全文：https://bmjopen.bmj.com/content/5/3/e007834\n- PMC 全文：https://www.ncbi.nlm.nih.gov/pmc/articles/pmc4360842/"
+ },
+ {
+  "id": "statistics-007",
+  "category": "statistics",
+  "categoryDir": "06-statistics",
+  "title": "英国性态度与生活方式 20 年变迁：Natsal 三次全国调查（Mercer et al., 2013, Lancet）",
+  "source": "https://pubmed.ncbi.nlm.nih.gov/24286784/",
+  "author": "Mercer CH 等（Natsal-3 团队）",
+  "date": "2013-11（The Lancet）",
+  "tags": [
+   "英国",
+   "Natsal",
+   "时间趋势",
+   "全国概率抽样",
+   "Lancet"
+  ],
+  "credibility": "高",
+  "credibilityRaw": "高",
+  "summary": "Lancet 发表的 Natsal-1/2/3（1990–2012）比较：15,162 人概率样本显示英国性行为多样性在 Natsal-2 的上升于 Natsal-3 大体维持但未继续攀升，为评估\"网络色情改变性行为\"提供了人口学基线。",
+  "bodyMarkdown": "## 核心要点\n- Natsal-3（2010–2012）：多阶段分层概率抽样，完成访谈 15,162 人（男 6,293 / 女 8,869），应答率 57.7%，按 2011 年人口普查加权。\n- 82.1%（95% CI 81.0–83.1）男性与 77.7%（76.7–78.7）女性报告过去一年至少有一名异性伴侣。\n- 趋势：Natsal-2（1999–2001）相对 Natsal-1（1990–91）出现的性活动增加与多样化，在 Natsal-3 大体维持；男性多数指标**未再进一步上升**。\n- 性行为与范围随年龄递减，女性尤为明显。\n- 方法论价值：三次调查使用相同方法与测量，是评估\"互联网时代性行为变化\"最可靠的人口学参照之一；可用于对照营销号\"色情泛滥致性行为剧变\"的叙事。\n- Natsal 数据集被广泛用于英国性健康政策制定。\n\n## 关键数据\n- Natsal-3 样本：15,162 人（26,274 个合格地址，应答率 57.7%）\n- 过去一年异性伴侣≥1：男 82.1% / 女 77.7%\n- 调查时间窗：2010-09-06 至 2012-08-31\n- PMID：24286784\n\n## 参考信息\n- PubMed：https://pubmed.ncbi.nlm.nih.gov/24286784/\n- Natsal-3 方法学（Sex Transm Infect 2014）：https://europepmc.org/articles/3933071"
+ },
+ {
+  "id": "statistics-008",
+  "category": "statistics",
+  "categoryDir": "06-statistics",
+  "title": "美国 NSSHB 2009：14–94 岁全国概率样本性行为调查（Herbenick et al., 2010）",
+  "source": "https://doi.org/10.1111/j.1743-6109.2010.02012.x",
+  "author": "Herbenick D, Reece M, Schick V, Sanders SA, Dodge B, Fortenberry JD（印第安纳大学性健康促进中心/金赛研究所）",
+  "date": "2010-10（Journal of Sexual Medicine 7(Suppl 5):255-265）",
+  "tags": [
+   "美国",
+   "NSSHB",
+   "全国概率样本",
+   "自慰",
+   "性行为谱"
+  ],
+  "credibility": "高",
+  "credibilityRaw": "高",
+  "summary": "NSSHB（2009 年调查）是当代美国最大规模性行为概率样本调查之一，覆盖 14–94 岁约 5,865 人，系统描述各年龄段自慰、口交、阴道性交等行为的发生率与频率。",
+  "bodyMarkdown": "## 核心要点\n- NSSHB 由印第安纳大学性健康促进中心与金赛研究所实施，2009 年经互联网完成全国概率抽样调查（男性与女性合计约 5,865 人，14–94 岁）。\n- 专刊（J Sex Med 7 卷增刊 5）系统报告各年龄段的独自与伴侣性行为谱：自慰、给予/接受口交、阴道性交、肛交等。\n- 核心模式：自慰在青少年晚期至青年期报告率最高并随年龄下降；阴道性交在青年期最频繁；性多样性随年龄递减。\n- 青春期数据：14–17 岁亚样本显示多数青少年男性报告近期自慰经历——自慰是正常青春期现象，而非病态（同卷 Fortenberry et al., 305-314 页）。\n- 价值：为\"戒色\"讨论提供正常人群性行为基线——自慰与性表达在人群中普遍存在且与健康/关系状态并存，不能简单病理化。\n- 后续：NSSHB 2018 波次数据显示 2009–2018 年间部分行为频率变化（Arch Sex Behav 2022;51:1419-1433）。\n\n## 关键数据\n- 样本：全国概率样本，约 5,865 人，14–94 岁\n- 发表：J Sex Med. 2010;7(Suppl 5):255-265\n- DOI：10.1111/j.1743-6109.2010.02012.x\n- 该专刊同时含男性（291-304）、女性（277-290）分性别分析\n\n## 参考信息\n- DOI 页面：https://doi.org/10.1111/j.1743-6109.2010.02012.x\n- NSSHB 出版物列表（印第安纳大学）：https://nationalsexstudy.indiana.edu/publications/\n- 专刊目录：https://academic.oup.com/jsm/issue/7/Supplement_5"
+ },
+ {
+  "id": "statistics-009",
+  "category": "statistics",
+  "categoryDir": "06-statistics",
+  "title": "Common Sense Media《青少年与色情》（2023）：73% 美国青少年看过网络色情，首次接触平均年龄 12 岁",
+  "source": "https://www.commonsensemedia.org/press-releases/new-report-reveals-truths-about-how-teens-engage-with-pornography",
+  "author": "Common Sense Media（Benenson Strategy Group 执行调查）",
+  "date": "2023-01-10",
+  "tags": [
+   "青少年",
+   "首次接触年龄",
+   "美国",
+   "网络色情",
+   "性别差异"
+  ],
+  "credibility": "中",
+  "credibilityRaw": "中",
+  "summary": "对 1,358 名 13–17 岁美国青少年的全国人口学代表性在线调查：73% 看过网络色情，54% 在 13 岁前首次看到，15% 在 10 岁或更小；平均首次接触年龄 12 岁。",
+  "bodyMarkdown": "## 核心要点\n- 样本：N=1,358 名 13–17 岁青少年（人口学代表性在线样本；含配额确保 259 名 LGBTQ+ 青少年），2022 年 9 月 12–21 日施测；非概率样本，无法计算抽样误差。\n- **73%** 的青少年看过网络色情；**54%** 在 13 岁前第一次看到；**15%** 在 10 岁或更小；平均首次接触年龄 **12 岁**。\n- 接触方式：44% 曾有意观看，58% 曾无意碰到；无意接触者中 63% 报告过去一周又遇到过。\n- 性别差异：顺性别男生有意消费率 52%，顺性别女生 36%；LGBTQ+ 青少年 66%。\n- 情绪后果：67% 对自己的观看量感觉\"OK\"，但 **50%** 报告观看后感到内疚或羞耻。\n- 性教育来源：47% 从父母/照护者/可信成人处学到很多性知识，色情仅 27%；45% 认为色情提供了\"有用的\"性信息，但只有 27% 认为色情准确呈现多数人的性。\n- 注意：机构报告、非同行评审、非概率样本，故可信度为中；但为目前引用最广的青少年首次接触年龄数据来源。\n\n## 关键数据\n- 看过网络色情：73%；13 岁前首次：54%；≤10 岁首次：15%；平均首次年龄：12 岁\n- 观看后内疚/羞耻：50%\n- 有意消费：男 52% / 女 36%\n- 样本：N=1,358（13–17 岁）\n\n## 参考信息\n- 新闻稿：https://www.commonsensemedia.org/press-releases/new-report-reveals-truths-about-how-teens-engage-with-pornography\n- 解读文章：https://www.commonsensemedia.org/kids-action/articles/teens-are-watching-pornography-and-its-time-to-talk-about-it"
+ },
+ {
+  "id": "statistics-010",
+  "category": "statistics",
+  "categoryDir": "06-statistics",
+  "title": "GSS 1973–2012 四十年数据：色情消费的代际上升趋势（Price et al., 2016）",
+  "source": "https://pubmed.ncbi.nlm.nih.gov/26169262/",
+  "author": "Price J, Patterson R, Regnerus M, Walley J",
+  "date": "2016（Journal of Sex Research 53(1):12-20）",
+  "tags": [
+   "美国",
+   "GSS",
+   "时间趋势",
+   "代际差异",
+   "年龄效应"
+  ],
+  "credibility": "高",
+  "credibilityRaw": "高",
+  "summary": "用美国综合社会调查（GSS）40 年重复横断面数据分离年龄/世代/时期效应：色情消费跨出生世代在增加，但增幅小于单时点比较的印象，因消费有强烈年龄成分。",
+  "bodyMarkdown": "## 核心要点\n- 数据：GSS 1973–2012 年 40 年重复横断面；用内源估计量（intrinsic estimator）分离年龄、出生世代、时期三种效应——方法上优于简单跨年比较。\n- 发现 1：色情消费在**各出生世代间呈上升趋势**，但上升幅度小于\"同一时点上不同世代差异\"所暗示的水平——因为消费随年龄强烈变化（年轻人用得多）。\n- 发现 2：年轻人对\"色情是否应非法\"的态度 40 年间大体稳定，甚至略有增强（支持管制的比例未下降）。\n- 方法论启示：戒色/反色情讨论中\"年轻一代消费爆炸\"的说法部分真实（世代效应存在），但常被夸大，因为忽略了年龄效应——人随年龄增长消费自然减少。\n- 同期 GSS 研究（Wright 2013, J Sex Res 50(1):60-71）提供了 1973–2010 年美国男性消费的预测因子与相关因素分析。\n\n## 关键数据\n- 数据跨度：1973–2012（40 年）\n- 调查：General Social Survey（全国代表性，约每两年一次）\n- 发表：J Sex Res. 2016;53(1):12-20；DOI：10.1080/00224499.2014.1003773；PMID：26169262\n\n## 参考信息\n- PubMed：https://pubmed.ncbi.nlm.nih.gov/26169262/\n- 相关：Miller DJ 对大型调查数据的综述演示（含 GSS 2018 年分年龄使用率）：https://researchonline.jcu.edu.au/68730/"
+ },
+ {
+  "id": "statistics-011",
+  "category": "statistics",
+  "categoryDir": "06-statistics",
+  "title": "道德不一致模型的全球检验：跨性别、宗教与文化的 ISS 数据",
+  "source": "https://pmc.ncbi.nlm.nih.gov/articles/PMC13371739",
+  "author": "International Sex Survey 协作组（Journal of Behavioral Addictions）",
+  "date": "2025（预出版/PMC13371739）",
+  "tags": [
+   "道德不一致",
+   "全球",
+   "ISS",
+   "PPU",
+   "理论检验"
+  ],
+  "credibility": "高",
+  "credibilityRaw": "高",
+  "summary": "基于 International Sex Survey 的全球数据检验道德不一致模型：使用频率与道德反对的交互（不一致越大）预测更高的问题感与自认成瘾；同时给出截至 2025 年 1 月的 ICD-11 CSBD 诊断要点全文。",
+  "bodyMarkdown": "## 核心要点\n- 双路径框架：少数人经\"失控使用\"路径（PPU，使用频率是行为指标）出现问题；另一些人经\"道德不一致\"路径（PPMI，行为与价值观冲突）产生**自认成瘾**。\n- 最新模型版本（Grubbs, Floyd, Griffin, Jennings & Kraus, 2022）：PPMI 最好由**使用频率 × 道德反对程度**的交互来刻画——不一致越大，问题感与自认成瘾越强。\n- 该研究用 ISS 全球样本在不同性别、宗教、文化群体中检验该模型的普适性。\n- 文章附表完整转录了截至 2025 年 1 月的 ICD-11 CSBD 诊断指南：必备特征（失控模式的一项或多项表现）、≥6 个月病程、不能由其他精神障碍/物质更好解释、显著痛苦或功能损害、道德排除条款、排除性欲倒错障碍（6D30-6D3Z）。\n- 实践含义：戒色内容创作与求助评估中，必须先区分\"真失控\"与\"价值观冲突\"，两者干预路径不同。\n\n## 关键数据\n- 数据来源：International Sex Survey（数十国大样本）\n- 期刊：Journal of Behavioral Addictions（PMC13371739）\n- 模型：PPU 路径 vs PPMI 路径；PPMI ≈ 使用频率 × 道德反对\n\n## 参考信息\n- PMC 全文：https://pmc.ncbi.nlm.nih.gov/articles/PMC13371739\n- 模型原始文献：Grubbs et al., 2019, Arch Sex Behav 48(2):397-415（见 004 号文章）"
+ },
+ {
+  "id": "statistics-012",
+  "category": "statistics",
+  "categoryDir": "06-statistics",
+  "title": "【已撤稿】禁欲 7 天睾酮峰值研究（Jiang et al., 2003）——戒色圈最常被误引的文献",
+  "source": "https://pubmed.ncbi.nlm.nih.gov/12659241/",
+  "author": "Jiang M, Xin J, Zou Q, Shen JW（杭州师范学院）",
+  "date": "2003（J Zhejiang Univ Sci. 4(2):236-240）；2021 年撤稿",
+  "tags": [
+   "睾酮",
+   "禁欲",
+   "撤稿",
+   "误引",
+   "NoFap"
+  ],
+  "credibility": "低",
+  "credibilityRaw": "低",
+  "summary": "28 名男性样本称禁欲第 7 天血清睾酮达基线 145.7%——该研究 2021 年因与早前中文论文严重重叠被正式撤稿，样本极小且从未被独立重复，不应作为戒色益处的证据引用。",
+  "bodyMarkdown": "## 核心要点\n- 原始声称：28 名男性志愿者在射精后禁欲期间每日测血清睾酮；第 2–5 天波动很小，**第 7 天出现明显峰值，达基线的 145.7%（P<0.01）**，之后无规律波动。\n- **撤稿事实**：J Zhejiang Univ Sci A 于 2021 年发布撤稿声明（DOI: 10.1631/jzus.2003.r236），原因系与作者早前一篇中文文章（Jiang, 2002）严重重叠；原始中文研究的方法细节无法核实。\n- 传播史：2011 年 Reddit r/TIL 热帖使该研究走红，直接助推 NoFap 社区兴起；网络上常被转述为\"禁欲 7 天睾酮提升 45.7%\"。\n- 科学评价：样本仅 28 人、无独立重复；更近期实验反而发现色情暴露/性唤起可**急性升高**游离睾酮；禁欲与睾酮的双向关系研究仍处于初期，效应短暂且实际意义有限。\n- 数据库收录价值：作为\"戒色神话溯源\"的关键案例——任何引用此文的材料都应注明撤稿状态。\n- 戒色前后身心对比的**严格同行评审证据**目前整体稀缺，这正是使用该领域数据时必须声明的局限。\n\n## 关键数据\n- 声称效应：禁欲第 7 天睾酮达基线 145.7%（P<0.01）\n- 样本量：n=28 男性\n- 撤稿：2021 年（J Zhejiang Univ Sci A；DOI: 10.1631/jzus.2003.r236）\n- 原文 DOI：10.1631/jzus.2003.0236；PMID：12659241\n\n## 参考信息\n- PubMed（含撤稿标注）：https://pubmed.ncbi.nlm.nih.gov/12659241/\n- 撤稿声明：https://doi.org/10.1631/jzus.2003.r236"
+ }
+]

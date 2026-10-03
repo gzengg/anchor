@@ -65,7 +65,6 @@ kotlin {
 
 dependencies {
     implementation(project(":core"))
-
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.activity.compose)
@@ -101,3 +100,63 @@ dependencies {
     testImplementation(libs.androidx.room.testing)
     testImplementation(libs.androidx.work.testing)
 }
+
+/**
+ * 内容数据门禁：内容管线（content-tools/build_content.py）的产物必须在构建期自检，
+ * 避免缺文章 / 坏 JSON / 计数不一致被打进 APK。
+ */
+val verifyContentAssets by tasks.registering {
+    group = "verification"
+    description = "校验 assets/content/*.json 与内容管线产物一致"
+
+    val contentDir = layout.projectDirectory.dir("src/main/assets/content")
+    inputs.dir(contentDir).withPropertyName("contentDir")
+
+    doLast {
+        val articlesFile = contentDir.file("articles.json").asFile
+        val indexFile = contentDir.file("index.json").asFile
+        check(articlesFile.isFile) { "缺少内容文件：$articlesFile" }
+        check(indexFile.isFile) { "缺少内容文件：$indexFile" }
+
+        val articles = groovy.json.JsonSlurper().parse(articlesFile, "UTF-8") as List<*>
+        val index = groovy.json.JsonSlurper().parse(indexFile, "UTF-8") as Map<*, *>
+        val categories = index["categories"] as List<*>
+
+        check(articles.size == 71) { "内容文章数应为 71，实际 ${articles.size}" }
+        check(index["total"] == 71) { "index.total 应为 71，实际 ${index["total"]}" }
+
+        val ids = articles.mapNotNull { (it as Map<*, *>)["id"] as? String }.toSet()
+        check(ids.size == articles.size) { "文章 id 存在重复或缺失" }
+
+        var counted = 0
+        categories.forEach { raw ->
+            val category = raw as Map<*, *>
+            val key = category["key"]
+            val articleIds = category["articleIds"] as List<*>
+            check(category["count"] == articleIds.size) { "分类 $key 的 count 与 id 数不一致" }
+            articleIds.forEach { id -> check(id in ids) { "分类 $key 引用了不存在的文章 id=$id" } }
+            counted += articleIds.size
+        }
+        check(counted == articles.size) { "分类计数合计 $counted 与文章数 ${articles.size} 不一致" }
+
+        val allowedCredibility = setOf("高", "中", "低")
+        articles.forEach { raw ->
+            val article = raw as Map<*, *>
+            val id = article["id"]
+            check(article["credibility"] in allowedCredibility) {
+                "文章 $id 的可信度非法：${article["credibility"]}"
+            }
+            val source = article["source"] as? String
+            check(source != null && (source.startsWith("http://") || source.startsWith("https://"))) {
+                "文章 $id 的 source 非法：$source"
+            }
+            check(!(article["title"] as? String).isNullOrBlank()) { "文章 $id 标题为空" }
+            check(!(article["summary"] as? String).isNullOrBlank()) { "文章 $id 摘要为空" }
+            check(!(article["bodyMarkdown"] as? String).isNullOrBlank()) { "文章 $id 正文为空" }
+        }
+
+        logger.lifecycle("内容自检通过：${articles.size} 篇文章 / ${categories.size} 个分类")
+    }
+}
+
+tasks.matching { it.name == "preBuild" }.configureEach { dependsOn(verifyContentAssets) }

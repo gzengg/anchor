@@ -1,0 +1,131 @@
+{
+ "version": 1,
+ "total": 71,
+ "categories": [
+  {
+   "key": "science",
+   "dir": "01-science",
+   "title": "科学研究",
+   "description": "成瘾神经科学与行为机制研究",
+   "count": 12,
+   "articleIds": [
+    "science-001",
+    "science-002",
+    "science-003",
+    "science-004",
+    "science-005",
+    "science-006",
+    "science-007",
+    "science-008",
+    "science-009",
+    "science-010",
+    "science-011",
+    "science-012"
+   ]
+  },
+  {
+   "key": "authority",
+   "dir": "02-authority",
+   "title": "权威机构",
+   "description": "WHO/APA 等官方分类与立场",
+   "count": 11,
+   "articleIds": [
+    "authority-001",
+    "authority-002",
+    "authority-003",
+    "authority-004",
+    "authority-005",
+    "authority-006",
+    "authority-007",
+    "authority-008",
+    "authority-009",
+    "authority-010",
+    "authority-011"
+   ]
+  },
+  {
+   "key": "medical",
+   "dir": "03-medical",
+   "title": "医学临床",
+   "description": "医疗机构的症状、诊断与治疗说明",
+   "count": 12,
+   "articleIds": [
+    "medical-001",
+    "medical-002",
+    "medical-003",
+    "medical-004",
+    "medical-005",
+    "medical-006",
+    "medical-007",
+    "medical-008",
+    "medical-009",
+    "medical-010",
+    "medical-011",
+    "medical-012"
+   ]
+  },
+  {
+   "key": "methods",
+   "dir": "04-methods",
+   "title": "干预方法",
+   "description": "有实证支持的戒断与干预方法",
+   "count": 12,
+   "articleIds": [
+    "methods-001",
+    "methods-002",
+    "methods-003",
+    "methods-004",
+    "methods-005",
+    "methods-006",
+    "methods-007",
+    "methods-008",
+    "methods-009",
+    "methods-010",
+    "methods-011",
+    "methods-012"
+   ]
+  },
+  {
+   "key": "cases",
+   "dir": "05-cases",
+   "title": "真实经验",
+   "description": "亲历者叙述与社群经验研究",
+   "count": 12,
+   "articleIds": [
+    "cases-001",
+    "cases-002",
+    "cases-003",
+    "cases-004",
+    "cases-005",
+    "cases-006",
+    "cases-007",
+    "cases-008",
+    "cases-009",
+    "cases-010",
+    "cases-011",
+    "cases-012"
+   ]
+  },
+  {
+   "key": "statistics",
+   "dir": "06-statistics",
+   "title": "数据统计",
+   "description": "流行病学与人群调查数据",
+   "count": 12,
+   "articleIds": [
+    "statistics-001",
+    "statistics-002",
+    "statistics-003",
+    "statistics-004",
+    "statistics-005",
+    "statistics-006",
+    "statistics-007",
+    "statistics-008",
+    "statistics-009",
+    "statistics-010",
+    "statistics-011",
+    "statistics-012"
+   ]
+  }
+ ]
+}
