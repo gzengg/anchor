@@ -2,9 +2,10 @@
 <resources>
     <!--
       应用背景色：冷启动窗口（windowBackground）与门禁页背后的底色都用它。
-      必须与 Theme.kt 的 LightColors.background 一致；夜间值在 values-night/colors.xml。
+      必须与 Theme.kt 的 LightColors.background（即 AnchorColors.groupedBackground）一致；
+      夜间值在 values-night/colors.xml。
     -->
-    <color name="anchor_background">#FFFAF6F0</color>
+    <color name="anchor_background">#FFF5F2EE</color>
 
     <!-- 启动图标底色：品牌主色石青；锚形用暖白。深浅色模式共用同一个图标。 -->
     <color name="ic_launcher_background">#FF2E6F73</color>

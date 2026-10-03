@@ -1,93 +1,90 @@
 package com.anchor.recovery.ui.theme
 
-import android.content.Context
-import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Shapes
 import androidx.compose.material3.darkColorScheme
-import androidx.compose.material3.dynamicDarkColorScheme
-import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.unit.dp
 
 /*
- * 磐石配色：Android 12+（API 31+）跟随系统动态取色（Material You / Monet），
- * 其余版本回落到固定品牌色板（偏冷的石青 + 暖沙，避免高饱和带来的刺激感）。
+ * 磐石主题（v2：iOS 风格）。
  *
- * 动态取色的取舍：
- * 1. 系统启动画面与 windowBackground 都是资源层静态值，在进程起来之前就解析完了，
- *    冷启动首帧无法跟随壁纸，只能选中性色把色差压到最小；进程起来后由 MainActivity
- *    立刻把窗口底色改成当前方案色，首帧之后的窗口底色与页面保持一致。
- * 2. 启动图标底色同理保持品牌石青；想让图标跟随壁纸请走系统的「主题图标」，
- *    我们的自适应图标已提供 monochrome 层。
- * 3. 语义色不参与取色：error/errorContainer 由 M3 固定 error 色板给定（破戒记录用它），
- *    知识库可信度徽章按提示词固定「高=绿/中=黄/低=灰」。
+ * 取舍一：不再跟随系统动态取色（Material You / Monet）。
+ * 1. HIG 的观感来自固定语义色（分组底、卡片白、细分割线），壁纸取色会把品牌主色与
+ *    中性色打散，改出来的东西既不像 iOS 也不像原来的磐石；
+ * 2. P1 之所以敢整体改版，靠的是 P1-0/P1-3 的截图基线逐页对比；取色会让每台机器的
+ *    基线都不同，等于把安全网撤了；
+ * 3. 顺带消掉一类历史问题：windowBackground 是资源层静态值，取色时冷启动首帧必然与
+ *    页面底色不一致，只能靠 MainActivity 起来后补一刀。现在 values/colors.xml 的
+ *    anchor_background 与 LightColors.background 恒等，首帧就是对的。
+ * 代价：用户失去「跟随壁纸」的个性化，记在交付说明的已知限制里。
+ *
+ * 取舍二：底层组件仍是 Material3（改样式不改行为），只有按钮/开关/分段控件这类
+ * HIG 形状差异太大的自绘，避免重写手势、焦点与无障碍行为。
  */
 
-/*
- * 回落色板（API < 31 或取色不可用时使用）：
- * `background` 必须与 res/values/colors.xml 的 `anchor_background`
- * （以及 values-night 的夜间值）一致，否则冷启动会闪一下不同颜色。
- */
-
-// 石青（主色）
-private val Teal = Color(0xFF2E6F73)
-private val TealDeep = Color(0xFF0B3B3E)
-private val TealPale = Color(0xFFCFE9E9)
-private val TealLight = Color(0xFF8FD3D6)
-
-// 暖沙（次色）
-private val Sand = Color(0xFF8C6D46)
-private val SandPale = Color(0xFFF1E4CE)
-
-// 暖白纸与墨色
-private val Paper = Color(0xFFFAF6F0)
-private val Ink = Color(0xFF1B1C1C)
-private val InkSoft = Color(0xFF404A49)
+/** iOS 圆角：卡片 10–16dp、大标题页的分组卡 10dp、弹窗 14dp、底部面板 24dp（顶部两角）。 */
+private val AnchorShapes = Shapes(
+    extraSmall = RoundedCornerShape(6.dp),
+    small = RoundedCornerShape(10.dp),
+    medium = RoundedCornerShape(12.dp),
+    large = RoundedCornerShape(16.dp),
+    extraLarge = RoundedCornerShape(24.dp),
+)
 
 private val LightColors = lightColorScheme(
-    primary = Teal,
+    primary = AnchorTeal,
     onPrimary = Color.White,
-    primaryContainer = TealPale,
-    onPrimaryContainer = TealDeep,
-    secondary = Sand,
+    primaryContainer = AnchorTealPale,
+    onPrimaryContainer = AnchorTealDeep,
+    inversePrimary = AnchorTealLight,
+    secondary = AnchorSand,
     onSecondary = Color.White,
-    secondaryContainer = SandPale,
+    secondaryContainer = AnchorSandPale,
     onSecondaryContainer = Color(0xFF3A2A12),
     tertiary = Color(0xFF4E6350),
     onTertiary = Color.White,
     tertiaryContainer = Color(0xFFD0E8D2),
     onTertiaryContainer = Color(0xFF0B1F12),
-    background = Paper,
-    onBackground = Ink,
-    surface = Paper,
-    onSurface = Ink,
-    surfaceVariant = Color(0xFFDCE5E3),
-    onSurfaceVariant = InkSoft,
-    surfaceContainerLowest = Color(0xFFFFFFFF),
-    surfaceContainerLow = Color(0xFFF4EFE8),
-    surfaceContainer = Color(0xFFEFEAE2),
-    surfaceContainerHigh = Color(0xFFE9E4DC),
-    surfaceContainerHighest = Color(0xFFE3DED6),
-    outline = Color(0xFF707977),
-    outlineVariant = Color(0xFFC0C9C7),
-    inverseSurface = Color(0xFF2F3130),
-    inverseOnSurface = Color(0xFFF1F1EF),
-    inversePrimary = TealLight,
-    error = Color(0xFFB3261E),
+    background = LightAnchorColors.groupedBackground,
+    onBackground = LightAnchorColors.label,
+    surface = LightAnchorColors.cardBackground,
+    onSurface = LightAnchorColors.label,
+    surfaceVariant = Color(0xFFEFEDE9),
+    onSurfaceVariant = Color(0xFF53535A),
+    // iOS 卡片是平的，不要 M3 的高程染色（否则白卡会被主色染上一层青）。
+    surfaceTint = Color.Transparent,
+    inverseSurface = Color(0xFF1C1C1E),
+    inverseOnSurface = Color.White,
+    error = LightAnchorColors.danger,
     onError = Color.White,
-    errorContainer = Color(0xFFF9DEDC),
-    onErrorContainer = Color(0xFF410E0B),
+    errorContainer = Color(0xFFFFDAD6),
+    onErrorContainer = Color(0xFF7A0B05),
+    outline = LightAnchorColors.opaqueSeparator,
+    outlineVariant = Color(0xFFE5E5EA),
+    scrim = Color(0xFF000000),
+    surfaceBright = Color.White,
+    surfaceDim = Color(0xFFE7E4E0),
+    surfaceContainerLowest = Color.White,
+    surfaceContainerLow = Color.White,
+    surfaceContainer = Color.White,
+    surfaceContainerHigh = LightAnchorColors.groupedBackground,
+    surfaceContainerHighest = Color(0xFFEAE8E4),
 )
 
 private val DarkColors = darkColorScheme(
-    primary = TealLight,
+    primary = AnchorTealLight,
     onPrimary = Color(0xFF00363A),
     primaryContainer = Color(0xFF114F53),
     onPrimaryContainer = Color(0xFFAFEFF2),
+    inversePrimary = AnchorTeal,
     secondary = Color(0xFFD9C6A5),
     onSecondary = Color(0xFF3B2C13),
     secondaryContainer = Color(0xFF54422A),
@@ -96,48 +93,65 @@ private val DarkColors = darkColorScheme(
     onTertiary = Color(0xFF213527),
     tertiaryContainer = Color(0xFF374B3C),
     onTertiaryContainer = Color(0xFFD2E8D4),
-    background = Color(0xFF101413),
-    onBackground = Color(0xFFE2E3E1),
-    surface = Color(0xFF101413),
-    onSurface = Color(0xFFE2E3E1),
-    surfaceVariant = Color(0xFF3F4948),
-    onSurfaceVariant = Color(0xFFBFC8C7),
-    surfaceContainerLowest = Color(0xFF0A0F0E),
-    surfaceContainerLow = Color(0xFF181D1C),
-    surfaceContainer = Color(0xFF1C2120),
-    surfaceContainerHigh = Color(0xFF262B2A),
-    surfaceContainerHighest = Color(0xFF313635),
-    outline = Color(0xFF899392),
-    outlineVariant = Color(0xFF3F4948),
-    inverseSurface = Color(0xFFE2E3E1),
-    inverseOnSurface = Color(0xFF2F3130),
-    inversePrimary = Teal,
-    error = Color(0xFFF2B8B5),
-    onError = Color(0xFF601410),
+    background = DarkAnchorColors.groupedBackground,
+    onBackground = DarkAnchorColors.label,
+    surface = DarkAnchorColors.cardBackground,
+    onSurface = DarkAnchorColors.label,
+    surfaceVariant = Color(0xFF2C2C2E),
+    onSurfaceVariant = Color(0xFFB8B8BE),
+    surfaceTint = Color.Transparent,
+    inverseSurface = Color(0xFFF2F2F7),
+    inverseOnSurface = Color(0xFF1C1C1E),
+    error = DarkAnchorColors.danger,
+    onError = Color.White,
     errorContainer = Color(0xFF8C1D18),
-    onErrorContainer = Color(0xFFF9DEDC),
+    onErrorContainer = Color(0xFFFFDAD6),
+    outline = Color(0xFF545458),
+    outlineVariant = Color(0xFF38383A),
+    scrim = Color(0xFF000000),
+    surfaceBright = Color(0xFF2C2C2E),
+    surfaceDim = Color(0xFF0A0A0A),
+    surfaceContainerLowest = Color(0xFF000000),
+    surfaceContainerLow = Color(0xFF1C1C1E),
+    surfaceContainer = Color(0xFF1C1C1E),
+    surfaceContainerHigh = Color(0xFF2C2C2E),
+    surfaceContainerHighest = Color(0xFF38383A),
 )
 
 /**
- * 当前生效的配色方案：Android 12+ 跟随壁纸，其余版本用品牌色板。
+ * 当前生效的配色方案。
  *
- * 非 @Composable：启动阶段（Compose 首帧之前）要用同一份逻辑设置窗口底色。
+ * 非 @Composable：启动阶段（Compose 首帧之前）MainActivity 要用同一份逻辑设置窗口底色，
+ * 保证「windowBackground → 首帧」不闪色。浅色值必须与 `values/colors.xml` 的
+ * `anchor_background` 一致，深色值与其 `values-night` 版本一致，改了这里就要同步改那边。
  */
-fun anchorColorScheme(context: Context, darkTheme: Boolean): ColorScheme = when {
-    Build.VERSION.SDK_INT >= Build.VERSION_CODES.S ->
-        if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
-
-    darkTheme -> DarkColors
-    else -> LightColors
-}
+fun anchorColorScheme(darkTheme: Boolean): ColorScheme = if (darkTheme) DarkColors else LightColors
 
 @Composable
 fun AnchorTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     content: @Composable () -> Unit,
 ) {
-    MaterialTheme(
-        colorScheme = anchorColorScheme(LocalContext.current, darkTheme),
-        content = content,
-    )
+    CompositionLocalProvider(
+        LocalAnchorColors provides if (darkTheme) DarkAnchorColors else LightAnchorColors,
+    ) {
+        MaterialTheme(
+            colorScheme = anchorColorScheme(darkTheme),
+            shapes = AnchorShapes,
+            content = content,
+        )
+    }
+}
+
+/** 取 iOS 语义色与字阶：`AnchorTheme.colors.labelSecondary`、`AnchorTheme.type.body`。 */
+object AnchorTheme {
+    val colors: AnchorColors
+        @Composable
+        @ReadOnlyComposable
+        get() = LocalAnchorColors.current
+
+    val type: AnchorType
+        @Composable
+        @ReadOnlyComposable
+        get() = AnchorType
 }

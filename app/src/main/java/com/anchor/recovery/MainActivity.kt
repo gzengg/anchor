@@ -21,13 +21,12 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         super.onCreate(savedInstanceState)
 
-        // 动态取色下页面底色随壁纸变化，而 windowBackground 是资源层静态值：
-        // 进程起来后立刻把窗口底色换成当前方案色，启动画面退出后就不会露出静态色。
-        // uiMode 变化会重建 Activity，所以这个取值也覆盖了深/浅色切换。
+        // windowBackground 是资源层静态值，Compose 首帧之后页面底色由主题接管：
+        // 这里把窗口底色设成同一个值，浅/深色切换（重建 Activity）时不会闪色。
         val nightMode = (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) ==
             Configuration.UI_MODE_NIGHT_YES
         window.setBackgroundDrawable(
-            ColorDrawable(anchorColorScheme(this, nightMode).background.toArgb()),
+            ColorDrawable(anchorColorScheme(nightMode).background.toArgb()),
         )
 
         val anchorApplication = application as AnchorApplication
