@@ -32,6 +32,7 @@
 | AndroidX | work-runtime-ktx | 2.10.0 |
 | AndroidX | datastore-preferences | 1.1.7 |
 | AndroidX | browser（CustomTabs） | 1.8.0 |
+| 资源 | 打包字体 `res/font/harmonyos_sans_sc_{regular,medium,bold}.ttf`（HarmonyOS Sans SC 子集） | 字体文件 Version 1.0；子集字符集 = GB2312 6763 字 + 应用实际用到的字符 + 常用符号（见 §3.1） |
 | kotlinx | coroutines-core / -android / -test | 1.10.2 |
 | kotlinx | serialization-json | 1.8.1 |
 | kotlinx | datetime | 0.6.1 |
@@ -44,6 +45,7 @@
 未引入的第三方库（刻意的取舍）：无 DI 框架（手写 `AnchorApplication` 装配）、无图片加载库、
 无 `core-splashscreen`（Android 12+ 用系统默认启动画面）、无 Cupertino/第三方 iOS 风格组件库
 （P1 的 iOS 视觉全部自研在 `ui/theme` + `ui/components`）。
+字体也不走依赖：3 个 TTF 直接放 `res/font/`，由 `ui/theme/AnchorFont.kt` 声明为一个 FontFamily（见 §3.1）。
 权限：`SCHEDULE_EXACT_ALARM` 自 v0.2.0（P3-1）入 Manifest，但只在用户于设置页显式开启「准点提醒」
 且拿到系统授权后才用（默认关，未授权/被收回自动回落 inexact，见 §5 限制 3）。
 
@@ -56,16 +58,17 @@
 | 模块 | 测试类数 | 用例数 | 失败 | 错误 | 跳过 |
 |---|---|---|---|---|---|
 | `:core`（jvm library，单变体） | 22 | **162** | 0 | 0 | 0 |
-| `:app`（Android 单元测试，debug 变体） | 19 | **79** | 0 | 0 | 0 |
-| 合计（去重后） | 41 | **241** | 0 | 0 | 0 |
+| `:app`（Android 单元测试，debug 变体） | 20 | **82** | 0 | 0 | 0 |
+| 合计（去重后） | 42 | **244** | 0 | 0 | 0 |
 
 （v0.1.0 的对应数字是 30 类 / 184 用例：`:core` 151 + `:app` 33；v0.2.0 新增了加密/导入/迁移、
-主题、里程碑、提醒策略、以及 P4 的 6 个文案映射测试类。）
+主题、里程碑、提醒策略、以及 P4 的 6 个文案映射测试类；v0.2.1 新增 `AnchorFontTest`（3 例）。）
 
 去重说明：`:app:test` 会分别跑 `testDebugUnitTest` 与 `testReleaseUnitTest`，两个变体是同一份源码
-（release 变体 72 个用例）；上表只取 debug 变体的 79 个。另用源码 `@Test` 计数交叉核对
-（`core` 162 + `app` 79 = 241），与 XML 一致。迁移测试（`AppDatabaseMigrationTest`）放在 `src/testDebug`
-（release 变体不打包 schema 资产），所以它只出现在 debug 变体的 79 个里。
+（release 变体 75 个用例）；上表只取 debug 变体的 82 个。另用源码 `@Test` 计数交叉核对
+（`core/src/test` 162 + `app/src/test` 75 + `app/src/testDebug` 的迁移测试 7 = 244），与 XML 一致。
+迁移测试（`AppDatabaseMigrationTest`）放在 `src/testDebug`
+（release 变体不打包 schema 资产），所以它只出现在 debug 变体的 82 个里。
 
 测试分布（可测逻辑全部落在 `:core`，UI 层保持哑渲染）：
 
@@ -74,9 +77,9 @@
   `BreathingPattern`、`TriggerAnalyzer`、`ContentIndex` / `MarkdownLite`、`DataExporter` / `DataImporter`
   （导出导入往返、版本拒绝、坏字段拒绝、重复日期拒绝）、`Disclaimer`、`ReminderMessages` /
   `ReminderScheduling` / `ReminderTimeCalculator`、`MilestoneAchievements`、`DatabaseSecurity`。
-- `:app`（19 类）：4 张表的 Room DAO / 实体映射 / 仓库（Robolectric）+ 导出 JSON 装配 + 导入整体替换
+- `:app`（20 类）：4 张表的 Room DAO / 实体映射 / 仓库（Robolectric）+ 导出 JSON 装配 + 导入整体替换
   端到端（导出→清空→导入→再导出逐字节一致）+ Room schema 迁移骨架（`src/testDebug`）、
-  `AnchorThemeColorsTest`（明暗配色）、`AppInfoTest`，以及 v0.2.0 新增的 6 个文案映射测试
+  `AnchorThemeColorsTest`（明暗配色）、`AnchorFontTest`（v0.2.1 打包字体接线）、`AppInfoTest`，以及 v0.2.0 新增的 6 个文案映射测试
   （`CoreTextTest` / `PhaseTextTest` / `QuestionnaireTextTest` / `ToolsJournalTextTest` /
   `LegalContentTextTest` / `MilestoneCopyComplianceTest`）、`ReminderCopyComplianceTest`、
   `AnchorCoreFlowUiTest`（Compose UI 测试跑在 JVM/Robolectric 上，无真机也能进门禁）。
@@ -132,20 +135,47 @@ P4 收尾后：`app/src/main/java` 的界面与通知文案 **0 处**（一个�
 ## 3. APK
 
 ```
-E:\Anchor\app\build\outputs\apk\debug\app-debug.apk      （debug，43,663,896 字节 / 约 41.6 MB）
+E:\Anchor\app\build\outputs\apk\debug\app-debug.apk      （debug，46,629,277 字节 / 约 44.5 MB）
 ```
 
 该 APK 由本次交付提交的源码树在 `--offline` 下构建，`aapt2 dump badging` 核对为
-`versionCode=2`、`versionName=0.2.0`、`compileSdk=35`、应用名「磐石」，产物与提交内容一致。
+`versionCode=3`、`versionName=0.2.1`、`minSdk=26`、`compileSdk=35`、应用名「磐石」，产物与提交内容一致。
 
-体积从 v0.1.0 的 18.9 MB 涨到 41 MB，原因是 SQLCipher 的 4 个 ABI 原生库
-（`libsqlcipher.so` 合计 22.5 MB：arm64-v8a 6.3 / armeabi-v7a 3.9 / x86 5.3 / x86_64 7.0 MB）。
+体积构成（v0.2.1）：SQLCipher 的 4 个 ABI 原生库合计 22.5 MB（arm64-v8a 6.3 / armeabi-v7a 3.9 /
+x86 5.3 / x86_64 7.0 MB），新打包的 3 个子集字体共 4.92 MB（`res/font/` 下以未压缩方式存储，
+便于系统直接 mmap；这也是从 v0.2.0 的 43.66 MB 涨到 46.63 MB 的全部原因）。
 若要瘦身，可用 `abiFilters` 只留 arm64-v8a，或改为 App Bundle（未做，属发布决策，见 §5 建议）。
 
 安装：`adb install -r app\build\outputs\apk\debug\app-debug.apk`（需 JDK20 + platform-tools）。
-从 v0.1.0 覆盖安装：`versionCode` 已 +1，可直接覆盖；**首次启动会把明文库一次性迁移为加密库**
+覆盖安装：v0.2.0（versionCode 2）与 v0.1.0（versionCode 1）都能直接覆盖到 versionCode 3；
+从 v0.1.0 直接升上来时**首次启动会把明文库一次性迁移为加密库**
 （迁移前建议先在设置页导出一次 JSON 备用，见 §4.2）。
 未产出 release 包（未配置签名，提示词也未要求）。
+
+### 3.1 打包字体（v0.2.1）
+
+| 项 | 内容 |
+|---|---|
+| 字体 | HarmonyOS Sans SC（Huawei Device Co., Ltd，字库：汉仪），字体文件 Version 1.0 |
+| 文件 | `app/src/main/res/font/harmonyos_sans_sc_{regular,medium,bold}.ttf`，1.63 / 1.64 / 1.65 MB |
+| 许可 | 《HarmonyOS Sans Fonts License Agreement》，免费可用于商业产品；通告全文见 `app/src/main/assets/licenses/HarmonyOS-Sans.txt` |
+| 声明位置 | `ui/theme/AnchorFont.kt`（FontFamily）、`ui/theme/AnchorType.kt`（13 个槽位）、`ui/theme/Theme.kt`（M3 Typography 的 15 个槽位 + `LocalTextStyle` 兜底） |
+| 回归测试 | `app/src/test/java/com/anchor/recovery/ui/theme/AnchorFontTest.kt`（3 例） |
+
+为什么不是 SF Pro / 苹方：两者都是 Apple 专有字体，不能随应用再分发，所以 v0.1 只能用系统默认
+字体，结果在小米（MiSans）、一加（OPPO Sans）这类 ROM 上字形随机器变。HarmonyOS Sans SC 是当前
+免费可商用字体里与苹方观感最接近的一款（同为现代中文黑体、字面比例接近），且不是任何非华为机型
+的系统默认字体，因此在三方机型上字形一致。
+
+体积控制：三个字重的全量字体共 23.3 MB，直接打包不可接受。用 fontTools（`pyftsubset`）子集化到
+GB2312 全部 6763 个常用汉字 + 仓库实际出现的全部字符 + ASCII/标点/箭头/几何等符号区间，压到
+4.92 MB（APK 里以未压缩方式存储）。实测子集只缺 2 个字符：`↔`（只出现在注释里）与 `◦`
+（文章大纲的二级项目符号，`ui/library/LibraryComponents.kt:204`）——字体本身没有这两个字形，
+会由 Android 系统字体 fallback 渲染，不会显示方框。
+
+字重映射：HarmonyOS Sans SC 只有 400/500/700 三档，没有 600。`medium.ttf` 在 FontFamily 里被声明为
+W600，这样一个文件同时接住 `AnchorType` 的 SemiBold 槽位与 M3 里大量 W500 槽位（Compose 的选型规则
+是「取不低于请求值的最近字重」）；`regular.ttf` 为 W400、`bold.ttf` 为 W700。
 
 ---
 
@@ -279,6 +309,17 @@ E:\Anchor\app\build\outputs\apk\debug\app-debug.apk      （debug，43,663,896 �
   未提供 `values-en/` 即为预期，不是 bug），且不应因缺资源而回退成英文默认值。
 - 大字体（设置里拉到最大）与横屏下：新增的阶段卡与问卷选项不应截断（属 §4.1 同一轮走查）。
 
+### 4.6 字体走查（v0.2.1）
+
+- 同一页面与 v0.2.0 对比：中文、数字、英文应整体换字形（若你的机型是华为/荣耀，系统默认字体本就
+  是 HarmonyOS Sans，观感变化会很小，属预期而非没生效）。
+- 字重层次：「磐石」大标题（Bold）、卡片与行标题（Medium）、正文（Regular）应能看出三级差异，
+  而不是只有粗细两种。
+- 标点与符号：中文引号「」、省略号……、破折号——、箭头 →↑↓ 应与正文同一字体风格；文章大纲的
+  二级项目符号「◦」由系统字体渲染，允许略有差异（见 §3.1）。
+- 生僻字：在打卡备注或标签里输入「甪」「龘」这类 GB2312 之外的字，应由系统字体渲染、不出现方框。
+- 与 §4.1 同一轮走查：大字体拉到最大、横屏下，字距变化后不应出现截断或重叠。
+
 ---
 
 ## 5. 已知限制与后续迭代建议
@@ -306,6 +347,10 @@ E:\Anchor\app\build\outputs\apk\debug\app-debug.apk      （debug，43,663,896 �
    配色不再随壁纸变化，但启动图标仍可跟随系统「主题图标」）；返回手势、权限弹窗、
    日期/文件选择器保持 Android 原生；大标题收缩、分段控件滑动手感等细节为「风格神似」，
    不追求像素级复刻。
+9. **字体是打包的子集，不是完整字体**：三个字重共 4.92 MB（全量 23.3 MB），字符集为
+   GB2312 6763 字 + 应用实际用到的字符 + 常用符号；子集外的生僻字、`↔`、`◦` 由系统字体
+   fallback 渲染（不显示方框，但字形风格可能与正文略有出入）。日后若文案新增冷僻字，
+   需重跑一次子集化（做法见 §3.1），否则该字会自动落到系统字体上。
 
 **迭代建议（v0.2.0 之后，按收益排序）**
 
@@ -329,7 +374,8 @@ E:\Anchor\app\build\outputs\apk\debug\app-debug.apk      （debug，43,663,896 �
 - 分支 `main`；v0.1.0 交付提交为 `500eb48`（其后两次真机反馈修复 `40fe996` 动态取色、`469a0a8` 统计卡瘦身），
   v0.2.0 按阶段提交：`bf8695b`（第二版计划）→ `425ef34`（P0 加密与 schema 基建）→ `cc2d46b`（P0-3 导入）→
   `315a251`（P1-1 主题与组件）→ `ede4ef0`（P2 达成判定下沉）→ `4d69134`（P2 徽章墙）→ `2104e88`（P1-2 逐页改造）→
-  `7dbcb7f`（P3-1 精确提醒）→ `9f7b245`（P3-2 UI 测试）→ `a954639`（P4 文案批次 1-5）→ 本次 P4 收尾提交。
+  `7dbcb7f`（P3-1 精确提醒）→ `9f7b245`（P3-2 UI 测试）→ `a954639`（P4 文案批次 1-5）→ P4 收尾 `5cec05d`…`acff0a9`。
+- v0.2.1（真机反馈修复）：`ab1de2e`（打包 HarmonyOS Sans SC，全站字体归一，versionCode 3 / versionName 0.2.1）。
 - **未配置任何 remote**，因此没有执行 `git push`；需要远端时自行 `git remote add` 后再推。
 - `.gitignore` 覆盖 `build/`、`local.properties`、`*.apk`、`.gradle/`、`.kotlin/` 等；
   `gradle/wrapper/gradle-wrapper.jar` 已入库（提示词要求）。
