@@ -17,6 +17,9 @@ room = "2.7.1"
 work = "2.10.0"
 datastore = "1.1.7"
 browser = "1.8.0"
+# SQLCipher for Android（Room 数据库加密）。选 4.13.0：它是仍依赖 androidx.sqlite 2.2.0 的最新版，
+# 不会把本工程的 androidx.sqlite 2.5.0（随 Room 2.7.1）顶高，保持依赖图稳定。
+sqlcipher = "4.13.0"
 
 kotlinxCoroutines = "1.10.2"
 kotlinxSerialization = "1.8.1"
@@ -26,6 +29,7 @@ junit4 = "4.13.2"
 junit5 = "5.11.4"
 androidxTestCore = "1.6.1"
 androidxTestJunit = "1.2.1"
+androidxTestRunner = "1.6.2"
 robolectric = "4.14.1"
 
 [libraries]
@@ -44,6 +48,8 @@ androidx-lifecycle-viewmodel-compose = { module = "androidx.lifecycle:lifecycle-
 androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigation" }
 androidx-browser = { module = "androidx.browser:browser", version.ref = "browser" }
 androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastore" }
+
+sqlcipher-android = { module = "net.zetetic:sqlcipher-android", version.ref = "sqlcipher" }
 
 androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
 androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
@@ -73,6 +79,7 @@ kotlin-test-junit5 = { module = "org.jetbrains.kotlin:kotlin-test-junit5", versi
 kotlin-test-junit = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin" }
 androidx-test-core = { module = "androidx.test:core", version.ref = "androidxTestCore" }
 androidx-test-ext-junit = { module = "androidx.test.ext:junit", version.ref = "androidxTestJunit" }
+androidx-test-runner = { module = "androidx.test:runner", version.ref = "androidxTestRunner" }
 robolectric = { module = "org.robolectric:robolectric", version.ref = "robolectric" }
 
 [plugins]

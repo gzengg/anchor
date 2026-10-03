@@ -18,6 +18,7 @@ android {
         versionCode = 1
         versionName = "0.1.0"
         vectorDrawables { useSupportLibrary = true }
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
@@ -52,6 +53,14 @@ android {
         }
     }
 
+    sourceSets {
+        // 迁移测试要用 Room 导出的 schema JSON（资产路径 = 数据库类全限定名）。
+        // 只挂 debug 与 androidTest、不挂 main：schema 只给调试包和测试包，release 包不打包。
+        // 对应地，迁移测试放在 src/testDebug（release 变体读不到 schema，会 FileNotFoundException）。
+        getByName("debug").assets.srcDir("$projectDir/schemas")
+        getByName("androidTest").assets.srcDir("$projectDir/schemas")
+    }
+
     lint {
         abortOnError = false
     }
@@ -61,6 +70,11 @@ kotlin {
     compilerOptions {
         jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17)
     }
+}
+
+/** Room schema 导出目录：schema JSON 入库，供后续版本做迁移测试与变更审查。 */
+ksp {
+    arg("room.schemaLocation", "$projectDir/schemas")
 }
 
 dependencies {
@@ -79,6 +93,7 @@ dependencies {
 
     implementation(libs.androidx.browser)
     implementation(libs.androidx.datastore.preferences)
+    implementation(libs.sqlcipher.android)
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.room.ktx)
     ksp(libs.androidx.room.compiler)
@@ -99,6 +114,15 @@ dependencies {
     testImplementation(libs.robolectric)
     testImplementation(libs.androidx.room.testing)
     testImplementation(libs.androidx.work.testing)
+
+    // 真机验证（SQLCipher 原生库与 Android Keystore 在 JVM/Robolectric 下不可用，只能跑在这里）
+    androidTestImplementation(libs.junit4)
+    androidTestImplementation(libs.kotlin.test.junit)
+    androidTestImplementation(libs.androidx.test.core)
+    androidTestImplementation(libs.androidx.test.runner)
+    androidTestImplementation(libs.androidx.test.ext.junit)
+    androidTestImplementation(libs.androidx.room.testing)
+    androidTestImplementation(libs.kotlinx.coroutines.test)
 }
 
 /**

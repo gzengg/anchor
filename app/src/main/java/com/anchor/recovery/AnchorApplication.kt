@@ -2,7 +2,9 @@ package com.anchor.recovery
 
 import android.app.Application
 import com.anchor.recovery.data.content.ContentRepository
+import com.anchor.recovery.data.db.AnchorDatabaseFactory
 import com.anchor.recovery.data.db.AppDatabase
+import com.anchor.recovery.data.db.crypto.KeystorePassphraseStore
 import com.anchor.recovery.data.repo.AnchorRepository
 import com.anchor.recovery.data.settings.AnchorSettings
 
@@ -11,7 +13,9 @@ import com.anchor.recovery.data.settings.AnchorSettings
  */
 class AnchorApplication : Application() {
 
-    val database: AppDatabase by lazy { AppDatabase.build(this) }
+    val database: AppDatabase by lazy {
+        AnchorDatabaseFactory.open(this, KeystorePassphraseStore(this))
+    }
 
     val repository: AnchorRepository by lazy { AnchorRepository(database) }
 

@@ -9,7 +9,7 @@ package com.anchor.recovery.core.legal
 object Disclaimer {
 
     /** 声明内容版本。每次改动 [paragraphs] 的实质含义都要 +1。 */
-    const val VERSION: Int = 2
+    const val VERSION: Int = 3
 
     const val TITLE: String = "使用前请阅读"
 
@@ -18,7 +18,7 @@ object Disclaimer {
     /** 隐私说明段落。单列一份给设置页复用，避免同一句话写两遍而走形。 */
     val PRIVACY_PARAGRAPH: String =
         "所有记录只保存在你自己的手机上，不会上传或同步。" +
-            "数据以明文存储，设备被解锁或被 root 后可能被读到。"
+            "数据库加密后存在本机，密钥由系统密钥库保管；设备被解锁且被 root 后仍可能被读到。"
 
     /** 全部段落，按显示顺序。每条只说一件事，避免长句堆叠。 */
     val paragraphs: List<String> = listOf(
