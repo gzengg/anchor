@@ -23,6 +23,17 @@
 
 工具链：JDK 20、Kotlin 2.2.20、AGP 8.12.1、compileSdk 35、minSdk 26。
 
+release 包的签名参数从本机 `local.properties` 读取（该文件不入 git）：
+
+```properties
+anchor.release.storeFile=/path/to/your.jks
+anchor.release.storePassword=***
+anchor.release.keyAlias=***
+anchor.release.keyPassword=***
+```
+
+四项缺任一就不创建签名配置，`assembleRelease` 产出未签名包，不会报错；想直接装包的话必须配齐这四项。
+
 ⚠️ `gradle.properties` 里带有作者本机的 JDK 路径（`org.gradle.java.home=E:/JAVA/20`）。
 在其他机器上构建前请删除该行或改成本机路径（需 JDK 20），否则 Gradle 会直接报错。
 
@@ -34,6 +45,11 @@
 文章数、分类计数与 id 引用一致性。
 
 打包字体为 HarmonyOS Sans SC，许可证见 `app/src/main/assets/licenses/HarmonyOS-Sans.txt`。
+
+## 许可证
+
+代码按 [MIT](LICENSE) 发布。`anchor-reference-docs/` 与知识库正文是公开文献与资料的整理稿，
+版权归原作者与机构，每篇均标注来源链接，不适用 MIT 许可。
 
 ## 免责声明
 

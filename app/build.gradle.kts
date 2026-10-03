@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -5,6 +7,16 @@ plugins {
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.ksp)
 }
+
+/**
+ * release 签名参数只从本机 local.properties 读取（该文件不入 git）。
+ * 缺失时不创建签名配置，clone 下来没配密钥的人照样能构建（产出未签名包）。
+ */
+val localProps = Properties().apply {
+    val file = rootProject.file("local.properties")
+    if (file.isFile) file.inputStream().use { load(it) }
+}
+val releaseKeystoreFile = localProps.getProperty("anchor.release.storeFile")?.let { file(it) }
 
 android {
     namespace = "com.anchor.recovery"
@@ -21,8 +33,22 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    signingConfigs {
+        if (releaseKeystoreFile != null) {
+            create("release") {
+                storeFile = releaseKeystoreFile
+                storePassword = localProps.getProperty("anchor.release.storePassword")
+                keyAlias = localProps.getProperty("anchor.release.keyAlias")
+                keyPassword = localProps.getProperty("anchor.release.keyPassword")
+            }
+        }
+    }
+
     buildTypes {
         release {
+            if (releaseKeystoreFile != null) {
+                signingConfig = signingConfigs.getByName("release")
+            }
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
