@@ -2,9 +2,11 @@ package com.anchor.recovery.ui.settings
 
 import android.Manifest
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
+import android.provider.Settings
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
@@ -35,6 +37,7 @@ import androidx.core.content.ContextCompat
 import com.anchor.recovery.AppInfo
 import com.anchor.recovery.core.legal.Disclaimer
 import com.anchor.recovery.core.notify.ReminderMessages
+import com.anchor.recovery.notify.ExactReminderScheduler
 import com.anchor.recovery.ui.components.AnchorAlert
 import com.anchor.recovery.ui.components.AnchorButton
 import com.anchor.recovery.ui.components.AnchorButtonStyle
@@ -89,6 +92,28 @@ fun SettingsScreen(
         } else {
             viewModel.onPermissionDenied()
         }
+    }
+
+    // 从系统「闹钟与提醒」页面回来：能排上就存 true，否则当场把开关拨回去，
+    // 不让界面停在「准点提醒」而实际没有精确排程。
+    val exactAlarmLauncher = rememberLauncherForActivityResult(
+        ActivityResultContracts.StartActivityForResult(),
+    ) {
+        if (ExactReminderScheduler.canScheduleExact(context)) {
+            viewModel.setExactReminderEnabled(true)
+        } else {
+            viewModel.onExactReminderDenied()
+        }
+    }
+
+    // 个别机型的系统设置里没有这个页面（ActivityNotFound）：那就直接当作没授权。
+    fun requestExactAlarmPermission() {
+        runCatching {
+            exactAlarmLauncher.launch(
+                Intent(Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM)
+                    .setData(Uri.fromParts("package", context.packageName, null)),
+            )
+        }.onFailure { viewModel.onExactReminderDenied() }
     }
 
     // 不限定 MIME：部分文件管理器把 .json 报成 octet-stream，限定后反而选不中。
@@ -165,6 +190,19 @@ fun SettingsScreen(
                         style = AnchorButtonStyle.Tinted,
                     )
                 }
+                AnchorHairline(inset = 0.dp)
+                AnchorSwitchRow(
+                    title = "准点提醒",
+                    subtitle = "用系统闹钟准点提醒。系统未授权时自动改用普通提醒，可能晚几分钟。",
+                    checked = state.exactReminderEnabled,
+                    onCheckedChange = { checked ->
+                        if (checked && !ExactReminderScheduler.canScheduleExact(context)) {
+                            requestExactAlarmPermission()
+                        } else {
+                            viewModel.setExactReminderEnabled(checked)
+                        }
+                    },
+                )
             }
             AnchorHairline(inset = 0.dp)
             Text(

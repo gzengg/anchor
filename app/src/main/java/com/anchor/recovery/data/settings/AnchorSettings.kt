@@ -16,6 +16,8 @@ private val Context.settingsDataStore: DataStore<Preferences> by preferencesData
 /** DataStore 里的全部设置项。 */
 data class AnchorSettingsSnapshot(
     val reminderEnabled: Boolean = false,
+    /** 用户是否要求「准点」提醒（Android 12+ 需要 SCHEDULE_EXACT_ALARM）；默认关，维持不精确提醒。 */
+    val exactReminderEnabled: Boolean = false,
     val reminderTime: String = DEFAULT_REMINDER_TIME,
     val onboardingDone: Boolean = false,
     val disclaimerAckVersion: Int = 0,
@@ -52,6 +54,7 @@ class AnchorSettings(context: Context) {
     val snapshot: Flow<AnchorSettingsSnapshot> = dataStore.data.map { preferences ->
         AnchorSettingsSnapshot(
             reminderEnabled = preferences[KEY_REMINDER_ENABLED] ?: false,
+            exactReminderEnabled = preferences[KEY_EXACT_REMINDER_ENABLED] ?: false,
             reminderTime = preferences[KEY_REMINDER_TIME] ?: AnchorSettingsSnapshot.DEFAULT_REMINDER_TIME,
             onboardingDone = preferences[KEY_ONBOARDING_DONE] ?: false,
             disclaimerAckVersion = preferences[KEY_DISCLAIMER_VERSION] ?: 0,
@@ -68,6 +71,10 @@ class AnchorSettings(context: Context) {
 
     suspend fun setReminderTime(hhmm: String) {
         dataStore.edit { it[KEY_REMINDER_TIME] = hhmm }
+    }
+
+    suspend fun setExactReminderEnabled(enabled: Boolean) {
+        dataStore.edit { it[KEY_EXACT_REMINDER_ENABLED] = enabled }
     }
 
     suspend fun setOnboardingDone(done: Boolean) {
@@ -94,6 +101,7 @@ class AnchorSettings(context: Context) {
         const val PROMPT_SEPARATOR = "\n"
 
         val KEY_REMINDER_ENABLED = booleanPreferencesKey("reminder_enabled")
+        val KEY_EXACT_REMINDER_ENABLED = booleanPreferencesKey("exact_reminder_enabled")
         val KEY_REMINDER_TIME = stringPreferencesKey("reminder_time")
         val KEY_ONBOARDING_DONE = booleanPreferencesKey("onboarding_done")
         val KEY_DISCLAIMER_VERSION = intPreferencesKey("disclaimer_ack_version")

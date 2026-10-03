@@ -21,6 +21,8 @@ import kotlinx.coroutines.launch
 /** 设置页状态：提醒、提示语、数据条数、导出与清空。 */
 data class SettingsUiState(
     val reminderEnabled: Boolean = false,
+    /** 用户是否要求准点提醒；系统未授权时界面会把开关拨回。 */
+    val exactReminderEnabled: Boolean = false,
     val reminderTime: ReminderTime = ReminderTime.DEFAULT,
     val promptDraft: String = "",
     val countsLine: String = DataExporter.countsLine(0, 0, 0, 0),
@@ -73,6 +75,7 @@ class SettingsViewModel(
     ) { snapshot, checkIns, relapses, urges, assessments ->
         SettingsUiState(
             reminderEnabled = snapshot.reminderEnabled,
+            exactReminderEnabled = snapshot.exactReminderEnabled,
             reminderTime = ReminderTime.parseOrNull(snapshot.reminderTime) ?: ReminderTime.DEFAULT,
             promptDraft = promptDraft.value ?: snapshot.effectivePrompts.joinToString("\n"),
             countsLine = DataExporter.countsLine(
@@ -112,6 +115,25 @@ class SettingsViewModel(
 
     fun onPermissionDenied() {
         message.value = "没有通知权限，提醒无法送达。可稍后在系统设置里为磐石打开通知。"
+    }
+
+    /**
+     * 准点提醒开关。只写设置，不动排程：排程的唯一同步点是 MainActivity 里对设置的收集
+     * （`ReminderScheduler.sync`），设置一变就重排，避免这里和那里各算一次策略、算出不同结果。
+     */
+    fun setExactReminderEnabled(enabled: Boolean) {
+        viewModelScope.launch {
+            settings.setExactReminderEnabled(enabled)
+            message.value = if (enabled) "已改为准点提醒。" else "已改回普通提醒。"
+        }
+    }
+
+    /** 系统没给「闹钟与提醒」权限（或用户在系统页面里没打开）：把开关拨回去，界面与实际一致。 */
+    fun onExactReminderDenied() {
+        viewModelScope.launch {
+            settings.setExactReminderEnabled(false)
+            message.value = "系统没有授权「闹钟与提醒」，仍使用普通提醒。"
+        }
     }
 
     fun shiftReminderTime(minutes: Int) {

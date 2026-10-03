@@ -136,7 +136,16 @@ E:\Anchor\app\build\outputs\apk\debug\app-debug.apk      （debug，18,988,885 �
 - 通知渠道名应为「每日记录提醒」，渠道描述「每天提醒你记录一次。可在设置里关闭。」。
 - 关掉提醒开关后：已排程任务是否被取消（`cancelUniqueWork`）；已存在的历史通知不必撤回。
 - 重启设备后周期任务是否仍然存活（WorkManager 持久化）。
-- 改系统时区/夏令时切换后，下一次提醒时间是否跟随（`ReminderTimeCalculator` 用 `Clock.timeZone`）。
+- 改系统时区/夏令时切换后，下一次提醒时间是否跟随（`ReminderTimeCalculator` 用 `Clock.timeZone`；
+  两条路径都经由它计算，精确路径在每次触发后重算下一天）。
+- **精确提醒（v2 / P3-1，默认关）**：设置页打开「准点提醒」时应拉起系统「闹钟与提醒」授权页
+  （`ACTION_REQUEST_SCHEDULE_EXACT_ALARM`）；授权后到点误差应为秒级（对比 inexact 的小时级延后）。
+- 精确提醒在系统页面里拒绝/日后收回时：开关应自动回到关（`MainActivity` 自愈，判定用 `:core`
+  `ReminderScheduling.shouldFallBack`），并提示「仍使用普通提醒」——不能出现「开关开着但不会响」。
+- 精确提醒下重启设备：`ExactReminderReceiver` 需收到 `BOOT_COMPLETED` 并重排（闹钟本身不持久化）；
+  同时确认 `inexact` 周期任务不会因两条路径共存而产生一天两条通知（`cancelUniqueWork` 是否生效）。
+- 省电模式 / 后台限制下精确闹钟是否仍触发（`setExactAndAllowWhileIdle` 可穿透 Doze）；国产 ROM 单独确认。
+- 开着精确提醒时改提醒时间：闹钟应立刻改到新时间（同一个 `PendingIntent` 覆盖旧闹钟），不需重启 App。
 
 ### 4.3 其它
 
