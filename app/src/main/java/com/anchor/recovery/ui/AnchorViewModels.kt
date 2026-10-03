@@ -21,6 +21,7 @@ import com.anchor.recovery.ui.assessment.CsbdQuizViewModel
 import com.anchor.recovery.ui.assessment.CsbdResultViewModel
 import com.anchor.recovery.ui.assessment.MoralQuizViewModel
 import com.anchor.recovery.ui.assessment.MoralResultViewModel
+import com.anchor.recovery.ui.milestones.MilestoneWallViewModel
 import com.anchor.recovery.ui.settings.SettingsViewModel
 import com.anchor.recovery.ui.tools.DelayToolViewModel
 import com.anchor.recovery.ui.tools.RelapseEditViewModel
@@ -213,6 +214,7 @@ class CheckInViewModel(private val repository: AnchorRepository) : ViewModel() {
 fun anchorViewModelFactory(repository: AnchorRepository, settings: AnchorSettings) = viewModelFactory {
     initializer { HomeViewModel(repository) }
     initializer { CheckInViewModel(repository) }
+    initializer { MilestoneWallViewModel(repository) }
     initializer { TimelineViewModel(repository) }
     initializer { UrgeSurfingViewModel(repository) }
     initializer { DelayToolViewModel(repository, settings) }

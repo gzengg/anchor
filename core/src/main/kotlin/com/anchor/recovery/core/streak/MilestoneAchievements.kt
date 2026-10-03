@@ -67,27 +67,31 @@ object MilestoneAchievements {
      * 汇总徽章墙状态。
      *
      * @param currentDays 当前连续打卡天数（由 [StreakCalculator] 计算，口径见其 KDoc）
+     * @param extraAchievements 已落库、但当前历史推导不出来的达成记录（例如用户后来删掉了当年的打卡）。
+     *   传进来后与现算结果合并：**已获得的徽章不会因为删记录而熄灭**。
      */
     fun wall(
         checkInDates: List<LocalDate>,
         relapseDates: Set<LocalDate>,
         currentDays: Int,
+        extraAchievements: List<MilestoneAchievement> = emptyList(),
     ): List<MilestoneStatus> {
         val result = walk(checkInDates, relapseDates)
         // 当前 streak 为 0 时没有「当前纪元」，历史达成记录仍然保留。
         val currentEraStart = if (currentDays > 0) result.lastEraStartDate else null
+        val records = (result.achievements + extraAchievements).distinct()
         return RebootFramework.milestones.map { milestone ->
-            val records = result.achievements.filter { it.days == milestone.days }
-            val latest = records.maxWithOrNull(
+            val matched = records.filter { it.days == milestone.days }
+            val latest = matched.maxWithOrNull(
                 compareBy({ it.achievedDate.toEpochDays() }, { it.eraStartDate.toEpochDays() }),
             )
             MilestoneStatus(
                 milestone = milestone,
-                achieved = records.isNotEmpty(),
+                achieved = matched.isNotEmpty(),
                 latestAchievedDate = latest?.achievedDate,
-                eraCount = records.map { it.eraStartDate }.distinct().size,
+                eraCount = matched.map { it.eraStartDate }.distinct().size,
                 currentEraReached = currentEraStart != null &&
-                    records.any { it.eraStartDate == currentEraStart },
+                    matched.any { it.eraStartDate == currentEraStart },
                 daysRemaining = (milestone.days - currentDays).coerceAtLeast(0),
                 progress = (currentDays.toFloat() / milestone.days).coerceIn(0f, 1f),
             )
@@ -144,8 +148,14 @@ class MilestoneTracker(private val clock: Clock) {
         checkInDates: List<LocalDate>,
         relapseInstants: List<Instant>,
         currentDays: Int,
+        extraAchievements: List<MilestoneAchievement> = emptyList(),
     ): List<MilestoneStatus> =
-        MilestoneAchievements.wall(checkInDates, relapseDatesOf(relapseInstants), currentDays)
+        MilestoneAchievements.wall(
+            checkInDates = checkInDates,
+            relapseDates = relapseDatesOf(relapseInstants),
+            currentDays = currentDays,
+            extraAchievements = extraAchievements,
+        )
 
     private fun relapseDatesOf(relapseInstants: List<Instant>): Set<LocalDate> =
         relapseInstants.map { clock.localDateOf(it) }.toSet()

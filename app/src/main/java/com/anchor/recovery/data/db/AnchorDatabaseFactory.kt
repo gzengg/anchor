@@ -132,11 +132,14 @@ object AnchorDatabaseFactory {
     private fun openEncrypted(context: Context, passphrase: String): AppDatabase =
         Room.databaseBuilder(context, AppDatabase::class.java, AppDatabase.ENCRYPTED_NAME)
             .openHelperFactory(SupportOpenHelperFactory(passphrase.toByteArray(Charsets.UTF_8)))
+            .addMigrations(*ALL_MIGRATIONS)
             .build()
 
     /** 降级路径：迁移失败或本地库缺失时，先让 app 能用旧库跑起来。 */
     private fun openLegacyPlaintext(context: Context): AppDatabase =
-        Room.databaseBuilder(context, AppDatabase::class.java, AppDatabase.NAME).build()
+        Room.databaseBuilder(context, AppDatabase::class.java, AppDatabase.NAME)
+            .addMigrations(*ALL_MIGRATIONS)
+            .build()
 
     /**
      * sqlcipher-android 4.x 不自己加载本地库（AAR 里没有任何 `System.loadLibrary` 调用），

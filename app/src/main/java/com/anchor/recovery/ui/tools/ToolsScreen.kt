@@ -14,6 +14,7 @@ import com.anchor.recovery.ui.components.AnchorHairline
 import com.anchor.recovery.ui.components.AnchorLargeTitle
 import com.anchor.recovery.ui.components.AnchorListGroup
 import com.anchor.recovery.ui.components.AnchorListItem
+import com.anchor.recovery.ui.components.AnchorSectionHeader
 import com.anchor.recovery.ui.components.PublishAnchorNavBar
 import com.anchor.recovery.ui.theme.AnchorTheme
 import com.anchor.recovery.ui.theme.AnchorType
@@ -28,6 +29,7 @@ fun ToolsScreen(
     onOpenDelayTool: () -> Unit,
     onOpenRelapseEdit: () -> Unit,
     onOpenAssessmentHub: () -> Unit,
+    onOpenMilestones: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val scrollState = rememberScrollState()
@@ -73,6 +75,17 @@ fun ToolsScreen(
                 value = "去作答",
                 showChevron = true,
                 onClick = onOpenAssessmentHub,
+            )
+        }
+
+        AnchorSectionHeader("进度")
+        AnchorListGroup {
+            AnchorListItem(
+                title = "里程碑徽章",
+                subtitle = "7 / 14 / 30 / 60 / 90 天各一枚；破戒后重新开始，之前的徽章会保留。",
+                value = "查看",
+                showChevron = true,
+                onClick = onOpenMilestones,
             )
         }
 

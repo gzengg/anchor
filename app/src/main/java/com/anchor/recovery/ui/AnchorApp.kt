@@ -55,6 +55,7 @@ import com.anchor.recovery.ui.home.HomeScreen
 import com.anchor.recovery.ui.journal.TimelineScreen
 import com.anchor.recovery.ui.library.ArticleScreen
 import com.anchor.recovery.ui.library.LibraryScreen
+import com.anchor.recovery.ui.milestones.MilestoneWallScreen
 import com.anchor.recovery.ui.components.AnchorIconButton
 import com.anchor.recovery.ui.components.AnchorNavBar
 import com.anchor.recovery.ui.components.AnchorTab
@@ -217,6 +218,7 @@ fun AnchorApp(
                         onOpenDelayTool = { navController.navigate(AnchorRoutes.DELAY_TOOL) },
                         onOpenRelapseEdit = { navController.navigate(AnchorRoutes.RELAPSE_EDIT) },
                         onOpenAssessmentHub = { navController.navigate(AnchorRoutes.ASSESSMENT_HUB) },
+                        onOpenMilestones = { navController.navigate(AnchorRoutes.MILESTONES) },
                     )
                 }
                 composable(AnchorRoutes.LIBRARY) {
@@ -266,6 +268,9 @@ fun AnchorApp(
                 composable(AnchorRoutes.SETTINGS) {
                     val settingsViewModel: SettingsViewModel = viewModel(factory = factory)
                     SettingsScreen(viewModel = settingsViewModel)
+                }
+                composable(AnchorRoutes.MILESTONES) {
+                    MilestoneWallScreen(viewModel = viewModel(factory = factory))
                 }
                 composable(AnchorRoutes.ASSESSMENT_HUB) {
                     val hubViewModel: AssessmentHubViewModel = viewModel(factory = factory)

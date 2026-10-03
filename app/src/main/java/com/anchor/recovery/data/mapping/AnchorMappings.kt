@@ -6,8 +6,10 @@ import com.anchor.recovery.core.model.CheckInRecord
 import com.anchor.recovery.core.model.RelapseRecord
 import com.anchor.recovery.core.model.UrgeEpisodeRecord
 import com.anchor.recovery.core.model.UrgeTool
+import com.anchor.recovery.core.streak.MilestoneAchievement
 import com.anchor.recovery.data.db.entity.AssessmentResultEntity
 import com.anchor.recovery.data.db.entity.CheckInEntity
+import com.anchor.recovery.data.db.entity.MilestoneAchievementEntity
 import com.anchor.recovery.data.db.entity.RelapseEntity
 import com.anchor.recovery.data.db.entity.UrgeEpisodeEntity
 import kotlinx.datetime.Instant
@@ -89,8 +91,7 @@ fun AssessmentRecord.toEntity(): AssessmentResultEntity = AssessmentResultEntity
     answersJson = encodeAnswers(answers),
 )
 
-/** 标签列表 → 逗号分隔文本（过滤空项，避免出现 `a,,b`）。 */
-fun encodeLabels(labels: List<String>): String =
+/** 标签列表 → 逗号分隔文本（过滤空项，避免出现 `a,,b`）。 */fun encodeLabels(labels: List<String>): String =
     labels.map { it.trim() }.filter { it.isNotEmpty() }.joinToString(",")
 
 /** 逗号分隔文本 → 标签列表。 */
@@ -104,3 +105,18 @@ fun encodeAnswers(answers: List<Int>): String =
 fun decodeAnswers(raw: String): List<Int> =
     runCatching { answersCodec.decodeFromString(ListSerializer(Int.serializer()), raw) }
         .getOrDefault(emptyList())
+
+fun MilestoneAchievementEntity.toDomain(): MilestoneAchievement = MilestoneAchievement(
+    days = milestoneDays,
+    eraStartDate = LocalDate.parse(eraStartDate),
+    achievedDate = LocalDate.parse(achievedDate),
+)
+
+/** @param recordedAt 落库时刻（毫秒）；达成日期本身由历史推导，不用当前时间。 */
+fun MilestoneAchievement.toEntity(recordedAt: Long): MilestoneAchievementEntity =
+    MilestoneAchievementEntity(
+        milestoneDays = days,
+        eraStartDate = eraStartDate.toString(),
+        achievedDate = achievedDate.toString(),
+        recordedAt = recordedAt,
+    )
