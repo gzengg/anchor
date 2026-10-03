@@ -261,5 +261,10 @@ private fun ErrorState(message: String, modifier: Modifier = Modifier) {
 /** 分类筛选里「全部」那一项的 key；真实分类 key 都来自 index.json，不会为空串。 */
 private const val CATEGORY_ALL = ""
 
-/** 分类分段固定宽度：容得下「科学研究 12」这类两字标题 + 两位计数。 */
+/**
+ * 分类分段固定宽度：88dp 对应「2 字分类名 + 两位数计数」（实测文字宽约 47dp，宽松）。
+ * 分类名写成 2 字是硬约束，源头在 `content-tools/build_content.py` 的 `CATEGORY_META`：
+ * 4 字名 + 两位计数需约 80dp，而 88dp 扣掉轨道内边距（每段分摊 0.57dp）与文字两侧 8dp 后只剩
+ * 79.4dp，正好被省略号截断（v0.2.1 换字体后实测 0.34dp 之差）。
+ */
 private val CATEGORY_SEGMENT_WIDTH = 88.dp

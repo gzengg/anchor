@@ -29,13 +29,16 @@ OUTPUT_DIR = REPO_ROOT / "app" / "src" / "main" / "assets" / "content"
 EXPECTED_FILE_COUNT = 71
 
 # 分类元数据：目录名 -> (分类 key, 中文显示名, 简介)
+# 分类名固定 2 字：它同时是知识库页顶部分段控件的段标签（每段 88dp，见
+# app/src/main/java/com/anchor/recovery/ui/library/LibraryScreen.kt 的 CATEGORY_SEGMENT_WIDTH）。
+# 4 字标题 + 两位数计数需约 80dp，扣掉轨道与文字内边距后只剩 79.4dp，会被省略号截断。
 CATEGORY_META: dict[str, tuple[str, str, str]] = {
-    "01-science": ("science", "科学研究", "成瘾神经科学与行为机制研究"),
-    "02-authority": ("authority", "权威机构", "WHO/APA 等官方分类与立场"),
-    "03-medical": ("medical", "医学临床", "医疗机构的症状、诊断与治疗说明"),
-    "04-methods": ("methods", "干预方法", "有实证支持的戒断与干预方法"),
-    "05-cases": ("cases", "真实经验", "亲历者叙述与社群经验研究"),
-    "06-statistics": ("statistics", "数据统计", "流行病学与人群调查数据"),
+    "01-science": ("science", "科研", "成瘾神经科学与行为机制研究"),
+    "02-authority": ("authority", "机构", "WHO/APA 等官方分类与立场"),
+    "03-medical": ("medical", "临床", "医疗机构的症状、诊断与治疗说明"),
+    "04-methods": ("methods", "方法", "有实证支持的戒断与干预方法"),
+    "05-cases": ("cases", "经验", "亲历者叙述与社群经验研究"),
+    "06-statistics": ("statistics", "统计", "流行病学与人群调查数据"),
 }
 
 # 归一化规则：原始等级 -> 三级等级

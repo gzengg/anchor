@@ -28,6 +28,22 @@ class ContentRepositoryTest {
     }
 
     @Test
+    fun `分类名保持两字以保证分段控件不截断`() {
+        val library = assertNotNull(snapshot.library, "知识库未加载：${snapshot.errorArgs}")
+
+        // 段宽 88dp 是「2 字名 + 两位数计数」（约 47dp）的预算；4 字名 + 计数需约 80dp，
+        // 超出段内可用宽 79.4dp 就会被省略号吃掉（v0.2.1 换字体后实测差 0.34dp）。
+        // 分类名源头在 content-tools/build_content.py 的 CATEGORY_META。
+        library.index.categories.forEach { category ->
+            assertTrue(
+                category.title.length == 2,
+                "分类 ${category.key} 的名「${category.title}」为 ${category.title.length} 字，" +
+                    "超出分段控件段宽预算（见 LibraryScreen 的 CATEGORY_SEGMENT_WIDTH）",
+            )
+        }
+    }
+
+    @Test
     fun `分类筛选与检索在真实内容上可用`() {
         val library = assertNotNull(snapshot.library, "知识库未加载：${snapshot.errorArgs}")
 

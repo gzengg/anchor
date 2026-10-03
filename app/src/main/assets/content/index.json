@@ -5,7 +5,7 @@
   {
    "key": "science",
    "dir": "01-science",
-   "title": "科学研究",
+   "title": "科研",
    "description": "成瘾神经科学与行为机制研究",
    "count": 12,
    "articleIds": [
@@ -26,7 +26,7 @@
   {
    "key": "authority",
    "dir": "02-authority",
-   "title": "权威机构",
+   "title": "机构",
    "description": "WHO/APA 等官方分类与立场",
    "count": 11,
    "articleIds": [
@@ -46,7 +46,7 @@
   {
    "key": "medical",
    "dir": "03-medical",
-   "title": "医学临床",
+   "title": "临床",
    "description": "医疗机构的症状、诊断与治疗说明",
    "count": 12,
    "articleIds": [
@@ -67,7 +67,7 @@
   {
    "key": "methods",
    "dir": "04-methods",
-   "title": "干预方法",
+   "title": "方法",
    "description": "有实证支持的戒断与干预方法",
    "count": 12,
    "articleIds": [
@@ -88,7 +88,7 @@
   {
    "key": "cases",
    "dir": "05-cases",
-   "title": "真实经验",
+   "title": "经验",
    "description": "亲历者叙述与社群经验研究",
    "count": 12,
    "articleIds": [
@@ -109,7 +109,7 @@
   {
    "key": "statistics",
    "dir": "06-statistics",
-   "title": "数据统计",
+   "title": "统计",
    "description": "流行病学与人群调查数据",
    "count": 12,
    "articleIds": [
