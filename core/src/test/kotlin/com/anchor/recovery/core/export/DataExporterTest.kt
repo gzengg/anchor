@@ -40,7 +40,7 @@ class DataExporterTest {
 
         assertTrue(payload.checkIns.isEmpty())
         assertTrue(payload.relapses.isEmpty())
-        assertEquals("打卡 0 天 · 复吸 0 次 · 渴求 0 次 · 问卷 0 份", payload.countsLine())
+        assertEquals("打卡 0 天 · 破戒 0 次 · 渴求 0 次 · 问卷 0 份", payload.countsLine())
         assertEquals(DataExporter.SCHEMA_VERSION, payload.schemaVersion)
         assertEquals("磐石", payload.app)
     }
@@ -92,7 +92,7 @@ class DataExporterTest {
         assertEquals("URGE_SURFING", payload.urgeEpisodes.single().tool)
         assertEquals(12, payload.assessments.single().answers.size)
         assertTrue(payload.settings.reminderEnabled)
-        assertEquals("打卡 1 天 · 复吸 1 次 · 渴求 1 次 · 问卷 1 份", payload.countsLine())
+        assertEquals("打卡 1 天 · 破戒 1 次 · 渴求 1 次 · 问卷 1 份", payload.countsLine())
     }
 
     @Test

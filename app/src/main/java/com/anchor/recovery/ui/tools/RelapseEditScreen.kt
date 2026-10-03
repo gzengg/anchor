@@ -23,7 +23,7 @@ import androidx.compose.ui.unit.dp
 import com.anchor.recovery.core.relapse.RelapseTags
 
 /**
- * F5 复吸记录表单：情境 / 情绪（多选）/ 触发源（多选）/ 备注。
+ * F5 破戒记录表单：情境 / 情绪（多选）/ 触发源（多选）/ 备注。
  *
  * 时间取记录当下的时刻（一律经 Clock），页面不做任何评价性表达。
  */
@@ -44,13 +44,8 @@ fun RelapseEditScreen(
         verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
         Text(
-            text = "如实记录就好。复吸是常见现象，这条记录只用于回看规律。",
+            text = "如实记录就好，破戒很常见。保存后连续天数从今天重新算。",
             style = MaterialTheme.typography.bodyMedium,
-        )
-        Text(
-            text = "保存后，连续天数会从今天重新计算。",
-            style = MaterialTheme.typography.bodySmall,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
 
         OutlinedTextField(
@@ -108,7 +103,7 @@ fun RelapseEditScreen(
         ) { Text(text = "保存记录") }
 
         Text(
-            text = "情绪与触发源都是你自己选择的标签，统计数据只说明“记录里出现过多少次”，不代表因果关系。",
+            text = "标签由你自己选，统计只说明记录里出现过多少次，不代表因果关系。",
             style = MaterialTheme.typography.bodySmall,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
         )

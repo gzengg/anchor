@@ -97,7 +97,7 @@ private fun StreakCard(state: HomeUiState, modifier: Modifier = Modifier) {
             )
             state.streak.daysSinceLastRelapse?.let { days ->
                 Text(
-                    text = if (days == 0) "最近一次复吸：今天" else "距最近一次复吸：$days 天",
+                    text = if (days == 0) "最近一次破戒：今天" else "距最近一次破戒：$days 天",
                     style = MaterialTheme.typography.bodySmall,
                 )
             }
@@ -112,9 +112,6 @@ private fun StreakCard(state: HomeUiState, modifier: Modifier = Modifier) {
                     (state.nextMilestone?.let { " · 下一个里程碑：${it.title}" } ?: " · 已走完 90 天"),
                 style = MaterialTheme.typography.bodySmall,
             )
-            state.nextMilestone?.let { milestone ->
-                Text(text = milestone.hint, style = MaterialTheme.typography.bodySmall)
-            }
         }
     }
 }
@@ -138,7 +135,7 @@ private fun TodayCard(
                 text = if (state.streak.todayCheckedIn) {
                     "今天已打卡。"
                 } else {
-                    "还没打卡。一天一次，点一下就算记录。"
+                    "还没打卡，一天一次。"
                 },
                 style = MaterialTheme.typography.bodyMedium,
             )
@@ -147,10 +144,10 @@ private fun TodayCard(
                 enabled = !state.streak.todayCheckedIn,
                 modifier = Modifier.fillMaxWidth(),
             ) {
-                Text(text = if (state.streak.todayCheckedIn) "今天已打卡" else "打卡：今天")
+                Text(text = if (state.streak.todayCheckedIn) "今天已打卡" else "打卡")
             }
             TextButton(onClick = onOpenCheckIn, modifier = Modifier.fillMaxWidth()) {
-                Text(text = "查看打卡记录 / 写下感受")
+                Text(text = "打卡记录与感受")
             }
             state.message?.let { message ->
                 Text(
@@ -178,7 +175,7 @@ private fun QuickToolCard(
         ) {
             Text(text = "现在有点难熬？", style = MaterialTheme.typography.titleMedium)
             Text(
-                text = "可以先做一次冲浪练习，或者用十分钟延时把决定往后放。",
+                text = "先做一次冲浪练习，或用十分钟延时把决定往后放。",
                 style = MaterialTheme.typography.bodyMedium,
             )
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
@@ -186,7 +183,7 @@ private fun QuickToolCard(
                 OutlinedButton(onClick = onOpenDelayTool) { Text(text = "十分钟延时") }
             }
             Text(
-                text = "90 天是社群常用的阶段参照，不是医学意义上的判定。",
+                text = "90 天是社群参照，不是医学判定。",
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
@@ -208,7 +205,7 @@ private fun LibraryCard(
         ) {
             Text(text = "知识库", style = MaterialTheme.typography.titleMedium)
             Text(
-                text = "离线整理的文章，按六个分类整理，每篇都标注可信度与原文出处。",
+                text = "71 篇离线文章，每篇标注来源与可信度。",
                 style = MaterialTheme.typography.bodyMedium,
             )
             OutlinedButton(onClick = onOpenLibrary, modifier = Modifier.fillMaxWidth()) {

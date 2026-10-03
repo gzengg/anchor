@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  通知小图标（R.drawable.ic_anchor）用的锚形（24x24 网格）。
-  纯几何形状，只有填充与描边，不依赖任何位图资源。
-
-  颜色必须是白色：Android 把通知小图标当 alpha 蒙版处理，再按渠道色 / 系统深色
-  主题重新上色；这里若给深色，多数机型上只会显示成一块深色剪影。
-  启动图标的前景是另一份带暖白色的同名图形（ic_launcher_foreground）。
+  启动图标用的锚形（暖白 #F3EDE2）。
+  与通知小图标（ic_anchor，必须白色蒙版）是同一套几何、不同颜色语义，故各留一份。
 -->
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
     android:width="24dp"
@@ -15,19 +11,19 @@
 
     <!-- 顶部圆环 -->
     <path
-        android:fillColor="#FFFFFFFF"
+        android:fillColor="#FFF3EDE2"
         android:fillType="evenOdd"
         android:pathData="M12,1.6a3.2,3.2 0 1,0 0,6.4a3.2,3.2 0 0,0 0,-6.4zM12,3.2a1.6,1.6 0 1,1 0,3.2a1.6,1.6 0 0,1 0,-3.2z" />
 
     <!-- 中轴 -->
     <path
-        android:fillColor="#FFFFFFFF"
+        android:fillColor="#FFF3EDE2"
         android:pathData="M10.9,6.6h2.2v12.3h-2.2z" />
 
     <!-- 底部两臂 -->
     <path
         android:pathData="M4.6,13.4 L12,20.8 L19.4,13.4"
-        android:strokeColor="#FFFFFFFF"
+        android:strokeColor="#FFF3EDE2"
         android:strokeLineCap="round"
         android:strokeLineJoin="round"
         android:strokeWidth="2.2" />

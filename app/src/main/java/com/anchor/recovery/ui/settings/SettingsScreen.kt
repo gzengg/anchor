@@ -163,8 +163,7 @@ fun SettingsScreen(
                 Text(text = "导出为 JSON")
             }
             Text(
-                text = "导出文件包含打卡、复吸、渴求与问卷结果，由你自己选择保存位置并保管。" +
-                    "磐石不会把文件发到任何地方。",
+                text = "导出文件含打卡、破戒、渴求与问卷结果，位置由你选，磐石不会外发。",
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
@@ -190,7 +189,7 @@ fun SettingsScreen(
         SettingsCard(title = "隐私说明") {
             Text(text = Disclaimer.PRIVACY_PARAGRAPH, style = MaterialTheme.typography.bodyMedium)
             Text(
-                text = "磐石没有账号体系，不联网传输记录，也不读取通讯录、位置或相册。",
+                text = "磐石没有账号，不联网传输记录，也不读通讯录、位置或相册。",
                 style = MaterialTheme.typography.bodyMedium,
             )
             TextButton(onClick = { showFullDisclaimer = !showFullDisclaimer }) {
@@ -223,8 +222,7 @@ fun SettingsScreen(
             title = { Text(text = "确认清空全部数据？") },
             text = {
                 Text(
-                    text = "打卡、复吸、渴求和问卷记录都会被删除，且无法恢复。" +
-                        "提醒时间与提示语等设置会保留。",
+                    text = "打卡、破戒、渴求和问卷记录都会被删除，且无法恢复；提醒时间与提示语会保留。",
                 )
             },
             confirmButton = {

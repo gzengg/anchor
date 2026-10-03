@@ -123,7 +123,7 @@ private fun TodayStatusCard(state: CheckInUiState, modifier: Modifier = Modifier
                 )
             }
             Text(
-                text = "只支持为今天打卡：漏打一整天即断签，补打卡会让连续天数的含义失真。",
+                text = "只能为今天打卡：漏一天就断签，补打会让连续天数失真。",
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )

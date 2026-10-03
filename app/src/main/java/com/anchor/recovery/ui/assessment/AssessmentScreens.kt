@@ -60,7 +60,7 @@ fun AssessmentHubScreen(
 
         HubCard(
             title = "成瘾倾向自评",
-            description = "19 题，参照 CSBD 相关维度自行撰写，覆盖控制失控、情绪应对、强迫性、负面后果、尝试失败五个方面。",
+            description = "19 题，五个维度：控制失控、情绪应对、强迫性、负面后果、尝试失败。",
             lastText = state.latestCsbd?.let { record ->
                 "上次：${record.takenAt.formatLocal()} · 总分 ${record.totalScore}"
             },
@@ -171,7 +171,7 @@ fun AssessmentIntroScreen(
         ) {
             Checkbox(checked = acknowledged, onCheckedChange = null)
             Text(
-                text = "我已阅读并理解以上说明：这是自评参考工具，不是临床诊断。",
+                text = "我理解：这是自评参考，不是诊断。",
                 style = MaterialTheme.typography.bodyMedium,
             )
         }
@@ -181,14 +181,6 @@ fun AssessmentIntroScreen(
             enabled = acknowledged,
             modifier = Modifier.fillMaxWidth(),
         ) { Text(text = "开始答题") }
-
-        if (!acknowledged) {
-            Text(
-                text = "勾选确认后即可开始。",
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-            )
-        }
     }
 }
 
@@ -283,11 +275,6 @@ fun QuizScreen(
             ) { Text(text = if (state.saving) "保存中…" else "提交并查看结果") }
         }
 
-        Text(
-            text = CsbdQuestionnaire.DISCLAIMER,
-            style = MaterialTheme.typography.labelSmall,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
-        )
         DisclaimerCard()
     }
 }
@@ -306,7 +293,7 @@ fun CsbdResultScreen(state: CsbdResultUiState, modifier: Modifier = Modifier) {
         verticalArrangement = Arrangement.spacedBy(12.dp),
     ) {
         if (record == null) {
-            Text(text = "还没有作答记录。可以先回上一页完成问卷。", style = MaterialTheme.typography.bodyMedium)
+            Text(text = "还没有作答记录，先回上一页完成问卷。", style = MaterialTheme.typography.bodyMedium)
             return@Column
         }
 
@@ -368,8 +355,8 @@ fun CsbdResultScreen(state: CsbdResultUiState, modifier: Modifier = Modifier) {
                         }
                     }
                     Text(
-                        text = "自评分最高的维度：${result.topDimension.label}（${result.topDimensionScore} 分）。" +
-                            "这只说明这一组题的得分最高，不构成诊断。",
+                        text = "得分最高的维度：${result.topDimension.label}（${result.topDimensionScore} 分）。" +
+                            "只说明这组题得分最高，不是诊断。",
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                     )
@@ -386,12 +373,12 @@ fun CsbdResultScreen(state: CsbdResultUiState, modifier: Modifier = Modifier) {
             ) {
                 Text(text = "下一步可以做什么", style = MaterialTheme.typography.titleSmall)
                 Text(
-                    text = "· 把这份自评和 App 里的记录一起带着，去咨询心理咨询师或精神科 / 心理科医生。" +
-                        "自评分数不是诊断，专业评估才决定要不要治疗、怎么治疗。",
+                    text = "· 带着这份自评和 App 里的记录去咨询心理咨询师或精神科 / 心理科医生；" +
+                        "自评分数不是诊断，专业评估才决定要不要治疗。",
                     style = MaterialTheme.typography.bodyMedium,
                 )
                 Text(
-                    text = "· 继续用打卡、渴求工具记录规律；如果情绪持续低落或有失控感，尽快就诊。",
+                    text = "· 继续用打卡与渴求工具看规律；情绪持续低落或有失控感时尽快就诊。",
                     style = MaterialTheme.typography.bodyMedium,
                 )
             }
@@ -422,7 +409,7 @@ fun MoralResultScreen(state: MoralResultUiState, modifier: Modifier = Modifier) 
         verticalArrangement = Arrangement.spacedBy(12.dp),
     ) {
         if (record == null) {
-            Text(text = "还没有作答记录。可以先回上一页完成问卷。", style = MaterialTheme.typography.bodyMedium)
+            Text(text = "还没有作答记录，先回上一页完成问卷。", style = MaterialTheme.typography.bodyMedium)
             return@Column
         }
 
@@ -484,8 +471,7 @@ fun MoralResultScreen(state: MoralResultUiState, modifier: Modifier = Modifier) 
                         }
                     }
                     Text(
-                        text = "价值观冲突不等于成瘾，也不说明你的人格有问题；行为影响大同样不等于成瘾。" +
-                            "这两项只是帮你看清困扰从哪来。",
+                        text = "价值观冲突不等于成瘾，行为影响大也不等于成瘾；这两项只是帮你看清困扰从哪来。",
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                     )
@@ -502,13 +488,11 @@ fun MoralResultScreen(state: MoralResultUiState, modifier: Modifier = Modifier) 
             ) {
                 Text(text = "下一步可以做什么", style = MaterialTheme.typography.titleSmall)
                 Text(
-                    text = "· 如果主要是价值观冲突：和信任的人或咨询师谈这件事本身就有价值，" +
-                        "不必先给自己贴上成瘾的标签。",
+                    text = "· 如果主要是价值观冲突：和信任的人或咨询师谈这件事本身就有价值，不必先贴标签。",
                     style = MaterialTheme.typography.bodyMedium,
                 )
                 Text(
-                    text = "· 如果行为影响明显：可以带上记录去咨询心理咨询师或精神科 / 心理科医生，" +
-                        "由专业评估决定是否需要治疗。",
+                    text = "· 如果行为影响明显：带上记录去咨询心理咨询师或精神科 / 心理科医生，由专业评估判断。",
                     style = MaterialTheme.typography.bodyMedium,
                 )
             }
@@ -537,8 +521,7 @@ private fun DisclaimerCard(modifier: Modifier = Modifier) {
         ) {
             Text(text = "免责声明", style = MaterialTheme.typography.labelLarge)
             Text(
-                text = "本问卷与结果均为自评参考信息，不是医疗器械，也不提供诊断；" +
-                    "不能替代专业评估。如有明显困扰，建议咨询专业人士或考虑就诊。",
+                text = "自评参考信息，不是医疗器械、不做诊断，不能替代专业评估；困扰明显时建议咨询专业人士。",
                 style = MaterialTheme.typography.bodySmall,
             )
         }
@@ -553,9 +536,8 @@ fun CsbdIntroScreen(onStart: () -> Unit, modifier: Modifier = Modifier) {
         subtitle = "19 道题，按过去 6 个月的实际情况作答。",
         disclaimer = CsbdQuestionnaire.DISCLAIMER,
         points = listOf(
-            "共 19 题，每题 5 个选项（0–4 分），没有对错之分。",
-            "题目参照 CSBD 相关的五个维度自行撰写，不是 CSBD-19 原版，未经验证。",
-            "分级使用自研参考阈值，未经临床验证。",
+            "19 题，每题 5 个选项（0–4 分），没有对错。",
+            "题目参照 CSBD 五个维度自撰，不是 CSBD-19 原版、未经验证；分级阈值也是自研，未经临床验证。",
             "作答与结果只保存在本机。",
         ),
         onStart = onStart,
@@ -572,9 +554,8 @@ fun MoralIntroScreen(onStart: () -> Unit, modifier: Modifier = Modifier) {
         disclaimer = MoralIncongruenceScale.DISCLAIMER,
         points = listOf(
             "前 6 题看“行为影响”，后 6 题看“价值观冲突”，分别计分。",
-            "每个维度 ≥ ${MoralIncongruenceScale.HIGH_THRESHOLD} 分记为偏高，这是自研参考阈值，未经临床验证。",
-            "结果是一个四象限解读，用来区分困扰来源，不做诊断。",
-            "作答与结果只保存在本机。",
+            "任一维度 ≥ ${MoralIncongruenceScale.HIGH_THRESHOLD} 分记为偏高（自研阈值，未经临床验证）。",
+            "结果是四象限解读，只看困扰来源，不做诊断；作答与结果只保存在本机。",
         ),
         onStart = onStart,
         modifier = modifier,

@@ -62,14 +62,14 @@ fun PhaseCard(
                 )
             }
             Text(
-                text = phase.dayLabel + "（你已连续 ${dayNumber.coerceAtLeast(0)} 天）",
+                text = phase.dayLabel + "（连续 ${dayNumber.coerceAtLeast(0)} 天）",
                 style = MaterialTheme.typography.labelMedium,
                 color = MaterialTheme.colorScheme.primary,
             )
             Text(text = phase.headline, style = MaterialTheme.typography.bodyMedium)
 
             NoteSection(
-                title = "可能会经历（来自自我报告与定性研究，不是诊断）",
+                title = "可能会经历（自我报告归纳，不是诊断）",
                 notes = phase.expectation,
                 onOpenArticle = onOpenArticle,
             )

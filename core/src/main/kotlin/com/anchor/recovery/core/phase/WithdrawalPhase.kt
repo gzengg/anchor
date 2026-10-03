@@ -89,7 +89,7 @@ object WithdrawalPhaseCatalog {
                     sourceArticleIds = listOf("methods-006"),
                 ),
             ),
-            caution = "若出现持续失眠、明显抑郁或伤害自己的念头，请尽快联系专业医生或当地心理援助热线。$HELP_SEEKING_NOTICE",
+            caution = "若出现持续失眠、明显抑郁或伤害自己的念头，请尽快联系专业医生或当地心理援助热线。",
         ),
         WithdrawalPhase(
             id = "FLUCTUATION",
@@ -195,7 +195,7 @@ object WithdrawalPhaseCatalog {
                     sourceArticleIds = listOf("cases-004", "cases-012"),
                 ),
             ),
-            caution = "第二波的强度与时长个体差异极大；若持续两周以上并影响工作生活，建议寻求专业帮助。$HELP_SEEKING_NOTICE",
+            caution = "第二波的强度与时长个体差异极大；若持续两周以上并影响工作生活，建议寻求专业帮助。",
         ),
         WithdrawalPhase(
             id = "CONSOLIDATION",

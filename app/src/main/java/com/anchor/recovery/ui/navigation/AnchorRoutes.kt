@@ -38,7 +38,7 @@ object AnchorRoutes {
         CHECK_IN -> "今日打卡"
         URGE_SURFING -> "渴求冲浪"
         DELAY_TOOL -> "十分钟延时"
-        RELAPSE_EDIT -> "记录一次复吸"
+        RELAPSE_EDIT -> "记录一次破戒"
         ASSESSMENT_HUB -> "自评问卷"
         CSBD_INTRO, CSBD_QUIZ, CSBD_RESULT -> "成瘾倾向自评"
         MORAL_INTRO, MORAL_QUIZ, MORAL_RESULT -> "道德冲突评估"

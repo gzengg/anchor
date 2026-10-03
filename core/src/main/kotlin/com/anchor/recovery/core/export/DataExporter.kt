@@ -153,7 +153,7 @@ object DataExporter {
 
     /** 记录条数文案（设置页与导出文件共用同一份措辞）。 */
     fun countsLine(checkIns: Int, relapses: Int, urgeEpisodes: Int, assessments: Int): String =
-        "打卡 $checkIns 天 · 复吸 $relapses 次 · 渴求 $urgeEpisodes 次 · 问卷 $assessments 份"
+        "打卡 $checkIns 天 · 破戒 $relapses 次 · 渴求 $urgeEpisodes 次 · 问卷 $assessments 份"
 
     fun fromJson(text: String): ExportPayload = json.decodeFromString(text)
 

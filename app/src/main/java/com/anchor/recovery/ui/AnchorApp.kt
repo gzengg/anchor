@@ -1,5 +1,11 @@
 package com.anchor.recovery.ui
 
+import androidx.compose.animation.AnimatedContentTransitionScope
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
@@ -28,6 +34,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavType
@@ -183,9 +190,36 @@ fun AnchorApp(
                 .fillMaxSize()
                 .padding(padding)
                 // 系统栏 insets 已在 Scaffold 里消费完；键盘弹出时再补一段，
-                // 让底部输入框（打卡备注、复吸表单、提示语）不被输入法遮住。
+                // 让底部输入框（打卡备注、破戒表单、提示语）不被输入法遮住。
                 .consumeWindowInsets(padding)
                 .imePadding(),
+            // navigation-compose 默认转场是 700ms 淡入淡出，手感偏钝。
+            // 底部 Tab 之间只做快速淡入（切 Tab 不该有方向感）；
+            // 进/退二级页给一点横向位移提示层级，总时长压到 150ms 内；
+            // 退场比进场更快，避免两个页面长时间叠在一起显示。
+            enterTransition = {
+                if (isTabSwitch()) {
+                    fadeIn(tween(TAB_TRANSITION_MS))
+                } else {
+                    slideInHorizontally(tween(PAGE_TRANSITION_MS)) { it / 16 } +
+                        fadeIn(tween(PAGE_TRANSITION_MS))
+                }
+            },
+            exitTransition = {
+                if (isTabSwitch()) {
+                    fadeOut(tween(TAB_TRANSITION_MS))
+                } else {
+                    fadeOut(tween(PAGE_TRANSITION_MS / 3))
+                }
+            },
+            popEnterTransition = {
+                slideInHorizontally(tween(PAGE_TRANSITION_MS)) { -it / 16 } +
+                    fadeIn(tween(PAGE_TRANSITION_MS))
+            },
+            popExitTransition = {
+                slideOutHorizontally(tween(PAGE_TRANSITION_MS)) { it / 16 } +
+                    fadeOut(tween(PAGE_TRANSITION_MS / 3))
+            },
         ) {
             composable(AnchorRoutes.HOME) {
                 HomeScreen(
@@ -324,6 +358,19 @@ fun AnchorApp(
 }
 
 private const val ARTICLE_ID_ARG = "articleId"
+
+/** 底部 Tab 之间的切换时长：只淡入淡出，越快越不拖沓。 */
+private const val TAB_TRANSITION_MS = 90
+
+/** 进/退二级页的时长（退场用它的 1/3）。 */
+private const val PAGE_TRANSITION_MS = 150
+
+/** 初始与目标路由都在底部 Tab 里，就是切 Tab（不需要方向感）。 */
+private fun AnimatedContentTransitionScope<NavBackStackEntry>.isTabSwitch(): Boolean {
+    val from = initialState.destination.route
+    val to = targetState.destination.route
+    return from != null && from in AnchorRoutes.bottomTabs && to != null && to in AnchorRoutes.bottomTabs
+}
 
 /** 首启门禁的三种状态。用三态枚举而不是可空布尔，已同意的用户不会看到声明页闪现。 */
 private enum class DisclaimerGate { LOADING, REQUIRED, PASSED }

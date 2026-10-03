@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- 夜间同样用品牌色做启动底色：深色模式下闪白更刺眼。 -->
+    <!-- 夜间同样用「应用背景色」做启动底色：深色模式下闪白最刺眼。 -->
     <style name="Theme.Anchor" parent="android:Theme.Material.NoActionBar">
-        <item name="android:windowBackground">@color/anchor_splash_background</item>
+        <item name="android:windowBackground">@color/anchor_background</item>
     </style>
 </resources>

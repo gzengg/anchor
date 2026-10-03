@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  自适应图标前景：直接复用通知小图标里的锚形（@drawable/ic_anchor），
-  用 inset 把图形收进 108dp 画布的中央安全区（约 58%），避免被圆形/方形遮罩裁掉。
-  这样锚形只画一次，图标与通知不会走形。
+  自适应图标前景：外层 inset 把锚形收进 108dp 画布的中央安全区（避免被圆形/方形遮罩裁掉），
+  内层图形是 ic_launcher_mark（暖白 #F3EDE2 的锚形）。
+  通知小图标是另一份 ic_anchor：它必须是白色蒙版，颜色语义不同，所以没有共用。
 -->
 <inset xmlns:android="http://schemas.android.com/apk/res/android"
-    android:drawable="@drawable/ic_anchor"
+    android:drawable="@drawable/ic_launcher_mark"
     android:inset="22%" />

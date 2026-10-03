@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!--
-      启动主题：windowBackground 用品牌色，冷启动到 Compose 首帧之间不再闪白屏。
-      Android 12+ 的系统启动画面默认取「应用图标 + 窗口底色」，因此不引入
-      androidx.core:core-splashscreen 依赖也能得到一致的启动观感。
+      启动主题：windowBackground 用「应用背景色」而不是品牌主色。
+      冷启动（含 Android 12+ 的系统启动画面）与 Compose 首帧因此是同一个底色，
+      不会出现「启动一块石青 → 页面一片暖白」的割裂感。
     -->
     <style name="Theme.Anchor" parent="android:Theme.Material.Light.NoActionBar">
-        <item name="android:windowBackground">@color/anchor_splash_background</item>
+        <item name="android:windowBackground">@color/anchor_background</item>
     </style>
 </resources>

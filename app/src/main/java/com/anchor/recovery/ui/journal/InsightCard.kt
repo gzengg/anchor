@@ -30,11 +30,11 @@ fun RelapseInsightCard(insight: RelapseInsight, modifier: Modifier = Modifier) {
                 .padding(14.dp),
             verticalArrangement = Arrangement.spacedBy(10.dp),
         ) {
-            Text(text = "触发因素统计（基于你的记录）", style = MaterialTheme.typography.titleSmall)
+            Text(text = "触发因素统计", style = MaterialTheme.typography.titleSmall)
 
             if (insight.isEmpty) {
                 Text(
-                    text = "还没有复吸记录。这里只统计你自己写下的内容，没有记录时不显示任何推断。",
+                    text = "还没有破戒记录。这里只统计你写下的内容，无记录时不显示任何推断。",
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
@@ -45,7 +45,7 @@ fun RelapseInsightCard(insight: RelapseInsight, modifier: Modifier = Modifier) {
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(16.dp),
             ) {
-                StatCell(label = "复吸次数", value = "${insight.totalRelapses} 次")
+                StatCell(label = "破戒次数", value = "${insight.totalRelapses} 次")
                 StatCell(
                     label = "中位间隔",
                     value = insight.medianIntervalHours?.let { formatHours(it) } ?: "不足 2 条记录",
@@ -78,7 +78,7 @@ fun RelapseInsightCard(insight: RelapseInsight, modifier: Modifier = Modifier) {
             }
 
             Text(
-                text = "统计只说明记录里出现过什么，不能用来判断原因，也不代表医学结论。",
+                text = "只说明记录里出现过什么，不代表因果关系或医学结论。",
                 style = MaterialTheme.typography.labelSmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )

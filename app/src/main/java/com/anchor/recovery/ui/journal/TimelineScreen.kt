@@ -31,7 +31,7 @@ import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 
 /**
- * F5 日志页：打卡 / 渴求 / 复吸 合并成一条时间线（三张表在 ViewModel 里合成）。
+ * F5 日志页：打卡 / 渴求 / 破戒 合并成一条时间线（三张表在 ViewModel 里合成）。
  */
 @Composable
 fun TimelineScreen(
@@ -69,15 +69,15 @@ fun TimelineScreen(
         ) {
             Text(
                 text = if (state.totalCount == 0) {
-                    "还没有记录。打卡、渴求练习或复吸记录都会出现在这里。"
+                    "还没有记录。打卡、渴求练习或破戒记录都会出现在这里。"
                 } else {
-                    "共 ${state.totalCount} 条记录 · 打卡 ${state.checkInCount} · 渴求 ${state.urgeCount} · 复吸 ${state.relapseCount}"
+                    "共 ${state.totalCount} 条 · 打卡 ${state.checkInCount} · 渴求 ${state.urgeCount} · 破戒 ${state.relapseCount}"
                 },
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 modifier = Modifier.weight(1f),
             )
-            TextButton(onClick = onOpenRelapseEdit) { Text(text = "记录复吸") }
+            TextButton(onClick = onOpenRelapseEdit) { Text(text = "记录破戒") }
         }
 
         RelapseInsightCard(insight = state.insight)
@@ -150,7 +150,7 @@ private fun TimelineRow(entry: TimelineEntry, modifier: Modifier = Modifier) {
 private fun TimelineEntry.label(): String = when (this) {
     is TimelineEntry.CheckIn -> if (record.note.isBlank()) "打卡" else "打卡 · 有备注"
     is TimelineEntry.Urge -> "渴求事件 · ${record.tool.label}"
-    is TimelineEntry.Relapse -> "复吸记录"
+    is TimelineEntry.Relapse -> "破戒记录"
 }
 
 private fun TimelineEntry.details(): List<String> = when (this) {
@@ -171,12 +171,12 @@ private fun TimelineEntry.details(): List<String> = when (this) {
 /** 条目底部的一行标注（颜色 + 文案）。 */
 private data class Accent(val container: Color, val content: Color, val text: String)
 
-/** 复吸用醒目色、渴求用中性色，避免把“又记录了”渲染成负面判决。 */
+/** 破戒用醒目色、渴求用中性色，避免把“又记录了”渲染成负面判决。 */
 private fun TimelineEntry.accent(): Accent? = when (this) {
     is TimelineEntry.Relapse -> Accent(
         container = Color(0xFFFFDAD6),
         content = Color(0xFF410002),
-        text = "已在复吸后重置天数 · 记录本身就是有效动作",
+        text = "已在破戒后重置天数 · 记录本身就是有效动作",
     )
 
     is TimelineEntry.Urge -> Accent(

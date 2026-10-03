@@ -61,7 +61,7 @@ class HomeViewModel(private val repository: AnchorRepository) : ViewModel() {
     fun checkInToday() {
         viewModelScope.launch {
             message.value = when (val decision = repository.checkInToday()) {
-                is CheckInDecision.Allowed -> "已记录今天。记录本身就是有效动作。"
+                is CheckInDecision.Allowed -> "已记录今天。"
                 is CheckInDecision.AlreadyCheckedIn -> "今天已经记录过了。"
                 is CheckInDecision.Rejected -> decision.reason
             }
@@ -77,10 +77,10 @@ enum class TimelineFilter(val label: String) {
     ALL("全部"),
     CHECK_IN("打卡"),
     URGE("渴求"),
-    RELAPSE("复吸"),
+    RELAPSE("破戒"),
 }
 
-/** 日志页的一条时间线条目（打卡 / 渴求事件 / 复吸）。 */
+/** 日志页的一条时间线条目（打卡 / 渴求事件 / 破戒）。 */
 sealed interface TimelineEntry {
     val at: Instant
 

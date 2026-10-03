@@ -116,12 +116,12 @@ fun UrgeSurfingScreen(
                 OutlinedButton(
                     onClick = { state = session.abandon(state) },
                     modifier = Modifier.fillMaxWidth(),
-                ) { Text(text = "先到这里（记作部分完成）") }
+                ) { Text(text = "先到这里") }
             }
         }
 
         Text(
-            text = "这个流程用于自助应对，不构成医疗建议。若痛苦持续加重，请咨询专业医生。",
+            text = "自助工具，不构成医疗建议；若痛苦持续加重，请咨询医生。",
             style = MaterialTheme.typography.bodySmall,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
@@ -182,7 +182,7 @@ private fun TimerCard(state: UrgeSurfingState, remainingSec: Int, progress: Floa
                 modifier = Modifier.fillMaxWidth(),
             )
             Text(
-                text = "已经陪它走了 ${state.elapsedSecTotal} 秒",
+                text = "已持续 ${state.elapsedSecTotal} 秒",
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
@@ -231,14 +231,14 @@ private fun ResultCard(state: UrgeSurfingState) {
             state.delta?.let { delta ->
                 Text(
                     text = when {
-                        delta > 0 -> "渴求下降了 $delta 分——这是你观察着它自己退下去的证据。"
-                        delta == 0 -> "强度没有变化。这也是有用的信息：它没有继续升高。"
-                        else -> "强度比开始时更高了。冲浪不保证每一次都下降，你已经完成了一次不立刻行动。"
+                        delta > 0 -> "下降 $delta 分：它自己退下去了。"
+                        delta == 0 -> "强度没变，但也没有继续升高。"
+                        else -> "比开始时更高。冲浪不保证每次都下降，你已经做到不立刻行动。"
                     },
                     style = MaterialTheme.typography.bodyMedium,
                 )
             } ?: Text(
-                text = "没有记录结束评分，所以这次不算完整的一轮，但记录已经保存。",
+                text = "没有结束评分，这次不算完整一轮，但记录已保存。",
                 style = MaterialTheme.typography.bodyMedium,
             )
         }

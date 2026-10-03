@@ -154,6 +154,7 @@ class WithdrawalPhaseResolverTest {
         val acute = resolver.resolve(0)
         assertNotNull(acute.caution)
         assertTrue(acute.caution.contains("专业医生"), "急性期提示应给出求助指引")
-        assertTrue(acute.caution.contains("不能替代诊疗"))
+        // 「不能替代诊疗」统一由卡片底部的 HELP_SEEKING_NOTICE 显示，不在每条 caution 里重复。
+        assertTrue(WithdrawalPhaseCatalog.HELP_SEEKING_NOTICE.contains("不能替代诊疗"))
     }
 }

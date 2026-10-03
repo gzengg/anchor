@@ -103,7 +103,7 @@ fun DelayToolScreen(
         }
 
         Text(
-            text = "延时工具不会替你决定做什么，只是把决定推迟十分钟。它不构成医疗建议。",
+            text = "不替你决定做什么，只是把决定推迟十分钟。不构成医疗建议。",
             style = MaterialTheme.typography.bodySmall,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
@@ -125,7 +125,7 @@ private fun StartCard(
         ) {
             Text(text = "把决定往后放十分钟", style = MaterialTheme.typography.headlineSmall)
             Text(
-                text = "十分钟里你只需要做两件事：跟着呼吸，看看自己写下的理由。",
+                text = "这十分钟里只做两件事：跟着呼吸，看看自己写下的理由。",
                 style = MaterialTheme.typography.bodyMedium,
             )
             IntensityRow(
@@ -175,7 +175,7 @@ private fun RunningCard(uiState: DelayUiState, onCancel: () -> Unit) {
             if (prompt.isNotEmpty()) {
                 Text(text = "“$prompt”", style = MaterialTheme.typography.bodyLarge)
                 Text(
-                    text = "提示语每 ${DelayTool.PROMPT_ROTATE_SEC} 秒换一条；可以在设置里改成自己的理由。",
+                    text = "每 ${DelayTool.PROMPT_ROTATE_SEC} 秒换一条，可在设置里改成自己的话。",
                     style = MaterialTheme.typography.labelSmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
@@ -205,7 +205,7 @@ private fun OutcomeCard(
         ) {
             Text(text = "十分钟到了", style = MaterialTheme.typography.headlineSmall)
             Text(
-                text = "刚才那股冲动，现在过去了吗？如实回答就好，没有对错。",
+                text = "刚才那股冲动，现在过去了吗？如实答就好。",
                 style = MaterialTheme.typography.bodyMedium,
             )
             Row(
@@ -251,7 +251,7 @@ private fun SavedCard(onDone: () -> Unit) {
         ) {
             Text(text = "已记录", style = MaterialTheme.typography.titleMedium)
             Text(
-                text = "不管结果如何，你刚才做的是“把行动推迟了十分钟”。这条记录会出现在日志页。",
+                text = "你刚把行动推迟了十分钟，这条记录会出现在日志页。",
                 style = MaterialTheme.typography.bodyMedium,
             )
             Button(onClick = onDone, modifier = Modifier.fillMaxWidth()) {

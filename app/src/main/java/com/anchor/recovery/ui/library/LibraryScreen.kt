@@ -103,7 +103,7 @@ fun LibraryScreen(
                     text = if (articles.isEmpty()) {
                         "没有匹配的文章，换个关键词试试。"
                     } else {
-                        "共 ${articles.size} 篇 · 点击查看全文"
+                        "共 ${articles.size} 篇"
                     },
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
