@@ -10,16 +10,12 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Card
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.SpanStyle
@@ -30,6 +26,13 @@ import androidx.compose.ui.unit.dp
 import com.anchor.recovery.core.relapse.DayPart
 import com.anchor.recovery.core.relapse.FrequencyItem
 import com.anchor.recovery.core.relapse.RelapseInsight
+import com.anchor.recovery.ui.components.AnchorButton
+import com.anchor.recovery.ui.components.AnchorButtonStyle
+import com.anchor.recovery.ui.components.AnchorHairline
+import com.anchor.recovery.ui.components.AnchorListGroup
+import com.anchor.recovery.ui.components.AnchorSectionHeader
+import com.anchor.recovery.ui.theme.AnchorTheme
+import com.anchor.recovery.ui.theme.AnchorType
 
 /**
  * F5 统计卡：情绪 Top-N、触发源 Top-N、时段分布、复吸间隔中位数。
@@ -43,57 +46,58 @@ import com.anchor.recovery.core.relapse.RelapseInsight
 fun RelapseInsightCard(insight: RelapseInsight, modifier: Modifier = Modifier) {
     var expanded by rememberSaveable { mutableStateOf(false) }
 
-    Card(modifier = modifier.fillMaxWidth()) {
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(start = 14.dp, end = 14.dp, top = 8.dp, bottom = 12.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp),
-        ) {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically,
+    Column(modifier = modifier.fillMaxWidth()) {
+        AnchorSectionHeader("触发因素统计")
+        AnchorListGroup {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp),
+                verticalArrangement = Arrangement.spacedBy(8.dp),
             ) {
-                Text(text = "触发因素统计", style = MaterialTheme.typography.titleSmall)
-                if (!insight.isEmpty) {
-                    TextButton(onClick = { expanded = !expanded }) {
-                        Text(text = if (expanded) "收起" else "展开")
-                    }
+                if (insight.isEmpty) {
+                    Text(
+                        text = "还没有破戒记录。这里只统计你写下的内容，无记录时不显示任何推断。",
+                        style = AnchorType.footnote,
+                        color = AnchorTheme.colors.labelSecondary,
+                    )
+                    return@Column
                 }
-            }
 
-            if (insight.isEmpty) {
+                // 三个关键数字并成一行：原来每格两行，仅这一块就占掉约 40dp。
                 Text(
-                    text = "还没有破戒记录。这里只统计你写下的内容，无记录时不显示任何推断。",
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    text = "破戒 ${insight.totalRelapses} 次 · 中位间隔 " +
+                        (insight.medianIntervalHours?.let(::formatHours) ?: "不足 2 条记录") +
+                        " · 带备注 ${insight.noteCount} 条",
+                    style = AnchorType.footnote,
+                    color = AnchorTheme.colors.label,
                 )
-                return@Column
+
+                if (expanded) {
+                    FrequencyLine(title = "情绪 Top ${insight.emotionTop.size}", items = insight.emotionTop)
+                    FrequencyLine(
+                        title = "触发源 Top ${insight.triggerTop.size}",
+                        items = insight.triggerTop,
+                    )
+                    DayPartBars(counts = insight.dayPartCounts)
+                }
+
+                Text(
+                    text = "只说明记录里出现过什么，不代表因果关系或医学结论。",
+                    style = AnchorType.footnote,
+                    color = AnchorTheme.colors.labelTertiary,
+                )
             }
 
-            // 三个关键数字并成一行：原来每格两行，仅这一块就占掉约 40dp。
-            Text(
-                text = "破戒 ${insight.totalRelapses} 次 · 中位间隔 " +
-                    (insight.medianIntervalHours?.let(::formatHours) ?: "不足 2 条记录") +
-                    " · 带备注 ${insight.noteCount} 条",
-                style = MaterialTheme.typography.bodySmall,
-            )
-
-            if (expanded) {
-                FrequencyLine(title = "情绪 Top ${insight.emotionTop.size}", items = insight.emotionTop)
-                FrequencyLine(
-                    title = "触发源 Top ${insight.triggerTop.size}",
-                    items = insight.triggerTop,
+            if (!insight.isEmpty) {
+                AnchorHairline(inset = 0.dp)
+                AnchorButton(
+                    text = if (expanded) "收起" else "展开",
+                    onClick = { expanded = !expanded },
+                    style = AnchorButtonStyle.Plain,
+                    modifier = Modifier.fillMaxWidth(),
                 )
-                DayPartBars(counts = insight.dayPartCounts)
             }
-
-            Text(
-                text = "只说明记录里出现过什么，不代表因果关系或医学结论。",
-                style = MaterialTheme.typography.labelSmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-            )
         }
     }
 }
@@ -111,7 +115,8 @@ private fun FrequencyLine(title: String, items: List<FrequencyItem>, modifier: M
                 append(items.joinToString(" · ") { "${it.label} ${it.count} 次" })
             }
         },
-        style = MaterialTheme.typography.bodySmall,
+        style = AnchorType.footnote,
+        color = AnchorTheme.colors.label,
         modifier = modifier,
     )
 }
@@ -134,12 +139,12 @@ private fun DayPartBars(counts: Map<DayPart, Int>, modifier: Modifier = Modifier
                 modifier = Modifier.weight(1f),
                 verticalArrangement = Arrangement.spacedBy(3.dp),
             ) {
-                Text(text = "$count 次", style = MaterialTheme.typography.labelSmall)
+                Text(text = "$count 次", style = AnchorType.footnote, color = AnchorTheme.colors.label)
                 DistributionBar(fraction = count.toFloat() / max)
                 Text(
                     text = part.shortName,
-                    style = MaterialTheme.typography.labelSmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    style = AnchorType.footnote,
+                    color = AnchorTheme.colors.labelTertiary,
                 )
             }
         }
@@ -154,14 +159,14 @@ private fun DistributionBar(fraction: Float, modifier: Modifier = Modifier) {
             .fillMaxWidth()
             .height(4.dp)
             .clip(shape)
-            .background(MaterialTheme.colorScheme.surfaceVariant),
+            .background(AnchorTheme.colors.fill),
     ) {
         if (fraction > 0f) {
             Box(
                 modifier = Modifier
                     .fillMaxWidth(fraction)
                     .fillMaxHeight()
-                    .background(MaterialTheme.colorScheme.primary),
+                    .background(AnchorTheme.colors.tint),
             )
         }
     }

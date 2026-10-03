@@ -7,6 +7,7 @@ import android.net.Uri
 import android.os.Build
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -15,16 +16,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Card
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -42,12 +35,25 @@ import androidx.core.content.ContextCompat
 import com.anchor.recovery.AppInfo
 import com.anchor.recovery.core.legal.Disclaimer
 import com.anchor.recovery.core.notify.ReminderMessages
+import com.anchor.recovery.ui.components.AnchorAlert
+import com.anchor.recovery.ui.components.AnchorButton
+import com.anchor.recovery.ui.components.AnchorButtonStyle
+import com.anchor.recovery.ui.components.AnchorHairline
+import com.anchor.recovery.ui.components.AnchorLargeTitle
+import com.anchor.recovery.ui.components.AnchorListGroup
+import com.anchor.recovery.ui.components.AnchorSectionHeader
+import com.anchor.recovery.ui.components.AnchorSwitchRow
+import com.anchor.recovery.ui.components.PublishAnchorNavBar
+import com.anchor.recovery.ui.theme.AnchorTheme
+import com.anchor.recovery.ui.theme.AnchorType
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 /**
  * 设置页（提示词 §S7）：每日提醒与通知权限、F4 提示语、数据导出 JSON、一键清空、隐私说明。
+ *
+ * 版式为 iOS 分组列表：分节小标题 + 圆角分组卡片，动作放进卡片里而不是散在页面上。
  */
 @Composable
 fun SettingsScreen(
@@ -107,213 +113,240 @@ fun SettingsScreen(
         }
     }
 
+    val scrollState = rememberScrollState()
+    PublishAnchorNavBar(scrollState)
+
     Column(
         modifier = modifier
             .fillMaxSize()
-            .verticalScroll(rememberScrollState())
-            .padding(16.dp),
-        verticalArrangement = Arrangement.spacedBy(12.dp),
+            .background(AnchorTheme.colors.groupedBackground)
+            .verticalScroll(scrollState)
+            .padding(bottom = 24.dp),
     ) {
-        SettingsCard(title = "每日提醒") {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                Text(
-                    text = "每天提醒我记录一次",
-                    style = MaterialTheme.typography.bodyLarge,
-                    modifier = Modifier.weight(1f),
-                )
-                Switch(
-                    checked = state.reminderEnabled,
-                    onCheckedChange = { checked ->
-                        if (checked && needsNotificationPermission(context)) {
-                            permissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
-                        } else {
-                            viewModel.setReminderEnabled(checked)
-                        }
-                    },
-                )
-            }
+        AnchorLargeTitle("设置")
+
+        AnchorSectionHeader("每日提醒")
+        AnchorListGroup {
+            AnchorSwitchRow(
+                title = "每天提醒我记录一次",
+                checked = state.reminderEnabled,
+                onCheckedChange = { checked ->
+                    if (checked && needsNotificationPermission(context)) {
+                        permissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+                    } else {
+                        viewModel.setReminderEnabled(checked)
+                    }
+                },
+            )
             if (state.reminderEnabled) {
+                AnchorHairline(inset = 0.dp)
                 Row(
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp, vertical = 8.dp),
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.spacedBy(8.dp),
                 ) {
-                    OutlinedButton(onClick = { viewModel.shiftReminderTime(-STEP_MINUTES) }) {
-                        Text(text = "−5 分钟")
-                    }
+                    AnchorButton(
+                        text = "−5 分钟",
+                        onClick = { viewModel.shiftReminderTime(-STEP_MINUTES) },
+                        style = AnchorButtonStyle.Tinted,
+                    )
                     Text(
                         text = state.reminderTime.toString(),
-                        style = MaterialTheme.typography.titleLarge,
+                        style = AnchorType.body,
+                        color = AnchorTheme.colors.label,
                         textAlign = TextAlign.Center,
                         modifier = Modifier.weight(1f),
                     )
-                    OutlinedButton(onClick = { viewModel.shiftReminderTime(STEP_MINUTES) }) {
-                        Text(text = "+5 分钟")
-                    }
+                    AnchorButton(
+                        text = "+5 分钟",
+                        onClick = { viewModel.shiftReminderTime(STEP_MINUTES) },
+                        style = AnchorButtonStyle.Tinted,
+                    )
                 }
             }
+            AnchorHairline(inset = 0.dp)
             Text(
                 // 提前把锁屏可见的文案展示出来：提醒不含任何用途描述。
                 text = "通知文案（锁屏可见）：「${ReminderMessages.title()}」" +
                     "${ReminderMessages.body(0)}",
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                style = AnchorType.footnote,
+                color = AnchorTheme.colors.labelSecondary,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp),
             )
         }
 
-        SettingsCard(title = "提示语（十分钟延时里轮播）") {
-            OutlinedTextField(
-                value = state.promptDraft,
-                onValueChange = viewModel::updatePromptDraft,
-                label = { Text(text = "每行一条，留空则用默认三条") },
-                minLines = 3,
-                modifier = Modifier.fillMaxWidth(),
-            )
-            Button(onClick = viewModel::savePrompts) { Text(text = "保存提示语") }
-        }
-
-        SettingsCard(title = "数据导出") {
-            Text(text = state.countsLine, style = MaterialTheme.typography.bodyMedium)
-            Button(
-                onClick = viewModel::prepareExport,
-                enabled = state.hasAnyRecord,
+        AnchorSectionHeader("提示语（十分钟延时里轮播）")
+        AnchorListGroup {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp),
+                verticalArrangement = Arrangement.spacedBy(12.dp),
             ) {
-                Text(text = "导出为 JSON")
+                OutlinedTextField(
+                    value = state.promptDraft,
+                    onValueChange = viewModel::updatePromptDraft,
+                    label = { Text(text = "每行一条，留空则用默认三条") },
+                    minLines = 3,
+                    modifier = Modifier.fillMaxWidth(),
+                )
+                AnchorButton(
+                    text = "保存提示语",
+                    onClick = viewModel::savePrompts,
+                    modifier = Modifier.fillMaxWidth(),
+                )
             }
-            Text(
-                text = "导出文件含打卡、破戒、渴求与问卷结果，位置由你选，磐石不会外发。",
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-            )
         }
 
-        SettingsCard(title = "数据导入") {
-            Text(
-                text = "读一份之前导出的 JSON，整体替换当前记录。导入前会先自动导出一份当前数据作备份。",
-                style = MaterialTheme.typography.bodyMedium,
-            )
-            Button(onClick = { importLauncher.launch(arrayOf("*/*")) }) {
-                Text(text = "从文件导入")
-            }
-            Text(
-                text = "只读你在系统文件选择器里选中的那一个文件，不认识别的位置。",
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-            )
-        }
-
-        SettingsCard(title = "清空数据") {
-            Text(
-                text = "清空后无法恢复：记录不会有云端备份，也不会有回收站。",
-                style = MaterialTheme.typography.bodyMedium,
-            )
-            Button(
-                onClick = viewModel::requestClear,
-                enabled = state.hasAnyRecord,
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = MaterialTheme.colorScheme.error,
-                    contentColor = MaterialTheme.colorScheme.onError,
-                ),
+        AnchorSectionHeader("数据导出")
+        AnchorListGroup {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp),
+                verticalArrangement = Arrangement.spacedBy(12.dp),
             ) {
-                Text(text = "清空全部数据")
+                Text(
+                    text = state.countsLine,
+                    style = AnchorType.body,
+                    color = AnchorTheme.colors.labelSecondary,
+                )
+                AnchorButton(
+                    text = "导出为 JSON",
+                    onClick = viewModel::prepareExport,
+                    enabled = state.hasAnyRecord,
+                    modifier = Modifier.fillMaxWidth(),
+                )
+                Text(
+                    text = "导出文件含打卡、破戒、渴求与问卷结果，位置由你选，磐石不会外发。",
+                    style = AnchorType.footnote,
+                    color = AnchorTheme.colors.labelSecondary,
+                )
             }
         }
 
-        SettingsCard(title = "隐私说明") {
-            Text(text = Disclaimer.PRIVACY_PARAGRAPH, style = MaterialTheme.typography.bodyMedium)
-            Text(
-                text = "磐石没有账号，不联网传输记录，也不读通讯录、位置或相册。",
-                style = MaterialTheme.typography.bodyMedium,
-            )
-            TextButton(onClick = { showFullDisclaimer = !showFullDisclaimer }) {
-                Text(text = if (showFullDisclaimer) "收起完整声明" else "查看完整声明")
+        AnchorSectionHeader("数据导入")
+        AnchorListGroup {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp),
+                verticalArrangement = Arrangement.spacedBy(12.dp),
+            ) {
+                Text(
+                    text = "读一份之前导出的 JSON，整体替换当前记录。导入前会先自动导出一份当前数据作备份。",
+                    style = AnchorType.body,
+                )
+                AnchorButton(
+                    text = "从文件导入",
+                    onClick = { importLauncher.launch(arrayOf("*/*")) },
+                    modifier = Modifier.fillMaxWidth(),
+                )
+                Text(
+                    text = "只读你在系统文件选择器里选中的那一个文件，不认识别的位置。",
+                    style = AnchorType.footnote,
+                    color = AnchorTheme.colors.labelSecondary,
+                )
             }
-            if (showFullDisclaimer) {
-                Disclaimer.paragraphs.forEach { paragraph ->
-                    Text(text = "· $paragraph", style = MaterialTheme.typography.bodySmall)
+        }
+
+        AnchorSectionHeader("清空数据")
+        AnchorListGroup {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp),
+                verticalArrangement = Arrangement.spacedBy(12.dp),
+            ) {
+                Text(
+                    text = "清空后无法恢复：记录不会有云端备份，也不会有回收站。",
+                    style = AnchorType.body,
+                )
+                AnchorButton(
+                    text = "清空全部数据",
+                    onClick = viewModel::requestClear,
+                    enabled = state.hasAnyRecord,
+                    destructive = true,
+                    modifier = Modifier.fillMaxWidth(),
+                )
+            }
+        }
+
+        AnchorSectionHeader("隐私说明")
+        AnchorListGroup {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp),
+                verticalArrangement = Arrangement.spacedBy(8.dp),
+            ) {
+                Text(text = Disclaimer.PRIVACY_PARAGRAPH, style = AnchorType.body)
+                Text(
+                    text = "磐石没有账号，不联网传输记录，也不读通讯录、位置或相册。",
+                    style = AnchorType.body,
+                )
+                if (showFullDisclaimer) {
+                    Disclaimer.paragraphs.forEach { paragraph ->
+                        Text(
+                            text = "· $paragraph",
+                            style = AnchorType.footnote,
+                            color = AnchorTheme.colors.labelSecondary,
+                        )
+                    }
                 }
+                Text(
+                    text = "${AppInfo.DISPLAY_NAME} v${AppInfo.VERSION} · 声明版本 ${state.disclaimerVersion}",
+                    style = AnchorType.footnote,
+                    color = AnchorTheme.colors.labelSecondary,
+                )
             }
-            Text(
-                text = "${AppInfo.DISPLAY_NAME} v${AppInfo.VERSION} · 声明版本 ${state.disclaimerVersion}",
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
+            AnchorHairline(inset = 0.dp)
+            AnchorButton(
+                text = if (showFullDisclaimer) "收起完整声明" else "查看完整声明",
+                onClick = { showFullDisclaimer = !showFullDisclaimer },
+                style = AnchorButtonStyle.Plain,
+                modifier = Modifier.fillMaxWidth(),
             )
         }
 
         state.message?.let { message ->
             Text(
                 text = message,
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.primary,
+                style = AnchorType.footnote,
+                color = AnchorTheme.colors.tint,
+                modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 12.dp),
             )
         }
     }
 
     state.pendingImport?.let { pending ->
-        AlertDialog(
-            onDismissRequest = viewModel::cancelImport,
-            title = { Text(text = "用这份文件替换现有记录？") },
-            text = {
-                Text(
-                    text = "文件：${pending.fileName}\n" +
-                        "导出时间：${humanReadableTime(pending.exportedAt)}\n" +
-                        "含 ${pending.countsLine}\n\n" +
-                        "当前记录会被这份文件整体替换，替换前先导出一份备份。",
-                )
-            },
-            confirmButton = {
-                TextButton(onClick = viewModel::confirmImport) { Text(text = "备份并导入") }
-            },
-            dismissButton = {
-                TextButton(onClick = viewModel::cancelImport) { Text(text = "取消") }
-            },
+        AnchorAlert(
+            title = "用这份文件替换现有记录？",
+            message = "文件：${pending.fileName}\n" +
+                "导出时间：${humanReadableTime(pending.exportedAt)}\n" +
+                "含 ${pending.countsLine}\n\n" +
+                "当前记录会被这份文件整体替换，替换前先导出一份备份。",
+            confirmLabel = "备份并导入",
+            onConfirm = viewModel::confirmImport,
+            dismissLabel = "取消",
+            onDismiss = viewModel::cancelImport,
         )
     }
 
     if (state.awaitingClearConfirm) {
-        AlertDialog(
-            onDismissRequest = viewModel::cancelClear,
-            title = { Text(text = "确认清空全部数据？") },
-            text = {
-                Text(
-                    text = "打卡、破戒、渴求和问卷记录都会被删除，且无法恢复；提醒时间与提示语会保留。",
-                )
-            },
-            confirmButton = {
-                TextButton(
-                    onClick = viewModel::confirmClear,
-                    colors = ButtonDefaults.textButtonColors(
-                        contentColor = MaterialTheme.colorScheme.error,
-                    ),
-                ) {
-                    Text(text = "清空")
-                }
-            },
-            dismissButton = {
-                TextButton(onClick = viewModel::cancelClear) { Text(text = "取消") }
-            },
+        AnchorAlert(
+            title = "确认清空全部数据？",
+            message = "打卡、破戒、渴求和问卷记录都会被删除，且无法恢复；提醒时间与提示语会保留。",
+            confirmLabel = "清空",
+            onConfirm = viewModel::confirmClear,
+            dismissLabel = "取消",
+            onDismiss = viewModel::cancelClear,
+            destructive = true,
         )
-    }
-}
-
-@Composable
-private fun SettingsCard(
-    title: String,
-    content: @Composable () -> Unit,
-) {
-    Card(modifier = Modifier.fillMaxWidth()) {
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp),
-        ) {
-            Text(text = title, style = MaterialTheme.typography.titleMedium)
-            content()
-        }
     }
 }
 

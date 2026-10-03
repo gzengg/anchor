@@ -1,5 +1,6 @@
 package com.anchor.recovery.ui.tools
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -8,12 +9,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Button
-import androidx.compose.material3.Card
 import androidx.compose.material3.LinearProgressIndicator
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Slider
+import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -29,6 +27,13 @@ import com.anchor.recovery.core.urge.BreathingPattern
 import com.anchor.recovery.core.urge.UrgeSurfingSession
 import com.anchor.recovery.core.urge.UrgeSurfingStage
 import com.anchor.recovery.core.urge.UrgeSurfingState
+import com.anchor.recovery.ui.components.AnchorButton
+import com.anchor.recovery.ui.components.AnchorButtonStyle
+import com.anchor.recovery.ui.components.AnchorLargeTitle
+import com.anchor.recovery.ui.components.AnchorListGroup
+import com.anchor.recovery.ui.components.PublishAnchorNavBar
+import com.anchor.recovery.ui.theme.AnchorTheme
+import com.anchor.recovery.ui.theme.AnchorType
 import kotlinx.coroutines.delay
 
 /**
@@ -63,41 +68,71 @@ fun UrgeSurfingScreen(
         }
     }
 
+    val scrollState = rememberScrollState()
+    PublishAnchorNavBar(scrollState)
+
     Column(
         modifier = modifier
             .fillMaxSize()
-            .verticalScroll(rememberScrollState())
-            .padding(16.dp),
+            .background(AnchorTheme.colors.groupedBackground)
+            .verticalScroll(scrollState)
+            .padding(bottom = 24.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
+        AnchorLargeTitle("渴求冲浪")
+
         StageHeader(state = state)
 
         when (state.stage) {
             UrgeSurfingStage.INTRO -> {
-                IntensityPicker(intensity = intensity, onIntensityChange = { intensity = it })
-                Button(
-                    onClick = { state = session.start(state, intensity) },
-                    modifier = Modifier.fillMaxWidth(),
-                ) { Text(text = "开始") }
+                AnchorListGroup {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(16.dp),
+                        verticalArrangement = Arrangement.spacedBy(16.dp),
+                    ) {
+                        IntensityPicker(intensity = intensity, onIntensityChange = { intensity = it })
+                        AnchorButton(
+                            text = "开始",
+                            onClick = { state = session.start(state, intensity) },
+                            modifier = Modifier.fillMaxWidth(),
+                        )
+                    }
+                }
             }
 
             UrgeSurfingStage.RATE_AGAIN -> {
-                IntensityPicker(
-                    intensity = intensity,
-                    label = "现在的渴求强度",
-                    onIntensityChange = { intensity = it },
-                )
-                Button(
-                    onClick = { state = session.finish(state, intensity) },
-                    modifier = Modifier.fillMaxWidth(),
-                ) { Text(text = "完成这一轮") }
+                AnchorListGroup {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(16.dp),
+                        verticalArrangement = Arrangement.spacedBy(16.dp),
+                    ) {
+                        IntensityPicker(
+                            intensity = intensity,
+                            label = "现在的渴求强度",
+                            onIntensityChange = { intensity = it },
+                        )
+                        AnchorButton(
+                            text = "完成这一轮",
+                            onClick = { state = session.finish(state, intensity) },
+                            modifier = Modifier.fillMaxWidth(),
+                        )
+                    }
+                }
             }
 
             UrgeSurfingStage.DONE -> {
                 ResultCard(state = state)
-                Button(onClick = onDone, modifier = Modifier.fillMaxWidth()) {
-                    Text(text = "回到工具页")
-                }
+                AnchorButton(
+                    text = "回到工具页",
+                    onClick = onDone,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp),
+                )
             }
 
             else -> {
@@ -109,34 +144,54 @@ fun UrgeSurfingScreen(
                 if (state.stage == UrgeSurfingStage.BREATHE) {
                     BreathingHint(elapsedSecInStage = state.elapsedSecInStage)
                 }
-                Button(
-                    onClick = { state = session.skipStage(state) },
-                    modifier = Modifier.fillMaxWidth(),
-                ) { Text(text = "跳过这一步") }
-                OutlinedButton(
-                    onClick = { state = session.abandon(state) },
-                    modifier = Modifier.fillMaxWidth(),
-                ) { Text(text = "先到这里") }
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp),
+                    verticalArrangement = Arrangement.spacedBy(12.dp),
+                ) {
+                    AnchorButton(
+                        text = "跳过这一步",
+                        onClick = { state = session.skipStage(state) },
+                        modifier = Modifier.fillMaxWidth(),
+                    )
+                    AnchorButton(
+                        text = "先到这里",
+                        onClick = { state = session.abandon(state) },
+                        style = AnchorButtonStyle.Plain,
+                        modifier = Modifier.fillMaxWidth(),
+                    )
+                }
             }
         }
 
         Text(
             text = "自助工具，不构成医疗建议；若痛苦持续加重，请咨询医生。",
-            style = MaterialTheme.typography.bodySmall,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            style = AnchorType.footnote,
+            color = AnchorTheme.colors.labelSecondary,
+            modifier = Modifier.padding(horizontal = 16.dp),
         )
     }
 }
 
 @Composable
 private fun StageHeader(state: UrgeSurfingState) {
-    Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp),
+        verticalArrangement = Arrangement.spacedBy(6.dp),
+    ) {
         Text(
             text = "${state.stage.ordinal + 1}/6 · ${state.stage.label}",
-            style = MaterialTheme.typography.labelMedium,
-            color = MaterialTheme.colorScheme.primary,
+            style = AnchorType.footnoteSemibold,
+            color = AnchorTheme.colors.tint,
         )
-        Text(text = state.stage.hint, style = MaterialTheme.typography.bodyLarge)
+        Text(
+            text = state.stage.hint,
+            style = AnchorType.body,
+            color = AnchorTheme.colors.label,
+        )
     }
 }
 
@@ -152,21 +207,34 @@ private fun IntensityPicker(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            Text(text = label, style = MaterialTheme.typography.labelLarge)
-            Text(text = "$intensity / 10", style = MaterialTheme.typography.titleMedium)
+            Text(
+                text = label,
+                style = AnchorType.subheadlineSemibold,
+                color = AnchorTheme.colors.label,
+            )
+            Text(
+                text = "$intensity / 10",
+                style = AnchorType.headline,
+                color = AnchorTheme.colors.label,
+            )
         }
         Slider(
             value = intensity.toFloat(),
             onValueChange = { onIntensityChange(it.toInt().coerceIn(1, 10)) },
             valueRange = 1f..10f,
             steps = 8,
+            colors = SliderDefaults.colors(
+                thumbColor = AnchorTheme.colors.tint,
+                activeTrackColor = AnchorTheme.colors.tint,
+                inactiveTrackColor = AnchorTheme.colors.fillStrong,
+            ),
         )
     }
 }
 
 @Composable
 private fun TimerCard(state: UrgeSurfingState, remainingSec: Int, progress: Float) {
-    Card(modifier = Modifier.fillMaxWidth()) {
+    AnchorListGroup {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
@@ -175,16 +243,19 @@ private fun TimerCard(state: UrgeSurfingState, remainingSec: Int, progress: Floa
         ) {
             Text(
                 text = formatSeconds(remainingSec),
-                style = MaterialTheme.typography.displaySmall,
+                style = AnchorType.largeTitle,
+                color = AnchorTheme.colors.label,
             )
             LinearProgressIndicator(
                 progress = { progress },
                 modifier = Modifier.fillMaxWidth(),
+                color = AnchorTheme.colors.tint,
+                trackColor = AnchorTheme.colors.fillStrong,
             )
             Text(
                 text = "已持续 ${state.elapsedSecTotal} 秒",
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                style = AnchorType.footnote,
+                color = AnchorTheme.colors.labelSecondary,
             )
         }
     }
@@ -193,18 +264,22 @@ private fun TimerCard(state: UrgeSurfingState, remainingSec: Int, progress: Floa
 @Composable
 private fun BreathingHint(elapsedSecInStage: Int) {
     val cue = BreathingPattern.cue(elapsedSecInStage)
-    Card(modifier = Modifier.fillMaxWidth()) {
+    AnchorListGroup {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(4.dp),
         ) {
-            Text(text = cue.label, style = MaterialTheme.typography.headlineSmall)
+            Text(
+                text = cue.label,
+                style = AnchorType.title3,
+                color = AnchorTheme.colors.label,
+            )
             Text(
                 text = "保持 ${cue.remainingSec} 秒 · 吸气 4 / 停 2 / 呼气 6",
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                style = AnchorType.footnote,
+                color = AnchorTheme.colors.labelSecondary,
             )
         }
     }
@@ -212,7 +287,7 @@ private fun BreathingHint(elapsedSecInStage: Int) {
 
 @Composable
 private fun ResultCard(state: UrgeSurfingState) {
-    Card(modifier = Modifier.fillMaxWidth()) {
+    AnchorListGroup {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
@@ -221,12 +296,14 @@ private fun ResultCard(state: UrgeSurfingState) {
         ) {
             Text(
                 text = if (state.abandoned) "这一轮记作部分完成" else "这一轮结束了",
-                style = MaterialTheme.typography.titleMedium,
+                style = AnchorType.headline,
+                color = AnchorTheme.colors.label,
             )
             Text(
                 text = "用时 ${state.elapsedSecTotal} 秒 · 峰值 ${state.peakIntensity ?: "-"}/10" +
                     (state.endIntensity?.let { " · 结束 $it/10" } ?: ""),
-                style = MaterialTheme.typography.bodyMedium,
+                style = AnchorType.body,
+                color = AnchorTheme.colors.label,
             )
             state.delta?.let { delta ->
                 Text(
@@ -235,11 +312,13 @@ private fun ResultCard(state: UrgeSurfingState) {
                         delta == 0 -> "强度没变，但也没有继续升高。"
                         else -> "比开始时更高。冲浪不保证每次都下降，你已经做到不立刻行动。"
                     },
-                    style = MaterialTheme.typography.bodyMedium,
+                    style = AnchorType.body,
+                    color = AnchorTheme.colors.label,
                 )
             } ?: Text(
                 text = "没有结束评分，这次不算完整一轮，但记录已保存。",
-                style = MaterialTheme.typography.bodyMedium,
+                style = AnchorType.body,
+                color = AnchorTheme.colors.label,
             )
         }
     }

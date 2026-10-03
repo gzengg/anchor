@@ -1,5 +1,6 @@
 package com.anchor.recovery.ui.library
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -7,13 +8,10 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -22,17 +20,25 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
-import androidx.compose.foundation.shape.RoundedCornerShape
 import com.anchor.recovery.core.content.Article
 import com.anchor.recovery.core.content.MarkdownLite
+import com.anchor.recovery.core.content.MdBlock
 import com.anchor.recovery.data.content.ContentRepository
 import com.anchor.recovery.data.content.ContentSnapshot
+import com.anchor.recovery.ui.components.AnchorButton
+import com.anchor.recovery.ui.components.AnchorButtonStyle
+import com.anchor.recovery.ui.components.AnchorHairline
+import com.anchor.recovery.ui.components.PublishAnchorNavBar
+import com.anchor.recovery.ui.theme.AnchorTheme
+import com.anchor.recovery.ui.theme.AnchorType
 
 /**
  * F6 阅读器：极简 Markdown 渲染 + 来源链接（CustomTabs）+ 页底免责声明卡。
+ *
+ * 版式为 iOS 阅读面：整页白底（色值取 cardBackground），正文左右 20dp 留白、段落间距 16dp，
+ * 行长与行距以长文阅读为先，不做紧凑排布。
  */
 @Composable
 fun ArticleScreen(
@@ -48,19 +54,29 @@ fun ArticleScreen(
     val article = snapshot?.library?.article(articleId)
     val blocks = remember(article) { article?.let { MarkdownLite.parse(it.bodyMarkdown) } ?: emptyList() }
 
+    val scrollState = rememberScrollState()
+    // 文章标题本身就很长，不往页内放大标题；顶栏标题常显，滚动状态交出去以便统一联动。
+    PublishAnchorNavBar(scrollState, hasLargeTitle = false)
+
     Column(
         modifier = modifier
             .fillMaxSize()
-            .verticalScroll(rememberScrollState())
-            .padding(16.dp),
-        verticalArrangement = Arrangement.spacedBy(12.dp),
+            .background(AnchorTheme.colors.cardBackground)
+            .verticalScroll(scrollState)
+            .padding(start = 20.dp, end = 20.dp, top = 16.dp, bottom = 28.dp),
+        verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
         when {
-            snapshot == null -> Text(text = "正在加载…", style = MaterialTheme.typography.bodyMedium)
+            snapshot == null -> Text(
+                text = "正在加载…",
+                style = AnchorType.body,
+                color = AnchorTheme.colors.labelSecondary,
+            )
+
             article == null -> Text(
                 text = "没找到这篇文章（id=$articleId）。${snapshot?.error.orEmpty()}",
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.error,
+                style = AnchorType.body,
+                color = AnchorTheme.colors.danger,
             )
 
             else -> ArticleBody(article = article, blocks = blocks, onOpenSource = openUrl)
@@ -72,18 +88,18 @@ fun ArticleScreen(
 @Composable
 private fun ArticleBody(
     article: Article,
-    blocks: List<com.anchor.recovery.core.content.MdBlock>,
+    blocks: List<MdBlock>,
     onOpenSource: (String) -> Unit,
 ) {
     SelectionContainer {
         Column(
             modifier = Modifier.fillMaxWidth(),
-            verticalArrangement = Arrangement.spacedBy(12.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
             ArticleHeader(article = article)
-            HorizontalDivider()
+            AnchorHairline(inset = 0.dp)
             MarkdownBlocks(blocks = blocks)
-            HorizontalDivider()
+            AnchorHairline(inset = 0.dp)
             SourceSection(article = article, onOpenSource = onOpenSource)
         }
     }
@@ -93,68 +109,77 @@ private fun ArticleBody(
 
 @Composable
 private fun ArticleHeader(article: Article) {
-    Row(
+    val colors = AnchorTheme.colors
+    Column(
         modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.spacedBy(8.dp),
-        verticalAlignment = Alignment.CenterVertically,
+        verticalArrangement = Arrangement.spacedBy(8.dp),
     ) {
-        CredibilityBadge(credibility = article.credibility)
-        Text(
-            text = article.categoryDir.ifBlank { article.category },
-            style = MaterialTheme.typography.labelSmall,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
-        )
-    }
-
-    Text(
-        text = article.title,
-        style = MaterialTheme.typography.headlineSmall,
-        fontWeight = FontWeight.Bold,
-    )
-
-    val meta = listOf(article.author, article.date).filter { it.isNotBlank() }.joinToString(" · ")
-    if (meta.isNotBlank()) {
-        Text(
-            text = meta,
-            style = MaterialTheme.typography.bodySmall,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
-        )
-    }
-
-    if (article.summary.isNotBlank()) {
-        Surface(
+        Row(
             modifier = Modifier.fillMaxWidth(),
-            color = MaterialTheme.colorScheme.secondaryContainer,
-            contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
-            shape = RoundedCornerShape(12.dp),
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            verticalAlignment = Alignment.CenterVertically,
         ) {
+            CredibilityBadge(credibility = article.credibility)
             Text(
-                text = article.summary,
-                style = MaterialTheme.typography.bodyMedium,
-                modifier = Modifier.padding(14.dp),
+                text = article.categoryDir.ifBlank { article.category },
+                style = AnchorType.footnote,
+                color = colors.labelSecondary,
             )
         }
-    }
 
+        Text(
+            text = article.title,
+            style = AnchorType.title2,
+            color = colors.label,
+        )
+
+        val meta = listOf(article.author, article.date).filter { it.isNotBlank() }.joinToString(" · ")
+        if (meta.isNotBlank()) {
+            Text(
+                text = meta,
+                style = AnchorType.footnote,
+                color = colors.labelSecondary,
+            )
+        }
+
+        if (article.summary.isNotBlank()) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clip(RoundedCornerShape(10.dp))
+                    .background(colors.fill)
+                    .padding(14.dp),
+            ) {
+                Text(
+                    text = article.summary,
+                    style = AnchorType.callout,
+                    color = colors.label,
+                )
+            }
+        }
+    }
 }
 
 /** 站外来源链接：显式提示“会离开应用”。 */
 @Composable
 private fun SourceSection(article: Article, onOpenSource: (String) -> Unit) {
-    Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
-        Text(text = "原文来源", style = MaterialTheme.typography.labelLarge)
-        TextButton(onClick = { onOpenSource(article.source) }) {
-            Text(
-                text = article.source,
-                style = MaterialTheme.typography.bodySmall,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
-            )
-        }
+    val colors = AnchorTheme.colors
+    Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
+        Text(
+            text = "原文来源",
+            style = AnchorType.subheadlineSemibold,
+            color = colors.label,
+        )
+        AnchorButton(
+            text = article.source,
+            onClick = { onOpenSource(article.source) },
+            style = AnchorButtonStyle.Plain,
+            modifier = Modifier.fillMaxWidth(),
+        )
         Text(
             text = "链接会用系统浏览器/CustomTabs 打开，属于站外内容。",
-            style = MaterialTheme.typography.labelSmall,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            style = AnchorType.footnote,
+            color = colors.labelSecondary,
         )
     }
 }

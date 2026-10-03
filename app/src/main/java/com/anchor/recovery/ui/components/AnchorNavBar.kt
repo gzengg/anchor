@@ -62,19 +62,43 @@ private val LargeTitleCollapseDistance = 44.dp
  * 这样滚动帧只重组导航栏，不会顺着状态把整页拖着重组。
  */
 @Stable
-class AnchorNavBarState {
+class AnchorNavBarState internal constructor(private val collapseDistancePx: Float) {
     var scrollState: androidx.compose.foundation.ScrollState? by mutableStateOf(null)
         internal set
     var listState: LazyListState? by mutableStateOf(null)
         internal set
     var hasLargeTitle: Boolean by mutableStateOf(true)
         internal set
+
+    /** 内联标题透明度：没交滚动状态、或页面没有大标题时恒为 1。 */
+    fun titleAlpha(): Float {
+        val scroll = scrollState
+        val list = listState
+        return when {
+            !hasLargeTitle -> 1f
+            scroll != null -> (scroll.value / collapseDistancePx).coerceIn(0f, 1f)
+            list != null -> {
+                val offset = if (list.firstVisibleItemIndex == 0) {
+                    list.firstVisibleItemScrollOffset.toFloat()
+                } else {
+                    collapseDistancePx
+                }
+                (offset / collapseDistancePx).coerceIn(0f, 1f)
+            }
+
+            else -> 1f
+        }
+    }
 }
 
 val LocalAnchorNavBarState = staticCompositionLocalOf<AnchorNavBarState?> { null }
 
 @Composable
-fun rememberAnchorNavBarState(): AnchorNavBarState = remember { AnchorNavBarState() }
+fun rememberAnchorNavBarState(): AnchorNavBarState {
+    val density = LocalDensity.current
+    val collapseDistancePx = remember(density) { with(density) { LargeTitleCollapseDistance.toPx() } }
+    return remember(collapseDistancePx) { AnchorNavBarState(collapseDistancePx) }
+}
 
 /**
  * 内联导航栏：44dp 高、标题居中、返回键在左、动作用户自己传。
@@ -235,31 +259,4 @@ fun PublishAnchorNavBar(
     }
 }
 
-/** 全局导航栏取当前页的内联标题透明度。 */
-@Composable
-fun anchorNavBarTitleAlpha(): () -> Float {
-    val state = LocalAnchorNavBarState.current
-    val density = LocalDensity.current
-    val distance = remember(density) { with(density) { LargeTitleCollapseDistance.toPx() } }
-    val scrollState = state?.scrollState
-    val listState = state?.listState
-    val hasLargeTitle = state?.hasLargeTitle ?: true
-    return remember(scrollState, listState, hasLargeTitle, distance) {
-        {
-            when {
-                !hasLargeTitle -> 1f
-                scrollState != null -> (scrollState.value / distance).coerceIn(0f, 1f)
-                listState != null -> {
-                    val offset = if (listState.firstVisibleItemIndex == 0) {
-                        listState.firstVisibleItemScrollOffset.toFloat()
-                    } else {
-                        distance
-                    }
-                    (offset / distance).coerceIn(0f, 1f)
-                }
 
-                else -> 1f
-            }
-        }
-    }
-}

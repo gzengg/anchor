@@ -1,5 +1,6 @@
 package com.anchor.recovery.ui.tools
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -8,14 +9,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Button
-import androidx.compose.material3.Card
 import androidx.compose.material3.LinearProgressIndicator
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Slider
+import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -28,6 +25,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.anchor.recovery.core.urge.BreathingPattern
 import com.anchor.recovery.core.urge.DelayTool
+import com.anchor.recovery.ui.components.AnchorButton
+import com.anchor.recovery.ui.components.AnchorButtonStyle
+import com.anchor.recovery.ui.components.AnchorLargeTitle
+import com.anchor.recovery.ui.components.AnchorListGroup
+import com.anchor.recovery.ui.components.PublishAnchorNavBar
+import com.anchor.recovery.ui.theme.AnchorTheme
+import com.anchor.recovery.ui.theme.AnchorType
 import kotlinx.coroutines.delay
 
 /**
@@ -57,13 +61,19 @@ fun DelayToolScreen(
         }
     }
 
+    val scrollState = rememberScrollState()
+    PublishAnchorNavBar(scrollState)
+
     Column(
         modifier = modifier
             .fillMaxSize()
-            .verticalScroll(rememberScrollState())
-            .padding(16.dp),
+            .background(AnchorTheme.colors.groupedBackground)
+            .verticalScroll(scrollState)
+            .padding(bottom = 24.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
+        AnchorLargeTitle("十分钟延时")
+
         when {
             !started -> StartCard(
                 initialIntensity = initialIntensity,
@@ -104,8 +114,9 @@ fun DelayToolScreen(
 
         Text(
             text = "不替你决定做什么，只是把决定推迟十分钟。不构成医疗建议。",
-            style = MaterialTheme.typography.bodySmall,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            style = AnchorType.footnote,
+            color = AnchorTheme.colors.labelSecondary,
+            modifier = Modifier.padding(horizontal = 16.dp),
         )
     }
 }
@@ -116,26 +127,33 @@ private fun StartCard(
     onIntensityChange: (Int) -> Unit,
     onStart: () -> Unit,
 ) {
-    Card(modifier = Modifier.fillMaxWidth()) {
+    AnchorListGroup {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(10.dp),
         ) {
-            Text(text = "把决定往后放十分钟", style = MaterialTheme.typography.headlineSmall)
+            Text(
+                text = "把决定往后放十分钟",
+                style = AnchorType.title3,
+                color = AnchorTheme.colors.label,
+            )
             Text(
                 text = "这十分钟里只做两件事：跟着呼吸，看看自己写下的理由。",
-                style = MaterialTheme.typography.bodyMedium,
+                style = AnchorType.body,
+                color = AnchorTheme.colors.label,
             )
             IntensityRow(
                 label = "开始前的渴求强度",
                 intensity = initialIntensity,
                 onIntensityChange = onIntensityChange,
             )
-            Button(onClick = onStart, modifier = Modifier.fillMaxWidth()) {
-                Text(text = "开始计时")
-            }
+            AnchorButton(
+                text = "开始计时",
+                onClick = onStart,
+                modifier = Modifier.fillMaxWidth(),
+            )
         }
     }
 }
@@ -145,7 +163,7 @@ private fun RunningCard(uiState: DelayUiState, onCancel: () -> Unit) {
     val cue = BreathingPattern.cue(uiState.elapsedSec)
     val prompt = uiState.prompts.getOrNull(uiState.promptIndex) ?: uiState.prompts.firstOrNull().orEmpty()
 
-    Card(modifier = Modifier.fillMaxWidth()) {
+    AnchorListGroup {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
@@ -154,35 +172,49 @@ private fun RunningCard(uiState: DelayUiState, onCancel: () -> Unit) {
         ) {
             Text(
                 text = uiState.remainingLabel,
-                style = MaterialTheme.typography.displayMedium,
+                style = AnchorType.largeTitle,
+                color = AnchorTheme.colors.label,
             )
             LinearProgressIndicator(
                 progress = { uiState.progress },
                 modifier = Modifier.fillMaxWidth(),
+                color = AnchorTheme.colors.tint,
+                trackColor = AnchorTheme.colors.fillStrong,
             )
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(12.dp),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
-                Text(text = cue.label, style = MaterialTheme.typography.headlineSmall)
+                Text(
+                    text = cue.label,
+                    style = AnchorType.title3,
+                    color = AnchorTheme.colors.label,
+                )
                 Text(
                     text = "保持 ${cue.remainingSec} 秒（吸气 4 / 停 2 / 呼气 6）",
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    style = AnchorType.footnote,
+                    color = AnchorTheme.colors.labelSecondary,
                 )
             }
             if (prompt.isNotEmpty()) {
-                Text(text = "“$prompt”", style = MaterialTheme.typography.bodyLarge)
+                Text(
+                    text = "“$prompt”",
+                    style = AnchorType.body,
+                    color = AnchorTheme.colors.label,
+                )
                 Text(
                     text = "每 ${DelayTool.PROMPT_ROTATE_SEC} 秒换一条，可在设置里改成自己的话。",
-                    style = MaterialTheme.typography.labelSmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    style = AnchorType.footnote,
+                    color = AnchorTheme.colors.labelSecondary,
                 )
             }
-            OutlinedButton(onClick = onCancel, modifier = Modifier.fillMaxWidth()) {
-                Text(text = "结束计时")
-            }
+            AnchorButton(
+                text = "结束计时",
+                onClick = onCancel,
+                style = AnchorButtonStyle.Tinted,
+                modifier = Modifier.fillMaxWidth(),
+            )
         }
     }
 }
@@ -196,30 +228,38 @@ private fun OutcomeCard(
     onIntensityChange: (Int) -> Unit,
     onSave: () -> Unit,
 ) {
-    Card(modifier = Modifier.fillMaxWidth()) {
+    AnchorListGroup {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp),
         ) {
-            Text(text = "十分钟到了", style = MaterialTheme.typography.headlineSmall)
+            Text(
+                text = "十分钟到了",
+                style = AnchorType.title3,
+                color = AnchorTheme.colors.label,
+            )
             Text(
                 text = "刚才那股冲动，现在过去了吗？如实答就好。",
-                style = MaterialTheme.typography.bodyMedium,
+                style = AnchorType.body,
+                color = AnchorTheme.colors.label,
             )
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(12.dp),
             ) {
-                Button(
+                AnchorButton(
+                    text = "过去了",
                     onClick = { onAnswer(true) },
                     modifier = Modifier.weight(1f),
-                ) { Text(text = "过去了") }
-                OutlinedButton(
+                )
+                AnchorButton(
+                    text = "还在",
                     onClick = { onAnswer(false) },
+                    style = AnchorButtonStyle.Tinted,
                     modifier = Modifier.weight(1f),
-                ) { Text(text = "还在") }
+                )
             }
             IntensityRow(
                 label = "现在的渴求强度",
@@ -228,35 +268,43 @@ private fun OutcomeCard(
             )
             Text(
                 text = "开始前 $initialIntensity / 10 → 现在 $endIntensity / 10",
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                style = AnchorType.footnote,
+                color = AnchorTheme.colors.labelSecondary,
             )
-            Button(
+            AnchorButton(
+                text = if (answered == null) "先回答问题" else "保存这次记录",
                 onClick = onSave,
                 enabled = answered != null,
                 modifier = Modifier.fillMaxWidth(),
-            ) { Text(text = if (answered == null) "先回答问题" else "保存这次记录") }
+            )
         }
     }
 }
 
 @Composable
 private fun SavedCard(onDone: () -> Unit) {
-    Card(modifier = Modifier.fillMaxWidth()) {
+    AnchorListGroup {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(10.dp),
         ) {
-            Text(text = "已记录", style = MaterialTheme.typography.titleMedium)
+            Text(
+                text = "已记录",
+                style = AnchorType.headline,
+                color = AnchorTheme.colors.label,
+            )
             Text(
                 text = "你刚把行动推迟了十分钟，这条记录会出现在日志页。",
-                style = MaterialTheme.typography.bodyMedium,
+                style = AnchorType.body,
+                color = AnchorTheme.colors.label,
             )
-            Button(onClick = onDone, modifier = Modifier.fillMaxWidth()) {
-                Text(text = "回到工具页")
-            }
+            AnchorButton(
+                text = "回到工具页",
+                onClick = onDone,
+                modifier = Modifier.fillMaxWidth(),
+            )
         }
     }
 }
@@ -273,14 +321,27 @@ private fun IntensityRow(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            Text(text = label, style = MaterialTheme.typography.labelLarge)
-            Text(text = "$intensity / 10", style = MaterialTheme.typography.titleMedium)
+            Text(
+                text = label,
+                style = AnchorType.subheadlineSemibold,
+                color = AnchorTheme.colors.label,
+            )
+            Text(
+                text = "$intensity / 10",
+                style = AnchorType.headline,
+                color = AnchorTheme.colors.label,
+            )
         }
         Slider(
             value = intensity.toFloat(),
             onValueChange = { onIntensityChange(it.toInt().coerceIn(1, 10)) },
             valueRange = 1f..10f,
             steps = 8,
+            colors = SliderDefaults.colors(
+                thumbColor = AnchorTheme.colors.tint,
+                activeTrackColor = AnchorTheme.colors.tint,
+                inactiveTrackColor = AnchorTheme.colors.fillStrong,
+            ),
         )
     }
 }

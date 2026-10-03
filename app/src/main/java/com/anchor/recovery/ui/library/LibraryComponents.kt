@@ -8,21 +8,23 @@ import androidx.browser.customtabs.CustomTabsIntent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.AnnotatedString
@@ -32,11 +34,20 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.anchor.recovery.core.content.Credibility
 import com.anchor.recovery.core.content.MdBlock
 import com.anchor.recovery.core.content.MdSpan
+import com.anchor.recovery.ui.components.AnchorClickableSurface
+import com.anchor.recovery.ui.theme.AnchorTheme
+import com.anchor.recovery.ui.theme.AnchorType
 
-/** 可信度徽章配色：高=绿、中=黄、低=灰（与理念一致性要求一致）。 */
+/**
+ * 可信度徽章配色：高=绿、中=黄、低=灰（与理念一致性要求一致）。
+ *
+ * 这三档底色要同时兜住白字/深字的对比度，所以不用 AnchorTheme 的 systemGreen（过亮、
+ * 配白字只有约 2:1），按深浅各取一档固定色。
+ */
 private val CredibilityHighContainer = Color(0xFF2E7D32)
 private val CredibilityMediumContainer = Color(0xFFF9A825)
 private val CredibilityLowContainer = Color(0xFF757575)
@@ -61,7 +72,7 @@ fun CredibilityBadge(credibility: Credibility, modifier: Modifier = Modifier) {
     ) {
         Text(
             text = "可信度 ${credibility.label}",
-            style = MaterialTheme.typography.labelSmall,
+            style = AnchorType.caption1,
             modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp),
         )
     }
@@ -74,6 +85,7 @@ fun SourceChips(
     onOpenArticle: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    val colors = AnchorTheme.colors
     Row(
         modifier = modifier,
         horizontalArrangement = Arrangement.spacedBy(6.dp),
@@ -81,19 +93,19 @@ fun SourceChips(
     ) {
         Text(
             text = "来源",
-            style = MaterialTheme.typography.labelSmall,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            style = AnchorType.footnote,
+            color = colors.labelSecondary,
         )
         articleIds.forEach { id ->
-            Surface(
-                color = MaterialTheme.colorScheme.secondaryContainer,
-                contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
-                shape = RoundedCornerShape(4.dp),
+            AnchorClickableSurface(
                 onClick = { onOpenArticle(id) },
+                color = colors.fill,
+                shape = RoundedCornerShape(6.dp),
             ) {
                 Text(
                     text = id,
-                    style = MaterialTheme.typography.labelSmall,
+                    style = AnchorType.caption1,
+                    color = colors.tint,
                     modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp),
                 )
             }
@@ -107,19 +119,17 @@ fun DisclaimerCard(
     modifier: Modifier = Modifier,
     text: String = DEFAULT_DISCLAIMER,
 ) {
-    Surface(
-        modifier = modifier.fillMaxWidth(),
-        color = MaterialTheme.colorScheme.surfaceVariant,
-        contentColor = MaterialTheme.colorScheme.onSurfaceVariant,
-        shape = RoundedCornerShape(12.dp),
+    val colors = AnchorTheme.colors
+    Column(
+        modifier = modifier
+            .fillMaxWidth()
+            .clip(RoundedCornerShape(10.dp))
+            .background(colors.fill)
+            .padding(14.dp),
+        verticalArrangement = Arrangement.spacedBy(4.dp),
     ) {
-        Column(
-            modifier = Modifier.padding(14.dp),
-            verticalArrangement = Arrangement.spacedBy(4.dp),
-        ) {
-            Text(text = "免责声明", style = MaterialTheme.typography.labelLarge)
-            Text(text = text, style = MaterialTheme.typography.bodySmall)
-        }
+        Text(text = "免责声明", style = AnchorType.subheadlineSemibold, color = colors.label)
+        Text(text = text, style = AnchorType.footnote, color = colors.labelSecondary)
     }
 }
 
@@ -143,32 +153,37 @@ fun Context.openUrl(url: String) {
     }
 }
 
+/** 正文行高放宽到 26sp（约 1.5 倍）：长文阅读比 17/22 的默认行距舒展，字号仍是 HIG body。 */
+private val ReaderBody = AnchorType.body.copy(lineHeight = 26.sp)
+
 /** 把极简 Markdown 块渲染成 Compose 组件。 */
 @Composable
 fun MarkdownBlocks(blocks: List<MdBlock>, modifier: Modifier = Modifier) {
+    val colors = AnchorTheme.colors
     Column(
         modifier = modifier.fillMaxWidth(),
-        verticalArrangement = Arrangement.spacedBy(10.dp),
+        verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
         blocks.forEach { block ->
             when (block) {
                 is MdBlock.Heading -> Text(
                     text = block.text,
                     style = when (block.level) {
-                        1 -> MaterialTheme.typography.headlineSmall
-                        2 -> MaterialTheme.typography.titleMedium
-                        else -> MaterialTheme.typography.titleSmall
+                        1 -> AnchorType.title2
+                        2 -> AnchorType.title3
+                        else -> AnchorType.headline
                     },
-                    fontWeight = FontWeight.SemiBold,
+                    color = colors.label,
                 )
 
                 is MdBlock.Paragraph -> Text(
                     text = block.spans.toAnnotatedString(),
-                    style = MaterialTheme.typography.bodyMedium,
+                    style = ReaderBody,
+                    color = colors.label,
                 )
 
                 is MdBlock.Bullets -> Column(
-                    verticalArrangement = Arrangement.spacedBy(6.dp),
+                    verticalArrangement = Arrangement.spacedBy(8.dp),
                 ) {
                     block.items.forEach { item ->
                         Row(
@@ -179,29 +194,34 @@ fun MarkdownBlocks(blocks: List<MdBlock>, modifier: Modifier = Modifier) {
                         ) {
                             Text(
                                 text = if (item.level == 0) "•" else "◦",
-                                style = MaterialTheme.typography.bodyMedium,
+                                style = ReaderBody,
+                                color = colors.labelSecondary,
                             )
                             Text(
                                 text = item.spans.toAnnotatedString(),
-                                style = MaterialTheme.typography.bodyMedium,
+                                style = ReaderBody,
+                                color = colors.label,
                             )
                         }
                     }
                 }
 
                 is MdBlock.Quote -> Row(
-                    modifier = Modifier.fillMaxWidth(),
+                    // 竖线要跟引文一样高，得先让行高由内容决定（Row 默认不进 intrinsic 测量）。
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(IntrinsicSize.Min),
                     horizontalArrangement = Arrangement.spacedBy(10.dp),
                 ) {
                     Box(
                         modifier = Modifier
                             .width(3.dp)
-                            .background(MaterialTheme.colorScheme.outlineVariant),
+                            .background(colors.opaqueSeparator),
                     )
                     Text(
                         text = block.spans.toAnnotatedString(),
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        style = ReaderBody,
+                        color = colors.labelSecondary,
                     )
                 }
 
@@ -211,16 +231,18 @@ fun MarkdownBlocks(blocks: List<MdBlock>, modifier: Modifier = Modifier) {
                 ) {
                     Text(
                         text = block.header.joinToString(separator = " | "),
-                        style = MaterialTheme.typography.bodySmall,
+                        style = AnchorType.footnote,
                         fontFamily = FontFamily.Monospace,
                         fontWeight = FontWeight.SemiBold,
+                        color = colors.label,
                     )
                     Text(
                         text = block.rows.joinToString(separator = "\n") {
                             it.joinToString(separator = " | ")
                         },
-                        style = MaterialTheme.typography.bodySmall,
+                        style = AnchorType.footnote,
                         fontFamily = FontFamily.Monospace,
+                        color = colors.labelSecondary,
                     )
                 }
             }
