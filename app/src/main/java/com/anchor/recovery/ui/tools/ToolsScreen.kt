@@ -16,14 +16,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
 /**
- * 工具页：F3 渴求冲浪 / F4 十分钟延时 / F5 复吸记录入口。
- * 具体流程页在各自阶段实现（S5）。
+ * 工具页：F3 渴求冲浪 / F4 十分钟延时 / F5 复吸记录 / F7+F8 自评问卷入口。
+ * 具体流程页在各自阶段实现（S5 / S6）。
  */
 @Composable
 fun ToolsScreen(
     onOpenUrgeSurfing: () -> Unit,
     onOpenDelayTool: () -> Unit,
     onOpenRelapseEdit: () -> Unit,
+    onOpenAssessmentHub: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -50,6 +51,12 @@ fun ToolsScreen(
             description = "如实记录情境、情绪和触发源，用于回看规律，不做评价。",
             actionLabel = "去记录",
             onAction = onOpenRelapseEdit,
+        )
+        ToolCard(
+            title = "自评问卷",
+            description = "两份自评参考问卷：成瘾倾向自评（19 题）、道德冲突 vs 真实问题（12 题）。均为自评参考，非诊断。",
+            actionLabel = "去作答",
+            onAction = onOpenAssessmentHub,
         )
         Text(
             text = "这些工具用于自助记录与应对，不构成医疗建议。",

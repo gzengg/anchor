@@ -15,6 +15,11 @@ import com.anchor.recovery.core.streak.RebootMilestone
 import com.anchor.recovery.core.streak.StreakState
 import com.anchor.recovery.data.repo.AnchorRepository
 import com.anchor.recovery.data.settings.AnchorSettings
+import com.anchor.recovery.ui.assessment.AssessmentHubViewModel
+import com.anchor.recovery.ui.assessment.CsbdQuizViewModel
+import com.anchor.recovery.ui.assessment.CsbdResultViewModel
+import com.anchor.recovery.ui.assessment.MoralQuizViewModel
+import com.anchor.recovery.ui.assessment.MoralResultViewModel
 import com.anchor.recovery.ui.tools.DelayToolViewModel
 import com.anchor.recovery.ui.tools.RelapseEditViewModel
 import com.anchor.recovery.ui.tools.UrgeSurfingViewModel
@@ -210,4 +215,9 @@ fun anchorViewModelFactory(repository: AnchorRepository, settings: AnchorSetting
     initializer { UrgeSurfingViewModel(repository) }
     initializer { DelayToolViewModel(repository, settings) }
     initializer { RelapseEditViewModel(repository) }
+    initializer { AssessmentHubViewModel(repository) }
+    initializer { CsbdQuizViewModel(repository) }
+    initializer { CsbdResultViewModel(repository) }
+    initializer { MoralQuizViewModel(repository) }
+    initializer { MoralResultViewModel(repository) }
 }

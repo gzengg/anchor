@@ -17,6 +17,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -33,6 +34,17 @@ import androidx.navigation.navArgument
 import com.anchor.recovery.data.content.ContentRepository
 import com.anchor.recovery.data.repo.AnchorRepository
 import com.anchor.recovery.data.settings.AnchorSettings
+import com.anchor.recovery.ui.assessment.AssessmentHubScreen
+import com.anchor.recovery.ui.assessment.AssessmentHubViewModel
+import com.anchor.recovery.ui.assessment.CsbdIntroScreen
+import com.anchor.recovery.ui.assessment.CsbdQuizViewModel
+import com.anchor.recovery.ui.assessment.CsbdResultScreen
+import com.anchor.recovery.ui.assessment.CsbdResultViewModel
+import com.anchor.recovery.ui.assessment.MoralIntroScreen
+import com.anchor.recovery.ui.assessment.MoralQuizViewModel
+import com.anchor.recovery.ui.assessment.MoralResultScreen
+import com.anchor.recovery.ui.assessment.MoralResultViewModel
+import com.anchor.recovery.ui.assessment.QuizScreen
 import com.anchor.recovery.ui.common.ComingSoonScreen
 import com.anchor.recovery.ui.home.CheckInScreen
 import com.anchor.recovery.ui.home.HomeScreen
@@ -129,6 +141,7 @@ fun AnchorApp(
                     onOpenUrgeSurfing = { navController.navigate(AnchorRoutes.URGE_SURFING) },
                     onOpenDelayTool = { navController.navigate(AnchorRoutes.DELAY_TOOL) },
                     onOpenRelapseEdit = { navController.navigate(AnchorRoutes.RELAPSE_EDIT) },
+                    onOpenAssessmentHub = { navController.navigate(AnchorRoutes.ASSESSMENT_HUB) },
                 )
             }
             composable(AnchorRoutes.LIBRARY) {
@@ -177,6 +190,69 @@ fun AnchorApp(
             }
             composable(AnchorRoutes.SETTINGS) {
                 ComingSoonScreen(title = "设置")
+            }
+            composable(AnchorRoutes.ASSESSMENT_HUB) {
+                val hubViewModel: AssessmentHubViewModel = viewModel(factory = factory)
+                val hubState by hubViewModel.state.collectAsState()
+                AssessmentHubScreen(
+                    state = hubState,
+                    onOpenCsbd = { navController.navigate(AnchorRoutes.CSBD_INTRO) },
+                    onOpenMoral = { navController.navigate(AnchorRoutes.MORAL_INTRO) },
+                    onOpenLastCsbd = { navController.navigate(AnchorRoutes.CSBD_RESULT) },
+                    onOpenLastMoral = { navController.navigate(AnchorRoutes.MORAL_RESULT) },
+                )
+            }
+            composable(AnchorRoutes.CSBD_INTRO) {
+                CsbdIntroScreen(
+                    onStart = { navController.navigate(AnchorRoutes.CSBD_QUIZ) },
+                )
+            }
+            composable(AnchorRoutes.CSBD_QUIZ) {
+                val quizViewModel: CsbdQuizViewModel = viewModel(factory = factory)
+                val quizState by quizViewModel.state.collectAsState()
+                QuizScreen(
+                    state = quizState,
+                    onSelect = quizViewModel::select,
+                    onPrevious = quizViewModel::previous,
+                    onNext = quizViewModel::next,
+                    onSubmit = quizViewModel::submit,
+                    onFinished = {
+                        navController.navigate(AnchorRoutes.CSBD_RESULT) {
+                            popUpTo(AnchorRoutes.CSBD_INTRO) { inclusive = true }
+                        }
+                    },
+                )
+            }
+            composable(AnchorRoutes.CSBD_RESULT) {
+                val resultViewModel: CsbdResultViewModel = viewModel(factory = factory)
+                val resultState by resultViewModel.state.collectAsState()
+                CsbdResultScreen(state = resultState)
+            }
+            composable(AnchorRoutes.MORAL_INTRO) {
+                MoralIntroScreen(
+                    onStart = { navController.navigate(AnchorRoutes.MORAL_QUIZ) },
+                )
+            }
+            composable(AnchorRoutes.MORAL_QUIZ) {
+                val quizViewModel: MoralQuizViewModel = viewModel(factory = factory)
+                val quizState by quizViewModel.state.collectAsState()
+                QuizScreen(
+                    state = quizState,
+                    onSelect = quizViewModel::select,
+                    onPrevious = quizViewModel::previous,
+                    onNext = quizViewModel::next,
+                    onSubmit = quizViewModel::submit,
+                    onFinished = {
+                        navController.navigate(AnchorRoutes.MORAL_RESULT) {
+                            popUpTo(AnchorRoutes.MORAL_INTRO) { inclusive = true }
+                        }
+                    },
+                )
+            }
+            composable(AnchorRoutes.MORAL_RESULT) {
+                val resultViewModel: MoralResultViewModel = viewModel(factory = factory)
+                val resultState by resultViewModel.state.collectAsState()
+                MoralResultScreen(state = resultState)
             }
         }
     }
