@@ -10,7 +10,7 @@
 
 ## 本机环境（已实测）
 - Gradle 8.12（缓存）+ AGP 8.12.1 + Kotlin 2.2.20（Compose K2 插件同版本）
-- JDK 20（PATH）；SDK：`C:\Users\Administrator\AppData\Local\Android\Sdk`（platforms 35 在）
+- JDK 20（PATH）；SDK：`%LOCALAPPDATA%\Android\Sdk`（platforms 35 在）
 - 无模拟器/真机 → 验证 = `:core`/`:app` JVM 单测 + `assembleDebug`
 - wrapper 离线生成：`gradle wrapper --gradle-version 8.12 --no-validate-url`
 
@@ -53,4 +53,4 @@ content-tools/build_content.py   md→assets JSON（一次性离线脚本，Pyth
 
 ## 参考文件
 - 内容源：`E:\Anchor\anchor-reference-docs\`（01~06 共 71 篇 md）
-- 本机构建约定：`C:\Users\Administrator\.workbuddy\skills\android-build-jvm-tests\SKILL.md`
+- 本机构建约定：见本机的 Android 构建技能说明（该文档不在仓库内）

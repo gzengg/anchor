@@ -31,7 +31,7 @@
    - Gradle **8.12**（本机 `~/.gradle/wrapper/dists/gradle-8.12-all` 已缓存），用 `gradle wrapper --gradle-version 8.12 --no-validate-url` 生成 wrapper（本机 `gradle` 命令不在 PATH 时，直接调用缓存目录下的 `gradle-8.12/bin/gradle`）；
    - AGP **8.12.1**、Kotlin **2.2.20**；
    - JDK：PATH 上的 JDK 20（`java version 20.0.1`），**不要**指向 Android Studio 的 JBR 25；
-   - Android SDK：`C:\Users\Administrator\AppData\Local\Android\Sdk`（platforms android-35 已装），写入 `local.properties` 的 `sdk.dir`（该文件不入 git）；
+   - Android SDK：`%LOCALAPPDATA%\Android\Sdk`（platforms android-35 已装），写入 `local.properties` 的 `sdk.dir`（该文件不入 git）；
    - 首次构建用 `--offline` 验证依赖全部命中本机缓存（`~/.gradle/caches/modules-2`）；Compose BOM、Room、WorkManager、Navigation-Compose、kotlinx-serialization 等版本若缓存缺失，换成缓存中已有的最近版本，并在交付说明中列出实际版本表。
 6. **测试纪律（硬性）**：每个阶段完成后必须执行 `./gradlew clean :core:test :app:test :app:assembleDebug` 且 **BUILD SUCCESSFUL**；**禁止**删除、跳过、注释测试或降低断言标准来让构建变绿；测试失败必须修复根因。
 
@@ -103,7 +103,7 @@ E:\Anchor\
 
 ## 4.4 内容管线
 
-`content-tools/build_content.py`（用 `C:\Users\Administrator\.workbuddy\binaries\python\versions\3.13.12\python.exe` 运行一次，输出入 git）：
+`content-tools/build_content.py`（用本机 Python 运行一次，输出入 git）：
 - 扫描 `anchor-reference-docs/0*/`，解析 front-matter（手写极简解析，字段固定，不依赖 pyyaml；遇异常行 fail-fast 报错文件名与行号）；
 - **校验（assert，作为内容测试）**：文件总数 == 71；七字段齐全；credibility ∈ {高,中,低}；category 与目录名一致；source 为 http(s) URL；
 - 输出 `app/src/main/assets/content/articles.json`（全量，含 bodyMarkdown 原文）与 `index.json`（分类→文章 id 列表与计数）；
