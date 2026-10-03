@@ -110,7 +110,7 @@ E:\Anchor\app\build\outputs\apk\debug\app-debug.apk      （debug，18,988,885 �
 | 阅读器 | TopAppBar + 返回 | Scaffold padding | 长文滚动到最后一行是否可见；「查看原始来源」按钮位置 |
 | 日志（时间线 + 统计卡） | TopAppBar + 底栏 | Scaffold padding | 过滤条与底栏间距 |
 | 渴求冲浪 / 十分钟延时 | TopAppBar + 返回 | Scaffold padding + imePadding | 计时器数字在横屏/大字体下是否溢出 |
-| 复吸记录表单 | TopAppBar + 返回 | Scaffold padding + imePadding | 多行输入 + 键盘同时出现时的滚动 |
+| 破戒记录表单 | TopAppBar + 返回 | Scaffold padding + imePadding | 多行输入 + 键盘同时出现时的滚动 |
 | 问卷（hub/intro/答题/结果） | TopAppBar + 返回 | Scaffold padding | 长题项滚动、底部「上一题/下一题」是否可点 |
 | 设置 | TopAppBar + 返回 | Scaffold padding + imePadding | 提示语输入框被键盘顶起；弹窗在横屏下是否完整 |
 | 免责声明门禁（首启/声明升级） | 无栏（整屏替换导航图） | `safeDrawingPadding()` 自行消费 | 状态栏/手势条两侧留白；超长文案滚动到底部按钮可点 |
@@ -135,8 +135,11 @@ E:\Anchor\app\build\outputs\apk\debug\app-debug.apk      （debug，18,988,885 �
   （Manifest 未申请，可 `aapt dump permissions` 核对）。
 - 启动图标：圆形/方形/圆角遮罩下锚形是否完整（自适应图标前景按 22% inset 收进安全区）；
   Android 13+ 主题图标（monochrome）跟随壁纸配色。
-- 启动画面：冷启动是否只有一块品牌色（`@color/anchor_splash_background`），无白屏闪烁；
-  深色模式下不刺眼。
+- 启动画面：冷启动首帧是 `@color/anchor_background`（中性色，不是品牌石青），无白屏闪烁；
+  启动画面退出后应立刻变成动态取色算出的页面底色；深色模式下不刺眼。
+- 动态取色（Android 12+）：换一张明显带色的壁纸，页面/卡片/底栏配色应随之变化；
+  Android 8.0～11 应稳定为品牌石青 + 暖沙；深色模式下日志里「破戒」标注应为深底浅字
+  （不再是写死的浅粉底，`TimelineScreen.kt` 的 accent 已改用 `errorContainer`/`surfaceVariant`）。
 - 数据导出：导出 JSON 落到用户选择的位置（如 Downloads），内容与页面上显示的条数一致；
   取消选择器时不应留下空文件。
 - 一键清空：清空后首页/日志归零，提醒时间与提示语等设置保留。
@@ -160,6 +163,11 @@ E:\Anchor\app\build\outputs\apk\debug\app-debug.apk      （debug，18,988,885 �
 6. **仅中文**：无 i18n 资源；知识库 71 篇也全部为中文。
 7. **构建环境绑本机**：`gradle.properties` 里写死 `org.gradle.java.home=E:/JAVA/20`，
    换机器需要改这一行；离线构建依赖本机 Gradle 缓存。
+8. **动态取色使配色随壁纸变化**（Android 12+）：页面与卡片底色取自壁纸，所以
+   ① 系统启动画面是进程启动前解析的静态值，冷启动首帧与 Compose 首帧可能有极轻微的色调差
+   （静态值只能选中性色贴近，进程起来后 MainActivity 会立刻把窗口底色改成方案色）；
+   ② 启动图标底色固定为品牌石青，需跟随壁纸时由用户开启系统「主题图标」；
+   ③ 视觉验收/截图不再与设备无关（Android 11 及以下为固定品牌色板）。
 
 **迭代建议（按收益排序）**
 

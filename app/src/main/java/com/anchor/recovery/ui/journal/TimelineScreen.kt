@@ -171,17 +171,22 @@ private fun TimelineEntry.details(): List<String> = when (this) {
 /** 条目底部的一行标注（颜色 + 文案）。 */
 private data class Accent(val container: Color, val content: Color, val text: String)
 
-/** 破戒用醒目色、渴求用中性色，避免把“又记录了”渲染成负面判决。 */
+/**
+ * 破戒用醒目色、渴求用中性色，避免把“又记录了”渲染成负面判决。
+ * 颜色一律取自 colorScheme 角色而不是硬编码值：动态取色与深色模式都靠角色才成立
+ * （写死的浅色容器在深色模式下会变成刺眼的浅底）。
+ */
+@Composable
 private fun TimelineEntry.accent(): Accent? = when (this) {
     is TimelineEntry.Relapse -> Accent(
-        container = Color(0xFFFFDAD6),
-        content = Color(0xFF410002),
+        container = MaterialTheme.colorScheme.errorContainer,
+        content = MaterialTheme.colorScheme.onErrorContainer,
         text = "已在破戒后重置天数 · 记录本身就是有效动作",
     )
 
     is TimelineEntry.Urge -> Accent(
-        container = Color(0xFFDDE3EA),
-        content = Color(0xFF161C22),
+        container = MaterialTheme.colorScheme.surfaceVariant,
+        content = MaterialTheme.colorScheme.onSurfaceVariant,
         text = "渴求平均 3–5 分钟达峰后自行下降",
     )
 

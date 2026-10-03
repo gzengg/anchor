@@ -1,21 +1,36 @@
 package com.anchor.recovery.ui.theme
 
+import android.content.Context
+import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
+import androidx.compose.material3.dynamicDarkColorScheme
+import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 
 /*
- * 磐石配色：固定的品牌色，不跟随系统动态取色（Material You）。
+ * 磐石配色：Android 12+（API 31+）跟随系统动态取色（Material You / Monet），
+ * 其余版本回落到固定品牌色板（偏冷的石青 + 暖沙，避免高饱和带来的刺激感）。
  *
- * 原因：启动窗口（windowBackground）、启动图标底色、通知渠道色都是资源层的死值，
- * 动态取色会让页面颜色随壁纸变化，与这三处永远对不上；锁死配色后三者天然一致。
- * 色相取向按提示词要求——偏冷的石青 + 暖沙色，避免高饱和带来的刺激感。
- *
- * 注意：`background` 必须与 `res/values/colors.xml` 的 `anchor_background`
- * （以及 `values-night` 的夜间值）保持一致，否则冷启动会闪一下不同颜色。
+ * 动态取色的取舍：
+ * 1. 系统启动画面与 windowBackground 都是资源层静态值，在进程起来之前就解析完了，
+ *    冷启动首帧无法跟随壁纸，只能选中性色把色差压到最小；进程起来后由 MainActivity
+ *    立刻把窗口底色改成当前方案色，首帧之后的窗口底色与页面保持一致。
+ * 2. 启动图标底色同理保持品牌石青；想让图标跟随壁纸请走系统的「主题图标」，
+ *    我们的自适应图标已提供 monochrome 层。
+ * 3. 语义色不参与取色：error/errorContainer 由 M3 固定 error 色板给定（破戒记录用它），
+ *    知识库可信度徽章按提示词固定「高=绿/中=黄/低=灰」。
+ */
+
+/*
+ * 回落色板（API < 31 或取色不可用时使用）：
+ * `background` 必须与 res/values/colors.xml 的 `anchor_background`
+ * （以及 values-night 的夜间值）一致，否则冷启动会闪一下不同颜色。
  */
 
 // 石青（主色）
@@ -103,13 +118,26 @@ private val DarkColors = darkColorScheme(
     onErrorContainer = Color(0xFFF9DEDC),
 )
 
+/**
+ * 当前生效的配色方案：Android 12+ 跟随壁纸，其余版本用品牌色板。
+ *
+ * 非 @Composable：启动阶段（Compose 首帧之前）要用同一份逻辑设置窗口底色。
+ */
+fun anchorColorScheme(context: Context, darkTheme: Boolean): ColorScheme = when {
+    Build.VERSION.SDK_INT >= Build.VERSION_CODES.S ->
+        if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
+
+    darkTheme -> DarkColors
+    else -> LightColors
+}
+
 @Composable
 fun AnchorTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     content: @Composable () -> Unit,
 ) {
     MaterialTheme(
-        colorScheme = if (darkTheme) DarkColors else LightColors,
+        colorScheme = anchorColorScheme(LocalContext.current, darkTheme),
         content = content,
     )
 }

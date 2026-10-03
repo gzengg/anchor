@@ -2,8 +2,9 @@
 <resources>
     <!--
       启动主题：windowBackground 用「应用背景色」而不是品牌主色。
-      冷启动（含 Android 12+ 的系统启动画面）与 Compose 首帧因此是同一个底色，
-      不会出现「启动一块石青 → 页面一片暖白」的割裂感。
+      这是进程启动前就解析完的静态值：Android 12+ 的系统启动画面首帧用它，
+      而动态取色（Android 12+）下 Compose 的页面底色跟着壁纸变，静态值只能选中性色
+      把色差压到最小；进程起来后由 MainActivity 换成当前方案色。
     -->
     <style name="Theme.Anchor" parent="android:Theme.Material.Light.NoActionBar">
         <item name="android:windowBackground">@color/anchor_background</item>
