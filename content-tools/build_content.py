@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 """磐石（Anchor）内容管线：anchor-reference-docs/*.md -> app/src/main/assets/content/*.json
 
-一次性离线脚本（Python 3.13，零第三方依赖）。运行：
+一次性离线脚本（Python 3，零第三方依赖）。运行：
 
-    C:\\Users\\Administrator\\.workbuddy\\binaries\\python\\versions\\3.13.12\\python.exe content-tools/build_content.py
+    python content-tools/build_content.py     # Windows 上也可用 py 启动器
 
 校验失败一律 fail-fast，错误信息包含文件名与行号；产物入 git。
 
