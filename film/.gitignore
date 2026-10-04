@@ -1,0 +1,11 @@
+# rendered media and scratch — regenerable from the sources above
+frames/
+out/
+stills/
+_look/
+*.mp3
+*.m4a
+*.wav
+*.mp4
+fonts/*.ttf
+_notes_articles.txt

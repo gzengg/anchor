@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<!--
+  磐石 · 发布片 — onetake composition (49.0 s · 1920×1080 → 3840×2160 @2x)
+  Every value is a pure function of t. Contract: window.__seek(t) → Promise, window.__ready, window.__meta.
+  The product UI is a REBUILT replica (no screen recording): layout in the app's own dp frame (393 dp wide),
+  geometry and copy taken from E:\Anchor\app (see film/ui-spec.md). The film's own words are the app's own strings.
+  Carry objects (a node that never appears twice): #line/#tick → the 90-day progress bar · #num → the day count.
+  Look: _look/c1 (`anchor-paper`, the product's own colours) via look.js.
+-->
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>磐石 · 发布片</title>
+<style>
+:root{ --accent2:#8C6D46; --deep:#E7E4E0; --card:#FFFFFF; }
+html,body{margin:0;width:1920px;height:1080px;overflow:hidden;background:var(--ground,#F5F2EE)}
+body{font-family:var(--text,Inter,system-ui,sans-serif);color:var(--ink,#000);-webkit-font-smoothing:antialiased}
+#stage{position:absolute;inset:0;overflow:hidden;background:var(--ground,#F5F2EE)}
+#world{position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:0 0;will-change:transform}
+.abs{position:absolute;left:0;top:0;will-change:transform,opacity}
+/* every film graphic starts invisible: a beat turns it on. Nothing is allowed to sit at (0,0) un-owned. */
+#band,#phasecard,#reset,#st,#end,#tick,#num,#notice,#mark,#ring,#stagecard,#strip,#slider,#cd,#chips{opacity:0}
+#subs{position:absolute;left:0;right:0;bottom:64px;text-align:center;font-family:Anchor,HarmonyOS Sans SC,sans-serif;
+  font-weight:500;font-size:40px;line-height:52px;letter-spacing:.01em;color:var(--ink);opacity:0;will-change:opacity}
+
+/* ── the film's own words ────────────────────────────────────────────────────────────────────────── */
+#mark{font-family:Anchor,HarmonyOS Sans SC,sans-serif;font-weight:700;font-size:212px;line-height:1;
+  letter-spacing:.06em;white-space:nowrap;color:var(--ink);transform-origin:50% 50%}
+#mark span{display:inline-block;transform-origin:50% 90%}
+#notice{font-family:Anchor,HarmonyOS Sans SC,sans-serif;font-weight:500;font-size:36px;line-height:48px;
+  color:var(--mute,#6C6C70);white-space:nowrap;transform-origin:50% 50%}
+
+/* ── carry objects ─────────────────────────────────────────────────────────────────────────────────── */
+#line{background:var(--line,#C6C6C8);height:1px;transform-origin:0 50%}
+#tick{background:var(--accent,#2E6F73);width:3px;height:24px;transform-origin:0 50%}
+#num{display:flex;align-items:flex-end;font-family:Anchor,HarmonyOS Sans SC,sans-serif;color:var(--accent,#2E6F73)}
+#num .n{font-weight:700;font-size:68px;line-height:82px}
+#num .u{font-weight:400;font-size:30px;line-height:40px;color:var(--mute,#6C6C70);padding-bottom:12px}
+
+/* ── the hand: a touch, because this is a phone ────────────────────────────────────────────────────── */
+#touch{width:64px;height:64px;margin:-32px 0 0 -32px;border-radius:50%;
+  background:rgba(46,111,115,.16);box-shadow:0 0 0 2px rgba(46,111,115,.42);transform-origin:50% 50%}
+#touch i{position:absolute;inset:21px;border-radius:50%;background:var(--accent,#2E6F73)}
+#ring{width:64px;height:64px;margin:-32px 0 0 -32px;border-radius:50%;border:2px solid rgba(46,111,115,.55);
+  transform-origin:50% 50%;opacity:0}
+
+/* ── the replica: the app's own dp frame, 393 dp wide, scaled by film.js ───────────────────────────── */
+.wrap{position:absolute;left:0;top:0;width:393px;transform-origin:0 0}
+.rep{position:absolute;left:0;top:0;width:393px;font-family:Anchor,HarmonyOS Sans SC,sans-serif;font-weight:400;
+  color:var(--ink,#000);font-variant-numeric:tabular-nums;text-rendering:geometricPrecision}
+#draw{position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none}
+.rep *{box-sizing:border-box}
+.rep .nav{height:44px;display:flex;align-items:center;justify-content:center;font-size:17px;line-height:22px;font-weight:600}
+.rep .card{background:var(--card,#fff);border-radius:10px}
+.rep .sec{font-size:13px;line-height:18px;color:var(--mute,#6C6C70);padding:20px 16px 6px}
+.rep .strk{margin:8px 16px 0;padding:16px}
+.rep .today{margin:0 16px;padding:16px}
+.rep .quick{margin:0 16px;padding:16px}
+.rep .lbl{font-size:13px;line-height:18px;color:var(--mute,#6C6C70)}
+.rep .slotnum{height:41px}
+.rep .sub{font-size:13px;line-height:18px;color:var(--mute,#6C6C70);margin-top:6px}
+.rep .track{height:4px;border-radius:2px;margin-top:6px}
+.rep .body{font-size:17px;line-height:22px}
+.rep .btn{height:50px;border-radius:12px;display:flex;align-items:center;justify-content:center;
+  font-size:17px;line-height:22px;font-weight:600}
+.rep .filled{background:var(--accent,#2E6F73);color:#fff}
+.rep .tinted{background:rgba(46,111,115,.14);color:var(--accent,#2E6F73)}
+.rep .plain{color:var(--accent,#2E6F73)}
+.rep .row2{display:flex;gap:8px;margin-top:12px}
+.rep .row2 .btn{flex:1 1 0}
+.rep .mt12{margin-top:12px}
+.rep .foot{font-size:13px;line-height:18px;color:var(--mute,#6C6C70);margin-top:12px}
+.rep .note{padding:12px 16px;font-size:13px;line-height:18px;color:var(--mute,#6C6C70)}
+/* the milestone wall */
+.rep .mwall{padding:0;overflow:hidden}
+.rep .mrow{display:flex;align-items:center;gap:12px;padding:12px 16px;border-bottom:1px solid rgba(60,60,67,.29)}
+.rep .mrow:last-child{border-bottom:0}
+.rep .bd{flex:none;width:56px;height:56px;border-radius:10px;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;background:rgba(120,120,128,.16);color:var(--ter,#8E8E93)}
+.rep .bd.on{background:var(--accent,#2E6F73);color:#fff}
+.rep .bd b{font-size:22px;line-height:26px;font-weight:700}
+.rep .bd span{font-size:11px;line-height:13px}
+.rep .mtxt .t{font-size:17px;line-height:22px}
+.rep .mtxt .s{margin-top:2px;font-size:13px;line-height:18px;color:var(--ter,#8E8E93)}
+.rep .mtxt .s.don{color:var(--accent,#2E6F73)}
+/* the library */
+.rep .lart{padding:0;overflow:hidden}
+.rep .arow{padding:12px 16px;border-bottom:1px solid rgba(60,60,67,.29)}
+.rep .arow:last-child{border-bottom:0}
+.rep .arow .top{display:flex;align-items:center;gap:8px}
+.rep .cb{font-size:11px;line-height:13px;padding:2px 6px;border-radius:4px;background:rgba(46,111,115,.14);color:var(--accent,#2E6F73)}
+.rep .arow .date{font-size:12px;line-height:16px;color:var(--mute,#6C6C70)}
+.rep .arow .ti{margin-top:6px;font-size:17px;line-height:22px}
+.rep .arow .tg{display:flex;gap:6px;margin-top:6px;flex-wrap:wrap}
+.rep .arow .tg i{font-style:normal;font-size:11px;line-height:13px;padding:2px 6px;border-radius:4px;background:rgba(120,120,128,.12);color:var(--mute,#6C6C70)}
+.rep .lhead{padding:16px}
+
+/* ── the film's own graphics (not the app's UI): the day axis, the statement, the end ──────────── */
+#band{width:1400px}
+#band .seg{position:absolute;top:30px;height:30px;border-radius:4px;background:var(--deep,#E7E4E0);transform-origin:50% 100%}
+#band .seg.on{background:rgba(46,111,115,.20)}
+#band .nm{position:absolute;top:0;font-family:Anchor,HarmonyOS Sans SC,sans-serif;font-size:28px;line-height:28px;
+  font-weight:600;color:var(--mute,#6C6C70);white-space:nowrap;transform-origin:0 100%}
+#band .nm.on{color:var(--accent,#2E6F73)}
+#band .dr{position:absolute;top:74px;font-family:Anchor,HarmonyOS Sans SC,sans-serif;font-size:20px;line-height:24px;
+  color:var(--ter,#8E8E93);white-space:nowrap}
+#band .tk{position:absolute;top:18px;width:3px;height:48px;border-radius:2px;background:var(--accent,#2E6F73);opacity:0}
+#line{background:var(--line,#C6C6C8);transform-origin:0 50%}
+#line .tick{position:absolute;bottom:-4px;width:3px;height:14px;border-radius:2px;background:var(--accent,#2E6F73);opacity:0}
+#phasecard{width:722px;padding:34px 32px;background:var(--card,#fff);border-radius:10px;
+  font-family:Anchor,HarmonyOS Sans SC,sans-serif;color:var(--ink,#000)}
+#phasecard .r1{display:flex;justify-content:space-between;font-size:34px;line-height:41px;font-weight:700}
+#phasecard .r1 small{font-size:22px;line-height:41px;font-weight:400;color:var(--mute,#6C6C70)}
+#phasecard .r2{margin-top:12px;font-size:26px;line-height:34px;color:var(--accent,#2E6F73)}
+#phasecard .hl{margin-top:22px;font-size:30px;line-height:42px}
+#st{width:1400px;text-align:center;font-family:Anchor,HarmonyOS Sans SC,sans-serif;font-weight:600;
+  font-size:76px;line-height:104px;letter-spacing:.005em;color:var(--ink,#000)}
+#end{width:1400px;text-align:center}
+#end .off{font-family:Anchor,HarmonyOS Sans SC,sans-serif;font-size:40px;line-height:56px;color:var(--mute,#6C6C70)}
+#reset{display:flex;align-items:flex-end;font-family:Anchor,HarmonyOS Sans SC,sans-serif;color:var(--accent,#2E6F73)}
+#reset .n{font-weight:700;font-size:150px;line-height:170px}
+#reset .u{font-weight:400;font-size:40px;line-height:60px;color:var(--mute,#6C6C70);padding-bottom:20px}
+/* ── the film's stage: the day grid, the urge slider, the countdown, the tags — all in the app's own material,
+     all standing exactly on the card the camera is already looking at ───────────────────────────── */
+#stagecard{background:var(--card,#fff);border-radius:10px;transform-origin:0 0}
+#strip{display:grid;grid-template-columns:repeat(21,25px);gap:8px;padding:8px;background:var(--card,#fff);
+  border-radius:12px;transform-origin:0 0}
+#strip .dcell{width:25px;height:25px;border-radius:6px;background:var(--accent,#2E6F73);opacity:.5}
+#strip .dcell.last{opacity:1}
+#strip .dcell.void{background:transparent;border:1.5px dashed #C9C4BA;opacity:0}
+#slnope{width:62px;height:62px;margin:-31px 0 0 -31px;border-radius:50%;border:2px solid var(--accent,#2E6F73)}
+#slider{width:692px;height:44px;font-family:Anchor,HarmonyOS Sans SC,sans-serif}
+#slider .trk{position:absolute;left:0;right:0;top:5px;height:34px;border-radius:17px;background:var(--deep,#E7E4E0)}
+#slider .fl{position:absolute;left:0;top:5px;height:34px;border-radius:17px;background:var(--accent,#2E6F73)}
+#slider .mk{position:absolute;top:0;width:6px;height:44px;border-radius:3px;background:var(--accent,#2E6F73);margin-left:-3px}
+#slider .dt{position:absolute;top:18px;width:8px;height:8px;border-radius:50%;margin-left:-4px;background:rgba(46,111,115,.5)}
+#slider .dt.f{background:#fff}
+#slider .cap{position:absolute;left:0;top:-44px;font-size:22px;line-height:28px;color:var(--mute,#6C6C70)}
+#slider .val{position:absolute;right:0;top:-54px;font-size:32px;line-height:38px;font-weight:700;color:var(--accent,#2E6F73)}
+#slider .chip{position:absolute;left:0;top:66px;font-size:22px;line-height:28px;color:var(--accent,#2E6F73)}
+#slider .hint{position:absolute;left:0;top:102px;width:780px;font-size:23px;line-height:34px;color:var(--ink,#000)}
+#cd{font-family:Anchor,HarmonyOS Sans SC,sans-serif;width:780px}
+#cd .t{font-weight:700;font-size:136px;line-height:150px;letter-spacing:.01em;color:var(--accent,#2E6F73);font-variant-numeric:tabular-nums}
+#cd .lb{margin-top:-8px;font-size:24px;line-height:32px;color:var(--mute,#6C6C70)}
+#cd .q{margin-top:22px;font-size:24px;line-height:34px;color:var(--ink,#000)}
+#cd .ans{display:flex;gap:14px;margin-top:16px}
+#cd .ans i{font-style:normal;font-size:24px;line-height:34px;padding:10px 26px;border-radius:10px;
+  background:rgba(46,111,115,.14);color:var(--accent,#2E6F73)}
+#cd .hd{margin-top:4px;font-size:30px;line-height:40px;font-weight:600}
+#chips{display:flex;flex-wrap:wrap;gap:12px;width:576px;padding:34px 40px;background:var(--card,#fff);
+  border-radius:10px;box-shadow:0 2px 14px rgba(0,0,0,.05)}
+#chips i{font-style:normal;font-family:Anchor,HarmonyOS Sans SC,sans-serif;font-size:24px;line-height:32px;
+  padding:10px 22px;border-radius:10px;background:rgba(120,120,128,.10);border:1px solid rgba(120,120,128,.22);
+  color:var(--ink,#000);opacity:0;transform-origin:50% 50%}
+#hud{position:absolute;right:14px;bottom:10px;font:13px monospace;color:#c00;display:none}
+</style>
+</head>
+<body>
+<div id="stage">
+  <div id="world">
+    <div id="panels"></div>
+    <div id="band" class="abs"></div>
+    <div id="phasecard" class="abs"></div>
+    <div id="reset" class="abs"><span class="n">0</span><span class="u"> 天</span></div>
+    <div id="st" class="abs"></div>
+    <div id="end" class="abs"><div class="off"></div></div>
+    <div id="line" class="abs"></div>
+    <div id="tick" class="abs"></div>
+    <div id="num" class="abs"><span class="n">36</span><span class="u"> 天</span></div>
+    <div id="mark" class="abs"></div>
+    <div id="notice" class="abs"></div>
+    <div id="ring" class="abs"></div>
+    <div id="touch" class="abs"><i></i></div>
+    <div id="stagecard" class="abs"></div>
+    <div id="strip" class="abs"></div>
+    <div id="slnope" class="abs"></div>
+    <div id="slider" class="abs"></div>
+    <div id="cd" class="abs"></div>
+    <div id="chips" class="abs"></div>
+  </div>
+  <div id="subs"></div>
+  <div id="hud"></div>
+</div>
+<script src="look.js"></script><!-- colours + inlined faces, written by scripts/look.py apply -->
+<script src="anchor-fonts.js"></script><!-- the app's own face (HarmonyOS Sans SC 400/600/700), subset to this film -->
+<script src="motion.js"></script><!-- lib/motion.js → window.OM -->
+<script src="ui_kit.js"></script><!-- lib/ui_kit.js → window.UIK -->
+<script src="subs.js"></script><!-- vo/zh-CN-YunyangNeural/subs.json → window.SUBS (film time) -->
+<script>
+// ═══════════════════════════════════════════════════════════════════════════ timeline and geometry ═══
+const FPS = 30, DUR = window.DUR || 49.0;
+window.__meta = { dur: DUR, fps: FPS, w: 1920, h: 1080 };
+const W = 1920, H = 1080;
+
+// the VO plan (vo/<voice>/plan.json → subs.js) is the timeline: every beat hangs off the spoken words,
+// not off taste. Move a word, re-run tools/mksubs.py, and the film re-times itself.
+const SEG = (window.VO && window.VO.subs) || [];
+const at = i => (SEG[i] || [0, 0])[0], endOf = i => (SEG[i] || [0, 0])[1];
+const T = {
+  lineOn: 0.30, lineIn: 1.20, tickIn: 0.62,
+  markIn: at(0) - 0.05,                                   // 磐石。
+  noticeIn: at(1) - 0.10, noticeOut: endOf(1) + 0.10,      // 完全离线，不联网，不上传。
+  pushA: endOf(1) + 0.05,                                 // 前推 begins
+  morphA: endOf(1) + 0.16, morphB: endOf(1) + 1.20,        // the hairline lies down into the 90-day bar
+  cardIn: endOf(1) + 1.30,                                // 每天打卡一次，
+  handIn: endOf(2) + 0.30,
+  tap: at(3) + 0.75,                                      // 它替你数连续多少天。→ the number turns on the tap
+  b2Out: at(4) - 0.12,                                    // 漏一天就断签。
+  b3Out: endOf(5) + 0.20,
+  b7Dive: endOf(10) - 0.15, b7Wall: endOf(10) + 0.50,      // after the burst, in the silence
+  b8In: at(11) - 0.55, b9In: at(13) - 0.55,
+  b10In: at(15) - 0.55, b11In: at(17) - 0.55, b12In: endOf(18) + 0.30,
+};
+
+// the app's dp frame → world px.  S = the film's display scale for the replica (2 px per dp).
+const S = 2;
+const HOME = { x: 567, y: 53 };                     // panel origin: dp(0,0) at world(567,53)
+const D = (x, y) => ({ x: HOME.x + x * S, y: HOME.y + y * S });
+const ST = UIK.stage({ x: HOME.x, y: HOME.y, s: S });   // the replica's own dp frame → the plane
+const PCT = { off: 40, on: 41 };                    // 36/90 → 40%, 37/90 → 41% (the app rounds)
+
+// ─────────────────────────────────────────────────────────── the film's own words (the app's strings) ───
+const W_MARK = '磐石';
+const W_NOTICE = '完全离线：数据只在这台手机上。';        // onboarding_offline_notice
+
+// ─────────────────────────────────────────────────────── the replica: home (measured from the app) ───
+function homeHTML() {
+  return `
+  <div class="rep">
+    <div class="nav">${W_MARK}</div>
+    <div class="card strk">
+      <div class="lbl">当前连续记录</div>
+      <div class="slotnum"></div>
+      <div class="sub">历史最长 41 天 · 累计记录 63 天</div>
+      <div class="track"></div>
+      <div class="sub">90 天进度 <span id="pct">${PCT.off}</span>% · 下一个里程碑：第 2 个月</div>
+    </div>
+    <div class="sec">今天</div>
+    <div class="card today">
+      <div class="body">还没打卡，一天一次。</div>
+      <div class="btn filled mt12">打卡</div>
+      <div class="btn plain mt12">打卡记录与感受</div>
+    </div>
+    <div class="sec">现在有点难熬？</div>
+    <div class="card quick">
+      <div class="body">先做一次冲浪练习，或用十分钟延时把决定往后放。</div>
+      <div class="row2">
+        <div class="btn filled">渴求冲浪</div>
+        <div class="btn tinted">十分钟延时</div>
+      </div>
+      <div class="foot">90 天是社群参照，不是医学判定。</div>
+    </div>
+  </div>`;
+}
+
+// ═════════════════════════════════════════════════════════════════════════════ DOM ═══
+const $ = id => document.getElementById(id);
+const world = $('world');
+const { clamp, lerp, sstep, ssstep } = OM;
+
+// panels: {name, dp anchor, HTML, node, wrap, in, out}
+const PANELS = {};
+// ══════════════════════════════════════════════════════════════ the wall + the library (real screens) ═══
+// milestone_days_title_* · milestone_header_note · milestone_footer_note — verbatim from strings_*.xml
+const WALL_ROWS = [
+  { d: 1, title: '第 1 天', done: true, s: '5 月 2 日达成' },
+  { d: 7, title: '第 1 周', done: true, s: '5 月 8 日达成' },
+  { d: 14, title: '第 2 周', done: true, s: '5 月 15 日达成' },
+  { d: 30, title: '第 1 个月', done: true, s: '5 月 31 日达成' },
+  { d: 60, title: '第 2 个月', done: false, s: '还差 23 天', id: 'rem60' },
+  { d: 90, title: '90 天重启', done: false, s: '还差 53 天', id: 'rem90' },
+];
+function wallHTML() {
+  return `<div class="rep">
+    <div class="nav">里程碑</div>
+    <div class="note">徽章按连续打卡天数点亮。断签或破戒后重新开始，已经点亮的徽章会保留。</div>
+    <div class="card mwall">${WALL_ROWS.map(r =>
+      `<div class="mrow" data-d="${r.d}"><div class="bd${r.done ? ' on' : ''}"><b>${r.d}</b><span>天</span></div>
+        <div class="mtxt"><div class="t">${r.title}</div><div class="s${r.done ? ' don' : ''}"${r.id ? ` id="${r.id}"` : ''}>${r.s}</div></div></div>`).join('')}</div>
+    <div class="note">里程碑只表示你在这里记录了多少天，不代表治疗结果或「痊愈」。</div>
+  </div>`;
+}
+// three real articles from app/src/main/assets/content/articles.json (title / date / credibility / tags verbatim)
+const ARTICLES = [
+  { c: '高', date: '2016', t: '多巴胺奖励回路：“想要”与“喜欢”的分离及激励敏感化理论',
+    tags: ['神经科学', '多巴胺', '奖励回路', '激励敏感化'] },
+  { c: '高', date: '2015', t: 'Love 等 2015：《网络色情成瘾的神经科学：综述与更新》',
+    tags: ['神经科学', '综述', '行为成瘾'] },
+  { c: '高', date: '2013', t: 'Pitchers 等 2013：ΔFosB——自然奖励与药物奖励共同的神经可塑性分子',
+    tags: ['神经科学', '动物研究', 'ΔFosB'] },
+];
+function libHTML() {
+  return `<div class="rep">
+    <div class="nav">知识库</div>
+    <div class="card lhead"><div class="body"><span id="libcount">0</span> 篇离线文章，每篇标注来源与可信度。</div></div>
+    <div class="sec">全部 71</div>
+    <div class="card lart">${ARTICLES.map(a =>
+      `<div class="arow"><div class="top"><span class="cb">可信度 ${a.c}</span><span class="date">${a.date}</span></div>
+        <div class="ti">${a.t}</div><div class="tg">${a.tags.map(t => `<i>${t}</i>`).join('')}</div></div>`).join('')}</div>
+  </div>`;
+}
+
+function addPanel(name, html, anchor, at = HOME) {
+  const wrap = document.createElement('div');
+  wrap.className = 'wrap'; wrap.innerHTML = html;
+  const p = document.createElement('div'); p.className = 'abs'; p.style.opacity = '0';
+  p.appendChild(wrap); $('panels').appendChild(p);
+  // dp(0,0) of the app's own frame sits at `at`; the wrap is scaled by S
+  wrap.style.left = at.x + 'px'; wrap.style.top = at.y + 'px';
+  wrap.style.transform = `scale(${S})`;
+  PANELS[name] = { node: p, wrap, anchor, at, stage: UIK.stage({ x: at.x, y: at.y, s: S }) };
+  return PANELS[name];
+}
+addPanel('home', homeHTML(), [196.5, 226]);
+// the wall and the library are further screens on the same plane (their HTML is built above)
+addPanel('wall', wallHTML(), [196.5, 300], { x: 567, y: 2150 });
+addPanel('lib', libHTML(), [196.5, 300], { x: 567, y: 4450 });
+const STW = PANELS.wall.stage, STL = PANELS.lib.stage;
+
+// film graphics on the same plane: the 90-day axis, the phase card, the statement, the end card
+const BAND_AT = { x: 260, y: 3800 }, PHASE_AT = { x: 599, y: 4130 }, ST_AT = { x: 260, y: 5620 };
+const RESET_AT = { x: 880, y: 1560 };                              // where the count lands on 0
+
+// measure the replica's own boxes — carry objects sit exactly on the app's geometry, never eyeballed
+const REP = PANELS.home.wrap.querySelector('.rep');
+const lr = (sel, root = REP) => UIK.domLocal(root.querySelector(sel), 'rep');
+const R_NUM = lr('.slotnum'), R_TRACK = lr('.track'), R_BTN = lr('.today .btn.filled');
+const TRACK_W = { ...ST.place(R_TRACK.x, R_TRACK.y), w: R_TRACK.w * S, h: R_TRACK.h * S };
+const NUM_AT = ST.place(R_NUM.x, R_NUM.y);
+const TAP = ST.place(R_BTN.x + R_BTN.w / 2, R_BTN.y + R_BTN.h / 2);
+const FILL_W = k => TRACK_W.w * k;
+// the 30-day badge, in world px — the badge the dive goes into
+const R_BD30 = lr('.mrow[data-d="30"] .bd', PANELS.wall.wrap.querySelector('.rep'));
+const BD30 = STW.place(R_BD30.x + R_BD30.w / 2, R_BD30.y + R_BD30.h / 2);
+
+// the film's own stage: the app's 今天 card, same size, same place. The instrument stands on it, so the
+// film never paints over the app's own words — the card the camera is already looking at changes its mind.
+const R_TODAY = lr('.today');
+const T0 = ST.place(R_TODAY.x, R_TODAY.y);
+const STAGE = { x: T0.x, y: T0.y, w: R_TODAY.w * S, h: R_TODAY.h * S };
+Object.assign($('stagecard').style, { width: (STAGE.w + 8).toFixed(1) + 'px', height: (STAGE.h + 8).toFixed(1) + 'px' });
+
+// the mark + notice are not in the app's frame: they are the film's own words, at film scale
+const markEl = $('mark');
+const MARKL = [...W_MARK].map(ch => { const s = document.createElement('span'); s.textContent = ch; markEl.appendChild(s); return s; });
+$('notice').textContent = W_NOTICE;
+const numEl = $('num'), tickEl = $('tick'), lineEl = $('line');
+// the four milestones that matter are ticks on the opening axis, not new objects invented later
+// (literal, not MILESTONES: that const is declared further down and this runs at load time)
+for (const d of [1, 7, 14, 30, 60, 90]) {
+  const el = document.createElement('div');
+  el.className = 'tick'; el.style.left = (d / 90 * 100).toFixed(2) + '%';
+  lineEl.appendChild(el);
+}
+
+// ── the hand: one path through the whole film, in world px. Clicks are film time.
+const HAND = [
+  { t: T.handIn - 1.05, x: 1690, y: 1130 }, { t: T.handIn, x: 1180, y: 890 },
+  { t: T.tap - 0.30, x: TAP.x + 9, y: TAP.y + 11 }, { t: T.tap, x: TAP.x, y: TAP.y },
+  { t: T.tap + 0.55, x: TAP.x, y: TAP.y }, { t: T.handIn + 1.7, x: 1380, y: 1060 },
+  { t: T.b2Out + 0.5, x: 1650, y: 1140 }, { t: T.b2Out + 2.0, x: 1880, y: 1010 },
+];
+const CLICKS = [T.tap];
+
+// ─────────────────────────────────────────────────────────────────────── camera (gentle: the content moves) ───
+const CAM = [
+  { t: 0.00, x: 960, y: 540, zoom: 1.00 },
+  { t: T.pushA, x: 960, y: 542, zoom: 1.00 },
+  { t: T.morphB, x: 960, y: 546, zoom: 1.09, curve: OM.ease.cubicInOut },
+  { t: T.tap, x: 960, y: 534, zoom: 1.30, curve: OM.ease.cubicInOut },
+  { t: T.tap + 1.5, x: 960, y: 540, zoom: 1.32, curve: OM.ease.smoother },
+  { t: T.b2Out, x: 960, y: 516, zoom: 1.24, curve: OM.ease.smoother },
+  { t: T.b2Out + 1.6, x: 960, y: 540, zoom: 1.14, curve: OM.ease.smoother },
+  { t: 24.05, x: 960, y: 618, zoom: 1.30, curve: OM.ease.expoOut },      // the burst: the camera reacts
+  { t: 24.60, x: 960, y: 636, zoom: 1.36, curve: OM.ease.smoother },
+  { t: T.b7Dive, x: 960, y: 534, zoom: 1.22, curve: OM.ease.smoother },
+  { t: T.b7Wall - 0.15, x: 960, y: 2740, zoom: 0.90, curve: OM.ease.cubicInOut },
+  { t: T.b7Wall + 0.75, x: 960, y: 2740, zoom: 0.90 },
+  { t: T.b7Wall + 1.18, x: BD30.x, y: BD30.y, zoom: 2.10, curve: OM.ease.expoInOut },
+  { t: T.b7Wall + 1.62, x: BD30.x, y: BD30.y, zoom: 2.10 },
+  { t: T.b8In - 0.35, x: 960, y: 2760, zoom: 0.94, curve: OM.ease.cubicInOut },
+  { t: T.b8In + 1.20, x: 960, y: 2870, zoom: 0.97, curve: OM.ease.smoother },
+  { t: T.b9In + 0.45, x: 960, y: 3830, zoom: 0.86, curve: OM.ease.cubicInOut },
+  { t: T.b9In + 2.20, x: 960, y: 3910, zoom: 0.90, curve: OM.ease.smoother },
+  { t: T.b10In + 0.80, x: 960, y: 4830, zoom: 0.90, curve: OM.ease.cubicInOut },
+  { t: T.b10In + 2.70, x: 960, y: 4900, zoom: 0.92, curve: OM.ease.smoother },
+  { t: T.b11In + 0.50, x: 960, y: 5690, zoom: 1.00, curve: OM.ease.cubicInOut },
+  { t: DUR - 0.60, x: 960, y: 5700, zoom: 1.00 },
+  { t: DUR, x: 960, y: 5700, zoom: 1.00 },
+];
+
+const place = (el, x, y, s = 1, op = 1, blur = 0, extra = '') => {
+  el.style.opacity = op;
+  el.style.transform = `translate(${x.toFixed(1)}px,${y.toFixed(1)}px) scale(${s.toFixed(4)}) ${extra}`;
+  el.style.filter = blur > 0.2 ? `blur(${blur.toFixed(1)}px)` : 'none';
+};
+
+// ══════════════════════════════════════════════════════════════════════ the film's own graphics ═══
+// the 90-day axis: the app's own progress bar, six times as wide, carrying the five phases it really has
+// (WithdrawalPhase.kt: 急性期 0–7 · 波动期 8–29 · 修复期 30–59 · 重连期 60–89 · 巩固期 90 天起)
+const BAND_W = 1400, DAYS = 90, DAY_PX = BAND_W / DAYS;
+const PHASES = [
+  { id: 'acute', name: '急性期', range: '第 0–7 天', a: 0, b: 8 },
+  { id: 'fluct', name: '波动期', range: '第 8–29 天', a: 8, b: 30 },
+  { id: 'repair', name: '修复期', range: '第 30–59 天', a: 30, b: 60 },
+  { id: 'reconn', name: '重连期', range: '第 60–89 天', a: 60, b: 90 },
+];
+const MILESTONES = [1, 7, 14, 30, 60, 90];
+function bandHTML() {
+  const px = d => (d / DAYS * BAND_W).toFixed(1) + 'px';
+  return PHASES.map(p =>
+    `<div class="seg" id="seg_${p.id}" style="left:${px(p.a)};width:${(p.b - p.a) / DAYS * BAND_W}px"></div>` +
+    `<div class="nm" id="nm_${p.id}" style="left:${px(p.a)}">${p.name}</div>` +
+    `<div class="dr" id="dr_${p.id}" style="left:${px(p.a)}">${p.range}</div>`).join('') +
+    // 巩固期 has no upper bound: the axis ends at 90, so it is a cap past the end and is drawn as one
+    `<div class="nm" id="nm_cons" style="left:${(BAND_W + 22).toFixed(0)}px">巩固期</div>` +
+    `<div class="dr" id="dr_cons" style="left:${(BAND_W + 22).toFixed(0)}px">第 90 天起</div>` +
+    MILESTONES.map(d => `<div class="tk" id="btk_${d}" style="left:${px(d)}"></div>`).join('');
+}
+$('band').innerHTML = bandHTML();
+$('st').textContent = '90 天是社群参照，不是医学判定。';                    // home_quick_tool_footnote, verbatim
+$('end').querySelector('.off').textContent = '完全离线：数据只在这台手机上。';  // onboarding_offline_notice
+$('phasecard').innerHTML = '<div class="r1"><span id="ph_name">急性期</span><small id="ph_idx">1/5</small></div>' +
+  '<div class="r2" id="ph_range">第 0–7 天 · 连续 0 天</div><div class="hl" id="ph_hl"></div>';
+const PH_ACUTE_HL = '最强烈的反应通常出现在开头几天：这不是“意志力不够”，而是身体与注意力系统正在重新适应。';
+
+// ── the film's stage objects. Every one of them stands on the card the camera already looks at, and
+//    every string in them is the app's own (strings_tools_journal.xml / TriggerAnalyzer.kt).
+const NCOL = 21, NDAY = 37;                                  // 37 days in, 37 marks, 21 to a row
+$('strip').innerHTML = Array.from({ length: NDAY + 1 }, (_, i) =>
+  `<div class="dcell${i < NDAY - 1 ? '' : i === NDAY - 1 ? ' last' : ' void'}" id="dc${i}"></div>`).join('');
+const STRIP_SC = 1, STRIP_AT = { x: STAGE.x + (STAGE.w - 701) / 2, y: STAGE.y + 34 };
+const VOID_I = NDAY;
+$('slnope').style.left = (STRIP_AT.x + 8 + (VOID_I % NCOL) * 33 + 12) + 'px';
+$('slnope').style.top = (STRIP_AT.y + 8 + Math.floor(VOID_I / NCOL) * 33 + 12) + 'px';
+
+// the urge slider: the real 10-segment control from UrgeSurfingScreen, as the film's instrument.
+// 1/6 → 6/6 and the six hints are the app's own stage labels and hints.
+const USTEPS = [
+  ['开始', '渴求像一道波浪：会自己升高，也会自己退下。接下来几分钟先不动手，只观察它。'],
+  ['呼吸引导', '把注意力放在呼吸上：吸气 4 秒，停 2 秒，呼气 6 秒。走神了就回到呼吸。'],
+  ['观察渴求', '像旁观者一样描述它：在身体哪个位置？紧、热还是空？不下判断。'],
+  ['等待它过去', '不对抗，也不顺从。让它在这里，你只是陪着它变弱。'],
+  ['再次评分', '再给渴求打一次分，看是否变化。'],
+  ['结束', '无论分数有没有下降，你都完成了一次“不立刻行动”。'],
+];
+const SL_W = 692, SL_SEG = 70;
+const SLIDE_AT = { x: STAGE.x + (STAGE.w - SL_W) / 2, y: STAGE.y + 152 };
+$('slider').innerHTML = '<div class="trk"></div><div class="fl" id="slfl"></div><div class="mk" id="slmk"></div>' +
+  Array.from({ length: 10 }, (_, i) => `<div class="dt" id="sld${i}" style="left:${i * SL_SEG + 31}px"></div>`).join('') +
+  '<div class="cap">现在的渴求强度</div><div class="val"><span id="slv">5</span> / 10</div>' +
+  '<div class="chip" id="slchip">1/6 · 开始</div><div class="hint" id="slhint"></div>';
+
+// ten minutes, and the two answers the app really offers (delay_answer_passed / _still)
+$('cd').innerHTML = '<div class="t" id="cdt">10:00</div><div class="lb">十分钟延时</div>' +
+  '<div class="q" id="cdq"></div><div class="ans" id="cdans"><i>过去了</i><i>还在</i></div>' +
+  '<div class="hd" id="cdhd"></div>';
+
+// the tags you can pick from (RelapseTags.kt, verbatim: emotions then triggers)
+const R_TAGS = ['焦虑', '烦躁', '孤独', '无聊', '低落', '压力大', '疲惫', '愤怒', '兴奋',
+  '深夜独处', '压力事件', '社交媒体', '饮酒', '闲暇无聊', '情绪低落', '失眠', '看到相关内容', '社交场合'];
+$('chips').innerHTML = R_TAGS.map(s => `<i>${s}</i>`).join('');
+const CHIPS_AT = { x: STAGE.x - 24, y: STAGE.y - 4 };   // minus the panel's own padding
+const CD_AT = { x: STAGE.x + 40, y: STAGE.y + 24 };
+
+// ═════════════════════════════════════════════════════════════════════════════ beats ═══
+// ── B0/B1 · 安静起手 → 磐石 → 完全离线 → 前推   (0.00–5.34)
+function beatOpen(t) {
+  if (t > T.morphA) return;                     // beatStreak owns the line from the morph on
+  // the hairline draws on from the left
+  const d = 1 - Math.pow(2, -10 * sstep(T.lineOn, T.lineIn, t));       // expo-out draw-on
+  const o = ssstep(0.10, 0.55, t);
+  lineEl.style.width = (1400 * d).toFixed(2) + 'px';
+  lineEl.style.height = '1px'; lineEl.style.left = '260px'; lineEl.style.top = '540px';
+  lineEl.style.borderRadius = '0';
+  lineEl.style.opacity = o; lineEl.style.transform = 'none'; lineEl.style.background = 'var(--line,#C6C6C8)';
+
+  // the tick lands on it
+  const tk = OM.swiftSpring(t, T.tickIn, 'snappy', { duration: 0.42 });
+  const imp = OM.impact(t, T.tickIn + 0.34, { decay: 8, omega: 22, sqx: 0.10, sqy: 0.22 });
+  place(tickEl, 260, 540 - 12, tk, o, 0, '');
+  tickEl.style.height = (24 * clamp(tk)).toFixed(2) + 'px';
+  tickEl.style.transform += ` scaleY(${(imp.sy).toFixed(3)})`;
+
+  // the wordmark falls in, per glyph
+  MARKL.forEach((s, i) => {
+    const g = OM.letterDrop(t, T.markIn, i, { stagger: 0.08, zeta: 0.72, omega: 20 });
+    s.style.opacity = g.op;
+    s.style.transform = `translateY(${(g.y + (1 - g.op) * 30).toFixed(1)}px) scale(${g.sx.toFixed(4)},${g.sy.toFixed(4)})`;
+  });
+  const w = OM.wordRise(t, T.markIn, { zeta: 0.7, omega: 18, dist: 0 });
+  const out = OM.liftOut(t, T.morphA - 0.10, { dur: 0.85, dist: 26, blur: 3 });
+  markEl.style.left = '0'; markEl.style.top = '0'; markEl.style.right = '0'; markEl.style.textAlign = 'center';
+  place(markEl, 960, 462, w.s, w.op * out.op, out.blur * 0.5);
+
+  // the notice
+  const n = OM.wordRise(t, T.noticeIn, { zeta: 0.75, omega: 17, dist: 20 });
+  const nOut = OM.liftOut(t, T.noticeOut, { dur: 0.8, dist: 22, blur: 3 });
+  const notice = $('notice');
+  notice.style.left = '0'; notice.style.right = '0'; notice.style.textAlign = 'center';
+  place(notice, 960, 612 + n.y + nOut.dy, n.s, n.op * nOut.op, nOut.blur * 0.5);
+}
+
+// ── B2 · 那条线躺下变成 90 天进度条；手按下打卡；数字 36→37   (5.34–9.44)
+function beatStreak(t) {
+  const line = { x: 260, y: 540, w: 1400, h: 1 };
+  const track = TRACK_W;
+  const fill0 = { x: track.x, y: track.y, w: FILL_W(PCT.off / 100), h: track.h };
+  // the morph: hairline → bar · tick → fill    (morphOnce: after morphB these are the bar for good)
+  if (t < T.morphB + 0.02) {
+    const k = OM.ease.cubicInOut(sstep(T.morphA, T.morphB, t));
+    const r = { x: lerp(line.x, track.x, k), y: lerp(line.y, track.y, k), w: lerp(line.w, track.w, k), h: lerp(line.h, track.h, k) };
+    lineEl.style.transform = 'none'; lineEl.style.width = r.w.toFixed(2) + 'px'; lineEl.style.height = r.h.toFixed(2) + 'px';
+    lineEl.style.left = r.x.toFixed(2) + 'px'; lineEl.style.top = r.y.toFixed(2) + 'px';
+    lineEl.style.background = k > 0.55 ? 'rgba(120,120,128,.16)' : 'var(--line,#C6C6C8)';
+    lineEl.style.borderRadius = '4px';
+    const t2 = { x: 260, y: 528, w: 3, h: 24 };
+    const k2 = OM.ease.cubicInOut(sstep(T.morphA, T.morphA + 0.6, t));
+    tickEl.style.left = lerp(t2.x, fill0.x, k2).toFixed(2) + 'px';
+    tickEl.style.top = lerp(t2.y, fill0.y, k2).toFixed(2) + 'px';
+    tickEl.style.width = lerp(t2.w, fill0.w, k2).toFixed(2) + 'px';
+    tickEl.style.height = lerp(t2.h, fill0.h, k2).toFixed(2) + 'px';
+    tickEl.style.transform = 'none';
+  } else {
+    // after the tap the fill grows 40% → 41% with the app's own rounding, one step, on the impact
+    const imp = OM.impact(t, T.tap, { decay: 6, omega: 20, sqx: 0.05, sqy: 0.2 });
+    lineEl.style.width = track.w.toFixed(2) + 'px'; lineEl.style.height = track.h.toFixed(2) + 'px';
+    lineEl.style.left = track.x + 'px'; lineEl.style.top = track.y + 'px';
+    tickEl.style.left = fill0.x + 'px'; tickEl.style.top = fill0.y + 'px';
+    tickEl.style.width = (fill0.w * (1 + (imp.r > 0 ? lerp(0, (PCT.on / PCT.off), clamp((t - T.tap) / 0.18)) : 0))).toFixed(2) + 'px';
+    tickEl.style.height = fill0.h + 'px';
+    tickEl.style.transform = `scaleY(${imp.sy.toFixed(3)})`; tickEl.style.transformOrigin = '0 50%';
+  }
+
+  // the card arrives around them (the home panel is one object; only the streak card is in this frame)
+  const p = PANELS.home;
+  const cardIn = OM.popIn(t, T.cardIn, { zeta: 0.78, omega: 17, rise: 16, s0: 0.99, ds: 0.01 });
+  place(p.node, p.anchor[0] * (1 - cardIn.s) * S, p.anchor[1] * (1 - cardIn.s) * S + cardIn.dy, cardIn.s, cardIn.op);
+
+  // the number 36 → 37 on the tap (the same node for the whole film)
+  const imp = OM.impact(t, T.tap, { decay: 6, omega: 20, sqx: 0.10, sqy: 0.12 });
+  const show = ssstep(T.cardIn - 0.1, T.cardIn + 0.25, t);
+  numEl.style.transformOrigin = '0 100%';
+  place(numEl, NUM_AT.x, NUM_AT.y, 1, show, 0, `scaleY(${imp.sy.toFixed(3)})`);
+  const v = t >= T.tap + 0.06 ? 37 : 36;
+  if (numEl.dataset.v !== String(v)) { numEl.dataset.v = String(v); numEl.querySelector('.n').textContent = String(v); }
+  const pct = $('pct'); if (pct && pct.dataset.v !== String(v)) { pct.dataset.v = String(v); pct.textContent = String(v === 37 ? PCT.on : PCT.off); }
+}
+
+// ── B3 · 点一下之后：记录不是一句话，是 42 个格子；漏掉的那一格填不回去   (8.4–13.9)
+function beatCheckIn(t) {
+  const rise = OM.ease.cubicOut(sstep(8.55, 9.25, t));
+  const out = OM.ease.cubicInOut(sstep(13.2, 13.9, t));
+  place($('strip'), STRIP_AT.x, STRIP_AT.y, STRIP_SC, rise * (1 - out), 0);
+  const last = $('dc' + (NDAY - 1));                       // the day the tap just added
+  last.style.transform = 'scale(' + (0.7 + 0.3 * OM.ease.backOut(sstep(8.6, 9.0, t))).toFixed(3) + ')';
+  const vin = OM.ease.cubicOut(sstep(10.05, 10.5, t));     // 漏一天：the day that is simply not there
+  const vc = $('dc' + VOID_I);
+  vc.style.opacity = vin;
+  vc.style.transform = 'scale(' + (0.6 + 0.4 * vin).toFixed(3) + ')';
+  const r0 = sstep(11.15, 11.5, t), r1 = sstep(11.5, 12.05, t);   // 不给补打：the reach, then the refusal
+  const no = $('slnope');
+  no.style.opacity = r0 * (1 - r1);
+  no.style.transform = 'scale(' + (0.45 + 0.85 * (r0 - r1 * 0.35)).toFixed(3) + ')';
+}
+
+// ── B4 · 渴求冲浪：5 → 7 涨到峰值 → 3，而它是在 6 个步子里自己退的   (13.9–20.3)
+function beatUrge(t) {
+  const rise = OM.ease.cubicOut(sstep(13.95, 14.5, t));
+  const out = OM.ease.cubicInOut(sstep(19.95, 20.3, t));
+  place($('slider'), SLIDE_AT.x, SLIDE_AT.y, 1, rise * (1 - out), 0);
+  const MOVES = [[14.75, 6], [15.25, 7], [16.75, 6], [17.35, 5], [17.95, 4], [18.7, 3]];
+  let v = 5;
+  MOVES.forEach(m => { v += (m[1] - v) * OM.ease.expoOut(sstep(m[0], m[0] + 0.34, t)); });
+  const w = Math.max(0, Math.min(SL_W, v / 10 * SL_W));
+  $('slfl').style.width = w.toFixed(1) + 'px';
+  $('slmk').style.left = w.toFixed(1) + 'px';
+  const vi = Math.round(v);
+  $('slv').textContent = vi;
+  for (let i = 0; i < 10; i++) $('sld' + i).className = 'dt' + (i < vi ? ' f' : '');
+  const STEP_T = [13.95, 16.35, 17.05, 17.75, 18.5, 19.35];   // the six real stages
+  let si = 0; for (let i = 0; i < 6; i++) if (t >= STEP_T[i]) si = i;
+  $('slchip').textContent = (si + 1) + '/6 · ' + USTEPS[si][0];
+  $('slhint').textContent = USTEPS[si][1];
+  const since = t - STEP_T[si];
+  $('slchip').style.transform = 'translateX(' + (10 * (1 - Math.min(1, since / 0.4))).toFixed(2) + 'px)';
+  $('slhint').style.opacity = Math.min(1, since / 0.25);
+}
+
+// ── B5 · 十分钟延时：不替你决定，只把决定往后放；十分钟后那一问问你自己   (20.3–23.9)
+function beatDelay(t) {
+  const rise = OM.ease.cubicOut(sstep(20.35, 20.85, t));
+  const out = OM.ease.cubicInOut(sstep(23.6, 23.9, t));
+  place($('cd'), CD_AT.x, CD_AT.y, 1, rise * (1 - out), 0);
+  const p = OM.ease.cubicInOut(sstep(20.85, 23.1, t));       // ten minutes, run down at film speed
+  const left = Math.max(0, Math.round((1 - p) * 600));
+  $('cdt').textContent = String(Math.floor(left / 60)).padStart(2, '0') + ':' + String(left % 60).padStart(2, '0');
+  const done = sstep(22.85, 23.1, t);
+  $('cdq').textContent = done < 0.5
+    ? '这十分钟里只做两件事：跟着呼吸，看看自己写下的理由。'
+    : '刚才那股冲动，现在过去了吗？如实答就好。';
+  $('cdhd').textContent = done > 0.5 ? '十分钟到了' : '';
+  const ans = OM.ease.cubicOut(sstep(23.15, 23.4, t));       // the film does not answer for you
+  $('cdans').style.opacity = ans;
+  $('cdans').style.transform = 'translateY(' + (14 * (1 - ans)).toFixed(1) + 'px)';
+}
+
+// ── B6 · 真的发生了：18 枚真实标签一枚一枚砸进来，不做评判   (23.9–26.3)
+function beatBurst(t) {
+  const out = OM.ease.cubicInOut(sstep(26.05, 26.3, t));
+  place($('chips'), CHIPS_AT.x, CHIPS_AT.y, 1, 1 - out, 0);
+  const tags = document.querySelectorAll('#chips i');
+  for (let i = 0; i < tags.length; i++) {
+    const t0 = 23.95 + i * 0.075;                            // impact, not spring: nothing overshoots
+    const g = sstep(t0, t0 + 0.15, t);
+    tags[i].style.opacity = g;
+    tags[i].style.transform = 'scale(' + (0.88 + 0.12 * g).toFixed(3) + ')';
+  }
+}
+
+// ── B7/B8 · 徽章墙：已经点亮的东西没有被没收   (26.8–33.9)
+// The wall arrives under the pan; the camera dives into the badge you already earned and pulls back.
+// While the VO says 天数重新算, the two unmet milestones' countdowns recompute: 还差 23 天 → 还差 60 天.
+function beatWall(t) {
+  if (t < T.b7Wall - 1.1) return;
+  const p = PANELS.wall;
+  const arr = OM.popIn(t, T.b7Wall - 0.85, { rise: 0, s0: 1, ds: 0, fade: 1.15 });
+  place(p.node, 0, 0, 1, arr.op);
+  const hit = T.b8In + 0.30;                        // the numbers turn on the words 重新算
+  const roll = OM.ease.smoother(OM.seg(t, hit, hit + 0.75));
+  setText(p.wrap, '#rem60', '还差 ' + Math.round(lerp(23, 60, roll)) + ' 天');
+  setText(p.wrap, '#rem90', '还差 ' + Math.round(lerp(53, 90, roll)) + ' 天');
+  // the four badges that were already earned stay lit and unchanged — nothing in this beat dims them
+  lineEl.querySelectorAll('.tick').forEach(el => { el.style.opacity = '1'; });   // earned days, still on the axis
+}
+function setText(root, sel, v) { const e = root.querySelector(sel); if (e && e.textContent !== v) e.textContent = v; }
+function setStyle(id, dy, k, on) {
+  const e = document.getElementById(id); if (!e) return;
+  e.style.opacity = String(clamp(k));
+  e.style.transform = `translateY(${dy.toFixed(1)}px)`;
+  e.classList.toggle('on', !!on);
+}
+
+// ── B9 · 五个阶段：那条轴从卡片里被拉出来铺开，徽章刻度还亮着   (34.4–38.2)
+function beatPhases(t) {
+  if (t < T.b9In - 0.7) return;
+  const t0 = T.b9In + 0.55;                          // the axis is off screen during the pan; it lands here
+  const morph = OM.ease.cubicInOut(OM.seg(t, t0, t0 + 0.75));
+  const A = { x: TRACK_W.x, y: TRACK_W.y, w: TRACK_W.w, h: TRACK_W.h };
+  const B = { x: BAND_AT.x, y: BAND_AT.y + 60, w: BAND_W, h: 4 };
+  const r = OM.morphRect(t, t0, t0 + 0.75, A, B);
+  lineEl.style.transform = 'none';
+  lineEl.style.left = r.x.toFixed(1) + 'px'; lineEl.style.top = r.y.toFixed(1) + 'px';
+  lineEl.style.width = r.w.toFixed(1) + 'px'; lineEl.style.height = r.h.toFixed(2) + 'px';
+  lineEl.style.borderRadius = '4px'; lineEl.style.opacity = '1'; lineEl.style.zIndex = '3';
+  lineEl.querySelectorAll('.tick').forEach(el => { el.style.opacity = morph > 0.55 ? '0' : '1'; });
+  setStyle('nm_cons', 0, morph > 0.8 ? 1 : 0); setStyle('dr_cons', 0, morph > 0.8 ? 1 : 0);
+  hideEl(tickEl);                                     // the app's own fill is not part of the phase axis
+  place($('band'), BAND_AT.x, BAND_AT.y, 1, 1); $('band').style.zIndex = '4';
+  PHASES.forEach((ph, i) => {
+    const m = OM.maskRise(t, t0 + 0.35, i, { stagger: 0.09, dist: 34 });
+    const k = clamp(m.k), on = ph.id === 'acute';
+    setStyle('nm_' + ph.id, m.y, k, on); setStyle('dr_' + ph.id, m.y * 1.5, k, false);
+    const seg = document.getElementById('seg_' + ph.id);
+    seg.style.opacity = String(k); seg.style.transform = `scaleY(${k.toFixed(3)})`; seg.classList.toggle('on', on);
+  });
+  MILESTONES.forEach(d => { const e = document.getElementById('btk_' + d); if (e) e.style.opacity = morph > 0.55 ? '1' : '0'; });
+  const card = $('phasecard');                            // the app's own phase card, for the phase you are in now
+  const ci = OM.popIn(t, t0 + 1.10, { zeta: 0.8, omega: 16, rise: 26, s0: 0.98, ds: 0.02 });
+  card.style.left = PHASE_AT.x + 'px'; card.style.top = PHASE_AT.y + 'px'; card.style.zIndex = '5';
+  place(card, 0, 0, 1, ci.op);
+  setText(card, '#ph_name', '急性期'); setText(card, '#ph_idx', '1/5');
+  setText(card, '#ph_range', '第 0–7 天 · 连续 0 天'); setText(card, '#ph_hl', PH_ACUTE_HL);
+}
+function hideEl(el) { el.style.opacity = '0'; }
+
+// ── B10 · 知识库：七十一篇，标题与来源都在   (38.7–43.0)
+function beatLibrary(t) {
+  if (t < T.b10In + 0.1) return;
+  const p = PANELS.lib, t0 = T.b10In + 0.75;
+  const arr = OM.popIn(t, t0, { rise: 0, s0: 1, ds: 0, fade: 1.15 });
+  place(p.node, 0, 0, 1, arr.op);
+  const roll = OM.ease.smoother(OM.seg(t, t0 + 0.25, t0 + 1.15));   // the count runs up to the real 71
+  setText(p.wrap, '#libcount', String(Math.round(lerp(0, 71, roll))));
+  p.wrap.querySelectorAll('.arow').forEach((row, i) => {
+    const m = OM.maskRise(t, t0 + 0.5, i, { stagger: 0.16, dist: 30 });
+    row.style.opacity = String(clamp(m.k));
+    row.style.transform = `translateY(${m.y.toFixed(1)}px)`;
+  });
+}
+
+// ── B11 · 诚实的那一句 —— 全片最长的一次静止   (43.6–45.8)
+function beatStatement(t) {
+  if (t < T.b11In + 0.2) return;
+  const el = $('st');
+  const w = OM.wordRise(t, T.b11In + 0.65, { zeta: 0.72, omega: 15, dist: 30, s0: 0.975, ds: 0.025 });
+  const out = 1 - OM.sstep(T.b12In - 0.5, T.b12In - 0.1, t);
+  el.style.left = ST_AT.x + 'px'; el.style.top = ST_AT.y + 'px'; el.style.zIndex = '5';
+  place(el, 0, w.y, w.s, w.op * out, 0);
+}
+
+// ── B12 · 片尾：名字与那句承诺   (47.4–49.0)
+function beatEnd(t) {
+  if (t < T.b12In - 0.6) return;
+  const el = $('end');
+  const m = OM.wordRise(t, T.b12In - 0.15, { zeta: 0.82, omega: 14, dist: 0, s0: 0.97, ds: 0.03 });
+  el.style.left = (960 - 700) + 'px'; el.style.top = (ST_AT.y + 210) + 'px'; el.style.zIndex = '6';
+  place(el, 0, 0, 1, m.op);
+  // the wordmark returns to where it started: the same node, the same promise, now with the claim attached
+  place(markEl, 960, ST_AT.y + 30, 0.8, m.op, 0);
+  markEl.style.zIndex = '6';
+}
+
+// ─────────────────────────────────────────────────────────────────────── frame ───
+function frame(t) {
+  const cam = OM.camera(t, CAM, { W, H });
+  world.style.transform = `translate(${(W / 2 - cam.x * cam.zoom).toFixed(2)}px,${(H / 2 - cam.y * cam.zoom).toFixed(2)}px) scale(${cam.zoom.toFixed(5)})`;
+
+  beatOpen(t); beatStreak(t);
+  beatCheckIn(t); beatUrge(t); beatDelay(t); beatBurst(t);
+  beatWall(t); beatPhases(t); beatLibrary(t); beatStatement(t); beatEnd(t);
+
+  // the film's stage card: one object, four windows — whichever beat owns the stage turns it on
+  { const win = (a, b, c, d) => OM.ease.cubicOut(sstep(a, b, t)) * (1 - OM.ease.cubicInOut(sstep(c, d, t)));
+    place($('stagecard'), STAGE.x - 4, STAGE.y - 4, 1,
+      Math.max(win(8.55, 9.25, 13.2, 13.9), win(13.95, 14.5, 19.95, 20.3),
+        win(20.35, 20.85, 23.6, 23.9), win(23.95, 24.35, 26.05, 26.3)), 0); }
+
+  // the hand: a touch disc, constant size on screen
+  { const vis = t >= 4.90 && t < 12.60;
+    const cu = OM.cursor(t, HAND, CLICKS);
+    $('touch').style.opacity = vis ? 1 : 0;
+    const k = cu.s;
+    place($('touch'), cu.x, cu.y, k, vis ? 1 : 0);
+    const pr = OM.press(t, T.tap, { depth: 0.12, flash: 0.3 });
+    $('ring').style.opacity = pr.active ? 0.9 : 0;
+    const rk = clamp((t - T.tap) / 0.5);
+    place($('ring'), cu.x, cu.y, 1 + rk * 2.2, pr.active ? 0.9 * (1 - rk) : 0);
+  }
+
+  // burned-in subtitles (film time)
+  { const s = UIK.subAt(window.SUBS || [], t, 0.10);
+    const e = $('subs'); e.textContent = s ? s.text : '';
+    e.style.opacity = s ? s.a : 0; }
+
+  $('hud').textContent = 't=' + t.toFixed(3);
+}
+
+// ═════════════════════════════════════════════════════════════════════════════ seek ═══
+window.__seek = async t => { frame(t); return true; };
+window.__ready = Promise.all([
+  (window.LOOK && LOOK.ready) || Promise.resolve(),
+  (window.ANCHOR && ANCHOR.ready) || Promise.resolve(),
+  document.fonts.load('700 212px Anchor').catch(() => {}),
+  document.fonts.load('600 50px Anchor').catch(() => {}),
+  document.fonts.load('400 17px Anchor').catch(() => {}),
+]).then(() => document.fonts.ready).then(() => { frame(0); return true; });
+
+const q = new URLSearchParams(location.search);
+if (q.has('t')) __ready.then(() => frame(parseFloat(q.get('t'))));
+if (q.has('hud')) $('hud').style.display = 'block';
+if (q.has('play')) __ready.then(() => { const t0 = performance.now(); (function loop() { frame(((performance.now() - t0) / 1000) % DUR); requestAnimationFrame(loop); })(); });
+</script>
+</body>
+</html>

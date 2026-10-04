@@ -1,0 +1,110 @@
+{
+  "generator": "app\/src\/testDebug\/java\/com\/anchor\/recovery\/ui\/FilmShotTest.kt",
+  "renderer": "Robolectric 4.14.1 + Compose ui-test；@GraphicsMode(NATIVE)；@Config(sdk=35, qualifiers=w393dp-h852dp-port-xxhdpi)；Room 内存库 + 固定时钟 TODAY=2024-05-20；出图走 activity.window.decorView.draw(Canvas(bitmap))",
+  "pixelSize": "393dp x 852dp @ xxhdpi(3.0) = 1179 x 2556 px",
+  "systemWindowInsetsPx": {
+    "top": 0,
+    "bottom": 0
+  },
+  "reproduce": "gradlew.bat :app:testDebugUnitTest --tests \"com.anchor.recovery.ui.FilmShotTest\"  （在 E:\\Anchor 下执行）",
+  "shots": [
+    {
+      "name": "journal",
+      "screen": "日志与统计 TimelineScreen",
+      "state": "筛选「全部」；打卡 42 条 + 渴求 3 条 + 破戒 4 条 + 统计卡",
+      "file": "film\/shots\/journal.png",
+      "width": 1179,
+      "height": 2556,
+      "reproduce": "gradlew.bat :app:testDebugUnitTest --tests \"com.anchor.recovery.ui.FilmShotTest.journal\""
+    },
+    {
+      "name": "phases",
+      "screen": "戒断阶段卡 PhaseCard（五个阶段中的当前阶段）",
+      "state": "dayNumber = 42 → 阶段 3\/5，含「可能经历 \/ 可做的事 \/ 警示」",
+      "file": "film\/shots\/phases.png",
+      "width": 1179,
+      "height": 2556,
+      "reproduce": "gradlew.bat :app:testDebugUnitTest --tests \"com.anchor.recovery.ui.FilmShotTest.phases\""
+    },
+    {
+      "name": "home",
+      "screen": "首页 HomeScreen（连续天数卡 + 打卡 + 速援工具 + 阶段卡 + 知识库入口）",
+      "state": "42 天连续打卡（含今天）；最长 42 天；距上次破戒 42 天；下一里程碑 90 天；进度 46%",
+      "file": "film\/shots\/home.png",
+      "width": 1179,
+      "height": 2556,
+      "reproduce": "gradlew.bat :app:testDebugUnitTest --tests \"com.anchor.recovery.ui.FilmShotTest.home\""
+    },
+    {
+      "name": "urge",
+      "screen": "渴求冲浪 UrgeSurfingScreen",
+      "state": "UrgeSurfingViewModel 初始态（未开始冲浪）",
+      "file": "film\/shots\/urge.png",
+      "width": 1179,
+      "height": 2556,
+      "reproduce": "gradlew.bat :app:testDebugUnitTest --tests \"com.anchor.recovery.ui.FilmShotTest.urge\""
+    },
+    {
+      "name": "delay",
+      "screen": "十分钟延时 DelayToolScreen",
+      "state": "DelayToolViewModel 初始态（计时未启动）",
+      "file": "film\/shots\/delay.png",
+      "width": 1179,
+      "height": 2556,
+      "reproduce": "gradlew.bat :app:testDebugUnitTest --tests \"com.anchor.recovery.ui.FilmShotTest.delay\""
+    },
+    {
+      "name": "tools",
+      "screen": "工具页 ToolsScreen",
+      "state": "静态入口列表（无需状态）",
+      "file": "film\/shots\/tools.png",
+      "width": 1179,
+      "height": 2556,
+      "reproduce": "gradlew.bat :app:testDebugUnitTest --tests \"com.anchor.recovery.ui.FilmShotTest.tools\""
+    },
+    {
+      "name": "library",
+      "screen": "知识库列表 LibraryScreen",
+      "state": "assets\/content\/*.json 全量文章；无分类筛选、无检索词",
+      "file": "film\/shots\/library.png",
+      "width": 1179,
+      "height": 2556,
+      "reproduce": "gradlew.bat :app:testDebugUnitTest --tests \"com.anchor.recovery.ui.FilmShotTest.library\""
+    },
+    {
+      "name": "checkin",
+      "screen": "今日打卡 CheckInScreen",
+      "state": "今天已打卡（按钮变「今天已打卡」+「撤销今天」）",
+      "file": "film\/shots\/checkin.png",
+      "width": 1179,
+      "height": 2556,
+      "reproduce": "gradlew.bat :app:testDebugUnitTest --tests \"com.anchor.recovery.ui.FilmShotTest.checkin\""
+    },
+    {
+      "name": "relapse",
+      "screen": "记录一次破戒 RelapseEditScreen",
+      "state": "RelapseEditViewModel 空表单（保存按钮禁用）",
+      "file": "film\/shots\/relapse.png",
+      "width": 1179,
+      "height": 2556,
+      "reproduce": "gradlew.bat :app:testDebugUnitTest --tests \"com.anchor.recovery.ui.FilmShotTest.relapse\""
+    },
+    {
+      "name": "milestones",
+      "screen": "里程碑徽章墙 MilestoneWallScreen",
+      "state": "42 天连续打卡 → 已点亮「第 1 天 \/ 第 1 周 \/ 30 天」",
+      "file": "film\/shots\/milestones.png",
+      "width": 1179,
+      "height": 2556,
+      "reproduce": "gradlew.bat :app:testDebugUnitTest --tests \"com.anchor.recovery.ui.FilmShotTest.milestones\""
+    }
+  ],
+  "notes": [
+    "出图手法：compose.onRoot().captureToImage() 在本环境不可用。它进入 androidx.compose.ui.test.WindowCapture.forceRedraw，等 ViewTreeObserver.OnDrawListener 被真实绘制帧回调，JVM 里没有硬件绘制帧，抛 androidx.compose.ui.test.junit4.ComposeTimeoutException: Condition still not satisfied after 2000 ms。改用 activity.window.decorView.draw(Canvas(softwareBitmap)) 同步触发 Compose 的 dispatchDraw（与 Roborazzi 同一路径），10\/10 张出图成功。",
+    "系统栏不在画面里：Robolectric 不渲染 system UI，窗口 system window insets 为 0（见 systemWindowInsetsPx）。真机截图顶部多出状态栏、底部多出导航栏高度，与真机比对时请按 App 自己绘制的顶栏\/底栏内容对齐，不要假设两张图的 y=0 是同一位置。",
+    "字体差异：Robolectric 用平台默认字体，真机为厂商字体，字形宽度可能有细微差别（影响换行点）。",
+    "phases 没有对应“五个阶段总览”页面：PhaseCard 只渲染当前天数所属的单个阶段（phaseFor(dayNumber)），本图是 dayNumber=42 → 第 3\/5 阶段。要看其余阶段改 dayNumber（1\/15\/42\/75\/120）即可，没有第二种界面形态。",
+    "library 的分类筛选行在 393dp 宽下横向溢出（截图右侧被裁切），是真实布局的可横向滚动行，不是渲染缺陷。",
+    "milestones 的徽章墙只能展示到本机假数据的天数：42 天连续打卡 → 已点亮 1 天\/1 周\/30 天，60 天与 90 天仍是未点亮态。"
+  ]
+}
