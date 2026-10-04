@@ -152,13 +152,36 @@ E:\Anchor\film\
   vo\zh-CN-YunyangNeural\    t<i>.mp3/.wav · lines.json · plan.json · subs.json
   vo\vo.wav                  拼好的 48k mono 旁白
   tools\vo.py                合成/plan/subs/build/audition
+  tools\mix.py               声轨：房间 + 50 个工艺音事件 → out\audio.wav（-16 LUFS）
+  shots\                     真机界面 10 张（Robolectric 出图，见 shots\manifest.json）
+  comp.html                  成片本体（单文件内联，12 个 beat）
+  look.js / motion.js / ui_kit.js / anchor-fonts.js
   _look\                     三套候选 look + 对比图（保留，不删）
 ```
 
-## 尚未做
+## 交付（2026-10-04）
 
-- §4 复刻 Anchor UI（HTML，`set(state)` 纯函数写状态 + `lib/ui_kit.js` 量高亮）
-- §5 `comp.html`（抄 templates/comp.html 的契约与 helpers，beat 自己写）
-- §7 音效/音乐（`sfx_palette.py` 或 `score.py`；音乐要 royalty-free 并记录许可）
-- §6 1080p30 草稿 → §8 `verify_promo.py` 验收 → 4K60 终版
-- 交付时须说明：静止占比 ~20%（低于参考 38%）、音乐许可、4K60 渲染耗时
+```
+out\final.mp4   3840×2160 60fps h264+aac 48.59s 19.2MB   ← 交付物
+out\draft.mp4   1920×1080 30fps 9.3MB                    ← 草稿（同一合成）
+out\audio.wav   48k 立体声 49.7s，-16.18 LUFS / -3.93 dBTP
+```
+
+重做全部产物（三条命令，按顺序）：
+
+```
+py tools\vo.py build && py tools\mksubs.py            # 旁白 → vo\vo.wav + subs.js
+py tools\mix.py                                      # 声轨 → out\audio.wav
+py "%USERPROFILE%\.pi\agent\skills\onetake\scripts\render.py" comp.html --final --out out\final.mp4 --sfx out\audio.wav --shutter 180
+py "%USERPROFILE%\.pi\agent\skills\onetake\scripts\verify_promo.py" out\final.mp4
+```
+
+`verify_promo.py` 对 `out\final.mp4` 的判定：**全绿**——`rest` still 0.525（阈值 0.25）/`burst` (28.25,28.92)/`not-flat` 0.93/`audio` -4.0 dBFS·0 clipped·quiet 0.302（阈值 0.15）。`cadence` 留空（未跑）。
+
+## 与设计的偏离（实做时改掉的）
+
+- **没有音乐 bed。** 只在片头 0–1.15s 有一记房间起势，余下全是旁白 + 工艺音 + 设计好的静音。理由：49s 里有 40.4s 在说话，一条一直在响的 bed 会把说话之间的气口全部填掉（实测 quiet 只有 0.038，直接卡验收）；改成“干声 + 一个房间”后 quiet 0.302，且两处真静音（27.2–28.6 徽章墙 1.4s、片尾）才立得住。声轨全部由 `sfx_palette.py` 合成，**无第三方音频许可**。
+- **首页卡少了 `距最近一次破戒：N 天` 一行。** 片中天数是 37，且 26s 处才刚发生破戒；这一行要在片中途改成 0，会与 `#reset` 的 0 天重复。省略比错着写更准。
+- **tag storm 是软爆（每枚 0.15s 落地，不做硬切）**，所以 `burst` 腿量到的是 28.25 的下潜而不是标签墙；这是有意为之（“impact, not spring”）。
+- **首尾各有一段近静**（1.2–5.0s 只有题字缓缓落下）。`rest` 量到 still 0.525，高于参考片 38%，是刻意的呼吸感。
+- `python` 在本机是 WindowsApps 占位符，全部命令用 `py`。
